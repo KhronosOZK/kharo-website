@@ -1,0 +1,37 @@
+{
+  "summary": "Frontend-only validation on deployed preview URL of the 5 requested features: city landing pages (/city/London|Birmingham|Manchester|Leeds|Sheffield), Home 'Browse by city' tiles, Save & Compare (/saved compare table with async /api/quote insurance), listings inventory/photos/gallery, and operator dashboard tracking badge. All 5 features work as specified. No critical or blocking issues found; only 3 cosmetic/consistency nits.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/", "issue": "Frontend issues a request to /api/ on every page load which returns 404 (console error noise). /api/auth/me 401 for anon users is expected."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Home 'Browse by city'", "issues": ["City tiles render '0 cars' for a moment before GET /api/listings resolves (observed 'London | 0 cars' on first paint); consider a skeleton or hiding the count until loaded"]},
+      {"screen": "Vehicle detail vs Search/Compare pricing", "issues": ["ve-001 detail page shows £169/£169.20 weekly (12-week term discount applied by weeklyForWeeks) while search card and compare table show the base £180 — same car appears at two prices across screens; consider labelling the discounted figure explicitly in compare/search"]},
+      {"screen": "/saved mobile (390px)", "issues": ["'Back to grid' / 'Compare N cars' button sits very tight against the 'Saved cars' heading block on mobile; minor crowding"]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: suppress the stray GET /api/ 404 request on page load",
+    "Optional: avoid '0 cars' flash on Home city tiles while listings load",
+    "Optional: reconcile weekly rent shown on vehicle detail (term-discounted) vs search/compare (base rate)"
+  ],
+  "critical_code_review_comments": [
+    "Saved.jsx quote effect depends on `items` (a new array each render) and `quotes`, so it re-runs on every render; the `quotes[v.id] !== undefined` guard prevents an infinite POST loop today, but it is fragile — prefer keying the effect on saved ids joined string.",
+    "Saved.jsx allIn() treats an unresolved/failed insurance quote as £0, so the 'Best all-in price' highlight can be momentarily wrong before quotes resolve (verified it settles correctly after load).",
+    "CityPage.jsx falls back to the raw :name param for unknown cities and would render an undefined hero image (CITY_IMAGES[city] undefined) — add a 404/redirect for non-LIVE_CITIES."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (frontend-only scope; spot-checked /api/listings & /api/quote — all 200 with correct counts)", "frontend": "100% of requested flows passing"},
+  "seed_data_creation": "None. Used existing seeded listings ve-001..ve-180 and localStorage key caro_saved for save/compare.",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "/app/memory/test_credentials.md present; not needed — city pages, saved and operator dashboard are public.",
+  "context_for_next_testing_agent": "Verified via Playwright on https://minicab-marketplace.preview.emergentagent.com : (1) All 5 city pages render hero h1 with city name, 4 city-stat cards (London: 100 cars/14 operators/30 areas/£130 from; other cities 20/3/8/£170), 9 vehicle cards, 4 'city-link-<City>' chips (chip nav works), and city-see-all navigates to /search?city=<City>. (2) Home tiles home-city-<City> show correct counts after load and navigate to /city/<City>. (3) Save & Compare: hearts (save-btn-ve-001..003) persist to localStorage caro_saved, /saved shows '3 vehicles saved', compare-toggle renders compare-table with 3 columns and all 10 rows; insurance resolved to £44.00 via POST /api/quote (no lingering '…'), all-in maths correct (232/234/219), single 'Best all-in price' badge on cheapest, compare-apply-<id> navigates to /apply/<id>, compare-remove-<id> removes and updates count/localStorage. (4) GET /api/listings returns 180 (London 100, others 20 each), 3 photos each on static.prod-images.emergentagent.com, colours include Red (10) and Green (4); /vehicle/ve-001 gallery shows 1/3 with working gallery-prev/gallery-next. (5) /operator-dashboard fleet-map shows tracking-launch-badge 'Preview · live GPS tracking goes live at launch'. Mobile 390px: no horizontal page overflow, compare table scrolls internally (358 vs 763px).",
+  "rca_of_the_issue": "No functional defects reproduced. The earlier-observed 'London | 0 cars' tile was a pre-fetch render state (all=[] initially in Home.jsx), and a stale-looking screenshot of Sheffield cards was a screenshot timing artefact — API-verified Sheffield boroughs (City Centre/Burngreave/Attercliffe/...) render correctly."
+}

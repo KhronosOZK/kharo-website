@@ -1,0 +1,32 @@
+{
+  "summary": "Regression + redesign polish testing for Caro iteration 2. Backend: re-ran existing pytest suite — 28/28 pass, no regression. Frontend: verified the client-reported bugs are fixed and new features work — (1) filter dropdowns (filter-borough/type/fuel) render with SOLID white background (rgb(255,255,255)) — transparency bug fixed; (2) min-max budget slider filter-budget renders; (3) all four collection tiles (collection-electric/executive/value/wav) render — electric filter correctly narrows to 2 cards; (4) spotlight-featured card present; (5) sort-select present; (6) search-btn works; (7) header account-menu-btn opens a solid white dropdown with all 7 requested items (Sign up as a driver, Log in as a customer, Log in/register as operator, Why choose Caro, Cost calculator, Get help, Legal & privacy); (8) VehicleDetail /vehicle/ve-001 renders OpenStreetMap iframe (location-map with src=openstreetmap.org), photo mosaic (8 imgs), detail-save toggles saved count to 1, apply-to-rent-btn navigates; (9) 4-step apply flow submits and shows apply-success; (10) new pages /why-caro /help /legal /calculator /saved /driver-guide /operator-guide all render without runtime errors; (11) Calculator calc-net updates when calc-breakdown toggle switched (£412→£420); (12) Help has help-search + 8 FAQs; (13) Operator dashboard tabs all render, recharts BarChart present (1 wrapper, 12 bar rects) on Overview; (14) Admin login (admin@caro.co.uk/CaroAdmin2026!) succeeds — 6 stat cards, 5 tabs, export-csv-btn all present.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Apply flow", "issues": ["Order summary sidebar renders visually but lacks a data-testid attribute (spec mentions order-summary). Not blocking but reduces testability."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "(Optional) Add data-testid=\"order-summary\" to the sticky summary card in /app/frontend/src/pages/Apply.jsx around line 142 for improved test coverage.",
+    "(Optional, carried forward from iteration_1) CORS allow_origins=* with allow_credentials=True remains invalid per spec; no rate-limit on /api/auth/login; startup/shutdown events still using deprecated FastAPI decorators. None of these block current MVP behaviour."
+  ],
+  "critical_code_review_comments": [
+    "index.css shadcn CSS variables correctly restored — root cause of the transparent dropdown bug was addressed at the design-token layer (correct fix, not a per-component patch).",
+    "Header.jsx account menu labels use 'Sign up as a driver' / 'Log in as a customer' — differs slightly from PRD wording ('Sign up as driver') but semantically identical. Not a bug.",
+    "Apply.jsx order summary sidebar is present but not testid-tagged; consider adding to keep parity with the rest of the codebase's data-testid convention.",
+    "OperatorDashboard renders recharts BarChart correctly; other tabs render but rely on static demo data (documented as mocked).",
+    "seed_data listings.id index confirmed via backend logs — O(1) lookup fine now.",
+    "Console shows expected 401 on /api/auth/me for anonymous visitors and a few 404s for missing static resources — non-functional."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (28/28)", "frontend": "100% (all listed flows)"},
+  "test_credentials": "Admin admin@caro.co.uk / CaroAdmin2026!. Fresh driver created ephemerally per test.",
+  "seed_data_creation": "Apply flow created one TEST vehicle_application lead (tdriver@example.com / ve-001). No cleanup performed.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest at /app/backend/tests/backend_test.py — 28/28 pass. Frontend testids to note: filter-borough/type/fuel/budget, sort-select, search-btn, collection-{electric|executive|value|wav}, spotlight-featured, vehicle-card-{id}, account-menu-btn (dropdown menu items are role=menuitem, not testid-tagged individually — use text match), detail-save, location-map, apply-to-rent-btn, apply-{name|dob|email|phone|dvla|pco}, apply-continue, apply-submit, apply-success, calc-net, calc-breakdown, help-search, faq-{i}, op-tab-{overview|fleet|applications|financials|compliance}, admin-email/admin-password/admin-login (NOT admin-login-btn), stat-*, admin-tab-*, export-csv-btn, table-{tab}. Admin login testids sit on the Input element directly (use 'input[data-testid=\"admin-email\"]'), apply-* testids sit on the wrapper (use '[data-testid=\"apply-name\"] input'). No blockers found.",
+  "rca of the issue": "N/A — iteration_2 is a polish/redesign pass with no bugs surfaced. The reported transparent-dropdown issue is confirmed fixed at the CSS-variable layer (index.css shadcn HSL tokens restored → Radix Select/DropdownMenu content now has --popover=white)."
+}

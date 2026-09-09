@@ -1,0 +1,41 @@
+{
+  "summary": "Iteration 5 — regression + visual-rebuild verification for the cinematic dark-emerald /list-your-fleet and /register pages. BACKEND: 47/47 pytest pass (backend_test.py + test_city_analytics.py + test_trend_analytics.py + test_operator_auth.py) in 8.3s. No backend changes needed. FRONTEND E2E on live URL: /list-your-fleet — estimator-monthly renders (£9,393 default), estimator-class-executive updates it (→£12,155), estimator-slider drag right updates it (→£36,252), estimator-cta scrolls to the form. Completed 3-step operator interest form (int-company/continue → int-areas/continue → int-name/int-role/int-email UNIQUE/int-phone/int-password/int-submit) → interest-success visible → interest-goto-dashboard → /operator-dashboard with fleet-map visible; all 6 op-tab-{overview,tracking,fleet,applications,financials,compliance} click and switch cleanly. Logged out, then /operator-login (oplogin-email/oplogin-password/oplogin-submit) with the SAME credentials → landed on /operator-dashboard — confirms operator user + password_hash persisted (critical fix from iter4 still holds). Driver widget: driver-takehome-value updates on driver-car-{electric,hybrid,executive} (£507→£806→£754→£878, full-time only) and driver-hours-part is confirmed REMOVED per spec. Driver 3-step registration (reg-name/reg-email/reg-phone/reg-continue → reg-password/reg-continue → reg-dvla/reg-pco/reg-submit) redirects to /portal; portal-hero, portal-documents, portal-compliance, portal-saved-card all visible after the framer-motion fade-in. Regression: /admin login OK with admin@caro.co.uk/CaroAdmin2026!, export-csv-btn present. /vehicle/ve-001 renders gallery + tier-0 + tier-2 + apply-to-rent-btn. No pageerrors observed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/auth/register", "issue": "Server still does not enforce min_length=6 on password (carried from iter4). UI enforces it; backend accepts short passwords. LOW."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "/register driver dashboard /portal", "issues": ["Framer-motion opacity animation on bento cards ~1s makes initial paint blank; tests need a wait_for_timeout(1000-1500) after navigating to /portal before is_visible checks."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_city_analytics.py",
+    "/app/backend/tests/test_trend_analytics.py",
+    "/app/backend/tests/test_operator_auth.py",
+    "/app/test_reports/pytest/iter5_results.xml"
+  ],
+  "action_items": [
+    "(LOW / carried) Add Pydantic min_length=6 to RegisterBody.password for parity with UI.",
+    "(NIT / carried) Note in tests: reg-dvla and reg-pco are text inputs, not checkboxes — spec wording 'reg-dvla/reg-pco' was previously interpreted as booleans; current UI uses licence-number text fields. Testing agents should use page.fill(), not page.check()."
+  ],
+  "critical_code_review_comments": [
+    "OperatorInterest.jsx — visual rebuild only; logic preserved (register operator via AuthContext then POST /interest). Verified end-to-end: operator user + password_hash + interests row + lead(source=operator_interest) + lead(source=operator_signup) all created in one flow.",
+    "Register.jsx — driver widget now full-time only; driver-hours-part correctly absent. driver-takehome-value updates reactively via AnimatedNumber which forwards data-testid.",
+    "pricing.js estimateDriverWeek uses full-time hours; realistic London figures (£507–£878/week take-home across trims).",
+    "Backend unchanged; no server-side password min-length still open (LOW)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (47/47)", "frontend": "100% of listed flows"},
+  "test_credentials": "Admin admin@caro.co.uk / CaroAdmin2026! (verified). Ephemeral operator op1784943457174@example.com / OpPass1234!. Ephemeral driver dr1784943503527@example.com / DrPass1234!.",
+  "seed_data_creation": "One operator user + interest + 2 leads (operator_signup, operator_interest); one driver user + driver_signup lead. Non-destructive, TEST-only emails.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend suite: 47 tests, ~8s with pytest-xdist. Key testids on rebuilt pages: estimator-monthly (text), estimator-slider (range input — drag with mouse, keyboard/JS setter may not fire React state), estimator-class-{eco|hybrid|executive}, estimator-cta, int-company/continue/areas/continue/name/role/email/phone/password/submit, interest-success, interest-goto-dashboard, oplogin-email/oplogin-password/oplogin-submit, op-tab-{overview,tracking,fleet,applications,financials,compliance}, fleet-map, driver-takehome-value, driver-car-{electric,hybrid,executive} (NO driver-hours-part anymore), reg-name/reg-email/reg-phone/reg-continue/reg-password/reg-dvla (text input)/reg-pco (text input)/reg-submit, portal-hero/documents/compliance/saved-card. Add ~1s wait after /portal navigation for framer-motion fade.",
+  "rca of the issue": "N/A — no bugs surfaced. Visual rebuild preserved testids and logic; operator account creation + subsequent /operator-login still works as fixed in iter4."
+}

@@ -1,0 +1,42 @@
+{
+  "summary": "Iteration 4 focused on the operator-account-creation bug fix, driver widget, and dashboard rebuilds. BACKEND: 47/47 pytest pass (44 regression + 3 new /tests/test_operator_auth.py covering: register operator via /api/auth/register -> /auth/me returns role=operator, subsequent /auth/login succeeds with same email+password, admin sees the user in /admin/users and a lead(source=operator_signup); operator-registration + POST /interest produces both an interests row and a lead(source=operator_interest), and login continues to work; wrong password returns 401). Backend supports role=operator on register and stores password_hash so /operator-login works — key bug fix confirmed. FRONTEND (Playwright, live URL): /list-your-fleet estimator-monthly reads and updates on estimator-class-executive and estimator-slider (£9,393 -> £11,813 -> £22,450). Completed 3-step operator form (int-company, int-continue, int-areas, int-continue, int-name, int-role, int-email, int-phone, int-password >=6, int-submit) -> interest-success visible; interest-goto-dashboard navigates to /operator-dashboard where fleet-map is visible along with all op-tab-{overview,tracking,fleet,applications,financials,compliance}; fleet-map is also rendered on the tracking tab; body contains 'Live vehicle', 'Compliance', 'Revenue', 'Fleet' copy. THEN logged out and signed in at /operator-login with SAME email+password (oplogin-email/oplogin-password/oplogin-submit) — landed on /operator-dashboard with fleet-map visible. Driver widget: driver-takehome-value updates on driver-hours-part (£190 -> £122) and driver-car-executive (£122 -> £121). Driver 3-step registration (reg-name/reg-email/reg-phone/reg-continue/reg-password/reg-continue/reg-dvla/reg-pco/reg-submit) redirects to /portal; portal-hero, portal-documents, portal-compliance, portal-saved-card, portal-find-car all visible on the bento grid (my-applications not rendered when applications list is empty — empty state is shown instead, which matches spec). Regression: /admin login OK with admin@caro.co.uk/CaroAdmin2026!, Traction Dashboard renders growth chart (14-day), KPI cards (Total leads 106, Driver accounts 42, Operators 22, Cities 11), Leads/Applications/Interests/Users/Events tables, export-csv-btn present. Home + /search navigation works. No pageerrors during the runs; a few benign 401/404 console messages seen only when auth had not yet initialised or /auth/me pre-login.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/auth/register", "issue": "No server-side min-length check on password (frontend enforces >=6). Returns 200 for short passwords. Recommend adding Pydantic min_length=6 to align with UI contract."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "DriverPortal /portal", "issues": ["Framer-motion opacity animations on bento cards make the cards briefly invisible on first paint — needs ~1s to become visible. Not a bug, but tests must add a small wait after navigation. Consider setting `initial={{opacity:1}}` or shorter transition for perceived snappiness."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_city_analytics.py",
+    "/app/backend/tests/test_trend_analytics.py",
+    "/app/backend/tests/test_operator_auth.py",
+    "/app/test_reports/pytest/iter4_results.xml"
+  ],
+  "action_items": [
+    "(LOW) Add Pydantic min_length=6 to RegisterBody.password so backend rejects short passwords consistently with the UI.",
+    "(Carried from iter3) Home.jsx horizontal overflow at 390px viewport."
+  ],
+  "critical_code_review_comments": [
+    "server.py: /auth/register accepts role in ('driver','operator') and creates password_hash — good, this is what unblocks /operator-login.",
+    "OperatorInterest.jsx: correctly calls AuthContext.register (role=operator) BEFORE POST /interest — this means an operator-user + a lead(source=operator_signup) + an interests row + a lead(source=operator_interest) are all created in a single flow. Verified via /admin/users, /admin/interests, /admin/leads.",
+    "AnimatedNumber now forwards data-testid to a text-bearing span — estimator-monthly and driver-takehome-value are readable via text_content and update reactively.",
+    "OperatorDashboard.jsx tracking tab reuses the same fleet-map data-testid — Playwright's is_visible against fleet-map returns True on both tabs.",
+    "No server-side password length validation — see minor backend issue."
+  ],
+  "updated_files": ["/app/backend/tests/test_operator_auth.py"],
+  "success_rate": {"backend": "100% (47/47)", "frontend": "100% of listed flows"},
+  "test_credentials": "Admin: admin@caro.co.uk / CaroAdmin2026! (verified). Ephemeral operator: op1b5d1862@example.com / OpPass1234!. Ephemeral driver: dr517de5f2@example.com / DrPass1234!.",
+  "seed_data_creation": "One operator user + interest + two leads (operator_signup, operator_interest) and one driver user + driver_signup lead created via the UI flows. Non-destructive.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest suite is 47 tests across backend_test.py, test_city_analytics.py, test_trend_analytics.py, test_operator_auth.py — ~8s with pytest-xdist. Key testids on this iteration: estimator-monthly, estimator-slider, estimator-class-{eco|hybrid|executive}, estimator-cta, int-company/int-continue/int-areas/int-name/int-role/int-email/int-phone/int-password/int-submit, interest-success, interest-goto-dashboard, oplogin-email/oplogin-password/oplogin-submit, op-tab-{overview,tracking,fleet,applications,financials,compliance}, fleet-map, driver-take-home, driver-hours-{full,part}, driver-car-{electric,hybrid,executive}, driver-takehome-value, reg-name/reg-email/reg-phone/reg-continue/reg-password/reg-dvla/reg-pco/reg-submit, portal-hero/portal-documents/portal-compliance/portal-saved-card/portal-find-car/my-applications. Note: DriverPortal cards use framer-motion opacity animation — add ~1000ms wait after /portal navigation before checking is_visible. AnimatedNumber forwards data-testid correctly.",
+  "rca of the issue": "N/A — no bugs surfaced. The previously-reported operator login bug is fixed: /list-your-fleet now calls /api/auth/register with role=operator BEFORE POST /interest, so password_hash is stored and /operator-login authenticates using the same credentials collected on the interest form."
+}

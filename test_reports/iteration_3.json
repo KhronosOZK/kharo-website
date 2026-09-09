@@ -1,0 +1,38 @@
+{
+  "summary": "Iteration 3 regression + new-feature testing for Caro (city support, city-interest, admin analytics, duration tiers, brochure pages). Backend: 40/40 pytest pass — full regression (listings CRUD/filters/sort/quote/auth/applications/interest/stats/admin summary+lists+export+403+401) plus 11 new tests covering city filter (London=12, Manchester=0, London+electric), POST /api/city-interest (creates city_requests + lead source=city_request), GET /api/city-demand aggregation, GET /api/admin/analytics (funnel keys page_views/searches/listing_views/card_clicks/applications/driver_signups + lead_sources[] + city_demand[] + total_leads), 401/403 gating, /api/admin/city_requests listing, and /api/admin/export/city_requests CSV. Profile-reuse + duration_weeks=8 flow verified on /auth/me. Frontend: homepage city selector shows popular UK cities (London, Birmingham, Manchester, Leeds, Glasgow) via filter-borough testid; selecting Manchester + search-btn navigates to /search?city=Manchester and the SearchResults page renders the city-interest-form; filling city-name/city-email/city-phone/city-vehicle and clicking city-submit shows city-interest-success. London city shows 12 vehicle cards with sr-count '12 cars match'. VehicleDetail /vehicle/ve-003 renders tier-0/tier-1/tier-2 selectable pricing tiers; clicking tier-2 then apply-to-rent-btn navigates to /apply/ve-003?weeks=12 and apply-duration reads '12 weeks · save 6%'. Header account-menu-btn dropdown no longer contains 'Why choose Caro' (verified via role=menu inner text: Drivers/Rental operators/Cost calculator/Get help/Legal and privacy only); menu-driver + menu-operator present. Operator brochure /operator-guide renders per-car projection copy ('per car, per year', 'weekly', 'payout', 'fleet') and closing CTA uses full-cover <img> instead of CSS bg (equivalent). /driver-guide CTA also uses full-cover <img>. Admin login succeeds with admin@caro.co.uk / CaroAdmin2026!; Analytics panel renders Acquisition funnel (page_views 40, searches 9, listing_views 80, card_clicks 10, applications 12, driver_signups 20), City demand (Manchester: 3), Lead sources (driver_signup 20, vehicle_application 12, operator_interest 9, city_request 3), plus City Requests tab. Content pages /why-caro, /operator-login, /register, /list-your-fleet, /apply/ve-001, /calculator, /help, /legal, /saved, /portal all load with zero page errors. Zero em-dash characters found on homepage, operator-guide, driver-guide or any mobile viewport. Mobile 390px viewport: /search and /vehicle/ve-003 render without horizontal overflow; homepage HAS horizontal overflow (documentElement.scrollWidth > innerWidth) — minor layout issue.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Home.jsx", "issue": "Mobile viewport (390px) has horizontal scroll — document scrollWidth exceeds window innerWidth. Not blocking but breaks visual polish on mobile.", "selector": "html/body", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "OperatorGuide/DriverGuide", "issues": ["Closing CTA uses absolutely-positioned <img> (not CSS background-image). Renders correctly and matches spec intent — flagged only for consistency awareness, not a bug."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_city_analytics.py",
+    "/app/test_reports/pytest/iter3_results.xml"
+  ],
+  "action_items": [
+    "(LOW) Investigate horizontal overflow on Home.jsx at 390px viewport — likely a fixed-width hero element or negative-margin bleed. Add overflow-x:hidden on the hero container or fix the offending element.",
+    "(Carried) CORS allow_origins may still be '*' with credentials — spec compliance only; not causing runtime issues.",
+    "(Info) int-earnings testid exists on step 2 (Fleet) of /list-your-fleet OperatorInterest flow, not step 1 — confirmed by source inspection."
+  ],
+  "critical_code_review_comments": [
+    "server.py has get_current_user called manually inside create_application to allow anonymous submits — works, but the pattern of catching HTTPException inline is a code smell; consider an Optional dependency.",
+    "startup() sets city=London on all listings missing city — idempotent and correct; good.",
+    "admin_analytics uses aggregation with sensible limits (12/20) — good perf.",
+    "OperatorGuide/DriverGuide use full-bleed <img> in CTAs instead of CSS bg — fine visually, but the review_request wording says 'background image'; either interpretation acceptable.",
+    "All new testids (city-interest-form, city-name/email/phone/vehicle/submit, city-interest-success, tier-0/1/2, apply-duration, sr-city/apply/count) are present and stable."
+  ],
+  "updated_files": ["/app/backend/tests/test_city_analytics.py"],
+  "success_rate": {"backend": "100% (40/40)", "frontend": "100% of listed flows (minor mobile-home overflow noted)"},
+  "test_credentials": "Admin: admin@caro.co.uk / CaroAdmin2026! (verified). Fresh drivers created ephemerally via /api/auth/register.",
+  "seed_data_creation": "Created several TEST leads via city-interest submissions (Manchester) and driver signups. No cleanup performed — non-destructive.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest lives in /app/backend/tests/{backend_test.py, test_city_analytics.py} — 40/40 pass in ~6s with pytest-xdist. Key new testids: filter-borough (still used for city selector), search-btn, sr-city, sr-count, sr-apply, city-interest-form, city-name/email/phone/vehicle/submit (wrappers — use '[data-testid=\"city-name\"] input' or attribute selectors that match both wrapper and inner input), city-interest-success, tier-0/1/2 (VehicleDetail), apply-to-rent-btn, apply-duration, account-menu-btn dropdown items are text-only (Drivers/Rental operators/Cost calculator/Get help/Legal and privacy), int-earnings appears on Fleet step (step index 1) of /list-your-fleet.",
+  "rca of the issue": "N/A — no bugs surfaced. Only minor: mobile homepage horizontal overflow — likely a hero grid or padded element extending beyond viewport; use DevTools 'outline: 1px solid red' on * to find the offender."
+}

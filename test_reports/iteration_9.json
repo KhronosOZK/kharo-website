@@ -1,0 +1,46 @@
+{
+  "summary": "Frontend-only regression of the 'Caro' -> 'Kharo' rebrand and the 24-item copy/design pass. Verified rebrand, honest stats, budget slider, listings per city, vehicle detail, apply flow, footer socials, help/legal copy and Quotezone referral links. 11 of 12 requested checks pass cleanly; 1 minor concern about polluted operator-count on /list-your-fleet.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/stats", "issue": "Returns operators:34 but recent_operators list shows several TEST_ prefixed entries (e.g. TEST_OpCo_9212ab, TEST_Fleet_de32da, TEST_Op_0475e0, TEST_Fleet_0e8aca) plus placeholder rows like 'abc' polluting the real count. Frontend then renders '34 operators have already registered their interest' on /list-your-fleet. Frontend logic is correct (falls back to 'Be one of the first operators to join Kharo' only when count==0), so the fix is data-side: purge TEST_ / junk operator_interest rows so the visible number is honest."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "verification_matrix": {
+    "rebrand_no_visible_Caro": "PASS - 0 'Caro' hits across /, /why-caro, /driver-guide, /operator-guide, /help, /legal, /login, /register, /operator-login, /list-your-fleet. Header wordmark 'kharo.' present, nav shows 'Why Kharo'.",
+    "home_honest_stats": "PASS - '60 cars from operators we've checked', '4 cities', 'Under 24h', 'One price'. '1,240' NOT present. '4.7' NOT present.",
+    "home_hero_h1": "PASS - 'London private hire cars, no hidden costs and no nonsense.'",
+    "home_spotlight_heading": "PASS - 'Popular cars from our vetted operators'.",
+    "budget_slider_0_to_400": "PASS - '£0 to £400+' label on home and /search; left thumb at far left (visual).",
+    "listings_London_48": "PASS - '48 cars match' shown on /search?city=London.",
+    "listings_Birmingham_Manchester_Leeds_4": "PASS - '4 cars match' on each, real inventory shown (not a request-city form). Birmingham prices sampled: £145, £165, £180, £185 - within £115-£280 rent-only range.",
+    "vehicle_detail_ve013": "PASS - Subtitle 'Silver · 63,000 miles on the clock' shows colour+mileage, NO number plate. '360' section titled 'More angles'. Reviews empty-state 'No reviews yet — this operator is new to Kharo'. Cost panel shows 'Insurance (indicative)'. quotezone-link href=https://www.quotezone.co.uk/taxi-insurance. Apply to rent button present.",
+    "apply_flow_ve013": "PASS - No OP-xxx / NE-xxxx operator_code strings in review/success copy. apply-quotezone-link present with href=https://www.quotezone.co.uk/taxi-insurance.",
+    "operator_interest_count": "PASS-with-caveat - Renders '34 operators have already registered their interest' because backend /api/stats returns 34; frontend logic correctly falls back to 'Be one of the first operators to join Kharo' only when count==0. Spec allows the real count, but the 34 includes TEST_ prefix junk (see backend minor).",
+    "footer": "PASS - Social links are real <a> anchors: social-instagram (https://instagram.com), social-facebook (https://facebook.com), social-linkedin (https://linkedin.com). 'Search cars' present (no 'Search vehicles'). Copyright '© 2026 Kharo'.",
+    "help_page": "PASS - 'one working day' present, '7 days a week' NOT present, 'List your fleet' present, \"I'm an operator\" NOT present, hello@kharo.uk present.",
+    "legal_page": "PASS - privacy@kharo.uk present.",
+    "brand_green": "PASS (visual) - Buttons and accents use consistent dark green #0B6B4F on home, help, saved and operator-interest screens; no clashing bright emerald spotted in screenshots."
+  },
+  "test_report_links": [],
+  "action_items": [
+    "OPTIONAL: Purge TEST_ prefixed and obviously-fake rows (e.g. company_name='abc') from the operator_interest collection so /list-your-fleet's honest count isn't inflated to 34. If the DB is legitimately meant to carry those, no action needed."
+  ],
+  "critical_code_review_comments": [
+    "OperatorInterest.jsx line 144 correctly branches on count>0; keep as-is.",
+    "Consider filtering TEST_ prefixed rows out of the /api/stats 'operators' count in backend server.py to prevent test-data leaking into user-visible copy."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a - not tested this round", "frontend": "100%"},
+  "test_credentials": "admin@caro.co.uk / CaroAdmin2026! (unchanged, not exercised this round)",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Full rebrand + copy pass verified on 2026-08-12. All 12 spec items pass. Only observation is the 34-operator display on /list-your-fleet is real DB data but polluted by TEST_ prefix rows from previous testing runs. If main agent cleans up the operator_interest collection, re-verify /list-your-fleet copy.",
+  "rca of the issue": "N/A - no functional bugs found. The 34-operator count is data pollution, not a code defect."
+}

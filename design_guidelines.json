@@ -1,0 +1,118 @@
+{
+  "project_name": "Kharo London Private-Hire Marketplace - Human Design Blueprint",
+  "design_philosophy": "Anti-AI Human Editorial Design. Replaces predictable AI-template artifacts (omnipresent uppercase eyebrows, cookie-cutter centered card grids, blanket dark green hero overlays, repeated big-stat rows, over-cute copy) with authoritative, asymmetric, London-tailored private hire marketplace editorial design.",
+  "user_choices_directives": [
+    "Remove 'get a real quote from quotezone' completely across VehicleDetail and VehicleCard components.",
+    "Remove 'a trusted operator from the area' text/badge on all car listings and card components.",
+    "Eliminate AI-esque slop across the entire website and replace key items with professional, human editorial craftsmanship."
+  ],
+  "color_palette": {
+    "background_primary": "#FBFAF8",
+    "background_secondary": "#F9F8F6",
+    "primary_deep_green": "#0B6B4F",
+    "accent_mint": "#5FD3A6",
+    "dark_ink_text": "#1A2E25",
+    "muted_grey_border": "rgba(26, 46, 37, 0.12)",
+    "card_background": "#FFFFFF",
+    "overlay_subtle_gradient": "linear-gradient(180deg, rgba(26, 46, 37, 0.4) 0%, rgba(26, 46, 37, 0) 100%)"
+  },
+  "typography_system": {
+    "heading_font": "font-heading (Serif / Display)",
+    "body_font": "font-sans (Clean Humanist / Geometric Sans)",
+    "mono_font": "font-mono (Used for numbers, pricing specs, TfL licence numbers)",
+    "rules": {
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.08] font-bold text-[#1A2E25]",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-[1.15] font-semibold text-[#1A2E25]",
+      "h3_card": "text-xl sm:text-2xl font-semibold text-[#1A2E25]",
+      "body_text": "text-base leading-relaxed text-[#1A2E25]/80",
+      "eyebrow_elimination_rule": "DO NOT put uppercase tracking-widest badges above every heading. Use single-line narrative lead-ins or integrated font-serif kickers embedded naturally in the main heading line."
+    }
+  },
+  "ai_tells_elimination_matrix": {
+    "eyebrow_labels": {
+      "ai_tell": "Repetitive uppercase pill badges like 'PRIVATE HIRE CAR RENTAL, DONE PROPERLY' or 'WHY KHARO' before every heading.",
+      "human_replacement": "Asymmetrical section kickers, integrated serif italic prefixes (e.g., 'Crafted for London Drivers — *transparent weekly rental without the agency markup*'), or raw clean section headings with generous negative space."
+    },
+    "stat_rows": {
+      "ai_tell": "Identical 4-box big-number stat grids repeated on every marketing page.",
+      "human_replacement": "Human story callouts, integrated fleet ledger snippet, verified operator spotlight note, or structured tabular data with real context."
+    },
+    "card_grids": {
+      "ai_tell": "Uniform centered 3-column equal square cards with identical border radii and center-aligned text.",
+      "human_replacement": "Swiss / Mode A Tetris asymmetric layout: 8-column hero vehicle split + 4-column side specs; left-aligned editorial typography; variable height cards with subtle 1px border."
+    },
+    "hero_overlays": {
+      "ai_tell": "Heavy full dark-green or black solid overlay obscuring hero vehicle photography.",
+      "human_replacement": "Subtle direction gradient (top or bottom vignette max opacity 40%) or unmasked high-contrast photographic cutouts sitting on warm #FBFAF8 bone canvas."
+    },
+    "marketing_copy": {
+      "ai_tell": "Generic over-cute fluff like 'Your dream ride awaits' or 'Get a real quote from quotezone'.",
+      "human_replacement": "Direct, authoritative London private-hire language: 'TfL-PCO Licensed Fleets', 'EV Congestion Exempt', 'Weekly Rent Includes Maintenance & Servicing', 'Direct Fleet Operator Hire'."
+    }
+  },
+  "component_blueprint": {
+    "VehicleCard": {
+      "path": "src/components/VehicleCard.jsx",
+      "changes": [
+        "REMOVED: 'a trusted operator from the area' text and badge.",
+        "REMOVED: 'get a real quote from quotezone' text/link.",
+        "ADDED: Clean spec tags (e.g. 'TfL Ready', 'Hybrid / EV', 'Unlimited Mileage Option').",
+        "LAYOUT: Left-aligned, bold weekly price badge (£/wk), clean 1px border `border-[#1A2E25]/10`, subtle shadow on hover, warm card background `#FFFFFF`."
+      ]
+    },
+    "VehicleDetail": {
+      "path": "src/pages/VehicleDetail.jsx",
+      "changes": [
+        "REMOVED: Quotezone insurance widget/box.",
+        "ADDED: Full transparent Weekly Breakdown Ledger (Rent, TfL License status, Servicing included, Deposit terms).",
+        "LAYOUT: 2-column editorial breakdown — left wide interactive photo gallery with thumbnail scrub, right floating sticky direct operator deposit & booking card."
+      ]
+    },
+    "Header": {
+      "path": "src/components/Header.jsx",
+      "changes": [
+        "Glassmorphism container: `backdrop-blur-md bg-[#FBFAF8]/90 border-b border-[#1A2E25]/10`.",
+        "Navigation: Crisp text links with subtle dot indicator on active path, prominent 'Browse Fleets' action CTA."
+      ]
+    },
+    "Footer": {
+      "path": "src/components/Footer.jsx",
+      "changes": [
+        "Deep ink background `#1A2E25` with warm bone text `#FBFAF8`.",
+        "Editorial publication signature with large brand watermark and clear categorized sitemap links."
+      ]
+    },
+    "Home": {
+      "path": "src/pages/Home.jsx",
+      "changes": [
+        "Asymmetric Hero: Left bold editorial statement + embedded quick search filter card; Right floating unmasked hero vehicle image.",
+        "Spotlight Section: Wide featured vehicle banner with live availability indicator.",
+        "City Navigation: Interactive London borough & airport route quick links."
+      ]
+    }
+  },
+  "media_assets": {
+    "images": [
+      {
+        "category": "hero_london_cab",
+        "url": "https://images.unsplash.com/photo-1758020980355-53dacc26bfef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA4Mzl8MHwxfHNlYXJjaHw0fHxsb25kb24lMjBlbGVjdHJpYyUyMGx1eHVyeSUyMGNhciUyMG1pbmljYWIlMjBkcml2ZXJ8ZW58MHx8fHwxNzg4MjkwMzM0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Black London taxi in iconic London street"
+      },
+      {
+        "category": "ev_charging",
+        "url": "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBlbGVjdHJpYyUyMGx1eHVyeSUyMGNhciUyMGNoYXJnaW5nJTIwcGhvdG98ZW58MHx8fDE3ODgyOTAzMzd8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Electric vehicle charging on city street"
+      },
+      {
+        "category": "executive_fleet",
+        "url": "https://images.unsplash.com/photo-1541174609385-fa39c62cc9d9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA4Mzl8MHwxfHNlYXJjaHwxfHxsb25kb24lMjBlbGVjdHJpYyUyMGx1eHVyeSUyMGNhciUyMG1pbmljYWIlMjBkcml2ZXJ8ZW58MHx8fHwxNzg4MjkwMzM0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Black luxury car in London architectural setting"
+      }
+    ]
+  },
+  "general_ui_ux_guidelines": {
+    "data_testid_rule": "All interactive elements (buttons, inputs, links, dropdowns, filters) and key informational metrics MUST contain a explicit data-testid attribute in kebab-case format.",
+    "spacing_scale": "Generous editorial spacing: section padding py-16 sm:py-24, gap-8 to gap-12 between asymmetric columns.",
+    "hover_contrast": "Ensure explicit hover text contrast on all interactive states (e.g. hover:bg-[#0B6B4F] hover:text-[#FBFAF8])."
+  }
+}

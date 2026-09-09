@@ -1,0 +1,38 @@
+{
+  "summary": "Iteration 12 e2e verification on the deployed preview URL. Backend: 20/20 pytest cases passed (listings counts 180/100/20x4, single listing 404s, POST /api/driver-interest and POST /api/interest incl. vehicle_types + persistence via /api/admin/leads and /api/admin/interests, 422 validation, quote engine, stats, admin auth guard, and confirmation that operator interest creates NO login account). Frontend: auth removal verified (/login, /operator-login, /portal, /operator-dashboard, /forgot-password all redirect to /), header account menu shows only Drivers -> /register and Rental operators -> /list-your-fleet with no login/logout wording. Driver interest wizard completed all 8 steps (progress bar advanced 4/8 at step 4, 8 of 8 at end) and ended on reg-success + Browse the cars -> /search. Operator wizard completed 8 steps with ZERO password inputs, estimator slider moved monthly figure GBP 6,792 -> GBP 16,907 (18 cars), int-earnings panel shown, ended on interest-success with 'See how it works' and no dashboard wording. Compare-from-search: ticked 3 cars on /search?city=London, compare-bar appeared ('3 cars to compare'), go-compare navigated to /compare, compare-table rendered with 'All-in per week' row, 'Best all-in price' highlight on the cheapest (GBP 219 Corolla), per-car apply/remove buttons worked and compare-clear emptied to the 'Nothing to compare yet' state. Saved -> compare-toggle also renders the same table. Price consistency confirmed: card GBP 180 (ve-001) = detail headline 'GBP 180 a week' and cost-panel 'Weekly rent GBP 180.00'; Sheffield card GBP 185 also matched. Homepage filter card + 'Show me the cars' fully above the fold at 1920x1080 (max y+h = 556px) and search navigated to /search?city=Birmingham. City pages London/Sheffield render 4 city-stat tiles, unique city-intro copy, 9-car grid and a 3-question city-faq that expands; /city/Paris redirects home. No em dashes found on /, /for-drivers, /why-caro, /driver-guide.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "GET /api/", "issue": "Returns 404. App.js fires api.get('/') as a warm-up ping on every load, so every page logs a 404 in the browser console. Either add a lightweight /api/ health route or drop the ping."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "App bootstrap", "issue": "AuthContext still calls GET /api/auth/me on every page load even though driver/operator login was removed, producing a 401 console error on every route. Dead code (login/logout helpers in AuthContext, /auth/me prefill in Apply.jsx) should be trimmed or gated to the /admin route.", "affected_selectors": []}
+    ],
+    "design_issues": [
+      {"screen": "/compare table header", "issues": ["Columns use align-bottom, so the cheapest column (which carries the extra 'Best all-in price' badge) sits visually higher than the others, making the car images misaligned across columns."]},
+      {"screen": "City page FAQ", "issues": ["Uses native details/summary with a rotated '+' that renders as a tiny off-centre 'x' when open; FAQ rows have no data-testid, only the section wrapper does, which makes per-question assertions brittle."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_interest_endpoints.py", "/app/test_reports/pytest/iter12_interest.xml"],
+  "action_items": [
+    "Add a GET /api/ (or /api/health) route or remove the App.js warm-up ping to stop the 404 console noise.",
+    "Remove/gate the leftover auth calls (AuthContext /auth/me + login/logout, Apply.jsx /auth/me) now that driver/operator login is gone, so no 401 fires on public pages.",
+    "Optional polish: align compare-table column headers (badge shifts the cheapest column) and add data-testid per city FAQ question."
+  ],
+  "critical_code_review_comments": [
+    "OperatorInterest.jsx: the estimator slider useEffect overwrites f.fleet_size from the car-count slider, so a user's explicit int-fleet selection is silently replaced if they touch the slider afterwards. Consider decoupling the estimator from the form value.",
+    "CompareTable.jsx: the quote useEffect depends on the whole quotes object, which re-runs on every quote resolution; guarded by the quotes[v.id] check today but fragile - key on the id list only.",
+    "AuthContext is still mounted app-wide purely for saved/compare state; renaming or splitting it (e.g. useShortlist) would remove the misleading auth surface."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "Interest leads created via UI/API: test_qa_driver_i12@example.com, test_qa_op_i12@example.com and timestamped test_driver_*/test_op_* records in driver_interests, interests and leads collections (all prefixed TEST_/test_ for cleanup).",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "/app/memory/test_credentials.md - admin@caro.co.uk / CaroAdmin2026! (used only for admin read-back of leads/interests; driver & operator login no longer exists)",
+  "context_for_next_testing_agent": "All iteration-12 targets pass on the deployed preview. Backend regression suite for this iteration is /app/backend/tests/test_interest_endpoints.py (20 tests, fast). NOTE: /app/backend/tests/test_operator_auth.py and test_password_reset.py cover flows the UI no longer exposes - confirm with the main agent whether those endpoints are intentionally retained for /admin before treating failures there as real. Remaining nits are console noise (GET /api/ 404, GET /api/auth/me 401) and two cosmetic items; no functional defects found.",
+  "rca_of_the_issue": "GET /api/ 404: backend defines no root route on the /api router while App.js pings it on mount. GET /api/auth/me 401: AuthContext was kept for saved/compare state but still performs the session probe, which now always fails because no consumer-facing login exists."
+}
