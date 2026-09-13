@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE = process.env.REACT_APP_BACKEND_URL;
+const BASE =
+  process.env.REACT_APP_BACKEND_URL || "https://kharo-backend.onrender.com";
 export const API = `${BASE}/api`;
 
 export const api = axios.create({ baseURL: API, withCredentials: true });
