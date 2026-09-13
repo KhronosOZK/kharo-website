@@ -36,7 +36,7 @@ export default function Admin() {
 
   const exportCsv = () => { window.open(`${API}/admin/export/${tab}`, "_blank"); };
 
-  const columns = rows.length ? Object.keys(rows[0]).filter((k) => k !== "data" && k !== "password_hash").slice(0, 6) : [];
+  const columns = useMemo(() => rows.length ? Object.keys(rows[0]).filter((k) => k !== "data" && k !== "password_hash").slice(0, 6) : [], [rows]);
   const filtered = useMemo(() => rows.filter((r) => {
     const cdate = typeof r.created_at === "string" ? r.created_at.slice(0, 10) : "";
     if (from && cdate && cdate < from) return false;
