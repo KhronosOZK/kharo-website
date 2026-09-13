@@ -40,13 +40,22 @@ body { @apply bg-background text-foreground; }
 }
 
 :root {
-  --caro-bg: #F9F8F6;
-  --caro-surface: #FFFFFF;
-  --caro-elevated: #F3F1EC;
-  --caro-ink: #1A2E25;
-  --caro-green: #047857;
-  --caro-green-hover: #065F46;
-  --caro-accent: #10B981;
+  /* ── Brand tokens ──────────────────────────────────────────────── */
+  --caro-bg:            #F9F8F6;
+  --caro-cream:         #F1EFE9;
+  --caro-surface:       #FFFFFF;
+  --caro-elevated:      #F3F1EC;
+
+  --caro-night:         #0A130F;
+  --caro-ink:           #1A2E25;
+  --caro-muted:         #4A564F;
+
+  --caro-green:         #0B6B4F;   /* primary action */
+  --caro-green-hover:   #095B43;
+  --caro-mint:          #5FD3A6;   /* accent / highlight */
+  --caro-mint-glow:     rgba(95, 211, 166, 0.35);
+  --caro-gold:          #C08A2D;   /* operator / earnings accent */
+  --caro-gold-dark:     #7a5218;   /* text on gold bg */
 }
 
 html { scroll-behavior: smooth; }
