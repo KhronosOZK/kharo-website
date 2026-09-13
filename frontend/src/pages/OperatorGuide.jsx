@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import {
   ClipboardList, Phone, BadgeCheck, Car, TrendingUp, Shield,
   Users, Zap, ChevronDown, ChevronRight, Check, Clock,
+  MapPin, Lock, Activity,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
@@ -49,6 +50,13 @@ const STEPS = [
     title: "Agree terms and start earning",
     body: "You call the driver, confirm availability and deposit, and agree terms. The rental is between you and the driver directly. Kharo earns a fee when the rental completes, not before.",
     detail: "No monthly listing fee. Kharo earns on completions only.",
+  },
+  {
+    num: "06",
+    icon: Lock,
+    title: "Risk management protects your fleet",
+    body: "Every Kharo rental includes our built-in risk management framework. GPS trackers must be fitted to all vehicles before handover. If a driver misses a payment, we contact their rideshare platform directly (Uber, Bolt, etc.) so they cannot accept new trips until the rent is cleared. Your fleet is trackable live from the Kharo Operator Dashboard.",
+    detail: "Uber enforcement, GPS tracking, and live dashboard are included for all operators.",
   },
 ];
 

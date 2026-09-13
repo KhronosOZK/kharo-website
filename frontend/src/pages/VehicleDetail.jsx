@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { PRICING_TIERS, weeklyForWeeks } from "@/lib/pricing";
 import PreviewNotice from "@/components/PreviewNotice";
 import { useSeo } from "@/lib/seo";
+import { getMockById } from "@/data/mockListings";
 
 const COORDS = {
   "Newham": [51.528, 0.035], "Croydon": [51.372, -0.101], "Redbridge": [51.559, 0.076],
@@ -29,6 +30,16 @@ export default function VehicleDetail() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Handle mock vehicle IDs without making API calls
+    if (id && id.startsWith("mock-")) {
+      const mockVehicle = getMockById(id);
+      if (mockVehicle) {
+        setV(mockVehicle);
+      } else {
+        navigate("/search");
+      }
+      return;
+    }
     api
       .get(`/listings/${id}`)
       .then((r) => {

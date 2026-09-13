@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, Star } from "lucide-react";
+import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, Star, MapPin, Lock, Activity } from "lucide-react";
 import { toast } from "sonner";
 import { api, trackEvent } from "@/lib/api";
 import { useSeo } from "@/lib/seo";
@@ -371,6 +371,66 @@ export default function OperatorInterest() {
           </div>
         </div>
       </div>
+{/* RISK MANAGEMENT SECTION */}
+      <section className="max-w-6xl mx-auto px-4 pb-12">
+        <div className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden">
+          <div className="bg-gradient-to-r from-[#0B6B4F] to-[#054a37] px-6 py-5">
+            <h2 className="font-heading font-bold text-white text-xl mb-1">
+              Built-in Risk Management
+            </h2>
+            <p className="text-white/70 text-sm">
+              Kharo gives you the tools to protect your fleet and guarantee rental income.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#F0F0F0]">
+            <div className="p-6">
+              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center mb-4">
+                <Lock className="w-5 h-5 text-red-600" />
+              </div>
+              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
+                Uber Enforcement Integration
+              </h3>
+              <p className="text-[13px] text-[#666] leading-relaxed">
+                If a driver misses a rental payment, Kharo contacts Uber directly to flag the account. The driver cannot accept new trips until the outstanding rent is cleared. This ensures you never chase payments alone.
+              </p>
+              <div className="mt-4 flex items-start gap-2">
+                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
+                <span className="text-[12px] text-[#888]">Applies to Uber, Bolt and other platforms we partner with</span>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+                <MapPin className="w-5 h-5 text-blue-600" />
+              </div>
+              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
+                GPS Tracker Required
+              </h3>
+              <p className="text-[13px] text-[#666] leading-relaxed">
+                All vehicles listed on Kharo must have a certified GPS tracker installed prior to handover. This is a condition of listing. Kharo can recommend approved tracker providers and assist with installation through our partner garages.
+              </p>
+              <div className="mt-4 flex items-start gap-2">
+                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
+                <span className="text-[12px] text-[#888]">Trackers must meet our minimum specification for real-time location</span>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
+                <Activity className="w-5 h-5 text-[#0B6B4F]" />
+              </div>
+              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
+                Live Fleet Dashboard
+              </h3>
+              <p className="text-[13px] text-[#666] leading-relaxed">
+                Track all your vehicles in real time from the Kharo Operator Dashboard. See location, driver status, mileage and payment status in one place. Get alerts for unusual movement or missed payments.
+              </p>
+              <div className="mt-4 flex items-start gap-2">
+                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
+                <span className="text-[12px] text-[#888]">Access from any device, 24 hours a day</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

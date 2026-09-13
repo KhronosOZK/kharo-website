@@ -1,406 +1,293 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Search, ArrowRight, Shield, Zap, Clock, CheckCircle, ChevronRight } from "lucide-react";
-import { api, trackEvent } from "@/lib/api";
-import { HOME, BRAND } from "@/content/site";
-import { useSeo } from "@/lib/seo";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search, ChevronDown, Star, Shield, Zap, MapPin, Check, ArrowRight, Car } from "lucide-react";
+import { MOCK_LISTINGS, MOCK_BOROUGHS, MOCK_MAKES, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
+import VehicleCard from "@/components/VehicleCard";
 
-const FADE_UP = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
+// Expandable filter row
+function FilterSelect({ label, options, value, onChange }) {
+  return (
+    <div className="relative">
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="appearance-none w-full bg-white border border-gray-200 text-gray-800 text-sm font-medium px-4 py-3 pr-9 rounded-sm focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700 cursor-pointer"
+      >
+        {options.map((o) => (
+          <option key={o.value ?? o} value={o.value ?? o}>
+            {o.label ?? o}
+          </option>
+        ))}
+      </select>
+      <ChevronDown size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+    </div>
+  );
+}
 
-const TRUST_BADGES = [
-  { label: "TfL Approved", icon: Shield },
-  { label: "Uber Eligible", icon: CheckCircle },
-  { label: "Bolt Eligible", icon: CheckCircle },
-  { label: "FreeNow Eligible", icon: CheckCircle },
-];
-
-const HOW_STEPS = [
-  { num: "01", title: "Browse PCO Cars", body: "Filter by make, weekly rate and borough. Every listing is from a verified London operator." },
-  { num: "02", title: "Check Availability", body: "Tell us what you need and when. Takes under 60 seconds. No documents at this stage." },
-  { num: "03", title: "Operator Contacts You", body: "A fleet manager reviews your details and calls to confirm availability and key collection." },
-];
-
-const DRIVER_REASONS = [
-  { icon: Zap, title: "One weekly payment", body: "Rent, insurance and servicing in a single figure. No surprise invoices." },
-  { icon: Shield, title: "4-layer vetting", body: "DVLA eligibility, identity, affordability and trade record. Fair to pass, impossible to fake." },
-  { icon: Clock, title: "Start this week", body: "Active PCO licence? Most drivers are behind the wheel within 3 working days." },
-];
+// Trust badge pill
+function TrustBadge({ icon: Icon, text }) {
+  return (
+    <div className="flex items-center gap-2 text-white/80 text-sm">
+      <Icon size={14} className="text-emerald-400 flex-shrink-0" />
+      <span>{text}</span>
+    </div>
+  );
+}
 
 export default function Home() {
   const navigate = useNavigate();
-  const [listings, setListings] = useState([]);
-  const [query, setQuery] = useState("");
+  const [borough, setBorough] = useState("All Areas");
+  const [make, setMake] = useState("All Makes");
+  const [budget, setBudget] = useState("");
+  const [engine, setEngine] = useState("");
+  const [showMore, setShowMore] = useState(false);
+  const [bodyType, setBodyType] = useState("");
+  const [transmission, setTransmission] = useState("");
+  const [listings, setListings] = useState(MOCK_LISTINGS.slice(0, 6));
 
-  useEffect(() => {
-    api.get("/listings").then((r) => setListings(r.data)).catch(() => {});
-    trackEvent("page_view", { path: "/" });
-  }, []);
-
-  useSeo({ title: `Kharo · ${BRAND.tagline}`, description: HOME?.hero?.sub || "The PCO car rental marketplace for London drivers." });
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    trackEvent("search", { query });
-    navigate(`/search?q=${encodeURIComponent(query)}`);
-  };
-
-  const featured = listings.slice(0, 6);
+  function handleSearch() {
+    const params = new URLSearchParams();
+    if (borough && borough !== "All Areas") params.set("borough", borough);
+    if (make && make !== "All Makes") params.set("make", make);
+    if (budget) params.set("budget", budget);
+    if (engine) params.set("engine", engine);
+    if (bodyType) params.set("bodyType", bodyType);
+    if (transmission) params.set("transmission", transmission);
+    navigate(`/search?${params.toString()}`);
+  }
 
   return (
-    <main className="bg-white">
-      {/* ─── HERO ──────────────────────────────────────────────────── */}
-      <section className="bg-[#F5F5F5] pt-14 pb-0 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0">
-            {/* Left copy */}
-            <div className="flex-1 pt-4 pb-8 lg:py-20 text-center lg:text-left">
-              <motion.p {...FADE_UP} className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-5">
-                London's PCO Car Rental Marketplace
-              </motion.p>
-              <motion.h1
-                initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.07 }}
-                className="text-[42px] sm:text-5xl lg:text-[56px] font-heading font-extrabold text-[#111111] leading-[1.04] tracking-tight"
-              >
-                PCO Cars.<br />Ready to Drive.
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }}
-                className="mt-5 text-[16px] text-[#555555] max-w-md mx-auto lg:mx-0 leading-relaxed"
-              >
-                Find verified PHV rental cars across London. Weekly rates from operators who know the trade.
-              </motion.p>
+    <div className="min-h-screen bg-white">
 
-              <motion.form
-                initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                onSubmit={handleSearch}
-                className="mt-8 flex items-center gap-3 max-w-md mx-auto lg:mx-0"
-              >
-                <div className="flex-1 relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999]" />
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Toyota Prius, Kia Niro, borough..."
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-[#E0E0E0] bg-white text-[14px] focus:outline-none focus:ring-2 focus:ring-[#0B6B4F]/30 focus:border-[#0B6B4F] transition-all"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="px-5 py-3.5 bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[14px] rounded-xl transition-colors shrink-0"
-                >
-                  Search
-                </button>
-              </motion.form>
-
-              {/* Trust row */}
-              <motion.div
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-                className="mt-8 flex flex-wrap items-center gap-4 justify-center lg:justify-start"
-              >
-                {TRUST_BADGES.map((b) => (
-                  <span key={b.label} className="flex items-center gap-1.5 text-[12px] font-medium text-[#555555]">
-                    <b.icon className="w-3.5 h-3.5 text-[#0B6B4F]" />
-                    {b.label}
-                  </span>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Right: hero car image */}
-            <div className="flex-1 flex justify-center lg:justify-end items-end self-end">
-              <motion.div
-                initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
-                className="w-full max-w-[520px] lg:max-w-none"
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=900&auto=format&fit=crop"
-                  alt="PCO car available on Kharo"
-                  className="w-full object-cover object-center"
-                  style={{ borderRadius: "16px 16px 0 0" }}
-                />
-              </motion.div>
-            </div>
-          </div>
+      {/* HERO */}
+      <section
+        className="relative min-h-[78vh] flex flex-col items-center justify-center text-center px-4"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(8,40,28,0.80) 0%, rgba(8,40,28,0.65) 60%, rgba(8,40,28,0.88) 100%), url('https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1600&q=80')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Trust strip */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-8">
+          <TrustBadge icon={Shield} text="PCO Licensed Vehicles Only" />
+          <TrustBadge icon={Zap} text="Insurance Included" />
+          <TrustBadge icon={Check} text="Direct from Operators" />
         </div>
-      </section>
 
-      {/* ─── FEATURED VEHICLES ──────────────────────────────────────── */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-1">Available Now</p>
-              <h2 className="text-[28px] sm:text-3xl font-heading font-extrabold text-[#111111]">PCO Vehicles to Rent</h2>
-            </div>
-            <Link
-              to="/search"
-              onClick={() => trackEvent("cta_click", { label: "view_all_home" })}
-              className="hidden sm:flex items-center gap-1.5 text-[14px] font-semibold text-[#0B6B4F] hover:gap-2.5 transition-all"
-            >
-              View all <ArrowRight className="w-4 h-4" />
-            </Link>
+        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl mb-4" style={{ textWrap: "balance" }}>
+          Find Your Next PCO Rental in London
+        </h1>
+        <p className="text-white/70 text-base sm:text-lg max-w-xl mb-10">
+          Direct from licensed operators. Weekly rental includes insurance and maintenance.
+        </p>
+
+        {/* SEARCH PANEL */}
+        <div className="w-full max-w-3xl bg-white rounded-sm shadow-2xl p-4 sm:p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            <FilterSelect
+              label="Borough / Area"
+              options={MOCK_BOROUGHS.map((b) => ({ label: b, value: b === "All Areas" ? "" : b }))}
+              value={borough}
+              onChange={setBorough}
+            />
+            <FilterSelect
+              label="Make / Model"
+              options={MOCK_MAKES.map((m) => ({ label: m, value: m === "All Makes" ? "" : m }))}
+              value={make}
+              onChange={setMake}
+            />
+            <FilterSelect
+              label="Weekly Budget"
+              options={BUDGET_OPTIONS}
+              value={budget}
+              onChange={setBudget}
+            />
+            <FilterSelect
+              label="Engine Type"
+              options={ENGINE_OPTIONS}
+              value={engine}
+              onChange={setEngine}
+            />
           </div>
 
-          {featured.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {featured.map((v, i) => (
-                <motion.div
-                  key={v.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  onClick={() => { trackEvent("card_click", { listing_id: v.id }); navigate(`/vehicle/${v.id}`); }}
-                  className="group cursor-pointer bg-white rounded-2xl border border-[#E8E8E8] hover:border-[#D0D0D0] hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] transition-all duration-300 overflow-hidden"
-                >
-                  <div className="relative aspect-[16/10] bg-[#F4F4F4] overflow-hidden">
-                    <img
-                      src={v.photos?.[0]}
-                      alt={`${v.make} ${v.model}`}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
-                    <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-[11px] font-semibold text-[#333] px-2.5 py-1 rounded-full">
-                      {v.borough}
-                    </span>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <h3 className="font-heading font-bold text-[16px] text-[#111] leading-snug">{v.make} {v.model}</h3>
-                        <p className="text-[12px] text-[#888] mt-0.5">{v.year} · {v.fuel} · {v.seats} seats</p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <div className="text-[22px] font-heading font-extrabold text-[#111] leading-none">£{v.weekly_rent}</div>
-                        <div className="text-[11px] text-[#888]">/week</div>
-                      </div>
-                    </div>
-                    <div className="mt-3 pt-3 border-t border-[#F0F0F0] flex items-center justify-between">
-                      <span className="text-[12px] text-[#666]">£{v.deposit || 500} deposit</span>
-                      <span className="text-[12px] font-semibold text-[#0B6B4F] flex items-center gap-1">
-                        Check availability <ChevronRight className="w-3.5 h-3.5" />
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="rounded-2xl bg-[#F4F4F4] animate-pulse aspect-[4/3]" />
-              ))}
+          {/* Expandable filters */}
+          {showMore && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+              <FilterSelect
+                label="Body Type"
+                options={[
+                  { label: "Any Body Type", value: "" },
+                  { label: "Saloon", value: "Saloon" },
+                  { label: "Estate", value: "Estate" },
+                  { label: "SUV / Crossover", value: "SUV" },
+                  { label: "MPV", value: "MPV" },
+                ]}
+                value={bodyType}
+                onChange={setBodyType}
+              />
+              <FilterSelect
+                label="Transmission"
+                options={[
+                  { label: "Any Transmission", value: "" },
+                  { label: "Automatic", value: "Automatic" },
+                  { label: "Manual", value: "Manual" },
+                ]}
+                value={transmission}
+                onChange={setTransmission}
+              />
             </div>
           )}
 
-          <div className="mt-8 text-center sm:hidden">
-            <Link
-              to="/search"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#111] text-white font-semibold text-[14px] rounded-xl"
+          <div className="flex items-center justify-between gap-3">
+            <button
+              onClick={() => setShowMore(!showMore)}
+              className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1 transition-colors"
             >
-              View all vehicles <ArrowRight className="w-4 h-4" />
-            </Link>
+              <ChevronDown size={14} className={`transition-transform ${showMore ? "rotate-180" : ""}`} />
+              {showMore ? "Fewer filters" : "More filters"}
+            </button>
+            <button
+              onClick={handleSearch}
+              className="flex items-center gap-2 bg-green-800 hover:bg-green-900 text-white font-semibold text-sm px-6 py-3 rounded-sm transition-colors"
+            >
+              <Search size={16} />
+              Search Vehicles
+            </button>
           </div>
+        </div>
+
+        {/* Stats strip */}
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-8 text-white/60 text-sm">
+          <span><strong className="text-white">200+</strong> Verified Operators</span>
+          <span><strong className="text-white">500+</strong> Vehicles Listed</span>
+          <span><strong className="text-white">4,000+</strong> Drivers Matched</span>
         </div>
       </section>
 
-      {/* ─── FOR DRIVERS ────────────────────────────────────────────── */}
-      <section className="py-16 bg-[#F8F8F8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">For Drivers</p>
-              <h2 className="text-[32px] sm:text-4xl font-heading font-extrabold text-[#111] leading-tight">
-                Drive for Uber or Bolt.<br />Rent the car to do it.
-              </h2>
-              <p className="mt-4 text-[15px] text-[#555] leading-relaxed max-w-lg">
-                Every car on Kharo is PHV-licensed and TfL-eligible. No middlemen, no hidden costs. Just a weekly rate that covers everything.
-              </p>
-
-              <div className="mt-8 space-y-5">
-                {DRIVER_REASONS.map((r) => (
-                  <div key={r.title} className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#0B6B4F]/10 flex items-center justify-center shrink-0">
-                      <r.icon className="w-5 h-5 text-[#0B6B4F]" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-[15px] text-[#111]">{r.title}</h3>
-                      <p className="text-[13px] text-[#666] mt-0.5 leading-relaxed">{r.body}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  to="/search"
-                  onClick={() => trackEvent("cta_click", { label: "driver_browse" })}
-                  className="px-6 py-3 bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[14px] rounded-xl transition-colors"
-                >
-                  Browse cars
-                </Link>
-                <Link
-                  to="/driver-guide"
-                  className="px-6 py-3 bg-white border border-[#E0E0E0] hover:border-[#999] text-[#333] font-semibold text-[14px] rounded-xl transition-colors"
-                >
-                  Driver guide
-                </Link>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="rounded-2xl overflow-hidden bg-[#EFEFEF] aspect-[4/3]">
-                <img
-                  src="https://images.unsplash.com/photo-1614026480418-bd11fdb9fa06?w=800&auto=format&fit=crop"
-                  alt="Driver with PCO car"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              {/* Stat card overlay */}
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl p-4 border border-[#E8E8E8]">
-                <div className="text-[32px] font-heading font-extrabold text-[#0B6B4F] leading-none">12,712</div>
-                <div className="text-[12px] text-[#666] mt-1 max-w-[160px] leading-snug">more PHV licences than licensed vehicles in London</div>
-                <div className="text-[10px] text-[#999] mt-1">TfL, May 2026</div>
-              </div>
-            </div>
+      {/* FEATURED VEHICLES */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-green-700 font-semibold mb-1">Available Now</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">Featured Rentals</h2>
           </div>
+          <button
+            onClick={() => navigate("/search")}
+            className="flex items-center gap-1 text-sm font-medium text-green-800 hover:text-green-900 transition-colors"
+          >
+            View all <ArrowRight size={14} />
+          </button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {listings.map((vehicle) => (
+            <VehicleCard key={vehicle.id} vehicle={vehicle} />
+          ))}
         </div>
       </section>
 
-      {/* ─── FOR OPERATORS ──────────────────────────────────────────── */}
-      <section className="py-16 bg-[#0B6B4F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-[11px] font-bold text-[#5FD3A6] tracking-[0.14em] uppercase mb-3">For Operators</p>
-              <h2 className="text-[32px] sm:text-4xl font-heading font-extrabold text-white leading-tight">
-                Stop letting PCO vehicles sit idle.
-              </h2>
-              <p className="mt-4 text-[15px] text-[#A8D5C4] leading-relaxed max-w-lg">
-                Every week a car sits unrented costs you £200–£300 in depreciation, insurance and missed revenue. Kharo connects you with pre-qualified drivers.
-              </p>
-
-              <div className="mt-8 grid grid-cols-2 gap-4">
-                {[
-                  { n: "48h", l: "Average time to fill a void" },
-                  { n: "4-layer", l: "Driver vetting before contact" },
-                  { n: "£0", l: "Listing fee" },
-                  { n: "Direct", l: "Driver-to-operator connection" },
-                ].map((s) => (
-                  <div key={s.l} className="bg-white/10 rounded-xl p-4">
-                    <div className="text-[24px] font-heading font-extrabold text-white">{s.n}</div>
-                    <div className="text-[12px] text-[#A8D5C4] mt-1">{s.l}</div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  to="/list-your-fleet"
-                  onClick={() => trackEvent("cta_click", { label: "operator_list" })}
-                  className="px-6 py-3 bg-white text-[#0B6B4F] font-bold text-[14px] rounded-xl hover:bg-[#F0F0F0] transition-colors"
-                >
-                  List your fleet free
-                </Link>
-                <Link
-                  to="/operator-guide"
-                  className="px-6 py-3 bg-white/15 border border-white/30 text-white font-semibold text-[14px] rounded-xl hover:bg-white/20 transition-colors"
-                >
-                  Operator guide
-                </Link>
-              </div>
-            </div>
-
-            {/* Void calculator */}
-            <VoidCalc />
+      {/* HOW IT WORKS */}
+      <section className="bg-gray-50 border-t border-gray-100 py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <p className="text-xs uppercase tracking-widest text-green-700 font-semibold mb-1">Simple Process</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">How Kharo Works</h2>
           </div>
-        </div>
-      </section>
-
-      {/* ─── HOW IT WORKS ───────────────────────────────────────────── */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Simple process</p>
-            <h2 className="text-[32px] sm:text-4xl font-heading font-extrabold text-[#111]">How Kharo works</h2>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-8">
-            {HOW_STEPS.map((s) => (
-              <div key={s.num} className="relative">
-                <div className="text-[48px] font-heading font-extrabold text-[#F0F0F0] leading-none mb-3">{s.num}</div>
-                <h3 className="font-semibold text-[17px] text-[#111] mb-2">{s.title}</h3>
-                <p className="text-[14px] text-[#666] leading-relaxed">{s.body}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {[
+              { n: "01", title: "Search & Filter", body: "Browse vehicles by borough, make, budget and engine type. Every listing is from a verified London PCO operator." },
+              { n: "02", title: "Check Availability", body: "Found a vehicle you like? Submit your details and the operator confirms availability. No commission, no middleman." },
+              { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Insurance and maintenance included." },
+            ].map((step) => (
+              <div key={step.n} className="flex flex-col">
+                <span className="font-heading text-4xl font-bold text-gray-100 mb-3 select-none">{step.n}</span>
+                <h3 className="font-heading font-semibold text-gray-900 text-lg mb-2">{step.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{step.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── BOTTOM CTA ─────────────────────────────────────────────── */}
-      <section className="py-16 bg-[#111111]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-[32px] sm:text-4xl font-heading font-extrabold text-white mb-4">
-            Start driving this week
-          </h2>
-          <p className="text-[15px] text-[#888] max-w-md mx-auto mb-8">
-            Browse verified PCO cars from London operators and register your interest in under 60 seconds.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/search"
-              onClick={() => trackEvent("cta_click", { label: "bottom_driver" })}
-              className="px-8 py-4 bg-[#0B6B4F] hover:bg-[#095B43] text-white font-bold text-[15px] rounded-xl transition-colors"
+      {/* WHY KHARO */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-green-700 font-semibold mb-2">Why Drivers Choose Us</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900 mb-6" style={{ textWrap: "balance" }}>
+              The straightforward way to rent a PCO car in London
+            </h2>
+            <div className="space-y-5">
+              {[
+                { title: "Insurance included in every rental", body: "All vehicles on Kharo include fully comprehensive PCO insurance. No hidden costs." },
+                { title: "Direct from licensed operators", body: "You deal directly with vetted, TfL-licensed fleet operators. We never take a cut of your deal." },
+                { title: "Clear weekly pricing", body: "Every listing shows a single weekly figure. What you see is what you pay, including maintenance." },
+                { title: "Flexible terms", body: "Weekly rolling contracts with most operators. No long-term commitments unless you want them." },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-3">
+                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-green-700 flex items-center justify-center mt-0.5">
+                    <Check size={11} className="text-white" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm mb-0.5">{item.title}</p>
+                    <p className="text-gray-500 text-sm">{item.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => navigate("/search")}
+              className="mt-8 inline-flex items-center gap-2 bg-green-800 hover:bg-green-900 text-white font-semibold text-sm px-6 py-3 rounded-sm transition-colors"
             >
-              Browse PCO cars
-            </Link>
-            <Link
-              to="/list-your-fleet"
-              onClick={() => trackEvent("cta_click", { label: "bottom_operator" })}
-              className="px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold text-[15px] rounded-xl hover:bg-white/15 transition-colors"
-            >
-              List your fleet
-            </Link>
+              Browse All Vehicles <ArrowRight size={15} />
+            </button>
+          </div>
+          <div className="relative rounded-sm overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=700&q=80"
+              alt="PCO vehicles lined up ready for rental"
+              className="w-full h-80 lg:h-96 object-cover"
+            />
+            <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-sm p-4 shadow-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-800 rounded-sm flex items-center justify-center flex-shrink-0">
+                  <Car size={20} className="text-white" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900 text-sm">Ready to drive today</p>
+                  <p className="text-gray-500 text-xs">Most operators can have you on the road within 48 hours</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-    </main>
-  );
-}
 
-function VoidCalc() {
-  const navigate = useNavigate();
-  const [idle, setIdle] = useState(4);
-  const weekly = idle * 265;
-  const monthly = Math.round(weekly * 4.33);
-
-  return (
-    <div className="bg-white/10 rounded-2xl p-6 border border-white/20">
-      <p className="text-[12px] font-bold text-[#5FD3A6] uppercase tracking-wider mb-3">Void cost calculator</p>
-      <div className="mb-4">
-        <div className="flex justify-between text-[13px] font-semibold text-white mb-2">
-          <span>Idle vehicles</span>
-          <span className="text-[#5FD3A6] text-[18px] font-extrabold">{idle}</span>
-        </div>
-        <input
-          type="range" min={1} max={20} value={idle}
-          onChange={(e) => setIdle(Number(e.target.value))}
-          className="w-full accent-[#5FD3A6] h-1.5 rounded"
-        />
-      </div>
-      <div className="bg-[#0A130F]/40 rounded-xl p-4 mb-4">
-        <div className="text-[11px] text-[#5FD3A6] font-semibold uppercase tracking-wide">Monthly revenue lost</div>
-        <div className="text-[36px] font-heading font-extrabold text-white leading-none mt-1">
-          £{monthly.toLocaleString("en-GB")}
-        </div>
-        <div className="text-[12px] text-[#5FD3A6]/70 mt-1">£{weekly.toLocaleString("en-GB")} / week</div>
-      </div>
-      <button
-        onClick={() => { trackEvent("cta_click", { label: "void_calc_cta" }); navigate("/list-your-fleet"); }}
-        className="w-full py-3.5 bg-white text-[#0B6B4F] font-bold text-[14px] rounded-xl hover:bg-[#F0F0F0] transition-colors"
+      {/* OPERATOR STRIP */}
+      <section
+        className="py-14"
+        style={{
+          backgroundImage: `linear-gradient(to right, #0B6B4F, #054a37)`,
+        }}
       >
-        Fill idle cars in 48 hours
-      </button>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <div>
+            <h2 className="font-heading text-xl sm:text-2xl font-bold text-white mb-1">
+              Got vehicles sitting idle?
+            </h2>
+            <p className="text-white/70 text-sm max-w-md">
+              List your PCO fleet on Kharo and start generating weekly income. No commission on agreed rates.
+            </p>
+          </div>
+          <button
+            onClick={() => navigate("/operators")}
+            className="flex-shrink-0 bg-white text-green-900 font-semibold text-sm px-6 py-3 rounded-sm hover:bg-gray-50 transition-colors"
+          >
+            List Your Fleet
+          </button>
+        </div>
+      </section>
+
     </div>
   );
 }
