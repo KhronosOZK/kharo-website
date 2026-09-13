@@ -1,202 +1,423 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check, ArrowRight, ArrowLeft, TrendingUp, ShieldCheck, Wallet, MapPin, Mail } from "lucide-react";
+import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, Star } from "lucide-react";
 import { toast } from "sonner";
-import { api } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { VEHICLE_CLASSES, fleetBucket, estimateFleetEarnings } from "@/lib/pricing";
-import { AnimatedNumber } from "@/components/AnimatedNumber";
+import { api, trackEvent } from "@/lib/api";
+import { useSeo } from "@/lib/seo";
 
-const fleetOpts = ["1-5", "6-15", "16-30", "30+"];
-const inputCls = "h-12 bg-[#F6F5F2] border border-transparent rounded-xl px-4 text-[15px] focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0B6B4F]/25 focus-visible:border-[#0B6B4F] transition-colors";
-
-const STEPS = [
-  { key: "company", q: "What's your company called?", sub: "The trading name drivers will see once you're verified.", fields: [{ label: "Company name", name: "company_name", testid: "int-company" }], required: ["company_name"] },
-  { key: "reg", q: "Your registrations", sub: "Optional right now. It helps us fast-track verification later.", fields: [{ label: "Companies House number", name: "companies_house", testid: "int-ch" }, { label: "TfL operator licence", name: "tfl_operator_licence", testid: "int-tfl" }] },
-  { key: "fleet", q: "How many vehicles do you run?", sub: "Helps us understand the supply you can bring.", select: { name: "fleet_size", testid: "int-fleet", options: fleetOpts, render: (x) => `${x} vehicles` } },
-  { key: "areas", q: "Where do you operate?", sub: "The boroughs or areas your cars cover.", fields: [{ label: "Boroughs or areas", name: "areas", placeholder: "Croydon, Bromley", testid: "int-areas" }], required: ["areas"] },
-  { key: "types", q: "What types of car do you rent out?", sub: "A quick idea of your fleet mix.", fields: [{ label: "Types of car", name: "vehicle_types", placeholder: "Hybrids, saloons, one WAV", testid: "int-types" }] },
-  { key: "you", q: "A little about you", sub: "So we know who we're speaking to.", fields: [{ label: "Your name", name: "contact_name", testid: "int-name" }, { label: "Your role", name: "role", testid: "int-role" }], required: ["contact_name"] },
-  { key: "contact", q: "How can we reach you?", sub: "We'll email you your earning potential and the launch steps.", fields: [{ label: "Email", name: "email", type: "email", testid: "int-email" }, { label: "Phone", name: "phone", testid: "int-phone" }], required: ["email", "phone"] },
-  { key: "heard", q: "How did you hear about us?", sub: "Last one. This really helps us.", select: { name: "heard_from", testid: "int-heard", options: ["Word of mouth", "Social media", "Search engine", "Industry event", "Other"], render: (x) => x } },
+const BENEFITS = [
+  {
+    icon: TrendingUp,
+    title: "Fill idle cars faster",
+    body: "Every week a PCO car sits empty is revenue gone. Kharo puts it in front of vetted drivers actively looking.",
+  },
+  {
+    icon: Shield,
+    title: "Pre-screened drivers only",
+    body: "4-layer vetting: DVLA check, identity, Open Banking affordability and trade record. Your fleet, protected.",
+  },
+  {
+    icon: Users,
+    title: "You control the terms",
+    body: "Set your weekly rate, deposit, mileage allowance and restrictions. Kharo handles the lead; you close the deal.",
+  },
+  {
+    icon: Zap,
+    title: "No upfront cost",
+    body: "Listing is free. Kharo earns only when a rental completes, so we are incentivised to find you quality drivers.",
+  },
 ];
 
-export default function OperatorInterest() {
-  const navigate = useNavigate();
-  const [step, setStep] = useState(0);
-  const [done, setDone] = useState(false);
-  const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [cars, setCars] = useState(10);
-  const [vClass, setVClass] = useState(VEHICLE_CLASSES[0]);
-  const [f, setF] = useState({
-    company_name: "", companies_house: "", tfl_operator_licence: "", fleet_size: "6-15",
-    vehicle_types: "", areas: "", contact_name: "", role: "", email: "", phone: "", heard_from: "Word of mouth",
-  });
-  const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
+const INPUT =
+  "w-full h-11 bg-[#F5F5F5] border border-[#E8E8E8] rounded-xl px-4 text-[15px] text-[#111] placeholder:text-[#BBB] focus:outline-none focus:border-[#0B6B4F] focus:bg-white transition-colors";
+const LABEL = "block text-[13px] font-semibold text-[#555] mb-1.5";
 
-  useEffect(() => { api.get("/stats").then((r) => setCount(r.data.operators)).catch(() => {}); }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { setF((p) => ({ ...p, fleet_size: fleetBucket(cars) })); }, [cars]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const earn = estimateFleetEarnings(cars, vClass.weekly);
-  const cur = STEPS[step];
-  const isLast = step === STEPS.length - 1;
-  const pct = Math.round(((step + 1) / STEPS.length) * 100);
-
-  const canNext = () => {
-    if (cur.required) { for (const r of cur.required) if (!f[r]?.trim()) return false; }
-    return true;
-  };
-
-  const submit = async () => {
-    setLoading(true);
-    try {
-      await api.post("/interest", {
-        company_name: f.company_name, companies_house: f.companies_house, tfl_operator_licence: f.tfl_operator_licence,
-        fleet_size: f.fleet_size, areas: f.areas, vehicle_types: f.vehicle_types,
-        contact_name: f.contact_name, role: f.role, email: f.email, phone: f.phone, heard_from: f.heard_from,
-      });
-      setDone(true); window.scrollTo(0, 0);
-    } catch { toast.error("Something went wrong. Please try again."); }
-    setLoading(false);
-  };
-
-  const next = () => {
-    if (!canNext()) { toast.error("Please fill this in to continue."); return; }
-    if (!isLast) setStep(step + 1); else submit();
-  };
-  const back = () => setStep((s) => Math.max(0, s - 1));
-  const scrollToForm = () => document.getElementById("operator-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
-
-  if (done) return (
-    <main className="max-w-xl mx-auto px-4 py-24 text-center">
-      <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto"><Check className="w-8 h-8 text-emerald-700" /></div>
-      <h1 className="text-3xl font-heading font-extrabold text-[#1A2E25] mt-6" data-testid="interest-success">You're on the launch list.</h1>
-      <p className="text-[#4A564F] mt-3 text-[16px] leading-relaxed">Thanks for registering {f.company_name}. We've saved your details and we'll be in touch with your earning potential and the onboarding steps as we get ready to go live.</p>
-      <div className="flex gap-3 justify-center mt-8 flex-wrap">
-        <Button onClick={() => navigate("/operator-guide")} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white" data-testid="interest-guide">See how it works <ArrowRight className="w-4 h-4 ml-2" /></Button>
-        <Button onClick={() => navigate("/")} variant="outline" className="rounded-full border-slate-200">Back to home</Button>
-      </div>
-    </main>
-  );
-
+function SliderTrack({ min, max, value, onChange, step = 1, label, formatVal }) {
+  const pct = ((value - min) / (max - min)) * 100;
   return (
-    <main className="bg-[#F9F8F6]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 lg:py-20 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div className="text-center lg:text-left">
-          <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <p className="text-[13px] font-medium text-[#0B6B4F] tracking-wide">For rental companies</p>
-            <h1 className="mt-3 font-heading font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.03] text-[#1A2E25] text-balance">
-              Put your fleet<br /><span className="text-[#0B6B4F]">to work.</span>
-            </h1>
-            <p className="mt-4 text-[16px] text-[#4A564F] max-w-md mx-auto lg:mx-0 leading-relaxed">See what your fleet could bring in, then register to get matched with vetted drivers at launch.</p>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.5 }}
-            className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-white ring-1 ring-slate-200/70 p-6 sm:p-7 shadow-sm" data-testid="earnings-estimator">
-            <div className="text-[11px] text-[#7A857F] uppercase tracking-[0.18em]">Estimated monthly earnings</div>
-            <div className="flex items-end gap-1.5 mt-1">
-              <AnimatedNumber value={earn.grossMonth} prefix="£" data-testid="estimator-monthly" className="text-[clamp(2.6rem,7vw,3.8rem)] font-heading font-extrabold text-[#0B6B4F] leading-[0.9]" />
-              <span className="text-[#7A857F] text-lg pb-1.5">/ month</span>
-            </div>
-            <div className="text-[13.5px] text-[#4A564F] mt-2">Around <span className="font-semibold text-[#1A2E25]"><AnimatedNumber value={earn.grossYear} prefix="£" /></span> a year gross, keeping <span className="font-semibold text-[#1A2E25]"><AnimatedNumber value={earn.netYear} prefix="£" /></span> after our fee.</div>
-
-            <div className="mt-6">
-              <div className="flex items-center justify-between mb-2">
-                <Label className="text-[13px] text-[#4A564F]">How many cars would you list?</Label>
-                <span className="font-heading font-extrabold text-[#1A2E25] text-lg" data-testid="estimator-cars">{cars}{cars >= 40 ? "+" : ""}</span>
-              </div>
-              <Slider min={1} max={40} step={1} value={[cars]} onValueChange={(v) => setCars(v[0])} data-testid="estimator-slider" />
-              <div className="flex justify-between text-[11px] text-[#9AA39D] mt-1.5"><span>1 car</span><span>40+ cars</span></div>
-            </div>
-
-            <div className="mt-5 grid grid-cols-2 gap-2">
-              {VEHICLE_CLASSES.map((c) => {
-                const active = vClass.key === c.key;
-                return (
-                  <button key={c.key} onClick={() => setVClass(c)} data-testid={`estimator-class-${c.key}`}
-                    className={`text-left rounded-2xl px-4 py-2.5 ring-1 transition-all hover:-translate-y-[2px] ${active ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.06]" : "ring-slate-200 bg-white hover:bg-slate-50"}`}>
-                    <div className="text-[13px] font-semibold text-[#1A2E25]">{c.label}</div>
-                    <div className="text-[11.5px] text-[#7A857F]">£{c.weekly}/wk each</div>
-                  </button>
-                );
-              })}
-            </div>
-            <button onClick={scrollToForm} data-testid="estimator-cta" className="w-full mt-5 h-11 rounded-2xl bg-[#0B6B4F] hover:bg-[#095B43] text-white text-[15px] font-semibold transition-colors">Register my fleet interest</button>
-          </motion.div>
-
-          <div className="mt-7 space-y-2.5 max-w-md mx-auto lg:mx-0 text-left">
-            {[[ShieldCheck, "Every driver background and licence checked"], [Wallet, "No listing fees, a flat 10% on the rental side only"], [MapPin, "See your fleet's live location in the operator tools at launch"], [TrendingUp, "Rent covered up to two weeks if a driver defaults"]].map(([Icon, t]) => (
-              <div key={t} className="flex items-start gap-3 text-[14px] text-[#4A564F]"><Icon className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={1.6} /> {t}</div>
-            ))}
-            <p className="text-[#9AA39D] text-[13px] pt-1">{count > 0 ? `${count} operator${count === 1 ? "" : "s"} have already registered their interest` : "Be one of the first operators to join Kharo"}</p>
-          </div>
-        </div>
-
-        <div className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[28px] ring-1 ring-slate-200 p-6 sm:p-9 shadow-xl scroll-mt-24" id="operator-form">
-          <h2 className="text-[22px] font-heading font-bold text-[#1A2E25]">Claim your spot on the launch list</h2>
-          <p className="text-[14px] text-[#4A564F] mt-1.5">Two minutes and you're on the list.</p>
-
-          <div className="mt-5 flex items-start gap-3 rounded-2xl bg-[#E6F5F0] border border-[#0B6B4F]/15 p-3.5">
-            <Mail className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={1.6} />
-            <p className="text-[13px] text-[#1A2E25] leading-relaxed">Once you register, we'll email you the details: your earning potential, the onboarding process and how verification works.</p>
-          </div>
-
-          <div className="mt-6 mb-6">
-            <div className="flex items-center justify-between text-[12.5px] text-[#7A857F] mb-2.5">
-              <span data-testid="int-step-label">Step {step + 1} of {STEPS.length}</span>
-              <span>{pct}%</span>
-            </div>
-            <div className="flex items-center gap-1.5" data-testid="int-progress">
-              {STEPS.map((_, i) => (<div key={i} className={`h-1.5 rounded-full flex-1 transition-all duration-500 ${i <= step ? "bg-[#0B6B4F]" : "bg-[#E7E4DD]"}`} />))}
-            </div>
-          </div>
-
-          <form onSubmit={(e) => { e.preventDefault(); next(); }}>
-            <AnimatePresence mode="wait">
-              <motion.div key={cur.key} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.25 }}>
-                <h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#1A2E25] leading-tight text-balance">{cur.q}</h3>
-                <p className="text-[14px] text-[#4A564F] mt-1.5 mb-6">{cur.sub}</p>
-                {cur.select ? (
-                  <Select value={f[cur.select.name]} onValueChange={(v) => setF((p) => ({ ...p, [cur.select.name]: v }))}>
-                    <SelectTrigger data-testid={cur.select.testid} className="h-12 rounded-xl bg-white border-slate-200"><SelectValue /></SelectTrigger>
-                    <SelectContent>{cur.select.options.map((x) => <SelectItem key={x} value={x}>{cur.select.render(x)}</SelectItem>)}</SelectContent>
-                  </Select>
-                ) : (
-                  <div className="space-y-4">
-                    {cur.fields.map((fl, idx) => (
-                      <div key={fl.name}>
-                        <Label className="mb-1.5 block text-[13px] font-medium text-[#4A564F]">{fl.label}</Label>
-                        <Input autoFocus={idx === 0} type={fl.type || "text"} value={f[fl.name]} onChange={set(fl.name)} data-testid={fl.testid} className={inputCls} placeholder={fl.placeholder} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {cur.key === "fleet" && (
-                  <div className="mt-5 rounded-2xl bg-[#0E1A14] text-white p-4" data-testid="int-earnings">
-                    <div className="text-[11.5px] text-white/60 uppercase tracking-wide">A fleet your size could earn</div>
-                    <div className="text-2xl font-heading font-extrabold text-[#5FD3A6] mt-1">£{estimateFleetEarnings({ "1-5": 3, "6-15": 10, "16-30": 22, "30+": 40 }[f.fleet_size] || 10, vClass.weekly).grossYear.toLocaleString()}<span className="text-sm font-normal text-white/60"> a year</span></div>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex gap-3 mt-7">
-              {step > 0 && <Button type="button" variant="outline" onClick={back} className="rounded-full border-slate-200 hover:-translate-y-[2px] transition-transform" data-testid="int-back"><ArrowLeft className="w-4 h-4" /></Button>}
-              <Button type="submit" disabled={loading} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white flex-1 h-11 hover:-translate-y-[2px] transition-transform" data-testid={isLast ? "int-submit" : "int-continue"}>
-                {isLast ? (loading ? "Sending" : "Register my interest") : "Continue"} {!isLast && <ArrowRight className="w-4 h-4 ml-2" />}
-              </Button>
-            </div>
-          </form>
-        </div>
+    <div className="mb-5">
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-[13px] font-semibold text-[#555]">{label}</label>
+        <span className="text-[22px] font-heading font-extrabold text-[#111] tabular-nums">
+          {formatVal(value)}
+        </span>
       </div>
-    </main>
+      <div className="relative h-2 rounded-full bg-[#F0F0F0]">
+        <div
+          className="absolute h-2 rounded-full bg-[#0B6B4F] transition-all"
+          style={{ width: `${pct}%` }}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="absolute inset-0 w-full opacity-0 cursor-pointer h-2"
+          aria-label={label}
+        />
+        <div
+          className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white border-2 border-[#0B6B4F] shadow-md pointer-events-none transition-all"
+          style={{ left: `calc(${pct}% - 10px)` }}
+        />
+      </div>
+      <div className="flex justify-between text-[11px] text-[#CCC] mt-2">
+        <span>{formatVal(min)}</span>
+        <span>{formatVal(max)}</span>
+      </div>
+    </div>
   );
 }
 
+export default function OperatorInterest() {
+  const navigate = useNavigate();
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [idleCars, setIdleCars] = useState(3);
+  const [weeklyRate, setWeeklyRate] = useState(265);
+  const [f, setF] = useState({
+    company_name: "",
+    contact_name: "",
+    email: "",
+    phone: "",
+    fleet_size: "",
+    current_idle: "",
+    message: "",
+  });
+
+  useSeo({
+    title: "List Your Fleet · Kharo | PCO Operator Platform",
+    description:
+      "Stop losing revenue to idle PCO cars. List your fleet on Kharo and connect with vetted London drivers in days, not weeks.",
+  });
+
+  const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!f.company_name.trim() || !f.email.includes("@") || !f.phone.trim()) {
+      toast.error("Please fill in company name, email and phone.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await api.post("/operator-interest", f);
+      trackEvent("operator_interest", { fleet_size: f.fleet_size });
+      setSent(true);
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const weeklyRevenueLost = idleCars * weeklyRate;
+  const monthlyRevenueLost = Math.round(weeklyRevenueLost * 4.33);
+  const yearlyRevenueLost = weeklyRevenueLost * 52;
+
+  if (sent) return <SuccessScreen navigate={navigate} />;
+
+  return (
+    <div className="min-h-screen bg-[#F5F5F5]">
+      {/* Hero */}
+      <section className="bg-[#0B6B4F] text-white py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-4">
+            For Fleet Operators
+          </p>
+          <h1 className="text-[38px] sm:text-5xl font-heading font-extrabold leading-[1.05] max-w-2xl mb-5">
+            Stop losing money to idle PCO cars
+          </h1>
+          <p className="text-white/70 text-[17px] max-w-xl leading-relaxed mb-8">
+            Every week a licensed car sits without a driver costs you hundreds of pounds.
+            Kharo connects your fleet with vetted London drivers who are ready to rent now.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="#form"
+              className="px-6 py-3 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#5FD3A6] hover:text-white transition-colors"
+            >
+              List your fleet
+            </a>
+            <button
+              onClick={() => navigate("/operator-guide")}
+              className="px-6 py-3 rounded-full border border-white/30 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+            >
+              Read the operator guide
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* LEFT: calculator + benefits */}
+          <div>
+            {/* Void Calculator */}
+            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6 mb-6">
+              <h2 className="text-[18px] font-heading font-bold text-[#111] mb-1">
+                Revenue you're losing right now
+              </h2>
+              <p className="text-[13px] text-[#888] mb-6">
+                Adjust both sliders to see how much idle cars are costing your business.
+              </p>
+
+              <SliderTrack
+                label="Cars sitting idle"
+                min={1}
+                max={20}
+                value={idleCars}
+                onChange={setIdleCars}
+                formatVal={(v) => `${v} car${v !== 1 ? "s" : ""}`}
+              />
+
+              <SliderTrack
+                label="Weekly rate per car"
+                min={150}
+                max={500}
+                step={5}
+                value={weeklyRate}
+                onChange={setWeeklyRate}
+                formatVal={(v) => `£${v}`}
+              />
+
+              {/* Revenue lost tiles */}
+              <div className="grid grid-cols-3 gap-3 mt-4">
+                <div className="bg-[#FEF2F2] rounded-xl p-3.5">
+                  <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">
+                    Per week
+                  </div>
+                  <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
+                    £{weeklyRevenueLost.toLocaleString()}
+                  </div>
+                </div>
+                <div className="bg-[#FEF2F2] rounded-xl p-3.5">
+                  <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">
+                    Per month
+                  </div>
+                  <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
+                    £{monthlyRevenueLost.toLocaleString()}
+                  </div>
+                </div>
+                <div className="bg-[#FEF2F2] rounded-xl p-3.5 border-2 border-[#DC2626]/20">
+                  <div className="text-[10px] font-semibold text-[#DC2626] uppercase tracking-wide mb-1.5">
+                    Per year
+                  </div>
+                  <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
+                    £{yearlyRevenueLost.toLocaleString()}
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-[12px] text-[#BBB] mt-3">
+                Based on your rate inputs. Actual figures depend on your specific contracts.
+              </p>
+            </div>
+
+            {/* Benefits */}
+            <div className="space-y-4">
+              {BENEFITS.map(({ icon: Icon, title, body }) => (
+                <div
+                  key={title}
+                  className="bg-white rounded-2xl border border-[#E8E8E8] p-5 flex items-start gap-4"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-[#0B6B4F]" />
+                  </div>
+                  <div>
+                    <h3 className="font-heading font-bold text-[15px] text-[#111] mb-0.5">
+                      {title}
+                    </h3>
+                    <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Social proof */}
+            <div className="mt-6 bg-[#0B6B4F] rounded-2xl p-5 text-white">
+              <div className="flex items-center gap-1 mb-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-[#5FD3A6] text-[#5FD3A6]" />
+                ))}
+              </div>
+              <p className="text-[14px] text-white/90 leading-relaxed mb-3">
+                "We had 4 cars sitting idle for weeks. Kharo filled them within 10 days.
+                The drivers were all properly vetted. No surprises."
+              </p>
+              <p className="text-[12px] text-white/60">Fleet operator, East London</p>
+            </div>
+          </div>
+
+          {/* RIGHT: lead form */}
+          <div id="form">
+            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
+              <h2 className="text-[20px] font-heading font-bold text-[#111] mb-1">
+                Tell us about your fleet
+              </h2>
+              <p className="text-[14px] text-[#888] mb-6">
+                A Kharo fleet specialist will call within 1 working day.
+              </p>
+
+              <form onSubmit={submit} className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <FormField label="Company name" required>
+                    <input
+                      className={INPUT}
+                      placeholder="e.g. London PHV Ltd"
+                      value={f.company_name}
+                      onChange={set("company_name")}
+                      required
+                    />
+                  </FormField>
+                  <FormField label="Your name">
+                    <input
+                      className={INPUT}
+                      placeholder="Your full name"
+                      value={f.contact_name}
+                      onChange={set("contact_name")}
+                    />
+                  </FormField>
+                </div>
+
+                <FormField label="Email address" required>
+                  <input
+                    className={INPUT}
+                    type="email"
+                    placeholder="you@company.com"
+                    value={f.email}
+                    onChange={set("email")}
+                    required
+                    autoComplete="email"
+                    inputMode="email"
+                  />
+                </FormField>
+
+                <FormField label="Phone number" required>
+                  <input
+                    className={INPUT}
+                    type="tel"
+                    placeholder="07700 900 000"
+                    value={f.phone}
+                    onChange={set("phone")}
+                    required
+                    autoComplete="tel"
+                    inputMode="tel"
+                  />
+                </FormField>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <FormField label="Total fleet size">
+                    <select
+                      className={INPUT + " appearance-none cursor-pointer"}
+                      value={f.fleet_size}
+                      onChange={set("fleet_size")}
+                    >
+                      <option value="">Select...</option>
+                      <option value="1-5">1 to 5 vehicles</option>
+                      <option value="6-15">6 to 15 vehicles</option>
+                      <option value="16-30">16 to 30 vehicles</option>
+                      <option value="30+">30+ vehicles</option>
+                    </select>
+                  </FormField>
+                  <FormField label="Cars currently idle">
+                    <select
+                      className={INPUT + " appearance-none cursor-pointer"}
+                      value={f.current_idle}
+                      onChange={set("current_idle")}
+                    >
+                      <option value="">Select...</option>
+                      <option value="1">1 car</option>
+                      <option value="2-3">2 to 3 cars</option>
+                      <option value="4-5">4 to 5 cars</option>
+                      <option value="5+">5+ cars</option>
+                    </select>
+                  </FormField>
+                </div>
+
+                <FormField label="Anything else we should know?">
+                  <textarea
+                    className={INPUT + " h-24 py-3 resize-none"}
+                    placeholder="Vehicle makes, specific requirements, borough coverage..."
+                    value={f.message}
+                    onChange={set("message")}
+                  />
+                </FormField>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
+                >
+                  {loading ? "Sending..." : "Request a call back"}
+                </button>
+
+                <ul className="space-y-1.5 pt-1">
+                  {[
+                    "Free to list, no monthly fees",
+                    "Kharo calls you within 1 working day",
+                    "Your details are never sold",
+                  ].map((t) => (
+                    <li key={t} className="flex items-center gap-2 text-[12.5px] text-[#888]">
+                      <Check className="w-3.5 h-3.5 text-[#0B6B4F] shrink-0" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Success screen */
+
+function SuccessScreen({ navigate }) {
+  return (
+    <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center p-4">
+      <div className="max-w-md w-full text-center bg-white rounded-2xl border border-[#E8E8E8] p-8">
+        <div className="w-16 h-16 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto mb-5">
+          <Check className="w-8 h-8 text-[#0B6B4F]" strokeWidth={2.5} />
+        </div>
+        <h1 className="text-[22px] font-heading font-extrabold text-[#111] mb-2">
+          We'll be in touch soon
+        </h1>
+        <p className="text-[14px] text-[#555] leading-relaxed mb-6">
+          A Kharo fleet specialist will call you within 1 working day to discuss
+          how we can help fill your idle cars.
+        </p>
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={() => navigate("/operator-guide")}
+            className="h-11 rounded-full border border-[#E8E8E8] text-[#333] text-[14px] font-medium hover:bg-[#F5F5F5] transition-colors"
+          >
+            Read the operator guide
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="h-11 rounded-full bg-[#0B6B4F] text-white text-[14px] font-semibold hover:bg-[#095B43] transition-colors"
+          >
+            Back to home
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FormField({ label, required, children }) {
+  return (
+    <div>
+      <label className={LABEL}>
+        {label}
+        {required && <span className="text-[#0B6B4F] ml-0.5">*</span>}
+      </label>
+      {children}
+    </div>
+  );
+}

@@ -1,252 +1,424 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Eye, EyeOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { IMG } from "@/lib/images";
-import { OPERATOR_GUIDE } from "@/content/site";
+import {
+  ClipboardList, Phone, BadgeCheck, Car, TrendingUp, Shield,
+  Users, Zap, ChevronDown, ChevronRight, Check, Clock,
+} from "lucide-react";
+import { useSeo } from "@/lib/seo";
 
-const perks = OPERATOR_GUIDE.perks;
-const steps = OPERATOR_GUIDE.steps;
-const vetting = OPERATOR_GUIDE.vetting;
-const arrears = OPERATOR_GUIDE.arrears;
-const tracking = OPERATOR_GUIDE.tracking;
+const FADE_UP = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.5 },
+};
+
+const STEPS = [
+  {
+    num: "01",
+    icon: ClipboardList,
+    title: "Submit your fleet details",
+    body: "Fill in the operator interest form with your company name, fleet size, and how many cars are currently idle. A Kharo fleet specialist will call you within 1 working day.",
+    detail: "Takes 3 minutes. No commitment at this stage.",
+  },
+  {
+    num: "02",
+    icon: Phone,
+    title: "Kharo reviews and onboards you",
+    body: "We verify your operator licence and Companies House registration, then set up your operator profile. You tell us your rates, deposit requirements, borough coverage, and any vehicle restrictions.",
+    detail: "Operator verification typically completes within 2 working days.",
+  },
+  {
+    num: "03",
+    icon: Car,
+    title: "Your cars go live on Kharo",
+    body: "Add listings for each available vehicle: make, model, fuel type, weekly price (all-in), photos, and mileage allowance. Only TfL-eligible cars are listed. Listings are reviewed before going live.",
+    detail: "First listings are usually live within 24 hours of onboarding.",
+  },
+  {
+    num: "04",
+    icon: BadgeCheck,
+    title: "Drivers check availability: you get the lead",
+    body: "A driver sees your car and registers interest. Kharo runs the 4-layer vetting check: DVLA, identity, Open Banking affordability, and PHV trade record. You receive the approved driver's details and you make contact.",
+    detail: "Vetting takes 48 hours. You only speak to approved drivers.",
+  },
+  {
+    num: "05",
+    icon: TrendingUp,
+    title: "Agree terms and start earning",
+    body: "You call the driver, confirm availability and deposit, and agree terms. The rental is between you and the driver directly. Kharo earns a fee when the rental completes, not before.",
+    detail: "No monthly listing fee. Kharo earns on completions only.",
+  },
+];
+
+const BENEFITS = [
+  {
+    icon: Zap,
+    title: "Fill idle cars faster",
+    body: "Every week a PCO car sits empty is revenue gone. Kharo puts it in front of vetted drivers who are actively looking.",
+  },
+  {
+    icon: Shield,
+    title: "Pre-screened drivers only",
+    body: "4-layer vetting: DVLA eligibility, liveness identity check, Open Banking affordability, and PHV trade record. Your fleet, protected.",
+  },
+  {
+    icon: Users,
+    title: "You control the terms",
+    body: "Set your weekly rate, deposit, mileage allowance and vehicle restrictions. Kharo handles the lead; you close the deal.",
+  },
+  {
+    icon: TrendingUp,
+    title: "No upfront cost",
+    body: "Listing is free. Kharo earns only when a rental completes; we are incentivised to find you quality drivers.",
+  },
+];
+
+const WHAT_WE_CHECK = [
+  "DVLA licence confirmed and points verified",
+  "Liveness identity check against photo ID",
+  "Open Banking affordability review (no credit impact)",
+  "PHV trade record with previous operators",
+  "TfL private hire driver licence validity",
+  "Right to work in the UK",
+];
+
+const FAQS = [
+  {
+    q: "How much does it cost to list my fleet on Kharo?",
+    a: "Listing is free. Kharo charges a fee to the operator when a rental completes. You don't pay anything until a driver is in your car.",
+  },
+  {
+    q: "Who does the vetting: Kharo or me?",
+    a: "Kharo runs the 4-layer vetting check (DVLA, identity, Open Banking, trade record). You receive only approved drivers. You still do your own final checks and agree terms directly with the driver.",
+  },
+  {
+    q: "How long does operator verification take?",
+    a: "We check your PHV operator licence and Companies House registration. This typically completes in 2 working days. We'll call you within 1 working day of your initial enquiry to get started.",
+  },
+  {
+    q: "Can I refuse a driver Kharo has vetted?",
+    a: "Yes. Kharo's vetting confirms basic eligibility. You remain in full control of who you rent to. If you have concerns about a specific driver, you can decline; Kharo will not override your decision.",
+  },
+  {
+    q: "What happens if a driver stops paying rent?",
+    a: "The rental agreement is directly between you and the driver. Kharo is not a party to it. We recommend ensuring your rental contract includes standard protections and that you hold an appropriate deposit.",
+  },
+  {
+    q: "Can I set my own deposit and terms?",
+    a: "Yes. You set your weekly rate, deposit, mileage allowance, and any vehicle-specific restrictions. Kharo displays what you tell us. The operator call is where final terms are agreed.",
+  },
+  {
+    q: "Can I list vehicles in more than one borough?",
+    a: "Yes. You can list vehicles across any borough you operate in. Drivers can filter by borough when searching.",
+  },
+  {
+    q: "What types of vehicles can I list?",
+    a: "Any TfL-licensed private hire vehicle: saloons, estates, MPVs, executive cars, and WAVs. The car must hold a valid TfL PHV licence. Electric and hybrid vehicles are clearly marked on listings.",
+  },
+];
+
+function Faq({ q, a }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-[#F0F0F0] last:border-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-4 text-left gap-4"
+        aria-expanded={open}
+      >
+        <span className="text-[15px] font-semibold text-[#111]">{q}</span>
+        <ChevronDown
+          className={`w-5 h-5 text-[#999] shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <div className="pb-4">
+          <p className="text-[14px] text-[#555] leading-relaxed">{a}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function OperatorGuide() {
   const navigate = useNavigate();
+
+  useSeo({
+    title: "Operator Guide · List Your PCO Fleet on Kharo",
+    description:
+      "How fleet operators list their PCO vehicles on Kharo, how driver vetting works, and what to expect after your first enquiry.",
+  });
+
   return (
-    <main>
+    <div className="min-h-screen bg-[#F5F5F5]">
 
-      {/* ── Hero ── */}
-      <section className="relative overflow-hidden min-h-[420px] flex items-center">
-        <img src={OPERATOR_GUIDE.hero.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0E1A14]/94 via-[#0E1A14]/58 to-[#0E1A14]/15" />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0E1A14]/60 to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28 w-full">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-[13px] font-medium text-[#5FD3A6] tracking-widest uppercase">{OPERATOR_GUIDE.hero.eyebrow}</p>
-            <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-white mt-4 max-w-3xl leading-[1.03] text-balance">{OPERATOR_GUIDE.hero.heading}</h1>
-            <p className="text-white/75 mt-5 text-[18px] max-w-2xl leading-relaxed">{OPERATOR_GUIDE.hero.sub}</p>
-            <Button onClick={() => navigate("/list-your-fleet")} className="mt-8 rounded-full bg-white text-[#1A2E25] hover:bg-[#F1EFE9] font-semibold">
-              {OPERATOR_GUIDE.hero.cta} <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </motion.div>
+      {/* Hero */}
+      <section className="bg-[#0B6B4F] text-white py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-4">
+            Operator Guide
+          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] max-w-2xl mb-5"
+          >
+            How Kharo works for fleet operators.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="text-white/70 text-[17px] max-w-xl leading-relaxed mb-8"
+          >
+            List your idle PCO cars. Receive pre-vetted driver leads. Fill your fleet faster.
+            with no upfront listing fee.
+          </motion.p>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="/list-your-fleet"
+              className="px-6 py-3 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#5FD3A6] hover:text-white transition-colors"
+            >
+              List your fleet
+            </a>
+            <button
+              onClick={() => navigate("/help")}
+              className="px-6 py-3 rounded-full border border-white/30 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+            >
+              Get help
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* ── Perks strip ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 -mt-10 relative z-10">
-        <div className="grid sm:grid-cols-3 gap-4">
-          {perks.map((p) => (
-            <div key={p.t} className="bg-white rounded-2xl p-6 ring-1 ring-slate-200/70 shadow-md">
-              <div className="font-heading font-extrabold text-[#0B6B4F] text-2xl">{p.t}</div>
-              <p className="text-[14px] text-[#4A564F] mt-2 leading-relaxed">{p.d}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── How it works — steps ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-        {steps.map((s, i) => (
-          <motion.section key={s.n}
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.55 }}
-            className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center py-12 sm:py-16 ${i % 2 ? "lg:[direction:rtl]" : ""}`}>
-            <div className="lg:[direction:ltr]">
-              <span className="text-[13px] font-heading font-bold text-[#0B6B4F] tracking-widest uppercase">{s.n}</span>
-              <h2 className="text-3xl sm:text-[38px] font-heading font-bold text-[#1A2E25] mt-3 leading-tight text-balance">{s.t}</h2>
-              <p className="text-[#4A564F] mt-4 text-[17px] leading-relaxed">{s.d}</p>
-            </div>
-            <div className="lg:[direction:ltr]">
-              <div className="rounded-[26px] overflow-hidden shadow-lg aspect-[4/3]">
-                <img src={s.img} alt={s.t} className="w-full h-full object-cover" />
-              </div>
-            </div>
-          </motion.section>
-        ))}
-      </div>
-
-      {/* ── Vetting deep-dive ── */}
-      <section className="bg-[#0E1A14]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-          <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }} className="max-w-3xl mb-12">
-            <p className="text-[13px] font-medium text-[#5FD3A6] tracking-widest uppercase">{vetting.eyebrow}</p>
-            <h2 className="text-3xl sm:text-[40px] font-heading font-bold text-white mt-3 text-balance leading-tight">{vetting.heading}</h2>
-            <p className="text-white/65 mt-4 text-[17px] leading-relaxed">{vetting.intro}</p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 gap-5">
-            {vetting.layers.map((layer, i) => (
-              <motion.div key={layer.n} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="bg-white/[0.05] ring-1 ring-white/10 rounded-2xl p-7">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-[#5FD3A6] text-[#0E1A14] flex items-center justify-center font-heading font-extrabold text-[13px] shrink-0">
-                    {layer.n}
-                  </div>
-                  <h3 className="font-heading font-bold text-white text-[17px]">{layer.t}</h3>
+      {/* Benefits strip */}
+      <section className="bg-white border-b border-[#EBEBEB] py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {BENEFITS.map(({ icon: Icon, title, body }, i) => (
+              <motion.div
+                key={title}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="flex items-start gap-3"
+              >
+                <div className="w-9 h-9 rounded-xl bg-[#EAF5F1] flex items-center justify-center shrink-0">
+                  <Icon className="w-4 h-4 text-[#0B6B4F]" />
                 </div>
-                <p className="text-[15px] text-white/65 leading-relaxed">{layer.d}</p>
+                <div>
+                  <p className="font-heading font-bold text-[14px] text-[#111] mb-0.5">{title}</p>
+                  <p className="text-[12.5px] text-[#666] leading-relaxed">{body}</p>
+                </div>
               </motion.div>
             ))}
           </div>
-
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
-            className="mt-6 bg-[#5FD3A6]/10 ring-1 ring-[#5FD3A6]/25 rounded-xl px-6 py-4">
-            <p className="text-[14px] text-[#5FD3A6] leading-relaxed">{vetting.note}</p>
-          </motion.div>
         </div>
       </section>
 
-      {/* ── Arrears ladder ── */}
-      <section className="bg-[#F9F8F6]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-          <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }} className="max-w-2xl mb-12">
-            <p className="text-[13px] font-medium text-[#0B6B4F] tracking-widest uppercase">{arrears.eyebrow}</p>
-            <h2 className="text-3xl sm:text-[40px] font-heading font-bold text-[#1A2E25] mt-3 text-balance leading-tight">{arrears.heading}</h2>
-            <p className="text-[#4A564F] mt-4 text-[17px] leading-relaxed">{arrears.intro}</p>
-          </motion.div>
+      {/* Step by step */}
+      <section className="py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] font-heading font-extrabold text-[#111] mb-10 text-center"
+          >
+            From sign-up to first driver in 5 steps
+          </motion.h2>
 
           <div className="relative">
-            {/* Vertical line on desktop */}
-            <div className="hidden lg:block absolute left-[88px] top-0 bottom-0 w-px bg-[#0B6B4F]/15" aria-hidden="true" />
-            <div className="space-y-5">
-              {arrears.ladder.map((step, i) => (
-                <motion.div key={step.day} initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
-                  className="flex gap-5 lg:gap-8 items-start">
-                  <div className="shrink-0 w-[72px] lg:w-[88px] text-right">
-                    <span className={`text-[13px] font-heading font-bold tracking-wide ${i >= 4 ? "text-[#C05B2B]" : "text-[#0B6B4F]"}`}>{step.day}</span>
+            <div className="absolute left-[20px] top-0 bottom-0 w-px bg-[#E8E8E8] hidden sm:block" />
+            <div className="space-y-6">
+              {STEPS.map(({ num, icon: Icon, title, body, detail }, i) => (
+                <motion.div
+                  key={num}
+                  {...FADE_UP}
+                  transition={{ duration: 0.4, delay: i * 0.07 }}
+                  className="relative sm:pl-14"
+                >
+                  <div className="hidden sm:flex absolute left-0 top-0 w-10 h-10 rounded-full bg-white border-2 border-[#0B6B4F] items-center justify-center">
+                    <Icon className="w-4 h-4 text-[#0B6B4F]" />
                   </div>
-                  <div className="relative flex items-start gap-4 flex-1">
-                    <div className={`hidden lg:flex w-3.5 h-3.5 rounded-full shrink-0 mt-0.5 border-2 ${i >= 4 ? "bg-[#C05B2B] border-[#C05B2B]" : "bg-[#0B6B4F] border-[#0B6B4F]"}`} />
-                    <div className="bg-white rounded-xl p-5 ring-1 ring-slate-200/70 flex-1 shadow-sm">
-                      <p className="text-[15px] text-[#1A2E25] leading-relaxed">{step.action}</p>
+                  <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="sm:hidden w-10 h-10 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-[#0B6B4F]" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-[11px] font-bold text-[#0B6B4F] tracking-widest">{num}</span>
+                          <h3 className="font-heading font-bold text-[17px] text-[#111]">{title}</h3>
+                        </div>
+                        <p className="text-[14px] text-[#555] leading-relaxed mb-3">{body}</p>
+                        <div className="inline-flex items-center gap-1.5 text-[12px] text-[#888] bg-[#F8F8F8] rounded-full px-3 py-1">
+                          <Clock className="w-3 h-3" />
+                          {detail}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
-
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
-            className="mt-10 bg-[#1A2E25]/6 rounded-xl px-6 py-5">
-            <p className="text-[15px] text-[#4A564F] leading-relaxed">{arrears.immobilisation}</p>
-          </motion.div>
         </div>
       </section>
 
-      {/* ── Tracking rules ── */}
-      <section className="bg-[#0E1A14]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="max-w-2xl mb-10">
-            <p className="text-[13px] font-medium text-[#5FD3A6] tracking-widest uppercase">{tracking.eyebrow}</p>
-            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-white mt-3 text-balance">{tracking.heading}</h2>
-            <p className="text-white/65 mt-3 text-[16px] leading-relaxed">{tracking.intro}</p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 gap-5">
-            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-              className="bg-white/[0.06] ring-1 ring-white/10 rounded-2xl p-6">
-              <div className="flex items-center gap-2.5 mb-5">
-                <div className="w-8 h-8 rounded-full bg-[#5FD3A6]/15 flex items-center justify-center">
-                  <Eye className="w-4 h-4 text-[#5FD3A6]" />
-                </div>
-                <span className="text-white font-heading font-bold">You see</span>
-              </div>
-              <ul className="space-y-3">
-                {tracking.operatorSees.map((item) => (
-                  <li key={item} className="flex gap-2.5 text-[14px] text-white/65 leading-relaxed">
-                    <span className="text-[#5FD3A6] shrink-0 mt-0.5">→</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.18 }}
-              className="bg-white/[0.04] ring-1 ring-white/8 rounded-2xl p-6">
-              <div className="flex items-center gap-2.5 mb-5">
-                <div className="w-8 h-8 rounded-full bg-white/8 flex items-center justify-center">
-                  <EyeOff className="w-4 h-4 text-white/50" />
-                </div>
-                <span className="text-white/70 font-heading font-bold">Kharo holds separately</span>
-              </div>
-              <ul className="space-y-3">
-                {tracking.kharoHolds.map((item) => (
-                  <li key={item} className="flex gap-2.5 text-[14px] text-white/55 leading-relaxed">
-                    <span className="text-white/30 shrink-0 mt-0.5">→</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Earnings calculator ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="bg-[#0E1A14] rounded-[26px] p-7 sm:p-12 text-white">
-          <p className="text-[13px] font-medium text-[#5FD3A6] tracking-widest uppercase">Your earning potential</p>
-          <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-end mt-3">
+      {/* Driver vetting */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-heading font-bold text-balance">See what your fleet could bring in.</h2>
-              <p className="text-white/70 mt-3 text-[16px] leading-relaxed">Real figures based on typical London weekly rates at 85% utilisation, before our flat 10% fee. Register to get a full breakdown for your exact fleet.</p>
+              <motion.h2
+                {...FADE_UP}
+                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
+              >
+                Every driver vetted before you speak to them
+              </motion.h2>
+              <p className="text-[15px] text-[#666] leading-relaxed mb-6">
+                You'll only receive leads from drivers who have passed Kharo's 4-layer check.
+                You still retain full control over who you rent to.
+              </p>
+              <ul className="space-y-2.5">
+                {WHAT_WE_CHECK.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[14px] text-[#444]">
+                    <span className="w-5 h-5 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-3 h-3 text-[#0B6B4F]" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="rounded-2xl bg-white/[0.06] ring-1 ring-white/10 p-6">
-              <div className="text-[12px] text-white/55 uppercase tracking-wide">A well run car earns up to</div>
-              <div className="text-[44px] sm:text-6xl font-heading font-extrabold text-[#5FD3A6] leading-none mt-2">
-                £14,586<span className="text-lg font-normal text-white/55"> / year</span>
+
+            <div className="bg-[#0B6B4F] rounded-2xl p-7 text-white">
+              <BadgeCheck className="w-10 h-10 text-[#5FD3A6] mb-4" />
+              <h3 className="font-heading font-bold text-[20px] mb-3">What the check covers</h3>
+              <div className="space-y-4">
+                {[
+                  { step: "1", label: "DVLA eligibility", desc: "Licence confirmed, points verified against operator threshold" },
+                  { step: "2", label: "Liveness identity", desc: "AI-assisted check against government-issued photo ID" },
+                  { step: "3", label: "Open Banking affordability", desc: "Read-only review, no credit impact on the driver" },
+                  { step: "4", label: "PHV trade record", desc: "History reviewed with previous operators and platforms" },
+                ].map(({ step, label, desc }) => (
+                  <div key={step} className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                      {step}
+                    </span>
+                    <div>
+                      <p className="font-semibold text-[14px]">{label}</p>
+                      <p className="text-white/60 text-[12px]">{desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="text-[13px] text-white/60 mt-2">Executive vehicles, at £330 a week and typical utilisation.</div>
+              <div className="mt-6 pt-5 border-t border-white/15 text-[13px] text-white/60">
+                Vetting runs within 48 hours of the driver registering interest. You are notified when a driver is approved.
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-8">
-            {[["Hybrid saloon", 255], ["Executive", 330], ["Electric", 235], ["Wheelchair accessible", 255]].map(([label, wk]) => {
-              const perYear = Math.round(wk * 52 * 0.85);
-              return (
-                <div key={label} className="bg-white/5 rounded-2xl p-5 ring-1 ring-white/10">
-                  <div className="text-[13px] text-white/60">{label}</div>
-                  <div className="text-2xl font-heading font-extrabold text-[#5FD3A6] mt-2">£{perYear.toLocaleString()}</div>
-                  <div className="text-[12px] text-white/50 mt-1">per car, per year · £{wk}/wk</div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-4">
-            {[5, 15, 30].map((n) => (
-              <div key={n} className="flex items-center justify-between bg-white/5 rounded-2xl p-5 ring-1 ring-white/10">
-                <span className="text-white/70">{n} hybrid saloons</span>
-                <span className="text-xl font-heading font-extrabold text-white">
-                  £{(255 * 52 * 0.85 * n).toLocaleString()}<span className="text-[12px] text-white/50 font-normal">/yr</span>
-                </span>
-              </div>
+      {/* Pricing note */}
+      <section className="py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            Pricing that's aligned with yours
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-10">
+            No monthly fees. No listing charges. Kharo earns only when you do.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              {
+                label: "Listing fee",
+                value: "£0",
+                sub: "Adding your cars to Kharo is free. No monthly subscription.",
+              },
+              {
+                label: "Kharo charges",
+                value: "Completion only",
+                sub: "We earn a fee when a rental completes. No charge for leads that don't convert.",
+              },
+              {
+                label: "Your rate",
+                value: "You set it",
+                sub: "You decide the weekly rate, deposit, and terms. Kharo lists what you tell us.",
+              },
+            ].map(({ label, value, sub }) => (
+              <motion.div
+                key={label}
+                {...FADE_UP}
+                className="bg-white rounded-2xl border border-[#E8E8E8] p-5 text-center"
+              >
+                <p className="text-[12px] font-bold text-[#888] uppercase tracking-wider mb-1">{label}</p>
+                <p className="text-[22px] font-heading font-extrabold text-[#0B6B4F] mb-2">{value}</p>
+                <p className="text-[13px] text-[#666] leading-relaxed">{sub}</p>
+              </motion.div>
             ))}
           </div>
-
-          <Button onClick={() => navigate("/list-your-fleet")} className="mt-8 rounded-full bg-[#5FD3A6] hover:bg-white text-[#0E1A14] font-semibold">
-            Register to see your full breakdown <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
         </div>
       </section>
 
-      {/* ── Closing CTA ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 pt-2">
-        <div className="relative rounded-[26px] overflow-hidden p-10 sm:p-16 text-center">
-          <img src={IMG.handshakeDesk} alt="" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-[#0A130F]/86" />
-          <div className="relative">
-            <h2 className="text-3xl sm:text-4xl font-heading font-bold text-white text-balance">Get your fleet ready for launch.</h2>
-            <p className="text-white/70 mt-3 max-w-xl mx-auto text-[16px] leading-relaxed">Register your interest and take a look at the dashboard you will run everything from.</p>
-            <div className="flex gap-3 justify-center mt-8 flex-wrap">
-              <Button onClick={() => navigate("/list-your-fleet")} className="rounded-full bg-[#5FD3A6] hover:bg-[#0B6B4F] text-[#0E1A14] hover:text-white font-semibold">
-                Register interest
-              </Button>
-            </div>
+      {/* FAQ */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] font-heading font-extrabold text-[#111] mb-10 text-center"
+          >
+            Questions operators ask us
+          </motion.h2>
+          <div className="bg-white rounded-2xl border border-[#E8E8E8] px-6 py-2">
+            {FAQS.map((faq) => (
+              <Faq key={faq.q} {...faq} />
+            ))}
+          </div>
+          <p className="text-[13px] text-[#888] text-center mt-6">
+            Still have questions?{" "}
+            <button
+              onClick={() => navigate("/help")}
+              className="text-[#0B6B4F] font-medium hover:underline"
+            >
+              Visit our help centre
+            </button>
+          </p>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-[#111] py-14 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
+            Ready to stop losing revenue to idle cars?
+          </h2>
+          <p className="text-white/60 text-[15px] mb-8 max-w-md mx-auto">
+            List your fleet on Kharo. A fleet specialist will call you within 1 working day.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <a
+              href="/list-your-fleet"
+              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#5FD3A6] transition-colors"
+            >
+              List your fleet
+            </a>
+            <button
+              onClick={() => navigate("/help")}
+              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+            >
+              Talk to us first
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </section>
-
-    </main>
+    </div>
   );
 }

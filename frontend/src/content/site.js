@@ -310,17 +310,17 @@ export const DRIVER_GUIDE = {
   steps: [
     {
       n: "01", t: "Check you qualify",
-      d: "You need a valid TfL or council private hire driver licence, a DVLA record that meets insurer thresholds — no more than one fault accident in three years — and the right to work in the UK for private hire. Takes a minute to check; we tell you immediately if anything needs attention.",
+      d: "You need a valid TfL or council private hire driver licence, a DVLA record that meets insurer thresholds, no more than one fault accident in three years, and the right to work in the UK for private hire. Takes a minute to check; we tell you immediately if anything needs attention.",
       img: IMG.phoneInCar,
     },
     {
       n: "02", t: "Connect Open Banking",
-      d: "With your consent, we pull twelve months of real transaction data directly from your bank. We look at what actually landed from Uber or Bolt each week — not a number you estimated — and we model your proposed rent against your worst weeks, not your best ones. No shocks later.",
+      d: "With your consent, we pull twelve months of real transaction data directly from your bank. We look at what actually landed from Uber or Bolt each week, not a number you estimated, and we model your proposed rent against your worst weeks, not your best ones. No shocks later.",
       img: IMG.signingCouple,
     },
     {
       n: "03", t: "Verify your identity",
-      d: "Document scan, liveness check and an address verification. We also check for duplicate applications across the driver base at this point. It takes roughly five minutes and protects you as much as us — your badge can only appear in one active rental at a time.",
+      d: "Document scan, liveness check and an address verification. We also check for duplicate applications across the driver base at this point. It takes roughly five minutes and protects you as much as us. Your badge can only appear in one active rental at a time.",
       img: IMG.signingLaptop,
     },
     {
@@ -330,7 +330,7 @@ export const DRIVER_GUIDE = {
     },
     {
       n: "05", t: "Check the car in together",
-      d: "You and the operator complete a joint condition record using the app. Photographs are timestamped and kept on file. This protects you as much as the operator — there is no argument later about whether a mark was already there when you collected the car.",
+      d: "You and the operator complete a joint condition record using the app. Photographs are timestamped and kept on file. This protects you as much as the operator. There is no argument later about whether a mark was already there when you collected the car.",
       img: IMG.keysWoman,
     },
     {
@@ -346,9 +346,9 @@ export const DRIVER_GUIDE = {
     kharo: {
       label: "Kharo sees",
       items: [
-        "Live location — only if the vehicle is reported stolen, rental is in serious arrears, or you ask us to locate it",
-        "Ignition state and mileage — for service intervals and your mileage cap",
-        "Impact alerts — so we call you after a collision, rather than waiting to be told",
+        "Live location: only if the vehicle is reported stolen, rental is in serious arrears, or you ask us to locate it",
+        "Ignition state and mileage: for service intervals and your mileage cap",
+        "Impact alerts: so we call you after a collision, rather than waiting to be told",
       ],
     },
     operator: {
@@ -356,7 +356,7 @@ export const DRIVER_GUIDE = {
       items: [
         "Mileage and whether the car is in use",
         "Service and MOT reminders",
-        "Not your live location — ever",
+        "Not your live location, ever",
       ],
     },
   },
@@ -365,15 +365,15 @@ export const DRIVER_GUIDE = {
     heading: "A driver off the road loses around £150 a day. We build the whole damage process around that number.",
     steps: [
       { when: "Immediately", d: "If anyone is injured, call 999 first. Then one button in the app, and guided photographs." },
-      { when: "Within 30 minutes", d: "A person — not a form — calls you. We establish whether the car is drivable and agree what happens next on that call." },
+      { when: "Within 30 minutes", d: "A person (not a form) calls you. We establish whether the car is drivable and agree what happens next on that call." },
       { when: "Same day", d: "If the vehicle cannot be driven, recovery is arranged. A replacement option is discussed on the same call." },
       { when: "We handle the rest", d: "Garage coordination and operator authorisation are handled by us. You never have to phone a repair shop yourself." },
     ],
     liability: [
       ["Fair wear and tear", "Your operator"],
       ["Damage below your excess", "You, from your deposit"],
-      ["Damage above the excess", "The insurer — we handle the claim"],
-      ["A third party at fault", "Their insurer — we handle the recovery"],
+      ["Damage above the excess", "The insurer; we handle the claim"],
+      ["A third party at fault", "Their insurer; we handle the recovery"],
       ["Mechanical failure", "Your operator"],
       ["Parking, congestion, ULEZ charges", "You"],
     ],
@@ -412,7 +412,7 @@ export const OPERATOR_GUIDE = {
       {
         n: "1",
         t: "Eligibility",
-        d: "PHV badge verified against the TfL licensing register. Driving licence pulled directly from the DVLA using the driver's consent code — not a photo of a card, but the live record. Age and licence tenure checked against insurer thresholds. Minimum: 25 years old, at least one year of PHV experience, licence held two years, no more than one fault accident in three years.",
+        d: "PHV badge verified against the TfL licensing register. Driving licence pulled directly from the DVLA using the driver's consent code, not a photo of a card, but the live record. Age and licence tenure checked against insurer thresholds. Minimum: 25 years old, at least one year of PHV experience, licence held two years, no more than one fault accident in three years.",
       },
       {
         n: "2",
@@ -422,7 +422,7 @@ export const OPERATOR_GUIDE = {
       {
         n: "3",
         t: "Affordability",
-        d: "With the driver's consent, Open Banking gives us twelve months of real transaction history in seconds. We look at what actually landed from Uber or Bolt each week. We model the proposed rent against the driver's worst weeks — the tenth percentile — not their average. A driver who earns well most weeks but has bad weeks they cannot cover is a driver who will default.",
+        d: "With the driver's consent, Open Banking gives us twelve months of real transaction history in seconds. We look at what actually landed from Uber or Bolt each week. We model the proposed rent against the driver's worst weeks (the tenth percentile), not their average. A driver who earns well most weeks but has bad weeks they cannot cover is a driver who will default.",
       },
       {
         n: "4",
@@ -430,7 +430,7 @@ export const OPERATOR_GUIDE = {
         d: "Platform tenure, previous operator references, and payment history from across Kharo's driver network. A driver who has rented well for two years carries a record you can see. A driver with an arrears history elsewhere cannot hide it.",
       },
     ],
-    note: "High-risk drivers are offered a higher deposit or twice-weekly billing — shorter exposure cycles — rather than a binary yes or no. You decide whether to accept those terms.",
+    note: "High-risk drivers are offered a higher deposit or twice-weekly billing (shorter exposure cycles), rather than a binary yes or no. You decide whether to accept those terms.",
   },
   steps: [
     {
@@ -472,13 +472,13 @@ export const OPERATOR_GUIDE = {
   arrears: {
     eyebrow: "If a driver falls behind",
     heading: "The full ladder, published.",
-    intro: "Almost nobody who falls behind is avoiding payment. They have had a bad week. The sequence starts with a conversation, every step is timed, and all of it is published so nothing catches a driver off guard — which means you are more likely to recover the income and keep the driver than you would be with a less transparent process.",
+    intro: "Almost nobody who falls behind is avoiding payment. They have had a bad week. The sequence starts with a conversation, every step is timed, and all of it is published so nothing catches a driver off guard, which means you are more likely to recover the income and keep the driver than you would be with a less transparent process.",
     ladder: [
       { day: "Day 0", action: "Payment fails. Driver notified immediately. Automatic retry in 24 hours. No fee to the driver." },
       { day: "Day 1", action: "A Kharo team member calls the driver. Payment plan offered on that call. You are notified of the failure." },
       { day: "Day 3", action: "Written notice to the driver. Payment plan still available. A late fee applies. You receive a written update." },
       { day: "Day 7", action: "Formal notice to the driver that immobilisation may follow. Final chance for an arrangement. Replacement driver search begins." },
-      { day: "Day 10", action: "Vehicle immobilised — it will not restart. Authorised by a named Kharo manager, never automatic. You are notified." },
+      { day: "Day 10", action: "Vehicle immobilised: it will not restart. Authorised by a named Kharo manager, never automatic. You are notified." },
       { day: "Day 14", action: "Recovery instructed. You and your insurer are notified. Deposit applied against arrears." },
     ],
     immobilisation: "The immobiliser prevents the engine restarting. It never stops a moving vehicle and is never used while a passenger is aboard. It applies at day ten specifically because it is most effective as a credible threat that makes the day-one conversation work. Operators who immobilise quickly recover the car and lose the driver. Operators who resolve arrears keep both.",
@@ -486,7 +486,7 @@ export const OPERATOR_GUIDE = {
   tracking: {
     eyebrow: "What the tracker does",
     heading: "Your visibility. The driver's privacy.",
-    intro: "You see what you need to manage the fleet. Drivers' live location is held by Kharo, not shared with you, and accessed only under a logged procedure. This is not a restriction — it is the reason drivers will accept a tracked vehicle and the terms that come with it.",
+    intro: "You see what you need to manage the fleet. Drivers' live location is held by Kharo, not shared with you, and accessed only under a logged procedure. This is not a restriction; it is the reason drivers will accept a tracked vehicle and the terms that come with it.",
     operatorSees: [
       "Mileage and whether the vehicle is in use",
       "Service and MOT reminders triggered by mileage",
@@ -494,8 +494,8 @@ export const OPERATOR_GUIDE = {
       "Alerts if the vehicle leaves the licensed operating area",
     ],
     kharoHolds: [
-      "Live location — accessed only in logged procedures for theft, serious arrears or driver request",
-      "Location history — retained for 90 days, then deleted",
+      "Live location: accessed only in logged procedures for theft, serious arrears or driver request",
+      "Location history: retained for 90 days, then deleted",
     ],
   },
 };

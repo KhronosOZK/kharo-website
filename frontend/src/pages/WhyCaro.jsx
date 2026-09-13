@@ -1,127 +1,449 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { WHY } from "@/content/site";
+import {
+  Check, X, ShieldCheck, Search, BadgeCheck, Users, Zap,
+  ChevronRight, Clock, Wallet, FileCheck,
+} from "lucide-react";
+import { useSeo } from "@/lib/seo";
 
-const driverPoints = WHY.drivers.points;
-const operatorPoints = WHY.operators.points;
+const FADE_UP = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.5 },
+};
+
+const PROBLEMS = [
+  {
+    problem: "Hidden fees discovered after you commit",
+    solution: "One all-in weekly price (rent, insurance, breakdown), listed upfront. No surprises.",
+  },
+  {
+    problem: "Operators with no checks, no accountability",
+    solution: "Every operator verified against Companies House and the PHV licensing register before listing.",
+  },
+  {
+    problem: "Weeks of back-and-forth before you're behind the wheel",
+    solution: "4-layer vetting takes 48 hours. Active PCO licence? Most drivers collect within 3 working days.",
+  },
+  {
+    problem: "Brokers who take a cut and disappear",
+    solution: "Kharo connects you directly to the operator. You agree terms with them, not a middleman.",
+  },
+];
+
+const PILLARS = [
+  {
+    icon: Search,
+    title: "Transparent listings",
+    body: "Every listing shows the full weekly price: rent, insurance, and breakdown bundled in. What you see is what you pay.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Verified operators",
+    body: "We cross-check every fleet operator against the PHV licensing register and Companies House before their cars go live.",
+  },
+  {
+    icon: BadgeCheck,
+    title: "4-layer driver vetting",
+    body: "DVLA check, liveness identity verification, Open Banking affordability (no credit impact), and PHV trade record review.",
+  },
+  {
+    icon: Users,
+    title: "Direct operator contact",
+    body: "After you check availability, the operator calls you. No middleman between you and the fleet manager.",
+  },
+  {
+    icon: Clock,
+    title: "Faster to the wheel",
+    body: "Our vetting means most approved drivers collect their car within 3 working days, not 3 weeks.",
+  },
+  {
+    icon: Wallet,
+    title: "Flexible terms",
+    body: "Start weekly. Commit to longer for a lower rate. No lock-ins, no penalty clauses for genuine circumstances.",
+  },
+];
+
+const COMPARE = [
+  { label: "All-in weekly price (no hidden extras)", kharo: true, them: false },
+  { label: "Operator verified before listing", kharo: true, them: false },
+  { label: "Driver vetting within 48 hours", kharo: true, them: false },
+  { label: "Direct operator contact, no middleman", kharo: true, them: false },
+  { label: "TfL-eligible cars only", kharo: true, them: null },
+  { label: "Thatcham S5 tracking standard", kharo: true, them: null },
+  { label: "Flexible weekly terms", kharo: true, them: null },
+];
+
+const VETTING_STEPS = [
+  {
+    num: "01",
+    title: "DVLA eligibility check",
+    body: "Licence confirmed against DVLA records. Points verified. Any endorsements reviewed against operator thresholds.",
+  },
+  {
+    num: "02",
+    title: "Liveness identity check",
+    body: "AI-assisted check against photo ID. Confirms you are who you say you are. No in-person visit needed..",
+  },
+  {
+    num: "03",
+    title: "Open Banking affordability",
+    body: "Read-only review of your account activity. No credit impact. Confirms you can cover the weekly rental.",
+  },
+  {
+    num: "04",
+    title: "PHV trade record review",
+    body: "Your history with other operators and platforms reviewed. Rewards reliable drivers with better placement.",
+  },
+];
 
 export default function WhyCaro() {
   const navigate = useNavigate();
-  return (
-    <main>
 
-      {/* ── Hero ── */}
-      <section className="relative overflow-hidden min-h-[480px] flex items-center">
-        <img src={WHY.hero.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A130F]/95 via-[#0A130F]/65 to-[#0A130F]/20" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0A130F]/70 to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32 w-full">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-[13px] font-medium text-[#5FD3A6] tracking-widest uppercase">{WHY.hero.eyebrow}</p>
-            <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-white mt-4 max-w-2xl leading-[1.03] text-balance">{WHY.hero.heading}</h1>
-            <p className="text-white/75 mt-5 text-[18px] max-w-xl leading-relaxed">{WHY.hero.sub}</p>
+  useSeo({
+    title: "Why Kharo · Verified PCO Rentals in London",
+    description:
+      "Kharo is a PCO car rental marketplace where every listing is all-in and every operator is verified. No hidden fees, no unaccountable landlords.",
+  });
+
+  return (
+    <div className="min-h-screen bg-[#F5F5F5]">
+
+      {/* Hero */}
+      <section className="bg-white border-b border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.p
+            {...FADE_UP}
+            className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-4"
+          >
+            Why Kharo
+          </motion.p>
+          <motion.h1
+            {...FADE_UP}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-[40px] sm:text-5xl lg:text-[54px] font-heading font-extrabold text-[#111] leading-[1.05] tracking-tight text-balance"
+          >
+            PCO car rental that's actually clear.
+          </motion.h1>
+          <motion.p
+            {...FADE_UP}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-[17px] text-[#666] mt-5 max-w-xl mx-auto leading-relaxed"
+          >
+            Every listing on Kharo shows one real price. Every operator is checked before they list.
+            Every driver is vetted before they drive.
+          </motion.p>
+          <motion.div
+            {...FADE_UP}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-8 flex flex-wrap gap-3 justify-center"
+          >
+            <button
+              onClick={() => navigate("/search")}
+              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
+            >
+              Browse PCO cars
+            </button>
+            <button
+              onClick={() => navigate("/driver-guide")}
+              className="px-7 py-3.5 rounded-full border border-[#E0E0E0] text-[#333] font-medium text-[15px] hover:bg-[#F5F5F5] transition-colors flex items-center gap-2"
+            >
+              How it works
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </motion.div>
         </div>
       </section>
 
-      {/* ── Headline stat ── */}
-      <section className="bg-[#0A130F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-          <div className="flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-16">
-            <div className="flex-1">
-              <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }}>
-                <div className="text-[64px] sm:text-[88px] font-heading font-extrabold text-[#5FD3A6] leading-none tracking-tight">
-                  {WHY.stat.number}
+      {/* The problem */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            What PCO drivers deal with every day
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-10">
+            And how Kharo addresses each one.
+          </p>
+
+          <div className="space-y-4">
+            {PROBLEMS.map(({ problem, solution }, i) => (
+              <motion.div
+                key={i}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden"
+              >
+                <div className="grid sm:grid-cols-2">
+                  <div className="p-5 sm:border-r border-b sm:border-b-0 border-[#F0F0F0] flex items-start gap-3">
+                    <X className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
+                    <p className="text-[14px] text-[#666] leading-relaxed">{problem}</p>
+                  </div>
+                  <div className="p-5 bg-[#FAFFFE] flex items-start gap-3">
+                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" />
+                    <p className="text-[14px] text-[#444] leading-relaxed font-medium">{solution}</p>
+                  </div>
                 </div>
-                <p className="text-white text-xl sm:text-2xl font-heading font-bold mt-3 max-w-lg text-balance leading-snug">
-                  {WHY.stat.label}
-                </p>
-                <p className="text-white/50 text-[13px] mt-2">{WHY.stat.source}</p>
               </motion.div>
-            </div>
-            <div className="lg:max-w-md">
-              <p className="text-white/70 text-[17px] leading-relaxed">{WHY.stat.context}</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── For drivers ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="rounded-[26px] overflow-hidden aspect-[4/3] shadow-xl order-1 lg:order-none">
-            <img src={WHY.drivers.img} alt="Driver" className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <p className="text-[13px] font-medium text-[#0B6B4F] tracking-widest uppercase">{WHY.drivers.eyebrow}</p>
-            <h2 className="text-3xl sm:text-[42px] font-heading font-extrabold text-[#1A2E25] mt-3 text-balance leading-tight">{WHY.drivers.heading}</h2>
-            <div className="mt-8 space-y-7">
-              {driverPoints.map((p, i) => (
-                <motion.div key={p.t} initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.4 }} className="flex gap-4">
-                  <div className="w-7 h-7 rounded-full bg-[#0B6B4F] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
-                  </div>
-                  <div>
-                    <h3 className="font-heading font-bold text-[#1A2E25] text-[16px]">{p.t}</h3>
-                    <p className="text-[15px] text-[#4A564F] mt-1.5 leading-relaxed">{p.d}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            <Button onClick={() => navigate("/")} className="mt-10 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold px-6">
-              {WHY.drivers.cta} <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+      {/* Our pillars */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            What Kharo does differently
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-10">
+            Six commitments that run through every listing on the platform.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PILLARS.map(({ icon: Icon, title, body }, i) => (
+              <motion.div
+                key={title}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="bg-[#F8F8F8] rounded-2xl p-5"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
+                  <Icon className="w-5 h-5 text-[#0B6B4F]" />
+                </div>
+                <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
+                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── For operators — dark band ── */}
-      <section className="bg-[#0E1A14]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      {/* Comparison table */}
+      <section className="py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            Kharo vs. the rest
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-8">
+            How Kharo compares to unverified listings and traditional PCO brokers.
+          </p>
+          <motion.div
+            {...FADE_UP}
+            className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden"
+          >
+            {/* Header row */}
+            <div className="grid grid-cols-3 bg-[#F8F8F8] border-b border-[#E8E8E8]">
+              <div className="col-span-1 px-5 py-3" />
+              <div className="col-span-1 px-4 py-3 text-center">
+                <span className="text-[13px] font-extrabold text-[#0B6B4F]">Kharo</span>
+              </div>
+              <div className="col-span-1 px-4 py-3 text-center">
+                <span className="text-[13px] font-semibold text-[#888]">Others</span>
+              </div>
+            </div>
+
+            {/* Feature rows */}
+            {COMPARE.map(({ label, kharo, them }, i) => (
+              <div
+                key={label}
+                className={`grid grid-cols-3 ${i < COMPARE.length - 1 ? "border-b border-[#F0F0F0]" : ""}`}
+              >
+                <div className="col-span-1 px-5 py-4">
+                  <span className="text-[13px] text-[#444]">{label}</span>
+                </div>
+                <div className="col-span-1 px-4 py-4 flex justify-center items-center">
+                  {kharo ? (
+                    <span className="w-6 h-6 rounded-full bg-[#EAF5F1] flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-[#0B6B4F]" />
+                    </span>
+                  ) : (
+                    <span className="w-6 h-6 rounded-full bg-[#FEF2F2] flex items-center justify-center">
+                      <X className="w-3.5 h-3.5 text-[#DC2626]" />
+                    </span>
+                  )}
+                </div>
+                <div className="col-span-1 px-4 py-4 flex justify-center items-center">
+                  {them === true ? (
+                    <span className="w-6 h-6 rounded-full bg-[#EAF5F1] flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-[#0B6B4F]" />
+                    </span>
+                  ) : them === false ? (
+                    <span className="w-6 h-6 rounded-full bg-[#FEF2F2] flex items-center justify-center">
+                      <X className="w-3.5 h-3.5 text-[#DC2626]" />
+                    </span>
+                  ) : (
+                    <span className="text-[13px] text-[#CCC]">Varies</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 4-Layer Vetting */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-[13px] font-medium text-[#5FD3A6] tracking-widest uppercase">{WHY.operators.eyebrow}</p>
-              <h2 className="text-3xl sm:text-[42px] font-heading font-extrabold text-white mt-3 text-balance leading-tight">{WHY.operators.heading}</h2>
-              <div className="mt-8 space-y-7">
-                {operatorPoints.map((p, i) => (
-                  <motion.div key={p.t} initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.4 }} className="flex gap-4">
-                    <div className="w-7 h-7 rounded-full bg-[#5FD3A6] text-[#0E1A14] flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                      <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
-                    </div>
+              <motion.p
+                {...FADE_UP}
+                className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+              >
+                How vetting works
+              </motion.p>
+              <motion.h2
+                {...FADE_UP}
+                transition={{ duration: 0.5, delay: 0.05 }}
+                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
+              >
+                4-layer vetting in 48 hours
+              </motion.h2>
+              <p className="text-[15px] text-[#666] leading-relaxed mb-8">
+                Thorough enough to protect operators. Fast enough not to cost you the week.
+                No in-person appointments. Complete it from your phone.
+              </p>
+              <div className="space-y-5">
+                {VETTING_STEPS.map(({ num, title, body }, i) => (
+                  <motion.div
+                    key={num}
+                    {...FADE_UP}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
+                    className="flex items-start gap-4"
+                  >
+                    <span className="text-[32px] font-heading font-extrabold text-[#EBEBEB] leading-none shrink-0 w-10">
+                      {num}
+                    </span>
                     <div>
-                      <h3 className="font-heading font-bold text-white text-[16px]">{p.t}</h3>
-                      <p className="text-[15px] text-white/65 mt-1.5 leading-relaxed">{p.d}</p>
+                      <p className="font-heading font-bold text-[15px] text-[#111] mb-1">{title}</p>
+                      <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
                     </div>
                   </motion.div>
                 ))}
               </div>
-              <Button onClick={() => navigate("/list-your-fleet")} className="mt-10 rounded-full bg-white text-[#0E1A14] hover:bg-[#F1EFE9] font-semibold px-6">
-                {WHY.operators.cta} <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
             </div>
-            <div className="rounded-[26px] overflow-hidden aspect-[4/3] shadow-xl">
-              <img src={WHY.operators.img} alt="Fleet" className="w-full h-full object-cover" />
+
+            {/* Stats card */}
+            <div className="bg-[#0B6B4F] rounded-2xl p-7 text-white">
+              <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-6">
+                The London PCO market
+              </p>
+              <div className="space-y-7">
+                <div>
+                  <div className="text-[54px] font-heading font-extrabold text-white leading-none">
+                    12,712
+                  </div>
+                  <p className="text-white/70 text-[14px] mt-1">
+                    More licensed PHV drivers than available vehicles in London
+                    <br />
+                    <span className="text-white/40 text-[12px]">TfL May 2026</span>
+                  </p>
+                </div>
+                <div className="border-t border-white/15 pt-6">
+                  <div className="text-[36px] font-heading font-extrabold text-white leading-none">
+                    48 hrs
+                  </div>
+                  <p className="text-white/70 text-[14px] mt-1">
+                    Typical vetting turnaround from application to approval
+                  </p>
+                </div>
+                <div className="border-t border-white/15 pt-6">
+                  <div className="text-[36px] font-heading font-extrabold text-white leading-none">
+                    3 days
+                  </div>
+                  <p className="text-white/70 text-[14px] mt-1">
+                    Most approved drivers collect their car within 3 working days
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Closing CTA ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-          className="bg-[#F1EFE9] rounded-[26px] p-8 sm:p-14 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-[#1A2E25] text-balance">{WHY.closing.heading}</h2>
-            <p className="text-[#4A564F] mt-2 text-[15px] max-w-md">{WHY.closing.sub}</p>
+      {/* Operator trust section */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            Every operator checked before they list
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-10 max-w-xl mx-auto">
+            Drivers deserve to know who they're renting from. Kharo verifies every fleet operator
+            before a single listing goes live.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              {
+                icon: FileCheck,
+                title: "Companies House verified",
+                body: "We confirm the operator is a registered UK entity in good standing before they list.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "PHV licensing register",
+                body: "Every operator's PHV licence is checked against the relevant local authority register.",
+              },
+              {
+                icon: Zap,
+                title: "TfL-eligible vehicles only",
+                body: "Only TfL-licensed vehicles appear on Kharo. No non-compliant cars, no exceptions.",
+              },
+            ].map(({ icon: Icon, title, body }, i) => (
+              <motion.div
+                key={title}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className="bg-white rounded-2xl border border-[#E8E8E8] p-5 text-center"
+              >
+                <div className="w-11 h-11 rounded-xl bg-[#EAF5F1] flex items-center justify-center mx-auto mb-4">
+                  <Icon className="w-5 h-5 text-[#0B6B4F]" />
+                </div>
+                <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
+                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+              </motion.div>
+            ))}
           </div>
-          <Button onClick={() => navigate("/")} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold shrink-0 px-6">
-            {WHY.closing.cta} <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </motion.div>
+        </div>
       </section>
 
-    </main>
+      {/* CTA */}
+      <section className="bg-[#111] py-14 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
+            Ready to see for yourself?
+          </h2>
+          <p className="text-white/60 text-[15px] mb-8 max-w-md mx-auto">
+            Browse verified PCO cars across London. One weekly price, no surprises.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <button
+              onClick={() => navigate("/search")}
+              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#5FD3A6] transition-colors"
+            >
+              Browse PCO cars
+            </button>
+            <button
+              onClick={() => navigate("/list-your-fleet")}
+              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+            >
+              List your fleet
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
