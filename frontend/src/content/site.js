@@ -747,3 +747,41 @@ export const APPLY = {
     ],
   },
 };
+
+export const SELL = {
+  hero: {
+    eyebrow: "PCO Vehicle Marketplace",
+    heading: "Sell your PCO-licensed vehicle",
+    sub: "List your TfL-licensed vehicle and connect directly with verified buyers. No agency fees, no middlemen.",
+  },
+  points: [
+    { icon: "Users", t: "Direct to verified buyers", d: "Every buyer on Kharo is identity-checked and TfL-licensed. No tyre-kickers." },
+    { icon: "Tag", t: "Set your own price", d: "List at the price you want. We never take a cut of your sale." },
+    { icon: "ShieldCheck", t: "Active PCO licence included", d: "Buyers know exactly when the licence expires. No grey-area transfers." },
+    { icon: "Layers", t: "One vehicle or a whole fleet", d: "Individual drivers and multi-car operators are both welcome." },
+  ],
+  form: {
+    heading: "List your vehicle",
+    sub: "Takes under two minutes. We will match you when the marketplace opens.",
+    note: "Your details are only shared with buyers who match your vehicle. We never sell your information.",
+    successHeading: "You're on the list",
+    successBody: "We'll reach out as soon as we have a match for your vehicle.",
+  },
+  buyer: {
+    successHeading: "Alert set",
+    successBody: "We'll contact you the moment a matching vehicle is listed.",
+  },
+  buyerToggle: {
+    question: "Which side are you on?",
+    sell: "I want to sell",
+    buy: "I want to buy",
+    both: "Both",
+  },
+};
+
+export const MARKETPLACE = {
+  pcoNote: {
+    heading: "Every vehicle comes with an active PCO licence",
+    body: "TfL requires a valid PCO licence on the vehicle, not just the driver. On Kharo every listing shows the exact expiry date so buyers know exactly what they are getting.",
+  },
+};
