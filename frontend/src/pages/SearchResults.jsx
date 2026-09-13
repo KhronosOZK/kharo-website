@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { SlidersHorizontal, ChevronDown, X, Search } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_BOROUGHS, MOCK_MAKES } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 
@@ -202,31 +202,16 @@ export default function SearchResults() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Page header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search by make, model or area..."
-                className="w-full border border-gray-200 pl-9 pr-3 py-2.5 text-sm rounded-sm focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700"
-              />
-            </div>
-            <button
-              onClick={() => setShowSidebar(!showSidebar)}
-              className="flex items-center gap-2 border border-gray-200 bg-white px-3 py-2.5 rounded-sm text-sm text-gray-700 font-medium hover:border-gray-400 lg:hidden"
-            >
-              <SlidersHorizontal size={14} />
-              Filters
-              {hasFilters && <span className="w-4 h-4 bg-green-800 rounded-full text-white text-xs flex items-center justify-center leading-none">{[borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        {/* Mobile filter toggle */}
+        <button
+          onClick={() => setShowSidebar(!showSidebar)}
+          className="flex items-center gap-2 border border-gray-200 bg-white px-3 py-2.5 rounded-sm text-sm text-gray-700 font-medium hover:border-gray-400 lg:hidden mb-4"
+        >
+          <SlidersHorizontal size={14} />
+          Filters
+          {hasFilters && <span className="w-4 h-4 bg-green-800 rounded-full text-white text-xs flex items-center justify-center leading-none">{[borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
+        </button>
         <div className="flex gap-6">
           {/* Desktop sidebar */}
           <div className="hidden lg:block">

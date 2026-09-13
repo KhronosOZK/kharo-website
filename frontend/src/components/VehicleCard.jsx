@@ -21,7 +21,7 @@ export default function VehicleCard({ vehicle }) {
 
   return (
     <article
-      onClick={() => navigate(`/vehicles/${id}`)}
+      onClick={() => navigate(`/vehicle/${id}`)}
       className="group bg-white border border-gray-200 rounded-sm overflow-hidden cursor-pointer hover:border-gray-400 hover:shadow-md transition-all duration-200"
     >
       {/* Image block */}

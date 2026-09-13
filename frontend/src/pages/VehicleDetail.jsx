@@ -284,8 +284,9 @@ export default function VehicleDetail() {
                         £{wk.toFixed(0)}
                         <span className="text-[12px] font-normal text-[#888] ml-1">/ week</span>
                       </div>
-                      <div className={`text-[12px] mt-2 font-medium ${active ? "text-[#0B6B4F]" : "text-[#BBB]"}`}>
-                        {active ? "✓ Selected" : "Select"}
+                      <div className={`flex items-center gap-1 text-[12px] mt-2 font-medium ${active ? "text-[#0B6B4F]" : "text-[#BBB]"}`}>
+                        {active && <Check size={12} strokeWidth={2.5} />}
+                        {active ? "Selected" : "Select"}
                       </div>
                     </button>
                   );

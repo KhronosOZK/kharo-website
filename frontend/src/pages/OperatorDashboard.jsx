@@ -34,9 +34,9 @@ const fleet = [
   ["Tesla Model 3 2023", "TM23 EVX · unassigned", "Available", "£340"],
 ];
 const apps = [
-  ["Priya N.", "4 yrs experience · 4.9★ history · Toyota Camry", "Check passed", true],
+  ["Priya N.", "4 yrs experience · 4.9-star history · Toyota Camry", "Check passed", true],
   ["Tunde A.", "1 yr experience · New driver · Ford Galaxy", "Check pending", false],
-  ["Elif K.", "6 yrs experience · 4.7★ history · Toyota Camry", "Check passed", true],
+  ["Elif K.", "6 yrs experience · 4.7-star history · Toyota Camry", "Check passed", true],
 ];
 const revenue = [["Toyota Prius", "4", "£1,060.00", "£954.00"], ["Skoda Octavia", "4", "£840.00", "£756.00"], ["Toyota Camry", "2", "£560.00", "£504.00"]];
 const compliance = ["MOT due in 12 days, Toyota Prius (LK22 CAR)", "Insurance renewal in 30 days, fleet-wide", "PHV licence renewal in 41 days, Ford Galaxy (LG21 GXY)", "Road tax renewal in 58 days, Skoda Octavia (SK20 OCT)"];
