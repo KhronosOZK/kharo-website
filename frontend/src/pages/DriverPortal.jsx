@@ -86,7 +86,7 @@ export default function DriverPortal() {
           </div>
           {apps.length === 0 ? (
             <div className="text-center py-8">
-              <div className="w-12 h-12 rounded-2xl bg-[#EBEBEB] flex items-center justify-center mx-auto"><Car className="w-6 h-6 text-[#0B6B4F]" strokeWidth={1.5} /></div>
+              <Car className="w-10 h-10 text-[#0B6B4F] mx-auto" strokeWidth={1.5} />
               <p className="text-[15px] text-[#0A0A0A] font-medium mt-3">No applications yet</p>
               <p className="text-[13px] text-[#888888] mt-1">When you apply for a car, you can track the operator's response here.</p>
               <Button onClick={() => navigate("/search")} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white mt-4 text-[13px] h-9">Find your first car</Button>
@@ -96,7 +96,7 @@ export default function DriverPortal() {
               {apps.map((a, i) => { const s = statusMap[a.status] || statusMap.under_review; return (
                 <div key={a.id || a.listing_id || `app-${i}`} className="flex items-center justify-between border border-[#0A0A0A]/10 rounded-2xl p-3.5 hover:bg-[#F5F5F5] transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#EBEBEB] flex items-center justify-center"><Car className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.5} /></div>
+                    <Car className="w-8 h-8 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
                     <div><div className="font-medium text-[#0A0A0A] text-sm">{a.vehicle || "Your application"}</div><div className="text-xs text-[#888888]">Operator · {a.operator_code || "pending"}{a.duration_weeks ? ` · ${a.duration_weeks} weeks` : ""}</div></div>
                   </div>
                   <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full ${s.c}`}><s.i className="w-3 h-3" /> {s.t}</span>
@@ -112,7 +112,7 @@ export default function DriverPortal() {
           <div className="mt-4 space-y-2.5 text-[13.5px]">
             <div className="flex items-center justify-between"><span className="text-[#666666]">Hire &amp; reward insurance</span><span className="text-[#888888]">Priced at checkout</span></div>
             <div className="flex items-center justify-between"><span className="text-[#666666]">MOT &amp; servicing</span><span className="text-[#0B6B4F] font-medium">Handled by operator</span></div>
-            <div className="flex items-center justify-between"><span className="text-[#666666]">Breakdown cover</span><span className="text-[#0B6B4F] font-medium">Included or £8/wk</span></div>
+            <div className="flex items-center justify-between"><span className="text-[#666666]">Breakdown cover</span><span className="text-[#0B6B4F] font-medium">Included or £8 / week</span></div>
           </div>
         </motion.div>
 

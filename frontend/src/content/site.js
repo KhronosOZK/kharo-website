@@ -566,7 +566,7 @@ export const CITY_PAGE = {
       faq: [
         { q: "Do I need a PCO licence to rent a car in London?", a: "Yes. Every private hire vehicle in London needs a TfL licence, and so do you. Have your badge ready and you can get started." },
         { q: "Are the cars ULEZ compliant?", a: "Almost all of them. Our hybrids and electric cars are ULEZ exempt or compliant, so the daily charge does not apply." },
-        { q: "How much does a PCO car cost in London?", a: "Rent only prices start from around £130 a week. Insurance and breakdown cover are shown on top, so the full weekly figure is clear from the start." },
+        { q: "How much does a PCO car cost in London?", a: "Prices start from around £225 a week, all-in. Insurance and breakdown cover are already included in that figure, so there's nothing added on top." },
       ],
     },
     Birmingham: {
@@ -582,7 +582,7 @@ export const CITY_PAGE = {
       faq: [
         { q: "Do I need a Manchester council licence?", a: "Yes. You need a private hire driver and vehicle licence from your local council, and our operators can help you get plated." },
         { q: "Are electric cars a good choice in Manchester?", a: "They can be. Charging points are widespread across the city and running costs are very low. We list electric and hybrid options here." },
-        { q: "What will it cost me each week?", a: "Rent starts from around £130 a week, with insurance and cover shown clearly on top." },
+        { q: "What will it cost me each week?", a: "Prices start from around £225 a week, with insurance and breakdown cover already included in that figure." },
       ],
     },
     Leeds: {
@@ -780,8 +780,69 @@ export const SELL = {
 };
 
 export const MARKETPLACE = {
+  hero: {
+    eyebrow: "Kharo Marketplace",
+    heading: "Buy or sell a PCO-ready private hire vehicle",
+    sub: "Browse TfL-eligible cars for sale from verified sellers, with the PCO licence and its expiry shown on every listing. No dealer fees, no middleman.",
+    img: "https://images.pexels.com/photos/29566898/pexels-photo-29566898/free-photo-of-aerial-view-of-car-lot-with-parked-vehicles.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000",
+    primaryCta: "Browse vehicles for sale",
+    secondaryCta: "Sell your car",
+  },
+  valueProps: [
+    {
+      icon: "CalendarCheck",
+      t: "PCO licence status on every listing",
+      d: "See the exact PCO licence expiry date before you enquire, so there are no surprises after you have paid.",
+    },
+    {
+      icon: "ShieldCheck",
+      t: "Checked before it is listed",
+      d: "Every vehicle is reviewed for TfL eligibility and mileage history before it appears on the marketplace.",
+    },
+    {
+      icon: "Gauge",
+      t: "Real mileage, real condition",
+      d: "Sellers disclose mileage, service history and any outstanding finance upfront.",
+    },
+    {
+      icon: "Handshake",
+      t: "Deal directly, no middleman fee",
+      d: "Kharo connects buyers and sellers. You agree the price and complete the sale between yourselves.",
+    },
+  ],
+  filters: {
+    heading: "Refine your search",
+    city: "City",
+    type: "Body type",
+    fuel: "Fuel type",
+    seller: "Seller type",
+    pco: "PCO licence remaining",
+    price: "Budget",
+    apply: "Search vehicles",
+    sort: {
+      default: "Recommended",
+      price_asc: "Price: low to high",
+      price_desc: "Price: high to low",
+      newest: "Newest listed",
+    },
+  },
+  empty: {
+    heading: "No vehicles match your search",
+    sub: "Try widening your filters, or register your interest below and we will email you the moment a matching car is listed.",
+    cta: "Get notified",
+  },
   pcoNote: {
     heading: "Every vehicle comes with an active PCO licence",
     body: "TfL requires a valid PCO licence on the vehicle, not just the driver. On Kharo every listing shows the exact expiry date so buyers know exactly what they are getting.",
+  },
+  sellerCta: {
+    eyebrow: "Selling a PCO vehicle?",
+    heading: "List your car for free",
+    sub: "No listing fee. Add your PCO licence details, photos and price, and reach buyers actively looking for a TfL-eligible car.",
+    cta: "List your car",
+  },
+  buyerCta: {
+    heading: "Can't find the right car?",
+    sub: "Tell us what you are looking for and we will email you as soon as a matching vehicle is listed.",
   },
 };

@@ -44,7 +44,7 @@ const HOW_STEPS = [
   {
     num: "02",
     title: "Register your interest",
-    body: "60-second form. No documents at this stage: just your contact details and PCO number.",
+    body: "60-second form. No documents at this stage: just your name, phone and when you want to start.",
   },
   {
     num: "03",
@@ -63,7 +63,7 @@ const REQUIREMENTS = [
   "UK driving licence (minimum 1 year)",
   "Right to work in the UK",
   "No more than 6 penalty points on your DVLA licence",
-  "Clean NI or CRB check (some operators require this)",
+  "Clean Access NI or DBS check (some operators require this)",
   "Bank account for affordability check (Open Banking, no credit impact)",
 ];
 
@@ -265,7 +265,7 @@ export default function ForDrivers() {
       </section>
 
       {/* CTA banner */}
-      <section className="bg-[#111] py-14 px-4">
+      <section className="bg-[#0A0A0A] py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to find your next car?
@@ -276,7 +276,7 @@ export default function ForDrivers() {
           <div className="flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#5FD3A6] transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               Browse PCO cars
             </button>

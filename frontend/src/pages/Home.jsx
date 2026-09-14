@@ -247,7 +247,7 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
           <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">Taking Care of Every Driver</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">Every rental, fully covered</h2>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Every rental, fully covered</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {[
@@ -257,11 +257,9 @@ export default function Home() {
             { icon: Zap, title: "On the road fast", body: "Most drivers are matched within 48 hours." },
           ].map((f) => (
             <div key={f.title} className="flex flex-col items-center text-center">
-              <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                <f.icon size={22} className="text-gray-900" strokeWidth={1.75} />
-              </div>
-              <p className="font-semibold text-gray-900 text-sm mb-1">{f.title}</p>
-              <p className="text-gray-500 text-xs leading-relaxed">{f.body}</p>
+              <f.icon size={30} className="text-[#0B6B4F] mb-4" strokeWidth={1.5} />
+              <p className="font-semibold text-[#111] text-sm mb-1">{f.title}</p>
+              <p className="text-[#888] text-xs leading-relaxed">{f.body}</p>
             </div>
           ))}
         </div>
@@ -335,22 +333,22 @@ export default function Home() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="bg-gray-50 border-t border-gray-100 py-16">
+      <section className="bg-[#F5F5F5] border-t border-[#EBEBEB] py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">Simple Process</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">How Kharo Works</h2>
+            <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Simple Process</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">How Kharo Works</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {[
               { n: "01", title: "Search & Filter", body: "Browse vehicles by borough, make, budget and engine type. Every listing is from a verified London PCO operator." },
-              { n: "02", title: "Check Availability", body: "Found a vehicle you like? Submit your details and the operator confirms availability. No commission, no middleman." },
+              { n: "02", title: "Register Your Interest", body: "Found a vehicle you like? Submit your name and contact details in under a minute. The operator gets in touch to confirm availability, no commission, no middleman." },
               { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Insurance and maintenance included." },
             ].map((step) => (
               <div key={step.n} className="flex flex-col">
-                <span className="font-heading text-4xl font-bold text-gray-200 mb-3 select-none">{step.n}</span>
-                <h3 className="font-heading font-semibold text-gray-900 text-lg mb-2">{step.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{step.body}</p>
+                <span className="font-heading text-4xl font-bold text-[#E0E0E0] mb-3 select-none">{step.n}</span>
+                <h3 className="font-heading font-semibold text-[#111] text-lg mb-2">{step.title}</h3>
+                <p className="text-[#666] text-sm leading-relaxed">{step.body}</p>
               </div>
             ))}
           </div>

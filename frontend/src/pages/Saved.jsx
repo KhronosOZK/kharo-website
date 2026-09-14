@@ -68,20 +68,18 @@ export default function Saved() {
               tab === t.key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.07] text-[#0B6B4F]"
                             : "ring-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}>
             <t.icon className="w-4 h-4" /> {t.label}
-            <span className={`rounded-full px-2 py-0.5 text-[12px] ${tab === t.key ? "bg-[#0B6B4F] text-white" : "bg-gray-100 text-gray-500"}`}>{t.n}</span>
+            <span className={`rounded-full px-2 py-0.5 text-[12px] ${tab === t.key ? "bg-[#0B6B4F] text-white" : "bg-[#F0F0F0] text-[#888]"}`}>{t.n}</span>
           </button>
         ))}
       </div>
 
       {showing === 0 ? (
-        <div className="bg-white border border-gray-200 rounded-3xl p-12 sm:p-16 text-center">
-          <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto">
-            <Heart className="w-7 h-7 text-gray-400" />
-          </div>
+        <div className="bg-white border border-[#EBEBEB] rounded-3xl p-12 sm:p-16 text-center">
+          <Heart className="w-12 h-12 text-[#0B6B4F] mx-auto" strokeWidth={1.5} />
           <h2 className="font-heading font-bold text-xl text-[#0A0A0A] mt-5">
             {tab === "rent" ? "No saved rental cars yet" : "No saved vehicles for sale yet"}
           </h2>
-          <p className="text-gray-500 mt-2 max-w-md mx-auto">
+          <p className="text-[#888] mt-2 max-w-md mx-auto">
             {tab === "rent"
               ? "Tap the heart on any rental listing to save it here, then compare the full weekly cost side by side."
               : "Tap the heart on any vehicle for sale to shortlist it here, then compare price, mileage and licence remaining."}

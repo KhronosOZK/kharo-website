@@ -42,7 +42,7 @@ export default function Footer() {
               kharo<span className="text-[#5FD3A6]">.</span>
             </Link>
             <p className="text-[13.5px] text-white/55 mt-3 leading-relaxed max-w-[260px]">
-              Rent a PCO car from a verified London operator. One weekly payment. Drive within days.
+              {BRAND.footerBlurb}
             </p>
 
             {/* Newsletter */}
@@ -68,9 +68,9 @@ export default function Footer() {
                     type="submit"
                     data-testid="footer-newsletter-submit"
                     aria-label="Subscribe"
-                    className="h-10 w-10 shrink-0 rounded-full bg-[#5FD3A6] hover:bg-[#0B6B4F] group flex items-center justify-center transition-colors"
+                    className="h-10 w-10 shrink-0 rounded-full bg-[#5FD3A6] hover:bg-white flex items-center justify-center transition-colors"
                   >
-                    <ArrowRight className="w-4 h-4 text-[#0A0A0A] group-hover:text-white transition-colors" />
+                    <ArrowRight className="w-4 h-4 text-[#0A0A0A]" />
                   </button>
                 </form>
               )}

@@ -188,7 +188,7 @@ export default function OperatorGuide() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.8) 55%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/29566898/pexels-photo-29566898/free-photo-of-aerial-view-of-car-lot-with-parked-vehicles.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
+            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/29566898/pexels-photo-29566898/free-photo-of-aerial-view-of-car-lot-with-parked-vehicles.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             filter: "grayscale(0.3)",
@@ -218,7 +218,7 @@ export default function OperatorGuide() {
           <div className="flex flex-wrap gap-3">
             <a
               href="/list-your-fleet"
-              className="px-6 py-3 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#5FD3A6] hover:text-white transition-colors"
+              className="px-6 py-3 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               List your fleet
             </a>
@@ -465,7 +465,7 @@ export default function OperatorGuide() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#111] py-14 px-4">
+      <section className="bg-[#0A0A0A] py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to stop losing revenue to idle cars?
@@ -476,7 +476,7 @@ export default function OperatorGuide() {
           <div className="flex flex-wrap gap-3 justify-center">
             <a
               href="/list-your-fleet"
-              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#5FD3A6] transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               List your fleet
             </a>

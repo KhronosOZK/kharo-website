@@ -73,7 +73,7 @@ export default function CityPage() {
           </p>
           <div className="flex gap-3 mt-8 flex-wrap">
             <Button onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)} data-testid="city-see-all"
-              className="rounded-full bg-white text-[#111] hover:bg-[#F5F5F5] font-semibold">
+              className="rounded-full bg-[#5FD3A6] text-[#0A0A0A] hover:bg-white font-semibold">
               {t(CITY_PAGE.seeAllCta, { count })} <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
             <Button onClick={() => navigate("/register")} variant="outline"
@@ -96,13 +96,13 @@ export default function CityPage() {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <p className="text-[17px] text-[#444] leading-relaxed max-w-3xl" data-testid="city-intro">{CITY_SEO[city]?.intro}</p>
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="mb-7">
-          <h2 className="text-[26px] sm:text-4xl font-heading font-bold text-[#111]">{t(CITY_PAGE.listingsHeading, { city })}</h2>
+          <h2 className="text-[28px] sm:text-3xl font-heading font-bold text-[#111]">{t(CITY_PAGE.listingsHeading, { city })}</h2>
           <p className="text-[#888] mt-1.5">
             {t(CITY_PAGE.greenNote, { green: greenCount })}
           </p>
@@ -125,8 +125,8 @@ export default function CityPage() {
         )}
       </section>
 
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-4" data-testid="city-faq">
-        <h2 className="text-[24px] sm:text-3xl font-heading font-bold text-[#111] mb-6">{t(CITY_PAGE.faqHeading, { city })}</h2>
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="city-faq">
+        <h2 className="text-[28px] sm:text-3xl font-heading font-bold text-[#111] mb-6">{t(CITY_PAGE.faqHeading, { city })}</h2>
         <div className="divide-y divide-gray-200 rounded-2xl ring-1 ring-gray-200 bg-white">
           {(CITY_SEO[city]?.faq || []).map((item) => (
             <details key={item.q} data-testid="city-faq-item" className="group p-5">
@@ -143,7 +143,7 @@ export default function CityPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12" data-testid="city-marketplace">
         <div className="bg-[#F5F5F5] rounded-[26px] p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-[#111] text-balance">
+            <h2 className="text-[28px] sm:text-3xl font-heading font-bold text-[#111] text-balance">
               {t(CITY_PAGE.marketplaceHeading, { city })}
             </h2>
             <p className="text-[#555] mt-2 text-[15px] max-w-xl">{CITY_PAGE.marketplaceSub}</p>

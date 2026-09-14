@@ -30,7 +30,7 @@ export default function VehicleCard({ vehicle }) {
           className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 flex items-center justify-center hover:scale-105 transition-transform"
           aria-label={saved ? "Remove from favourites" : "Add to favourites"}
         >
-          <Heart size={15} className={saved ? "fill-[#111] text-[#111]" : "text-gray-500"} />
+          <Heart size={15} className={saved ? "fill-[#111] text-[#111]" : "text-[#888]"} />
         </button>
 
         {/* Register Interest - lightweight lead-capture action, appears on hover (desktop) / always (touch) */}
@@ -47,26 +47,27 @@ export default function VehicleCard({ vehicle }) {
       <div className="pt-3">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <h3 className="font-heading font-bold text-gray-900 text-[15px] leading-tight truncate">
+            <h3 className="font-heading font-bold text-[#111] text-[15px] leading-tight truncate">
               {make} {model}
             </h3>
-            <p className="text-gray-500 text-[13px] mt-0.5">
+            <p className="text-[#888] text-[13px] mt-0.5">
               {year} &middot; {fuel} &middot; {transmission}
             </p>
           </div>
-          <span className="font-heading font-bold text-gray-900 text-[15px] whitespace-nowrap">
+          <span className="font-heading font-bold text-[#111] text-[15px] whitespace-nowrap">
             £{weekly_rent}
-            <span className="font-normal text-gray-400 text-xs"> / wk</span>
+            <span className="font-normal text-[#AAA] text-xs"> / wk</span>
           </span>
         </div>
+        <p className="text-[#AAA] text-[11.5px] mt-1">Includes insurance &amp; maintenance</p>
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-1">
             <Star size={12} className="fill-amber-400 text-amber-400" />
-            <span className="text-[12px] font-semibold text-gray-800">{rating?.toFixed(1)}</span>
-            <span className="text-[12px] text-gray-400">({review_count})</span>
+            <span className="text-[12px] font-semibold text-[#333]">{rating?.toFixed(1)}</span>
+            <span className="text-[12px] text-[#AAA]">({review_count})</span>
           </div>
-          <span className="text-[12px] text-gray-400">{borough}</span>
+          <span className="text-[12px] text-[#AAA]">{borough}</span>
         </div>
       </div>
     </article>

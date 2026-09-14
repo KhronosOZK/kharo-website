@@ -157,7 +157,7 @@ export default function OperatorDashboard() {
           <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl overflow-hidden shadow-sm">
             {fleet.map((r) => (
               <div key={r[0]} className="flex items-center justify-between flex-wrap gap-3 p-4 border-b border-[#0A0A0A]/8 last:border-0 hover:bg-[#F5F5F5]">
-                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#EBEBEB] flex items-center justify-center"><Car className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.5} /></div><div><div className="font-medium text-[#0A0A0A] text-sm">{r[0]}</div><div className="text-xs text-[#888888]">{r[1]}</div></div></div>
+                <div className="flex items-center gap-3"><Car className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} /><div><div className="font-medium text-[#0A0A0A] text-sm">{r[0]}</div><div className="text-xs text-[#888888]">{r[1]}</div></div></div>
                 <div className="flex items-center gap-3"><span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusColor(r[2])}`}>{r[2]}</span><span className="font-heading font-bold text-[#0A0A0A]">{r[3]}<span className="text-xs font-normal text-[#888888]">/wk</span></span></div>
               </div>
             ))}

@@ -97,9 +97,7 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
   return (
     <section className="mt-9" data-testid="ownership-calculator">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-2xl bg-[#0B6B4F]/[0.08] flex items-center justify-center shrink-0">
-          <Calculator className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.7} />
-        </div>
+        <Calculator className="w-8 h-8 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
         <div>
           <h2 className="text-xl font-heading font-bold text-[#111]">Should you buy this or rent one?</h2>
           <p className="text-[14.5px] text-[#666] mt-1 leading-relaxed">

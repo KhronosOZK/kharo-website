@@ -287,12 +287,10 @@ export default function MarketplaceDetail() {
               </div>
             )}
 
-            <div className="h-px bg-gray-200 my-5" />
+            <div className="h-px bg-[#EBEBEB] my-5" />
 
             <div className="flex items-center gap-3">
-              <span className="w-10 h-10 rounded-full bg-[#0B6B4F]/[0.08] flex items-center justify-center">
-                <SellerIcon className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.7} />
-              </span>
+              <SellerIcon className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
               <div>
                 <div className="text-[12.5px] text-[#888]">{MARKETPLACE.detail.sellerHeading}</div>
                 <div className="font-heading font-bold text-[#111] text-[15px]">{v.seller_label}, {v.seller_area}</div>

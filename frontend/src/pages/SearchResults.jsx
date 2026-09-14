@@ -47,7 +47,7 @@ function PillGroup({ options, value, onChange }) {
           onClick={() => onChange(value === o ? "" : o)}
           className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-colors ${
             value === o
-              ? "bg-[#0A0A0A] border-[#0A0A0A] text-white"
+              ? "bg-[#0B6B4F] border-[#0B6B4F] text-white"
               : "bg-white border-gray-200 text-gray-600 hover:border-gray-400"
           }`}
         >
@@ -155,7 +155,7 @@ export default function SearchResults() {
               <label key={o.value} className="flex items-center gap-2.5 cursor-pointer group">
                 <div
                   className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 transition-colors ${
-                    maxBudget === o.value ? "border-[#0A0A0A] bg-[#0A0A0A]" : "border-gray-300"
+                    maxBudget === o.value ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-gray-300"
                   }`}
                   onClick={() => setMaxBudget(o.value)}
                 >
@@ -210,7 +210,7 @@ export default function SearchResults() {
         >
           <SlidersHorizontal size={14} />
           Filters
-          {hasFilters && <span className="w-4 h-4 bg-[#0A0A0A] rounded-full text-white text-xs flex items-center justify-center leading-none">{[borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
+          {hasFilters && <span className="w-4 h-4 bg-[#0B6B4F] rounded-full text-white text-xs flex items-center justify-center leading-none">{[borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
         </button>
         <div className="flex gap-6">
           {/* Desktop sidebar */}

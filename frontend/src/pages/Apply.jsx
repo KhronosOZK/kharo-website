@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const INK = "#0A0A0A";
 const ACCENT_TEXT = "#0B6B4F";
 
 const START_OPTIONS = [
@@ -60,22 +59,20 @@ export default function Apply() {
     setLoading(false);
   };
 
-  if (!v) return <div className="max-w-2xl mx-auto px-4 py-24 text-center text-gray-400">Loading…</div>;
+  if (!v) return <div className="max-w-2xl mx-auto px-4 py-24 text-center text-[#AAA]">Loading…</div>;
 
   if (done) return (
     <main className="max-w-xl mx-auto px-4 py-24 text-center">
-      <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto" style={{ backgroundColor: INK }}>
-        <Check className="w-7 h-7 text-white" />
-      </div>
-      <h1 className="font-heading text-3xl font-bold text-gray-900 mt-6" data-testid="apply-success">
+      <Check className="w-14 h-14 mx-auto" style={{ color: ACCENT_TEXT }} strokeWidth={1.75} />
+      <h1 className="font-heading text-3xl font-bold text-[#111] mt-6" data-testid="apply-success">
         You're on the list
       </h1>
-      <p className="text-gray-500 mt-3 leading-relaxed">
+      <p className="text-[#666] mt-3 leading-relaxed">
         We'll email you the moment Kharo goes live in {v.borough}, with the {v.make} {v.model} and
         similar vehicles ready to view. No commitment, no charge, just first access.
       </p>
       <div className="flex gap-3 justify-center mt-8">
-        <Button onClick={() => navigate("/search")} className="rounded-full text-white" style={{ backgroundColor: INK }}>
+        <Button onClick={() => navigate("/search")} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white">
           Keep browsing
         </Button>
         <Button onClick={() => navigate("/")} variant="outline" className="rounded-full">
@@ -89,7 +86,7 @@ export default function Apply() {
     <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
       <button
         onClick={() => navigate(-1)}
-        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors mb-6"
+        className="inline-flex items-center gap-1.5 text-sm text-[#666] hover:text-[#111] transition-colors mb-6"
       >
         <ArrowLeft size={15} /> Back
       </button>
@@ -97,17 +94,17 @@ export default function Apply() {
       <div className="grid lg:grid-cols-5 gap-8">
         {/* Vehicle summary */}
         <div className="lg:col-span-2 lg:order-2">
-          <div className="lg:sticky lg:top-8 bg-white rounded-2xl overflow-hidden border border-gray-100">
+          <div className="lg:sticky lg:top-8 bg-white rounded-2xl overflow-hidden border border-[#EBEBEB]">
             <img src={Array.isArray(v.photos) ? v.photos[0] : v.photos} alt="" className="w-full h-44 object-cover" />
             <div className="p-5">
-              <h3 className="font-heading font-bold text-gray-900 text-lg">{v.make} {v.model}</h3>
-              <p className="text-gray-400 text-xs mt-0.5">{v.year} &middot; {v.fuel} &middot; {v.borough}</p>
+              <h3 className="font-heading font-bold text-[#111] text-lg">{v.make} {v.model}</h3>
+              <p className="text-[#AAA] text-xs mt-0.5">{v.year} &middot; {v.fuel} &middot; {v.borough}</p>
               <div className="flex items-baseline gap-1 mt-4">
-                <span className="font-heading font-bold text-gray-900 text-3xl">£{v.weekly_rent}</span>
-                <span className="text-gray-400 text-sm">/ week</span>
+                <span className="font-heading font-bold text-[#111] text-3xl">£{v.weekly_rent}</span>
+                <span className="text-[#AAA] text-sm">/ week</span>
               </div>
-              <p className="text-gray-400 text-xs mt-1">Includes insurance &amp; maintenance</p>
-              <div className="mt-4 flex items-start gap-2 text-xs text-gray-500 border-t border-gray-100 pt-4">
+              <p className="text-[#AAA] text-xs mt-1">£{v.weekly_rent} / week &middot; Includes Insurance &amp; Maintenance</p>
+              <div className="mt-4 flex items-start gap-2 text-xs text-[#666] border-t border-[#EBEBEB] pt-4">
                 <ShieldCheck size={14} style={{ color: ACCENT_TEXT }} className="flex-shrink-0 mt-0.5" />
                 Kharo hasn't launched in {v.borough} yet. Registering your interest costs nothing and
                 puts you first in line when it does.
@@ -118,16 +115,16 @@ export default function Apply() {
 
         {/* Interest form */}
         <div className="lg:col-span-3 lg:order-1">
-          <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-2">Register Interest</p>
-          <h1 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900 mb-2" style={{ textWrap: "balance" }}>
+          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Register Interest</p>
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-2" style={{ textWrap: "balance" }}>
             Get notified when this vehicle is available
           </h1>
-          <p className="text-gray-500 text-sm mb-7 max-w-md">
+          <p className="text-[#666] text-sm mb-7 max-w-md">
             Kharo is launching borough by borough. Leave your details and we'll reach out the moment
             the {v.make} {v.model}, or something just like it, is ready to view in {v.borough}.
           </p>
 
-          <form onSubmit={submit} className="space-y-4 bg-white rounded-2xl border border-gray-100 p-6">
+          <form onSubmit={submit} className="space-y-4 bg-white rounded-2xl border border-[#EBEBEB] p-6">
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label className="mb-1.5 block text-sm">Your name</Label>
@@ -147,7 +144,7 @@ export default function Apply() {
               <select
                 value={f.start_when}
                 onChange={set("start_when")}
-                className="w-full h-11 border border-gray-200 rounded-md px-3 text-sm text-gray-800 bg-white focus:outline-none focus:border-gray-400"
+                className="w-full h-11 border border-[#E0E0E0] rounded-md px-3 text-sm text-[#333] bg-white focus:outline-none focus:border-[#0B6B4F]"
               >
                 {START_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
@@ -159,13 +156,12 @@ export default function Apply() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-12 rounded-full text-white font-semibold"
-              style={{ backgroundColor: INK }}
+              className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold"
               data-testid="apply-submit"
             >
-              {loading ? "Sending…" : "Register My Interest"}
+              {loading ? "Sending…" : "Register Interest"}
             </Button>
-            <p className="text-xs text-gray-400 text-center">
+            <p className="text-xs text-[#AAA] text-center">
               We'll only use these details to contact you about Kharo. Never sold on.
             </p>
           </form>

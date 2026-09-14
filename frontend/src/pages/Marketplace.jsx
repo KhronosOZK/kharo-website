@@ -157,9 +157,7 @@ export default function Marketplace() {
             return (
               <motion.div key={p.t} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
                 className="bg-white rounded-[24px] ring-1 ring-gray-200/70 p-6 shadow-sm">
-                <div className="w-11 h-11 rounded-2xl bg-[#0B6B4F]/[0.08] flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.7} />
-                </div>
+                <Icon className="w-8 h-8 text-[#0B6B4F]" strokeWidth={1.5} />
                 <h3 className="font-heading font-bold text-[#111] mt-4 text-[17px]">{p.t}</h3>
                 <p className="text-[14.5px] text-[#666] mt-2 leading-relaxed">{p.d}</p>
               </motion.div>

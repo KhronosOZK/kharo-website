@@ -51,7 +51,7 @@ const PILLARS = [
   {
     icon: Users,
     title: "Direct operator contact",
-    body: "After you check availability, the operator calls you. No middleman between you and the fleet manager.",
+    body: "After you register interest, the operator calls you. No middleman between you and the fleet manager.",
   },
   {
     icon: Clock,
@@ -110,26 +110,35 @@ export default function WhyCaro() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
 
-      {/* Hero */}
-      <section className="bg-white border-b border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
+      <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/7362886/pexels-photo-7362886.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "grayscale(0.3)",
+          }}
+        />
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.p
             {...FADE_UP}
-            className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-4"
+            className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]"
           >
             Why Kharo
           </motion.p>
           <motion.h1
             {...FADE_UP}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-[40px] sm:text-5xl lg:text-[54px] font-heading font-extrabold text-[#111] leading-[1.05] tracking-tight text-balance"
+            className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] tracking-tight text-balance"
           >
             PCO car rental that's actually clear.
           </motion.h1>
           <motion.p
             {...FADE_UP}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-[17px] text-[#666] mt-5 max-w-xl mx-auto leading-relaxed"
+            className="text-white/70 text-[17px] mt-5 max-w-xl mx-auto leading-relaxed"
           >
             Every listing on Kharo shows one real price. Every operator is checked before they list.
             Every driver is vetted before they drive.
@@ -141,13 +150,13 @@ export default function WhyCaro() {
           >
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               Browse PCO cars
             </button>
             <button
               onClick={() => navigate("/driver-guide")}
-              className="px-7 py-3.5 rounded-full border border-[#E0E0E0] text-[#333] font-medium text-[15px] hover:bg-[#F5F5F5] transition-colors flex items-center gap-2"
+              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/5 transition-colors flex items-center gap-2"
             >
               How it works
               <ChevronRight className="w-4 h-4" />
@@ -441,7 +450,7 @@ export default function WhyCaro() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#111] py-14 px-4">
+      <section className="bg-[#0A0A0A] py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to see for yourself?
@@ -452,7 +461,7 @@ export default function WhyCaro() {
           <div className="flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#5FD3A6] transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               Browse PCO cars
             </button>

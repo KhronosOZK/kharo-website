@@ -57,7 +57,7 @@ const REQUIREMENTS = [
   "UK driving licence (minimum 1 year held)",
   "Right to work in the UK",
   "No more than 6 penalty points on your DVLA licence",
-  "Clean NI or CRB check (some operators require this)",
+  "Clean Access NI or DBS check (some operators require this)",
   "Bank account for Open Banking affordability check (no credit impact)",
 ];
 
@@ -379,7 +379,7 @@ export default function DriverGuide() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#111] py-14 px-4">
+      <section className="bg-[#0A0A0A] py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to find your car?
@@ -390,7 +390,7 @@ export default function DriverGuide() {
           <div className="flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#5FD3A6] transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               Browse PCO cars
             </button>
