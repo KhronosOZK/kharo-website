@@ -80,6 +80,9 @@ export default function VehicleDetail() {
   const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
 
   const isElectric = (v.fuel || "").toLowerCase() === "electric";
+  // mock listings often repeat the same photo url in every slot: only offer gallery
+  // navigation when there's more than one genuinely distinct image to look at
+  const uniquePhotoCount = new Set(v.photos).size;
 
   const specs = [
     { label: "Fuel type", value: v.fuel, capitalize: true },
@@ -150,7 +153,7 @@ export default function VehicleDetail() {
         {/* Gallery */}
         <div className="relative rounded-2xl overflow-hidden aspect-[16/9] sm:aspect-[21/9] bg-[#E8E8E8]" data-testid="gallery-main">
           <img src={v.photos?.[photo]} alt={`${v.make} ${v.model}`} className="w-full h-full object-cover" />
-          {v.photos?.length > 1 && (
+          {uniquePhotoCount > 1 && (
             <>
               <button
                 data-testid="gallery-prev"
@@ -168,11 +171,11 @@ export default function VehicleDetail() {
               >
                 <ChevronRight className="w-5 h-5 text-[#333]" />
               </button>
+              <span className="absolute bottom-3 right-3 text-[12px] font-medium text-white bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1">
+                {photo + 1} / {v.photos.length}
+              </span>
             </>
           )}
-          <span className="absolute bottom-3 right-3 text-[12px] font-medium text-white bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1">
-            {photo + 1} / {v.photos?.length ?? 1}
-          </span>
         </div>
         {isElectric && (
           <p className="flex items-center gap-1.5 text-[13px] font-medium text-[#0B6B4F] mt-2.5">
@@ -181,7 +184,7 @@ export default function VehicleDetail() {
         )}
 
         {/* Thumbnail strip */}
-        {v.photos?.length > 1 && (
+        {uniquePhotoCount > 1 && (
           <div className="flex gap-2 mt-3 overflow-x-auto scrollbar-hide">
             {v.photos.map((p, i) => (
               <button
@@ -305,10 +308,12 @@ export default function VehicleDetail() {
               )}
             </DetailSection>
 
-            {/* 360 spin */}
-            <DetailSection title="More angles">
-              <Spin360 photos={v.photos} />
-            </DetailSection>
+            {/* 360 spin: only worth offering when the listing actually has distinct angles to show */}
+            {new Set(v.photos).size > 1 && (
+              <DetailSection title="More angles">
+                <Spin360 photos={v.photos} />
+              </DetailSection>
+            )}
 
             {/* Specs grid */}
             <DetailSection title="Vehicle details">
