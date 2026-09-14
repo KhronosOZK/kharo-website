@@ -28,7 +28,7 @@ function CheckItem({ label, checked, onChange }) {
     <label className="flex items-center gap-2.5 cursor-pointer group mb-2">
       <div
         className={`w-4 h-4 rounded-sm border flex items-center justify-center flex-shrink-0 transition-colors ${
-          checked ? "bg-green-800 border-green-800" : "border-gray-300 bg-white group-hover:border-green-600"
+          checked ? "bg-[#0A0A0A] border-[#0A0A0A]" : "border-gray-300 bg-white group-hover:border-gray-400"
         }`}
       >
         {checked && <X size={10} className="text-white" strokeWidth={3} />}
@@ -45,10 +45,10 @@ function PillGroup({ options, value, onChange }) {
         <button
           key={o}
           onClick={() => onChange(value === o ? "" : o)}
-          className={`text-xs font-medium px-3 py-1.5 rounded-sm border transition-colors ${
+          className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-colors ${
             value === o
-              ? "bg-green-800 border-green-800 text-white"
-              : "bg-white border-gray-200 text-gray-600 hover:border-green-600"
+              ? "bg-[#0A0A0A] border-[#0A0A0A] text-white"
+              : "bg-white border-gray-200 text-gray-600 hover:border-gray-400"
           }`}
         >
           {o}
@@ -106,11 +106,11 @@ export default function SearchResults() {
 
   const Sidebar = () => (
     <aside className="w-full lg:w-64 flex-shrink-0">
-      <div className="bg-white border border-gray-200 rounded-sm p-5 sticky top-4">
+      <div className="bg-white border border-gray-200 rounded-2xl p-5 sticky top-4">
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-heading font-bold text-gray-900 text-sm">Filter by</h2>
           {hasFilters && (
-            <button onClick={clearAll} className="text-xs text-green-700 hover:text-green-900 font-medium">
+            <button onClick={clearAll} className="text-xs text-gray-500 hover:text-gray-900 font-medium">
               Reset all
             </button>
           )}
@@ -120,7 +120,7 @@ export default function SearchResults() {
           <select
             value={borough}
             onChange={(e) => setBorough(e.target.value)}
-            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-sm focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700"
+            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
           >
             <option value="">All Areas</option>
             {MOCK_BOROUGHS.slice(1).map((b) => <option key={b} value={b}>{b}</option>)}
@@ -155,7 +155,7 @@ export default function SearchResults() {
               <label key={o.value} className="flex items-center gap-2.5 cursor-pointer group">
                 <div
                   className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 transition-colors ${
-                    maxBudget === o.value ? "border-green-800 bg-green-800" : "border-gray-300"
+                    maxBudget === o.value ? "border-[#0A0A0A] bg-[#0A0A0A]" : "border-gray-300"
                   }`}
                   onClick={() => setMaxBudget(o.value)}
                 >
@@ -171,7 +171,7 @@ export default function SearchResults() {
           <select
             value={make}
             onChange={(e) => setMake(e.target.value)}
-            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-sm focus:outline-none focus:border-green-700 focus:ring-1 focus:ring-green-700"
+            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
           >
             <option value="">All Makes</option>
             {MOCK_MAKES.slice(1).map((m) => <option key={m} value={m}>{m}</option>)}
@@ -206,11 +206,11 @@ export default function SearchResults() {
         {/* Mobile filter toggle */}
         <button
           onClick={() => setShowSidebar(!showSidebar)}
-          className="flex items-center gap-2 border border-gray-200 bg-white px-3 py-2.5 rounded-sm text-sm text-gray-700 font-medium hover:border-gray-400 lg:hidden mb-4"
+          className="flex items-center gap-2 border border-gray-200 bg-white px-3 py-2.5 rounded-full text-sm text-gray-700 font-medium hover:border-gray-400 lg:hidden mb-4"
         >
           <SlidersHorizontal size={14} />
           Filters
-          {hasFilters && <span className="w-4 h-4 bg-green-800 rounded-full text-white text-xs flex items-center justify-center leading-none">{[borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
+          {hasFilters && <span className="w-4 h-4 bg-[#0A0A0A] rounded-full text-white text-xs flex items-center justify-center leading-none">{[borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
         </button>
         <div className="flex gap-6">
           {/* Desktop sidebar */}
@@ -242,7 +242,7 @@ export default function SearchResults() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-sm focus:outline-none focus:border-green-700 bg-white"
+                className="border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 bg-white"
               >
                 <option value="price_asc">Price: Low to High</option>
                 <option value="price_desc">Price: High to Low</option>
@@ -263,10 +263,10 @@ export default function SearchResults() {
             )}
 
             {results.length === 0 ? (
-              <div className="text-center py-20 bg-white border border-gray-200 rounded-sm">
+              <div className="text-center py-20 bg-white border border-gray-200 rounded-2xl">
                 <p className="font-heading text-xl font-bold text-gray-900 mb-2">No vehicles match your filters</p>
                 <p className="text-gray-500 text-sm mb-5">Try adjusting your search criteria.</p>
-                <button onClick={clearAll} className="bg-green-800 text-white text-sm font-medium px-5 py-2.5 rounded-sm hover:bg-green-900 transition-colors">
+                <button onClick={clearAll} className="bg-[#0A0A0A] text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-gray-800 transition-colors">
                   Clear All Filters
                 </button>
               </div>
@@ -284,9 +284,9 @@ export default function SearchResults() {
 
 function FilterChip({ label, onRemove }) {
   return (
-    <span className="inline-flex items-center gap-1.5 bg-green-50 border border-green-200 text-green-800 text-xs font-medium px-2.5 py-1 rounded-sm">
+    <span className="inline-flex items-center gap-1.5 bg-white border border-gray-300 text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full">
       {label}
-      <button onClick={onRemove} className="hover:text-green-900"><X size={11} /></button>
+      <button onClick={onRemove} className="hover:text-gray-900"><X size={11} /></button>
     </span>
   );
 }

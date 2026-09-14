@@ -8,6 +8,7 @@ import { DURATIONS, weeklyForWeeks, discountForWeeks } from "@/lib/pricing";
 import { Button } from "@/components/ui/button";
 import PreviewNotice from "@/components/PreviewNotice";
 import { PREVIEW } from "@/content/site";
+import { getMockById } from "@/data/mockListings";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -29,6 +30,16 @@ export default function Apply() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (id && id.startsWith("mock-")) {
+      const mockVehicle = getMockById(id);
+      if (mockVehicle) {
+        setV(mockVehicle);
+        setQuote({ cheapest_weekly: 0 });
+      } else {
+        navigate("/");
+      }
+      return;
+    }
     api.get(`/listings/${id}`).then((r) => setV(r.data)).catch(() => navigate("/"));
     api.post("/quote", { listing_id: id }).then((r) => setQuote(r.data)).catch(() => {});
   }, [id, navigate]); // eslint-disable-line react-hooks/exhaustive-deps

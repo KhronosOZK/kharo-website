@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star, Heart } from "lucide-react";
+import { Star, Heart, ArrowUpRight } from "lucide-react";
 
 export default function VehicleCard({ vehicle }) {
   const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
   const {
     id, make, model, year, fuel, weekly_rent, borough,
-    photos, rating, review_count, transmission, body_type,
+    photos, rating, review_count, transmission,
   } = vehicle;
 
   const photo = Array.isArray(photos) ? photos[0] : photos;
@@ -15,31 +15,35 @@ export default function VehicleCard({ vehicle }) {
   return (
     <article
       onClick={() => navigate(`/vehicle/${id}`)}
-      className="group bg-white cursor-pointer"
+      className="group cursor-pointer"
     >
-      {/* Image block — plain neutral ground, car photo is the only colour */}
-      <div className="relative bg-[#F5F5F5] aspect-[4/3] overflow-hidden rounded-md">
+      {/* Image — tight, cinematic, neutral studio ground */}
+      <div className="relative bg-[#EDEDED] aspect-[4/3] overflow-hidden rounded-2xl">
         <img
           src={photo}
           alt={`${year} ${make} ${model}`}
-          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
           loading="lazy"
         />
-        {/* Fuel tag — plain monochrome, no colour coding */}
-        <span className="absolute top-3 left-3 bg-white/95 text-gray-800 text-[11px] font-semibold px-2 py-1 rounded-sm">
-          {fuel === "Plug-in Hybrid" ? "PHEV" : fuel === "Electric" ? "EV" : fuel}
-        </span>
-        {/* Favourite */}
         <button
           onClick={(e) => { e.stopPropagation(); setSaved((s) => !s); }}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 flex items-center justify-center hover:scale-105 transition-transform"
+          className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 flex items-center justify-center hover:scale-105 transition-transform"
           aria-label={saved ? "Remove from favourites" : "Add to favourites"}
         >
           <Heart size={15} className={saved ? "fill-[#111] text-[#111]" : "text-gray-500"} />
         </button>
+
+        {/* Check Availability — explicit interest-capture action, appears on hover (desktop) / always (touch) */}
+        <button
+          onClick={(e) => { e.stopPropagation(); navigate(`/apply/${id}`); }}
+          className="absolute bottom-3 left-3 right-3 sm:opacity-0 sm:translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 bg-white text-[#0A0A0A] text-[13px] font-semibold py-2.5 rounded-full flex items-center justify-center gap-1.5"
+        >
+          Check Availability
+          <ArrowUpRight size={14} />
+        </button>
       </div>
 
-      {/* Card body — text does the work, no colour chrome */}
+      {/* Text — no colour chrome, typography carries it */}
       <div className="pt-3">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
@@ -47,7 +51,7 @@ export default function VehicleCard({ vehicle }) {
               {make} {model}
             </h3>
             <p className="text-gray-500 text-[13px] mt-0.5">
-              {year} &middot; {body_type} &middot; {transmission}
+              {year} &middot; {fuel} &middot; {transmission}
             </p>
           </div>
           <span className="font-heading font-bold text-gray-900 text-[15px] whitespace-nowrap">
