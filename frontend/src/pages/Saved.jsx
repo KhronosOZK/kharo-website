@@ -46,15 +46,15 @@ export default function Saved() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
       <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-emerald-50 flex items-center justify-center"><Heart className="w-6 h-6 text-[#0B6B4F]" /></div>
+          <div className="w-11 h-11 rounded-2xl bg-[#EAF5F1] flex items-center justify-center"><Heart className="w-6 h-6 text-[#0B6B4F]" /></div>
           <div>
-            <h1 className="text-3xl font-heading font-extrabold text-[#1A2E25]">Saved vehicles</h1>
-            <p className="text-[#64748B]">{showing} {tab === "rent" ? "rental" : "sale"} listing{showing !== 1 ? "s" : ""} saved</p>
+            <h1 className="text-3xl font-heading font-extrabold text-[#0A0A0A]">Saved vehicles</h1>
+            <p className="text-gray-500">{showing} {tab === "rent" ? "rental" : "sale"} listing{showing !== 1 ? "s" : ""} saved</p>
           </div>
         </div>
         {tab === "rent" && items.length >= 2 && (
           <Button onClick={() => setCompare((c) => !c)} data-testid="compare-toggle"
-            className="rounded-full bg-[#1A2E25] hover:bg-[#0f1a15] text-white">
+            className="rounded-full bg-[#0A0A0A] hover:bg-gray-800 text-white">
             {compare ? <><X className="w-4 h-4 mr-2" /> Back to grid</> : <><Columns3 className="w-4 h-4 mr-2" /> Compare {items.length} cars</>}
           </Button>
         )}
@@ -64,28 +64,30 @@ export default function Saved() {
         {TABS.map((t) => (
           <button key={t.key} role="tab" aria-selected={tab === t.key} data-testid={`saved-tab-${t.key}`}
             onClick={() => { setTab(t.key); setCompare(false); }}
-            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[14px] font-medium ring-1 transition-all ${
+            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 min-h-[44px] text-[14px] font-medium ring-1 transition-all ${
               tab === t.key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.07] text-[#0B6B4F]"
-                            : "ring-slate-200 bg-white text-[#4A564F] hover:bg-slate-50"}`}>
+                            : "ring-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}>
             <t.icon className="w-4 h-4" /> {t.label}
-            <span className={`rounded-full px-2 py-0.5 text-[12px] ${tab === t.key ? "bg-[#0B6B4F] text-white" : "bg-slate-100 text-[#7A857F]"}`}>{t.n}</span>
+            <span className={`rounded-full px-2 py-0.5 text-[12px] ${tab === t.key ? "bg-[#0B6B4F] text-white" : "bg-gray-100 text-gray-500"}`}>{t.n}</span>
           </button>
         ))}
       </div>
 
       {showing === 0 ? (
-        <div className="bg-white border border-slate-200 rounded-3xl p-12 text-center">
-          <Heart className="w-10 h-10 text-[#CBD5E1] mx-auto" />
-          <h2 className="font-heading font-bold text-xl text-[#1A2E25] mt-4">
+        <div className="bg-white border border-gray-200 rounded-3xl p-12 sm:p-16 text-center">
+          <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto">
+            <Heart className="w-7 h-7 text-gray-400" />
+          </div>
+          <h2 className="font-heading font-bold text-xl text-[#0A0A0A] mt-5">
             {tab === "rent" ? "No saved rental cars yet" : "No saved vehicles for sale yet"}
           </h2>
-          <p className="text-[#64748B] mt-2 max-w-md mx-auto">
+          <p className="text-gray-500 mt-2 max-w-md mx-auto">
             {tab === "rent"
               ? "Tap the heart on any rental listing to save it here, then compare the full weekly cost side by side."
               : "Tap the heart on any vehicle for sale to shortlist it here, then compare price, mileage and licence remaining."}
           </p>
           <Button onClick={() => navigate(tab === "rent" ? "/search" : "/marketplace")}
-            className="mt-6 rounded-full bg-[#0B6B4F] hover:bg-[#065F46] text-white">
+            className="mt-6 h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white">
             {tab === "rent" ? "Browse cars to rent" : "Browse cars for sale"} <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </div>
@@ -93,7 +95,7 @@ export default function Saved() {
         compare ? (
           <CompareTable items={items} onRemove={toggleSaved} />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{items.map((v) => <VehicleCard key={v.id} v={v} />)}</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">{items.map((v) => <VehicleCard key={v.id} vehicle={v} />)}</div>
         )
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="saved-sales-grid">

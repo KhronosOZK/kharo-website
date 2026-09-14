@@ -186,7 +186,7 @@ export default function OperatorInterest() {
 
               {/* Revenue lost tiles */}
               <div className="grid grid-cols-3 gap-3 mt-4">
-                <div className="bg-[#FEF2F2] rounded-xl p-3.5">
+                <div className="bg-[#F8F8F8] rounded-xl p-3.5">
                   <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">
                     Per week
                   </div>
@@ -194,7 +194,7 @@ export default function OperatorInterest() {
                     £{weeklyRevenueLost.toLocaleString()}
                   </div>
                 </div>
-                <div className="bg-[#FEF2F2] rounded-xl p-3.5">
+                <div className="bg-[#F8F8F8] rounded-xl p-3.5">
                   <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">
                     Per month
                   </div>
@@ -202,7 +202,7 @@ export default function OperatorInterest() {
                     £{monthlyRevenueLost.toLocaleString()}
                   </div>
                 </div>
-                <div className="bg-[#FEF2F2] rounded-xl p-3.5 border-2 border-[#DC2626]/20">
+                <div className="bg-[#F8F8F8] rounded-xl p-3.5 border-2 border-[#DC2626]/20">
                   <div className="text-[10px] font-semibold text-[#DC2626] uppercase tracking-wide mb-1.5">
                     Per year
                   </div>
@@ -385,8 +385,8 @@ export default function OperatorInterest() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#F0F0F0]">
             <div className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center mb-4">
-                <Lock className="w-5 h-5 text-red-600" />
+              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
+                <Lock className="w-5 h-5 text-[#0B6B4F]" />
               </div>
               <h3 className="font-heading font-bold text-[#111] text-base mb-2">
                 Uber Enforcement Integration
@@ -400,8 +400,8 @@ export default function OperatorInterest() {
               </div>
             </div>
             <div className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-                <MapPin className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
+                <MapPin className="w-5 h-5 text-[#0B6B4F]" />
               </div>
               <h3 className="font-heading font-bold text-[#111] text-base mb-2">
                 GPS Tracker Required

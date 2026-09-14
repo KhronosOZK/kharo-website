@@ -119,11 +119,11 @@ export default function Marketplace() {
   });
 
   return (
-    <main className="bg-[#F9F8F6]">
+    <main className="bg-[#FAFAFA]">
       {/* HERO */}
       <section className="relative overflow-hidden">
         <img src={MARKETPLACE.hero.img} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A130F]/95 via-[#0A130F]/70 to-[#0A130F]/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/95 via-[#0A0A0A]/70 to-[#0A0A0A]/25" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
           <p className="text-[13px] font-medium text-[#5FD3A6] tracking-wide">{MARKETPLACE.hero.eyebrow}</p>
           <h1 className="text-[30px] sm:text-5xl lg:text-6xl font-heading font-extrabold text-white mt-3 max-w-3xl leading-[1.06] text-balance">
@@ -133,7 +133,7 @@ export default function Marketplace() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Button onClick={() => document.getElementById("marketplace-results")?.scrollIntoView({ behavior: "smooth" })}
               data-testid="mp-hero-browse"
-              className="rounded-full bg-[#5FD3A6] hover:bg-white text-[#0E1A14] font-semibold h-11 px-6">
+              className="rounded-full bg-[#5FD3A6] hover:bg-white text-[#0A0A0A] font-semibold h-11 px-6">
               {MARKETPLACE.hero.primaryCta} <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
             <Button onClick={() => navigate("/sell-your-car")} data-testid="mp-hero-sell" variant="outline"
@@ -156,12 +156,12 @@ export default function Marketplace() {
             const Icon = ICONS[p.icon] || ShieldCheck;
             return (
               <motion.div key={p.t} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-[24px] ring-1 ring-slate-200/70 p-6 shadow-sm">
+                className="bg-white rounded-[24px] ring-1 ring-gray-200/70 p-6 shadow-sm">
                 <div className="w-11 h-11 rounded-2xl bg-[#0B6B4F]/[0.08] flex items-center justify-center">
                   <Icon className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.7} />
                 </div>
-                <h3 className="font-heading font-bold text-[#1A2E25] mt-4 text-[17px]">{p.t}</h3>
-                <p className="text-[14.5px] text-[#4A564F] mt-2 leading-relaxed">{p.d}</p>
+                <h3 className="font-heading font-bold text-[#111] mt-4 text-[17px]">{p.t}</h3>
+                <p className="text-[14.5px] text-[#666] mt-2 leading-relaxed">{p.d}</p>
               </motion.div>
             );
           })}
@@ -170,17 +170,17 @@ export default function Marketplace() {
 
       {/* FILTERS + RESULTS */}
       <section id="marketplace-results" className="max-w-7xl mx-auto px-4 sm:px-6 pb-6 scroll-mt-20">
-        <div className="bg-white rounded-2xl p-4 ring-1 ring-slate-200/70">
+        <div className="bg-white rounded-2xl p-4 ring-1 ring-gray-200/70">
           <div className="flex items-center gap-2 text-[#0B6B4F] font-semibold text-sm mb-3">
             <SlidersHorizontal className="w-4 h-4" /> {MARKETPLACE.filters.heading}
           </div>
           <div className="relative mb-4">
-            <Search className="w-4 h-4 text-[#7A857F] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-[#888] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
             <Input value={text} onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && apply()} data-testid="mp-search"
               aria-label="Search by make, model or registration"
               placeholder="Search by make, model or registration, for example Prius"
-              className="h-12 pl-11 bg-[#F6F5F2] border-transparent rounded-xl text-[15px] focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0B6B4F]/25" />
+              className="h-12 pl-11 bg-[#F5F5F5] border-transparent rounded-xl text-[15px] focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0B6B4F]/25" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -190,7 +190,7 @@ export default function Marketplace() {
                 <SelectContent>
                   <SelectGroup><SelectLabel className="text-[11px] uppercase tracking-wide text-[#0B6B4F]">Most popular</SelectLabel>
                     {POPULAR_CITIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectGroup>
-                  <SelectGroup><SelectLabel className="text-[11px] uppercase tracking-wide text-[#9AA39D]">More cities</SelectLabel>
+                  <SelectGroup><SelectLabel className="text-[11px] uppercase tracking-wide text-[#888]">More cities</SelectLabel>
                     {MORE_CITIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectGroup>
                 </SelectContent>
               </Select>
@@ -234,8 +234,8 @@ export default function Marketplace() {
           <div className="flex items-center gap-2 mt-5 flex-wrap" data-testid="mp-chips">
             {chips.map((c) => (
               <button key={c.label} onClick={() => { c.clear(); }} data-testid={`mp-chip-${c.label}`}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white ring-1 ring-slate-200 px-3.5 py-2.5 min-h-[40px] text-[13px] text-[#1A2E25] capitalize hover:ring-[#0B6B4F] transition-colors">
-                {c.label} <X className="w-3.5 h-3.5 text-[#7A857F]" />
+                className="inline-flex items-center gap-1.5 rounded-full bg-white ring-1 ring-gray-200 px-3.5 py-2.5 min-h-[40px] text-[13px] text-[#111] capitalize hover:ring-[#0B6B4F] transition-colors">
+                {c.label} <X className="w-3.5 h-3.5 text-[#888]" />
               </button>
             ))}
             <button onClick={clearAll} data-testid="mp-clear-all"
@@ -246,7 +246,7 @@ export default function Marketplace() {
         )}
 
         <div className="flex items-center justify-between mt-8 mb-6 flex-wrap gap-3">
-          <p className="text-[#4A564F]" data-testid="mp-count">
+          <p className="text-[#666]" data-testid="mp-count">
             {rows == null ? "Searching…" : `${rows.length} vehicle${rows.length === 1 ? "" : "s"} for sale in ${city}`}
           </p>
           <Select value={sort} onValueChange={setSort}>
@@ -261,12 +261,12 @@ export default function Marketplace() {
 
         {rows == null ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => <div key={`sk-${i}`} className="h-80 rounded-2xl bg-white ring-1 ring-slate-200/70 animate-pulse" />)}
+            {[...Array(6)].map((_, i) => <div key={`sk-${i}`} className="h-80 rounded-2xl bg-white ring-1 ring-gray-200/70 animate-pulse" />)}
           </div>
         ) : rows.length === 0 ? (
-          <div className="bg-white rounded-[22px] ring-1 ring-slate-200 p-10 text-center" data-testid="mp-empty">
-            <h3 className="text-xl font-heading font-bold text-[#1A2E25]">{MARKETPLACE.empty.heading}</h3>
-            <p className="text-[#4A564F] mt-2 text-[15px] max-w-md mx-auto">{MARKETPLACE.empty.sub}</p>
+          <div className="bg-white rounded-[22px] ring-1 ring-gray-200 p-10 text-center" data-testid="mp-empty">
+            <h3 className="text-xl font-heading font-bold text-[#111]">{MARKETPLACE.empty.heading}</h3>
+            <p className="text-[#666] mt-2 text-[15px] max-w-md mx-auto">{MARKETPLACE.empty.sub}</p>
             <Button onClick={scrollToAlert} className="mt-6 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white">
               {MARKETPLACE.empty.cta}
             </Button>
@@ -284,7 +284,7 @@ export default function Marketplace() {
 
       {/* PCO EXPLAINER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="bg-[#12211B] rounded-[26px] p-8 sm:p-12 text-white">
+        <div className="bg-[#0A0A0A] rounded-[26px] p-8 sm:p-12 text-white">
           <div className="flex items-start gap-4 max-w-3xl">
             <Info className="w-6 h-6 text-[#5FD3A6] shrink-0 mt-1" strokeWidth={1.7} />
             <div>
@@ -300,20 +300,20 @@ export default function Marketplace() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
             <p className="text-[13px] font-medium text-[#0B6B4F] tracking-wide">{MARKETPLACE.sellerCta.eyebrow}</p>
-            <h2 className="text-3xl sm:text-4xl font-heading font-bold text-[#1A2E25] mt-2 text-balance">
+            <h2 className="text-3xl sm:text-4xl font-heading font-bold text-[#111] mt-2 text-balance">
               {MARKETPLACE.buyerCta.heading}
             </h2>
-            <p className="text-[#4A564F] mt-3 text-[16px] leading-relaxed">{MARKETPLACE.buyerCta.sub}</p>
-            <div className="mt-8 rounded-[24px] bg-white ring-1 ring-slate-200/70 p-6">
-              <h3 className="font-heading font-bold text-[#1A2E25] text-[18px]">{MARKETPLACE.sellerCta.heading}</h3>
-              <p className="text-[14.5px] text-[#4A564F] mt-2 leading-relaxed">{MARKETPLACE.sellerCta.sub}</p>
+            <p className="text-[#666] mt-3 text-[16px] leading-relaxed">{MARKETPLACE.buyerCta.sub}</p>
+            <div className="mt-8 rounded-[24px] bg-white ring-1 ring-gray-200/70 p-6">
+              <h3 className="font-heading font-bold text-[#111] text-[18px]">{MARKETPLACE.sellerCta.heading}</h3>
+              <p className="text-[14.5px] text-[#666] mt-2 leading-relaxed">{MARKETPLACE.sellerCta.sub}</p>
               <Button onClick={() => navigate("/sell-your-car")} data-testid="mp-sell-cta"
-                className="mt-4 rounded-full bg-[#1A2E25] hover:bg-[#0f1a15] text-white">
+                className="mt-4 rounded-full bg-[#111] hover:bg-[#0A0A0A] text-white">
                 {MARKETPLACE.sellerCta.cta} <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
-          <div className="bg-white rounded-[28px] ring-1 ring-slate-200 p-6 sm:p-8 shadow-xl">
+          <div className="bg-white rounded-[28px] ring-1 ring-gray-200 p-6 sm:p-8 shadow-xl">
             <MarketplaceInterestForm defaultIntent="buy" city={city} />
           </div>
         </div>
@@ -323,5 +323,5 @@ export default function Marketplace() {
 }
 
 const Field = ({ label, children }) => (
-  <div><label className="text-[12.5px] font-medium text-[#4A564F] mb-1.5 block truncate">{label}</label>{children}</div>
+  <div><label className="text-[12.5px] font-medium text-[#666] mb-1.5 block truncate">{label}</label>{children}</div>
 );

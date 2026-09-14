@@ -31,7 +31,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0E1A14] text-white">
+    <footer className="bg-[#0A0A0A] text-white">
       {/* Main columns */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-10">
         <div className="grid grid-cols-2 md:grid-cols-12 gap-8 lg:gap-12">
@@ -68,9 +68,9 @@ export default function Footer() {
                     type="submit"
                     data-testid="footer-newsletter-submit"
                     aria-label="Subscribe"
-                    className="h-10 w-10 shrink-0 rounded-full bg-[#0B6B4F] hover:bg-[#5FD3A6] flex items-center justify-center transition-colors"
+                    className="h-10 w-10 shrink-0 rounded-full bg-[#5FD3A6] hover:bg-[#0B6B4F] group flex items-center justify-center transition-colors"
                   >
-                    <ArrowRight className="w-4 h-4 text-white" />
+                    <ArrowRight className="w-4 h-4 text-[#0A0A0A] group-hover:text-white transition-colors" />
                   </button>
                 </form>
               )}
@@ -110,7 +110,7 @@ export default function Footer() {
             {BRAND.copyright}
           </span>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center flex-wrap justify-center gap-5">
             {/* Legal links */}
             <div className="flex items-center gap-4">
               <Link to="/legal" className="text-[12px] text-white/35 hover:text-white/60 transition-colors">
@@ -135,9 +135,9 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     aria-label={key}
                     data-testid={`social-${key.toLowerCase()}`}
-                    className="w-8 h-8 rounded-full bg-white/6 hover:bg-[#0B6B4F] flex items-center justify-center transition-colors"
+                    className="w-11 h-11 rounded-full bg-white/6 hover:bg-[#5FD3A6] group flex items-center justify-center transition-colors"
                   >
-                    <Icon className="w-3.5 h-3.5 text-white/50" />
+                    <Icon className="w-4 h-4 text-white/50 group-hover:text-[#0A0A0A] transition-colors" />
                   </a>
                 ))}
               </div>

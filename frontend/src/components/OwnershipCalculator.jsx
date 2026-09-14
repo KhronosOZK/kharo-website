@@ -101,16 +101,16 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
           <Calculator className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.7} />
         </div>
         <div>
-          <h2 className="text-xl font-heading font-bold text-[#1A2E25]">Should you buy this or rent one?</h2>
-          <p className="text-[14.5px] text-[#4A564F] mt-1 leading-relaxed">
+          <h2 className="text-xl font-heading font-bold text-[#111]">Should you buy this or rent one?</h2>
+          <p className="text-[14.5px] text-[#666] mt-1 leading-relaxed">
             Change any figure to match your own quotes. Fuel and charging are left out because they cost the same either way.
           </p>
         </div>
       </div>
 
-      <div className="mt-5 rounded-[26px] bg-white ring-1 ring-slate-200/70 overflow-hidden">
+      <div className="mt-5 rounded-[26px] bg-white ring-1 ring-gray-200/70 overflow-hidden">
         {/* Headline result */}
-        <div className={`p-6 sm:p-7 ${ownCheaper ? "bg-[#0B6B4F]" : "bg-[#12211B]"} text-white`}>
+        <div className={`p-6 sm:p-7 ${ownCheaper ? "bg-[#0B6B4F]" : "bg-[#0A0A0A]"} text-white`}>
           {model.breakEven && model.breakEven <= 520 ? (
             <>
               <div className="text-[12px] uppercase tracking-[0.16em] text-white/60">You break even after</div>
@@ -138,10 +138,10 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
         </div>
 
         {/* Comparison bars */}
-        <div className="p-6 sm:p-7 border-b border-slate-100">
+        <div className="p-6 sm:p-7 border-b border-gray-100">
           <div className="flex items-baseline justify-between flex-wrap gap-2">
-            <span className="text-[13px] font-semibold text-[#1A2E25]">Total cost over {weeks} weeks</span>
-            <span className={`text-[13px] font-semibold ${ownCheaper ? "text-[#0B6B4F]" : "text-[#C08A2D]"}`}>
+            <span className="text-[13px] font-semibold text-[#111]">Total cost over {weeks} weeks</span>
+            <span className={`text-[13px] font-semibold ${ownCheaper ? "text-[#0B6B4F]" : "text-[#111]"}`}>
               {ownCheaper ? `Owning saves ${formatPrice(model.difference)}` : `Renting saves ${formatPrice(-model.difference)}`}
             </span>
           </div>
@@ -161,23 +161,23 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
         </div>
 
         {/* Inputs */}
-        <div className="p-6 sm:p-7 bg-[#F9F8F6]">
+        <div className="p-6 sm:p-7 bg-[#FAFAFA]">
           <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-            <span className="text-[13px] font-semibold text-[#1A2E25]">Your assumptions</span>
+            <span className="text-[13px] font-semibold text-[#111]">Your assumptions</span>
             <button onClick={reset} data-testid="calc-reset"
-              className="inline-flex items-center gap-1.5 min-h-[44px] px-1 text-[12.5px] text-[#4A564F] hover:text-[#0B6B4F] transition-colors">
+              className="inline-flex items-center gap-1.5 min-h-[44px] px-1 text-[12.5px] text-[#666] hover:text-[#0B6B4F] transition-colors">
               <RotateCcw className="w-3.5 h-3.5" /> Reset to defaults
             </button>
           </div>
 
           <div className="mb-5">
-            <span className="text-[12.5px] font-medium text-[#4A564F] block mb-2">How long you would keep it</span>
+            <span className="text-[12.5px] font-medium text-[#666] block mb-2">How long you would keep it</span>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {HORIZONS.map((w) => (
                 <button key={w} onClick={() => { setWeeks(w); setTouched(true); }} data-testid={`calc-weeks-${w}`}
                   className={`rounded-xl py-3 min-h-[44px] text-[13px] font-semibold ring-1 transition-all ${
                     weeks === w ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.07] text-[#0B6B4F]"
-                                : "ring-slate-200 bg-white text-[#4A564F] hover:bg-white/60"}`}>
+                                : "ring-gray-200 bg-white text-[#666] hover:bg-white/60"}`}>
                   {w === 26 ? "6 months" : `${w / 52} year${w > 52 ? "s" : ""}`}
                 </button>
               ))}
@@ -193,9 +193,9 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
             <Input label="Purchase price" prefix="£" value={price} readOnly testid="calc-input-price" />
           </div>
 
-          <div className="mt-5 flex gap-2.5 items-start rounded-2xl bg-white ring-1 ring-slate-200/70 p-3.5">
+          <div className="mt-5 flex gap-2.5 items-start rounded-2xl bg-white ring-1 ring-gray-200/70 p-3.5">
             <Info className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={1.8} />
-            <p className="text-[12.5px] text-[#4A564F] leading-relaxed">
+            <p className="text-[12.5px] text-[#666] leading-relaxed">
               These are estimates to help you think it through, not a quote or financial advice. Licensing
               fees differ by authority and change year to year, insurance depends on your own record, and
               finance costs are not included. Check every figure against your own quotes before you commit.
@@ -210,35 +210,35 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
 const Bar = ({ label, total, width, tone, weekly, testid }) => (
   <div data-testid={testid}>
     <div className="flex items-baseline justify-between gap-3 flex-wrap text-[13.5px] mb-1.5">
-      <span className="text-[#1A2E25] font-medium">{label}</span>
-      <span className="font-heading font-bold text-[#1A2E25] whitespace-nowrap">
-        {formatPrice(total)} <span className="text-[12px] font-normal text-[#7A857F]">≈ £{weekly}/wk</span>
+      <span className="text-[#111] font-medium">{label}</span>
+      <span className="font-heading font-bold text-[#111] whitespace-nowrap">
+        {formatPrice(total)} <span className="text-[12px] font-normal text-[#888]">≈ £{weekly}/wk</span>
       </span>
     </div>
-    <div className="h-3 rounded-full bg-[#EFEDE8] overflow-hidden">
+    <div className="h-3 rounded-full bg-[#EBEBEB] overflow-hidden">
       <div style={{ width: `${Math.max(width, 2)}%` }}
-        className={`h-full rounded-full transition-all duration-500 ${tone === "own" ? "bg-[#0B6B4F]" : "bg-[#C08A2D]"}`} />
+        className={`h-full rounded-full transition-all duration-500 ${tone === "own" ? "bg-[#0B6B4F]" : "bg-[#111]"}`} />
     </div>
   </div>
 );
 
 const Cell = ({ label, value, highlight }) => (
-  <div className={`rounded-2xl p-4 ${highlight ? "bg-[#E6F5F0] ring-1 ring-[#0B6B4F]/15" : "bg-[#F9F8F6] ring-1 ring-slate-200/70"}`}>
-    <div className="text-[12px] text-[#7A857F] leading-snug">{label}</div>
-    <div className="font-heading font-bold text-[#1A2E25] text-[18px] mt-1.5">{value}</div>
+  <div className={`rounded-2xl p-4 ${highlight ? "bg-[#EAF5F1] ring-1 ring-[#0B6B4F]/15" : "bg-[#FAFAFA] ring-1 ring-gray-200/70"}`}>
+    <div className="text-[12px] text-[#888] leading-snug">{label}</div>
+    <div className="font-heading font-bold text-[#111] text-[18px] mt-1.5">{value}</div>
   </div>
 );
 
 const Input = ({ label, prefix, suffix, value, onChange, readOnly, testid }) => (
   <label className="block">
-    <span className="text-[12.5px] font-medium text-[#4A564F] block mb-1.5">{label}</span>
+    <span className="text-[12.5px] font-medium text-[#666] block mb-1.5">{label}</span>
     <span className={`flex items-center gap-1 h-11 rounded-xl px-3 ring-1 transition-colors ${
-      readOnly ? "bg-[#EFEDE8] ring-transparent" : "bg-white ring-slate-200 focus-within:ring-2 focus-within:ring-[#0B6B4F]"}`}>
-      {prefix && <span className="text-[15px] text-[#7A857F]">{prefix}</span>}
+      readOnly ? "bg-[#EBEBEB] ring-transparent" : "bg-white ring-gray-200 focus-within:ring-2 focus-within:ring-[#0B6B4F]"}`}>
+      {prefix && <span className="text-[15px] text-[#888]">{prefix}</span>}
       <input type="number" inputMode="numeric" value={value} onChange={onChange} readOnly={readOnly}
         data-testid={testid} aria-label={label}
-        className="flex-1 min-w-0 bg-transparent text-[15px] font-medium text-[#1A2E25] outline-none" />
-      {suffix && <span className="text-[12px] text-[#7A857F] whitespace-nowrap">{suffix}</span>}
+        className="flex-1 min-w-0 bg-transparent text-[15px] font-medium text-[#111] outline-none" />
+      {suffix && <span className="text-[12px] text-[#888] whitespace-nowrap">{suffix}</span>}
     </span>
   </label>
 );

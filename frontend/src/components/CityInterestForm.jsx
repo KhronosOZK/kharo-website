@@ -28,18 +28,18 @@ export default function CityInterestForm({ city, compact, mode = "waitlist" }) {
 
   if (done) return (
     <div className="text-center py-8" data-testid="city-interest-success">
-      <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center mx-auto"><Check className="w-7 h-7 text-emerald-700" /></div>
-      <h3 className="text-xl font-heading font-bold text-[#1A2E25] mt-4">{isRequest ? "Got it, we are on the hunt" : `You are on the list for ${city}`}</h3>
-      <p className="text-[#4A564F] mt-2 text-[15px]">{isRequest ? `We will let you know as soon as a matching car comes up in ${city}, and we will pass your request to our operators.` : `As soon as we have cars in ${city}, you will be the first to know.`}</p>
+      <div className="w-14 h-14 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto"><Check className="w-7 h-7 text-[#0B6B4F]" /></div>
+      <h3 className="text-xl font-heading font-bold text-[#0A0A0A] mt-4">{isRequest ? "Got it, we are on the hunt" : `You are on the list for ${city}`}</h3>
+      <p className="text-gray-600 mt-2 text-[15px]">{isRequest ? `We will let you know as soon as a matching car comes up in ${city}, and we will pass your request to our operators.` : `As soon as we have cars in ${city}, you will be the first to know.`}</p>
     </div>
   );
 
   return (
-    <div className={compact ? "" : "bg-white rounded-[22px] p-7 ring-1 ring-slate-200/70 max-w-xl mx-auto"} data-testid="city-interest-form">
+    <div className={compact ? "" : "bg-white rounded-[22px] p-7 ring-1 ring-gray-200/70 max-w-xl mx-auto"} data-testid="city-interest-form">
       <div className="flex items-center gap-2 text-[#0B6B4F] font-semibold">
         {isRequest ? <><Search className="w-5 h-5" /> Can't find the right car in {city}?</> : <><MapPin className="w-5 h-5" /> No cars in {city} just yet</>}
       </div>
-      <p className="text-[15px] text-[#4A564F] mt-2 mb-5">
+      <p className="text-[15px] text-gray-600 mt-2 mb-5">
         {isRequest
           ? `Tell us exactly what you are after and we will match you when it comes up. Your request also tells our operators what drivers in ${city} actually want.`
           : `Tell us you want one and we will prioritise ${city} based on demand. Leave your details and we will be in touch the moment cars go live there.`}
@@ -57,7 +57,7 @@ export default function CityInterestForm({ city, compact, mode = "waitlist" }) {
           <div><Label className="mb-1.5 block text-sm">Phone</Label><Input value={f.phone} onChange={set("phone")} data-testid="city-phone" className="h-11" /></div>
         </div>
         <div><Label className="mb-1.5 block text-sm">Email</Label><Input type="email" value={f.email} onChange={set("email")} data-testid="city-email" className="h-11" required /></div>
-        <Button type="submit" disabled={loading} className="w-full h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white" data-testid="city-submit">{loading ? "Sending" : (isRequest ? "Send my car request" : `Notify me about ${city}`)}</Button>
+        <Button type="submit" disabled={loading} className="w-full h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white transition-colors" data-testid="city-submit">{loading ? "Sending" : (isRequest ? "Send my car request" : `Notify me about ${city}`)}</Button>
       </form>
     </div>
   );

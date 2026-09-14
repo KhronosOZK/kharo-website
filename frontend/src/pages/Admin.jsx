@@ -47,14 +47,14 @@ export default function Admin() {
 
   if (!isAdmin) return (
     <main className="max-w-md mx-auto px-4 py-16">
-      <div className="bg-white border border-slate-200 rounded-2xl p-8">
-        <Lock className="w-6 h-6 text-[#0B6B4F]" />
-        <h1 className="text-2xl font-heading font-bold text-[#1A2E25] mt-3">Kharo Ops, admin</h1>
-        <p className="text-sm text-[#64748B] mt-1 mb-6">Sign in with your operations account to view captured leads.</p>
+      <div className="bg-white border border-gray-200 rounded-2xl p-8">
+        <div className="w-11 h-11 rounded-full bg-[#EAF5F1] flex items-center justify-center"><Lock className="w-5 h-5 text-[#0B6B4F]" /></div>
+        <h1 className="text-2xl font-heading font-bold text-[#0A0A0A] mt-4">Kharo Ops, admin</h1>
+        <p className="text-sm text-[#666666] mt-1 mb-6">Sign in with your operations account to view captured leads.</p>
         <form onSubmit={doLogin} className="space-y-4">
-          <div><Label className="mb-1.5 block text-sm">Email</Label><Input type="email" value={creds.email} onChange={(e) => setCreds((p) => ({ ...p, email: e.target.value }))} data-testid="admin-email" /></div>
-          <div><Label className="mb-1.5 block text-sm">Password</Label><Input type="password" value={creds.password} onChange={(e) => setCreds((p) => ({ ...p, password: e.target.value }))} data-testid="admin-password" /></div>
-          <Button type="submit" className="w-full rounded-full bg-[#0B6B4F] hover:bg-[#065F46] text-white" data-testid="admin-login">Sign in</Button>
+          <div><Label className="mb-1.5 block text-sm">Email</Label><Input type="email" value={creds.email} onChange={(e) => setCreds((p) => ({ ...p, email: e.target.value }))} data-testid="admin-email" className="h-11 rounded-xl focus-visible:ring-[#0B6B4F]/30" /></div>
+          <div><Label className="mb-1.5 block text-sm">Password</Label><Input type="password" value={creds.password} onChange={(e) => setCreds((p) => ({ ...p, password: e.target.value }))} data-testid="admin-password" className="h-11 rounded-xl focus-visible:ring-[#0B6B4F]/30" /></div>
+          <Button type="submit" className="w-full h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white" data-testid="admin-login">Sign in</Button>
         </form>
       </div>
     </main>
@@ -78,7 +78,7 @@ export default function Admin() {
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
       {/* Investor headline banner */}
-      <div className="relative overflow-hidden rounded-[26px] bg-[#0B130F] text-white p-7 sm:p-10">
+      <div className="relative overflow-hidden rounded-[26px] bg-[#0A0A0A] text-white p-7 sm:p-10">
         <div className="grid lg:grid-cols-[1.2fr,1fr] gap-8 items-center">
           <div>
             <p className="text-[12px] font-medium text-[#5FD3A6] tracking-[0.14em] uppercase">Traction dashboard</p>
@@ -103,24 +103,24 @@ export default function Admin() {
       {/* Headline KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
         {headline.map((c) => (
-          <div key={c.l} className="bg-white border border-slate-200 rounded-2xl p-5" data-testid={`stat-${c.l}`}>
+          <div key={c.l} className="bg-white border border-gray-200 rounded-2xl p-5" data-testid={`stat-${c.l}`}>
             <c.i className="w-5 h-5 text-[#0B6B4F]" />
-            <AnimatedNumber value={c.v} className="text-[32px] font-heading font-extrabold text-[#1A2E25] mt-3 block leading-none" />
-            <div className="text-[13px] font-medium text-[#1A2E25] mt-2">{c.l}</div>
-            <div className="text-[11.5px] text-[#94A3B8] mt-0.5">{c.hint}</div>
+            <AnimatedNumber value={c.v} className="text-[32px] font-heading font-extrabold text-[#0A0A0A] mt-3 block leading-none" />
+            <div className="text-[13px] font-medium text-[#0A0A0A] mt-2">{c.l}</div>
+            <div className="text-[11.5px] text-[#999999] mt-0.5">{c.hint}</div>
           </div>
         ))}
       </div>
 
       {/* Marketplace demand, buy versus sell */}
       {analytics?.marketplace && (
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 mt-4" data-testid="admin-marketplace">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mt-4" data-testid="admin-marketplace">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <h3 className="font-heading font-bold text-[#1A2E25] text-lg">Marketplace demand</h3>
-              <p className="text-[13px] text-[#64748B] mt-0.5">Who wants to buy a vehicle and who wants to sell one</p>
+              <h3 className="font-heading font-bold text-[#0A0A0A] text-lg">Marketplace demand</h3>
+              <p className="text-[13px] text-[#666666] mt-0.5">Who wants to buy a vehicle and who wants to sell one</p>
             </div>
-            <span className="text-[12.5px] text-[#94A3B8]">{analytics.marketplace.views} listing views</span>
+            <span className="text-[12.5px] text-[#999999]">{analytics.marketplace.views} listing views</span>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-5">
             {[
@@ -129,22 +129,22 @@ export default function Admin() {
               { l: "Vehicles listed", v: analytics.marketplace.listings, i: Building2, hint: "live sale inventory" },
               { l: "Listing views", v: analytics.marketplace.views, i: TrendingUp, hint: "sale detail page opens" },
             ].map((c) => (
-              <div key={c.l} className="rounded-2xl bg-[#F9F8F6] ring-1 ring-slate-200/70 p-5" data-testid={`mp-stat-${c.l}`}>
+              <div key={c.l} className="rounded-2xl bg-[#F5F5F5] ring-1 ring-gray-200/70 p-5" data-testid={`mp-stat-${c.l}`}>
                 <c.i className="w-5 h-5 text-[#0B6B4F]" />
-                <AnimatedNumber value={c.v} className="text-[30px] font-heading font-extrabold text-[#1A2E25] mt-3 block leading-none" />
-                <div className="text-[13px] font-medium text-[#1A2E25] mt-2">{c.l}</div>
-                <div className="text-[11.5px] text-[#94A3B8] mt-0.5">{c.hint}</div>
+                <AnimatedNumber value={c.v} className="text-[30px] font-heading font-extrabold text-[#0A0A0A] mt-3 block leading-none" />
+                <div className="text-[13px] font-medium text-[#0A0A0A] mt-2">{c.l}</div>
+                <div className="text-[11.5px] text-[#999999] mt-0.5">{c.hint}</div>
               </div>
             ))}
           </div>
           {analytics.marketplace.by_city?.length > 0 && (
-            <div className="mt-5 pt-5 border-t border-slate-100">
-              <div className="text-[13px] font-semibold text-[#1A2E25] mb-3">Marketplace interest by city</div>
+            <div className="mt-5 pt-5 border-t border-gray-100">
+              <div className="text-[13px] font-semibold text-[#0A0A0A] mb-3">Marketplace interest by city</div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
                 {analytics.marketplace.by_city.map((c) => (
-                  <div key={c.label} className="flex justify-between text-[14px] bg-[#F9F8F6] rounded-xl px-3 py-2">
-                    <span className="text-[#4A564F]">{c.label}</span>
-                    <span className="font-semibold text-[#1A2E25]">{c.count}</span>
+                  <div key={c.label} className="flex justify-between text-[14px] bg-[#F5F5F5] rounded-xl px-3 py-2">
+                    <span className="text-[#666666]">{c.label}</span>
+                    <span className="font-semibold text-[#0A0A0A]">{c.count}</span>
                   </div>
                 ))}
               </div>
@@ -155,13 +155,13 @@ export default function Admin() {
 
       {/* Trend chart */}
       {analytics?.trend && (
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 mt-4">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mt-4">
           <div className="flex items-center justify-between flex-wrap gap-2 mb-5">
-            <h3 className="font-heading font-bold text-[#1A2E25] text-lg">Growth over the last 14 days</h3>
+            <h3 className="font-heading font-bold text-[#0A0A0A] text-lg">Growth over the last 14 days</h3>
             <div className="flex gap-4 text-[12px]">
-              <span className="flex items-center gap-1.5 text-[#64748B]"><span className="w-2.5 h-2.5 rounded-full bg-[#0B6B4F]" /> Page views</span>
-              <span className="flex items-center gap-1.5 text-[#64748B]"><span className="w-2.5 h-2.5 rounded-full bg-[#0EA5E9]" /> Driver signups</span>
-              <span className="flex items-center gap-1.5 text-[#64748B]"><span className="w-2.5 h-2.5 rounded-full bg-[#C08A2D]" /> Leads</span>
+              <span className="flex items-center gap-1.5 text-[#666666]"><span className="w-2.5 h-2.5 rounded-full bg-[#0B6B4F]" /> Page views</span>
+              <span className="flex items-center gap-1.5 text-[#666666]"><span className="w-2.5 h-2.5 rounded-full bg-[#0A0A0A]" /> Driver signups</span>
+              <span className="flex items-center gap-1.5 text-[#666666]"><span className="w-2.5 h-2.5 rounded-full bg-[#AAAAAA]" /> Leads</span>
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
@@ -169,13 +169,13 @@ export default function Admin() {
               <defs>
                 <linearGradient id="gv" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#0B6B4F" stopOpacity={0.28} /><stop offset="100%" stopColor="#0B6B4F" stopOpacity={0} /></linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#EEF0EC" />
-              <XAxis dataKey="label" tickLine={false} axisLine={false} fontSize={11} stroke="#94A3B8" />
-              <YAxis tickLine={false} axisLine={false} fontSize={11} stroke="#94A3B8" allowDecimals={false} />
-              <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #E5E7EB", fontSize: 13 }} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E8E8E8" />
+              <XAxis dataKey="label" tickLine={false} axisLine={false} fontSize={11} stroke="#999999" />
+              <YAxis tickLine={false} axisLine={false} fontSize={11} stroke="#999999" allowDecimals={false} />
+              <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #E8E8E8", fontSize: 13 }} />
               <Area type="monotone" dataKey="views" name="Page views" stroke="#0B6B4F" strokeWidth={2.5} fill="url(#gv)" />
-              <Line type="monotone" dataKey="signups" name="Driver signups" stroke="#0EA5E9" strokeWidth={2.5} dot={false} />
-              <Line type="monotone" dataKey="leads" name="Leads" stroke="#C08A2D" strokeWidth={2.5} dot={false} />
+              <Line type="monotone" dataKey="signups" name="Driver signups" stroke="#0A0A0A" strokeWidth={2.5} dot={false} />
+              <Line type="monotone" dataKey="leads" name="Leads" stroke="#AAAAAA" strokeWidth={2.5} dot={false} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -184,33 +184,33 @@ export default function Admin() {
       {/* Secondary metrics + funnel + demand */}
       {analytics && (
         <div className="grid lg:grid-cols-3 gap-4 mt-4">
-          <div className="lg:col-span-2 bg-white rounded-2xl p-5 ring-1 ring-slate-200/70">
-            <h3 className="font-heading font-bold text-[#1A2E25] mb-4">Acquisition funnel</h3>
+          <div className="lg:col-span-2 bg-white rounded-2xl p-5 ring-1 ring-gray-200/70">
+            <h3 className="font-heading font-bold text-[#0A0A0A] mb-4">Acquisition funnel</h3>
             <div className="space-y-2.5">
               {[["Page views", analytics.funnel.page_views], ["Searches", analytics.funnel.searches], ["Listing views", analytics.funnel.listing_views], ["Card clicks", analytics.funnel.card_clicks], ["Applications", analytics.funnel.applications], ["Driver signups", analytics.funnel.driver_signups]].map(([l, n], i, arr) => {
                 const max = Math.max(...arr.map((x) => x[1]), 1);
                 return (
                   <div key={l} className="flex items-center gap-3">
-                    <span className="text-[13px] text-[#4A564F] w-28 shrink-0">{l}</span>
-                    <div className="flex-1 h-6 bg-[#F1EFE9] rounded-full overflow-hidden"><div className="h-full bg-[#0B6B4F] rounded-full transition-all" style={{ width: `${Math.max((n / max) * 100, 4)}%` }} /></div>
-                    <span className="text-[13px] font-semibold text-[#1A2E25] w-10 text-right">{n}</span>
+                    <span className="text-[13px] text-[#666666] w-28 shrink-0">{l}</span>
+                    <div className="flex-1 h-6 bg-[#EBEBEB] rounded-full overflow-hidden"><div className="h-full bg-[#0B6B4F] rounded-full transition-all" style={{ width: `${Math.max((n / max) * 100, 4)}%` }} /></div>
+                    <span className="text-[13px] font-semibold text-[#0A0A0A] w-10 text-right">{n}</span>
                   </div>
                 );
               })}
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-slate-100">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-gray-100">
               {secondary.map((s) => (
-                <div key={s.l}><div className="text-xl font-heading font-extrabold text-[#1A2E25]">{s.v}</div><div className="text-[12px] text-[#64748B]">{s.l}</div></div>
+                <div key={s.l}><div className="text-xl font-heading font-extrabold text-[#0A0A0A]">{s.v}</div><div className="text-[12px] text-[#666666]">{s.l}</div></div>
               ))}
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-5 ring-1 ring-slate-200/70">
-            <h3 className="font-heading font-bold text-[#1A2E25] mb-4">City demand (waitlist)</h3>
-            {analytics.city_demand.length === 0 ? <p className="text-[13px] text-[#7A857F]">No city requests yet.</p> : (
-              <div className="space-y-2">{analytics.city_demand.map((c) => (<div key={c.label} className="flex justify-between text-[14px]"><span className="text-[#4A564F]">{c.label}</span><span className="font-semibold text-[#1A2E25]">{c.count}</span></div>))}</div>
+          <div className="bg-white rounded-2xl p-5 ring-1 ring-gray-200/70">
+            <h3 className="font-heading font-bold text-[#0A0A0A] mb-4">City demand (waitlist)</h3>
+            {analytics.city_demand.length === 0 ? <p className="text-[13px] text-[#888888]">No city requests yet.</p> : (
+              <div className="space-y-2">{analytics.city_demand.map((c) => (<div key={c.label} className="flex justify-between text-[14px]"><span className="text-[#666666]">{c.label}</span><span className="font-semibold text-[#0A0A0A]">{c.count}</span></div>))}</div>
             )}
-            <h3 className="font-heading font-bold text-[#1A2E25] mt-5 mb-3">Lead sources</h3>
-            <div className="space-y-2">{analytics.lead_sources.map((c) => (<div key={c.label} className="flex justify-between text-[14px]"><span className="text-[#4A564F] capitalize">{String(c.label).replace(/_/g, " ")}</span><span className="font-semibold text-[#1A2E25]">{c.count}</span></div>))}</div>
+            <h3 className="font-heading font-bold text-[#0A0A0A] mt-5 mb-3">Lead sources</h3>
+            <div className="space-y-2">{analytics.lead_sources.map((c) => (<div key={c.label} className="flex justify-between text-[14px]"><span className="text-[#666666] capitalize">{String(c.label).replace(/_/g, " ")}</span><span className="font-semibold text-[#0A0A0A]">{c.count}</span></div>))}</div>
           </div>
         </div>
       )}
@@ -223,37 +223,37 @@ export default function Admin() {
           <Button onClick={exportCsv} variant="outline" className="rounded-full" data-testid="export-csv-btn"><Download className="w-4 h-4 mr-2" /> Export CSV</Button>
         </div>
 
-        <div className="mt-4 bg-white border border-slate-200 rounded-2xl p-3 flex flex-wrap items-center gap-3">
+        <div className="mt-4 bg-white border border-gray-200 rounded-2xl p-3 flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[200px]">
-            <Search className="w-4 h-4 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search this table…" data-testid="admin-filter-search" className="h-10 pl-9 rounded-full border-slate-200" />
+            <Search className="w-4 h-4 text-[#999999] absolute left-3 top-1/2 -translate-y-1/2" />
+            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search this table…" data-testid="admin-filter-search" className="h-10 pl-9 rounded-full border-gray-200" />
           </div>
-          <div className="flex items-center gap-2 text-[13px] text-[#64748B]">
+          <div className="flex items-center gap-2 text-[13px] text-[#666666]">
             <span>From</span>
-            <Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} data-testid="admin-filter-from" className="h-10 w-[150px] rounded-lg border-slate-200" />
+            <Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} data-testid="admin-filter-from" className="h-10 w-[150px] rounded-lg border-gray-200" />
             <span>To</span>
-            <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} data-testid="admin-filter-to" className="h-10 w-[150px] rounded-lg border-slate-200" />
+            <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} data-testid="admin-filter-to" className="h-10 w-[150px] rounded-lg border-gray-200" />
           </div>
           {(q || from || to) && <Button variant="ghost" onClick={() => { setQ(""); setFrom(""); setTo(""); }} data-testid="admin-filter-clear" className="rounded-full text-[#0B6B4F]">Clear</Button>}
-          <span className="text-[12.5px] text-[#94A3B8] ml-auto" data-testid="admin-filter-count">{filtered.length} of {rows.length}</span>
+          <span className="text-[12.5px] text-[#999999] ml-auto" data-testid="admin-filter-count">{filtered.length} of {rows.length}</span>
         </div>
 
         {TABS.map((t) => (
           <TabsContent key={t} value={t} className="mt-4">
-            <div className="bg-white border border-slate-200 rounded-xl overflow-x-auto">
+            <div className="bg-white border border-gray-200 rounded-xl overflow-x-auto">
               {rows.length === 0 ? (
-                <div className="p-8 text-center text-[#64748B] text-sm">No records yet.</div>
+                <div className="p-8 text-center text-[#666666] text-sm">No records yet.</div>
               ) : filtered.length === 0 ? (
-                <div className="p-8 text-center text-[#64748B] text-sm" data-testid="admin-no-matches">No records match your filters.</div>
+                <div className="p-8 text-center text-[#666666] text-sm" data-testid="admin-no-matches">No records match your filters.</div>
               ) : (
                 <table className="w-full text-sm" data-testid={`table-${t}`}>
-                  <thead><tr className="text-left text-[#64748B] text-xs border-b border-slate-200 bg-[#F9F8F6]">
+                  <thead><tr className="text-left text-[#666666] text-xs border-b border-gray-200 bg-[#F5F5F5]">
                     {columns.map((c) => <th key={c} className="py-3 px-4 capitalize whitespace-nowrap">{c.replace(/_/g, " ")}</th>)}
                   </tr></thead>
                   <tbody>
                     {filtered.map((r, i) => (
-                      <tr key={`${t}-${r.id || r.email || "row"}-${i}`} className="border-b border-slate-100 last:border-0 hover:bg-[#F9F8F6]">
-                        {columns.map((c) => <td key={c} className="py-2.5 px-4 text-[#475569] whitespace-nowrap max-w-xs truncate">{String(r[c] ?? "-")}</td>)}
+                      <tr key={`${t}-${r.id || r.email || "row"}-${i}`} className="border-b border-gray-100 last:border-0 hover:bg-[#F5F5F5]">
+                        {columns.map((c) => <td key={c} className="py-2.5 px-4 text-[#555555] whitespace-nowrap max-w-xs truncate">{String(r[c] ?? "-")}</td>)}
                       </tr>
                     ))}
                   </tbody>

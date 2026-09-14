@@ -84,7 +84,7 @@ const VETTING_STEPS = [
   {
     num: "02",
     title: "Liveness identity check",
-    body: "AI-assisted check against photo ID. Confirms you are who you say you are. No in-person visit needed..",
+    body: "AI-assisted check against photo ID. Confirms you are who you say you are. No in-person visit needed.",
   },
   {
     num: "03",
@@ -179,7 +179,7 @@ export default function WhyCaro() {
               >
                 <div className="grid sm:grid-cols-2">
                   <div className="p-5 sm:border-r border-b sm:border-b-0 border-[#F0F0F0] flex items-start gap-3">
-                    <X className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
+                    <X className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                     <p className="text-[14px] text-[#666] leading-relaxed">{problem}</p>
                   </div>
                   <div className="p-5 bg-[#FAFFFE] flex items-start gap-3">
@@ -266,8 +266,8 @@ export default function WhyCaro() {
                       <Check className="w-3.5 h-3.5 text-[#0B6B4F]" />
                     </span>
                   ) : (
-                    <span className="w-6 h-6 rounded-full bg-[#FEF2F2] flex items-center justify-center">
-                      <X className="w-3.5 h-3.5 text-[#DC2626]" />
+                    <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
+                      <X className="w-3.5 h-3.5 text-gray-400" />
                     </span>
                   )}
                 </div>
@@ -277,8 +277,8 @@ export default function WhyCaro() {
                       <Check className="w-3.5 h-3.5 text-[#0B6B4F]" />
                     </span>
                   ) : them === false ? (
-                    <span className="w-6 h-6 rounded-full bg-[#FEF2F2] flex items-center justify-center">
-                      <X className="w-3.5 h-3.5 text-[#DC2626]" />
+                    <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
+                      <X className="w-3.5 h-3.5 text-gray-400" />
                     </span>
                   ) : (
                     <span className="text-[13px] text-[#CCC]">Varies</span>

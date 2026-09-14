@@ -10,11 +10,10 @@ export default function RequestCar() {
   const city = params.get("city") || "London";
 
   return (
-    <main className="relative min-h-[calc(100vh-68px)] bg-[#07110D] overflow-hidden">
+    <main className="relative min-h-[calc(100vh-68px)] bg-[#0A0A0A] overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         <img src={IMG.taxiDriver} alt="" className="w-full h-full object-cover opacity-[0.14]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#07110D] via-[#07110D]/94 to-[#0B2118]/85" />
-        <div className="absolute -top-48 -right-40 w-[560px] h-[560px] rounded-full bg-[#0B6B4F]/26 blur-[130px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#0A0A0A]/94 to-[#0A0A0A]/85" />
         <div className="absolute inset-0 grain opacity-40" />
       </div>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-10 lg:py-16 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[calc(100vh-68px)]">
@@ -27,7 +26,7 @@ export default function RequestCar() {
 
         <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.55 }}
           className="w-full max-w-md justify-self-center lg:justify-self-end">
-          <div className="bg-[#F9F8F6] rounded-[28px] p-6 sm:p-8 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)]">
+          <div className="bg-[#FAFAFA] rounded-[28px] p-6 sm:p-8 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)]">
             <CityInterestForm city={city} mode="request" compact />
           </div>
         </motion.div>
