@@ -260,14 +260,32 @@ export default function SearchResults() {
           {/* Main results */}
           <div className={`flex-1 min-w-0 ${showMap ? "hidden lg:block" : ""}`}>
             {/* Results header */}
-            <div className="flex items-center justify-between mb-5">
-              <h1 className="font-heading font-bold text-[#111] text-lg">
+            <div className="flex items-start justify-between mb-5">
+              <h1 className="font-heading font-bold text-[#111] text-lg pt-2">
                 {results.length} vehicle{results.length !== 1 ? "s" : ""} to rent
               </h1>
+              <div className="hidden lg:flex flex-col items-end gap-2">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] bg-white"
+                >
+                  <option value="price_asc">Price: Low to High</option>
+                  <option value="price_desc">Price: High to Low</option>
+                  <option value="rating">Top Rated</option>
+                </select>
+                <button
+                  onClick={() => setShowMap((s) => !s)}
+                  className="flex items-center gap-1.5 border border-[#E8E8E8] bg-white px-3 py-2 rounded-full text-sm text-[#555] font-medium hover:border-[#AAA]"
+                >
+                  <MapIcon size={14} />
+                  {showMap ? "Hide map" : "Show map"}
+                </button>
+              </div>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] bg-white"
+                className="lg:hidden border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] bg-white"
               >
                 <option value="price_asc">Price: Low to High</option>
                 <option value="price_desc">Price: High to Low</option>
@@ -303,11 +321,11 @@ export default function SearchResults() {
             )}
           </div>
 
-          {/* Map: always-on side panel at desktop widths, full-screen toggle below that */}
-          <div className={`${showMap ? "block" : "hidden"} lg:block flex-1 lg:flex-none lg:w-[42%] lg:sticky lg:top-4 lg:self-start`}>
+          {/* Map: hidden by default at every width, toggled via the header button (desktop) or floating pill (mobile) */}
+          <div className={`${showMap ? "block" : "hidden"} flex-1 lg:flex-none lg:w-[42%] lg:sticky lg:top-4 lg:self-start`}>
             <div className={showMap ? "fixed inset-0 z-40 lg:static lg:z-auto" : ""}>
               <div className="h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)] rounded-none lg:rounded-2xl overflow-hidden border border-[#E8E8E8]">
-                <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} />
+                <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} visibilityTrigger={showMap} />
               </div>
             </div>
           </div>

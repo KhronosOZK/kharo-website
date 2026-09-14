@@ -5,18 +5,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { areaCoords } from "@/lib/geo";
 
-// Leaflet computes its size once on mount; a map that's initialised while its
-// container is display:none (our mobile toggle) or that gets resized after
-// mount renders at the wrong size until told to re-measure.
-function InvalidateOnVisible({ trigger }) {
-  const map = useMap();
-  useEffect(() => {
-    const id = requestAnimationFrame(() => map.invalidateSize());
-    return () => cancelAnimationFrame(id);
-  }, [trigger, map]);
-  return null;
-}
-
 // Custom price-pill marker instead of Leaflet's default pin - matches the
 // site's pill-button language instead of looking like a generic map widget.
 function priceIcon(price, active) {
@@ -37,15 +25,21 @@ function priceIcon(price, active) {
   });
 }
 
-// Refits the map to the current markers whenever the filtered result set changes,
-// so the map view always matches what's actually on screen (the "auto-updates" part).
-function FitToMarkers({ points }) {
+// A map that starts life in a display:none container (our toggled panel) has
+// zero size, so fitBounds's zoom math goes wrong unless we tell Leaflet to
+// re-measure *first* and only fit bounds once that's actually taken effect -
+// running both in the same tick races, hence the explicit two-step.
+function FitToMarkers({ points, visibilityTrigger }) {
   const map = useMap();
   useEffect(() => {
-    if (points.length === 0) return;
-    const bounds = L.latLngBounds(points).pad(0.3);
-    map.fitBounds(bounds, { maxZoom: 12 });
-  }, [points, map]);
+    const id = requestAnimationFrame(() => {
+      map.invalidateSize();
+      if (points.length === 0) return;
+      const bounds = L.latLngBounds(points).pad(0.3);
+      map.fitBounds(bounds, { maxZoom: 12, animate: false });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [points, visibilityTrigger, map]);
   return null;
 }
 
@@ -81,11 +75,11 @@ export default function SearchMap({ results, activeBorough, onAreaClick, visibil
       ref={mapRef}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-        className="grayscale-map-tiles"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://www.esri.com">Esri</a>'
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        maxNativeZoom={16}
       />
-      <FitToMarkers points={points} />
+      <FitToMarkers points={points} visibilityTrigger={visibilityTrigger} />
       {groups.map((g) => (
         <Marker
           key={`${g.city}|${g.borough}`}

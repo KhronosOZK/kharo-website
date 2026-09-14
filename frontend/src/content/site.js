@@ -40,7 +40,7 @@ export const BRAND = {
 
 export const NAV = {
   primary: [
-    { to: "/", label: "Rent a car" },
+    { to: "/search", label: "Rent a car" },
     { to: "/why-caro", label: "Why Kharo" },
     { to: "/driver-guide", label: "How it works" },
     { to: "/operator-guide", label: "For operators" },
@@ -63,7 +63,7 @@ export const NAV = {
     {
       heading: "Drivers",
       links: [
-        ["Rent a car", "/"],
+        ["Rent a car", "/search"],
         ["How renting works", "/driver-guide"],
         ["Register your interest", "/register"],
       ],

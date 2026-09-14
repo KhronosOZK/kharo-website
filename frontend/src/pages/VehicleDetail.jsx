@@ -8,15 +8,10 @@ import { api, trackEvent } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { PRICING_TIERS, weeklyForWeeks } from "@/lib/pricing";
 import PreviewNotice from "@/components/PreviewNotice";
+import ApproxAreaMap from "@/components/ApproxAreaMap";
 import { useSeo } from "@/lib/seo";
 import { getMockById } from "@/data/mockListings";
-
-const COORDS = {
-  "Newham": [51.528, 0.035], "Croydon": [51.372, -0.101], "Redbridge": [51.559, 0.076],
-  "Harrow": [51.58, -0.336], "Barking & Dagenham": [51.554, 0.129], "Westminster": [51.497, -0.137],
-  "Camden": [51.549, -0.142], "Hounslow": [51.468, -0.361], "Lewisham": [51.462, -0.011],
-  "Ealing": [51.513, -0.305], "Bromley": [51.406, 0.015],
-};
+import { areaCoords } from "@/lib/geo";
 
 export default function VehicleDetail() {
   const { id } = useParams();
@@ -74,10 +69,7 @@ export default function VehicleDetail() {
   const total = (rentWeekly + (insurance || 0) + breakdownCost).toFixed(2);
   const monthly = (Number(total) * 4.33).toFixed(0);
   const isSaved = saved.includes(v.id);
-  const [lat, lon] = COORDS[v.borough] || [51.509, -0.118];
-  // no marker param: this is an approximate-area map, a precise pin would overclaim location accuracy
-  const bbox = `${lon - 0.07}%2C${lat - 0.035}%2C${lon + 0.07}%2C${lat + 0.035}`;
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
+  const [lat, lon] = areaCoords(v.borough, v.city);
 
   const isElectric = (v.fuel || "").toLowerCase() === "electric";
   // mock listings often repeat the same photo url in every slot: only offer gallery
@@ -339,19 +331,8 @@ export default function VehicleDetail() {
 
             {/* Location map */}
             <DetailSection title="Collection area">
-              <div className="relative rounded-2xl overflow-hidden border border-[#E8E8E8]">
-                <iframe
-                  title="Collection area map"
-                  src={mapUrl}
-                  className="w-full h-64 border-0 pointer-events-none"
-                  style={{ filter: "grayscale(0.9) contrast(1.05) brightness(1.03)" }}
-                  loading="lazy"
-                  data-testid="location-map"
-                />
-                {/* soft area indicator, not a precise pin: this is an approximate area, not an exact address */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="w-24 h-24 rounded-full bg-[#0B6B4F]/10 ring-1 ring-[#0B6B4F]/30" />
-                </div>
+              <div className="relative rounded-2xl overflow-hidden border border-[#E8E8E8] h-64" data-testid="location-map">
+                <ApproxAreaMap lat={lat} lon={lon} />
               </div>
               <p className="text-[13px] text-[#888] mt-3 flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#0B6B4F] shrink-0" />

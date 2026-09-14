@@ -114,9 +114,9 @@ export default function Home() {
             Compare rental cars from operators in London, Manchester, Birmingham and Leeds. One weekly price, insurance and maintenance included.
           </p>
 
-          <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15">
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
-            <span className="text-white/80 text-xs font-semibold">120 vehicles live now</span>
+          <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.4)]">
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#0B6B4F" }} />
+            <span className="text-[#111] text-xs font-semibold">120 vehicles live now</span>
           </div>
 
           {/* SEARCH PANEL - pill fields, single accent CTA */}
