@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  Check, X, ShieldCheck, Search, BadgeCheck, Users, Zap,
-  ChevronRight, Clock, Wallet, FileCheck,
-} from "lucide-react";
+import { Check, X, ChevronRight } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
 const FADE_UP = {
@@ -34,32 +31,32 @@ const PROBLEMS = [
 
 const PILLARS = [
   {
-    icon: Search,
+    num: "01",
     title: "Transparent listings",
     body: "Every listing shows the full weekly price: rent, insurance, and breakdown bundled in. What you see is what you pay.",
   },
   {
-    icon: ShieldCheck,
+    num: "02",
     title: "Verified operators",
     body: "We cross-check every fleet operator against the PHV licensing register and Companies House before their cars go live.",
   },
   {
-    icon: BadgeCheck,
+    num: "03",
     title: "4-layer driver vetting",
     body: "DVLA check, liveness identity verification, Open Banking affordability (no credit impact), and PHV trade record review.",
   },
   {
-    icon: Users,
+    num: "04",
     title: "Direct operator contact",
     body: "After you register interest, the operator calls you. No middleman between you and the fleet manager.",
   },
   {
-    icon: Clock,
+    num: "05",
     title: "Faster to the wheel",
     body: "Our vetting means most approved drivers collect their car within 3 working days, not 3 weeks.",
   },
   {
-    icon: Wallet,
+    num: "06",
     title: "Flexible terms",
     body: "Start weekly. Commit to longer for a lower rate. No lock-ins, no penalty clauses for genuine circumstances.",
   },
@@ -202,29 +199,38 @@ export default function WhyCaro() {
         </div>
       </section>
 
-      {/* Our pillars */}
+      {/* What Kharo does differently - an editorial numbered index instead of a
+          grid of identical icon cards, matching the site's photo-and-number
+          language elsewhere rather than the generic SaaS "feature card" look */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-3xl mx-auto">
+          <motion.p
+            {...FADE_UP}
+            className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+          >
+            What's different
+          </motion.p>
           <motion.h2
             {...FADE_UP}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-[26px] sm:text-[30px] font-heading font-bold text-[#333] leading-snug mb-14 max-w-xl"
           >
-            What Kharo does differently
+            Kharo isn't a listings board. <span className="text-[#111] font-extrabold">Every price is real, every operator is checked, and every driver is vetted</span> before a single call happens.
           </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-10">
-            Six commitments that run through every listing on the platform.
-          </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {PILLARS.map(({ icon: Icon, title, body }, i) => (
+
+          <div>
+            {PILLARS.map(({ num, title, body }, i) => (
               <motion.div
                 key={title}
                 {...FADE_UP}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="bg-[#F8F8F8] rounded-2xl p-5"
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className={`grid sm:grid-cols-[64px_1fr] gap-x-6 gap-y-1 py-6 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}
               >
-                <Icon className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-                <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
-                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+                <span className="font-heading font-extrabold text-[15px] text-[#0B6B4F]">{num}</span>
+                <div>
+                  <h3 className="font-heading font-bold text-[17px] text-[#111] mb-1.5">{title}</h3>
+                  <p className="text-[14px] text-[#666] leading-relaxed max-w-lg">{body}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -416,45 +422,53 @@ export default function WhyCaro() {
         </div>
       </section>
 
-      {/* Operator trust section */}
+      {/* Operator trust section - three columns divided by thin rules, the same
+          restrained, numbered treatment as the section above instead of boxed
+          icon cards */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
+          <motion.p
+            {...FADE_UP}
+            className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3 text-center"
+          >
+            Before a listing goes live
+          </motion.p>
           <motion.h2
             {...FADE_UP}
+            transition={{ duration: 0.5, delay: 0.05 }}
             className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
           >
             Every operator checked before they list
           </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-10 max-w-xl mx-auto">
-            Drivers deserve to know who they're renting from. Kharo verifies every fleet operator
-            before a single listing goes live.
+          <p className="text-[15px] text-[#888] text-center mb-14 max-w-xl mx-auto">
+            Drivers deserve to know who they're renting from.
           </p>
-          <div className="grid sm:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
             {[
               {
-                icon: FileCheck,
+                num: "01",
                 title: "Companies House verified",
                 body: "We confirm the operator is a registered UK entity in good standing before they list.",
               },
               {
-                icon: ShieldCheck,
+                num: "02",
                 title: "PHV licensing register",
                 body: "Every operator's PHV licence is checked against the relevant local authority register.",
               },
               {
-                icon: Zap,
+                num: "03",
                 title: "TfL-eligible vehicles only",
                 body: "Only TfL-licensed vehicles appear on Kharo. No non-compliant cars, no exceptions.",
               },
-            ].map(({ icon: Icon, title, body }, i) => (
+            ].map(({ num, title, body }, i) => (
               <motion.div
                 key={title}
                 {...FADE_UP}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="bg-white rounded-2xl border border-[#E8E8E8] p-5 text-center"
+                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
               >
-                <Icon className="w-7 h-7 text-[#0B6B4F] mx-auto mb-4" strokeWidth={1.5} />
-                <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
+                <span className="font-heading font-extrabold text-[13px] text-[#BBB]">{num}</span>
+                <h3 className="font-heading font-bold text-[15px] text-[#111] mt-2 mb-1.5">{title}</h3>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
             ))}
@@ -463,9 +477,18 @@ export default function WhyCaro() {
       </section>
 
       {/* CTA - brand green, not another black block, so it doesn't visually
-          fuse with the black footer directly beneath it */}
-      <section className="bg-[#0B6B4F] py-14 px-4">
-        <div className="max-w-3xl mx-auto text-center">
+          fuse with the black footer directly beneath it. A giant faded
+          wordmark bleeding off the edges gives it the same kind of editorial
+          weight as the rest of the page, instead of a plain centered banner. */}
+      <section className="relative bg-[#0B6B4F] py-14 px-4 overflow-hidden">
+        <p
+          aria-hidden="true"
+          className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-heading font-extrabold text-white/[0.06] leading-none select-none pointer-events-none"
+          style={{ fontSize: "clamp(80px, 22vw, 220px)" }}
+        >
+          KHARO
+        </p>
+        <div className="relative max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to see for yourself?
           </h2>
