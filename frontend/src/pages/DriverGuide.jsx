@@ -202,12 +202,29 @@ export default function DriverGuide() {
       {/* Step-by-step - alternating photo/text rows, all visible, reveal on scroll */}
       <section className="py-16 px-4 overflow-hidden">
         <div className="max-w-4xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] font-heading font-extrabold text-[#111] mb-16 text-center"
-          >
-            Step by step
-          </motion.h2>
+          <div className="max-w-lg mx-auto text-center mb-16">
+            <motion.p
+              {...FADE_UP}
+              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+            >
+              How it works
+            </motion.p>
+            <motion.h2
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] leading-tight"
+            >
+              From register interest to keys in {STEPS.length} steps
+            </motion.h2>
+            <motion.p
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[15px] text-[#666] leading-relaxed mt-4"
+            >
+              No hidden stages, no chasing for updates. Here's exactly what happens from
+              the moment you find a car to the moment it's yours.
+            </motion.p>
+          </div>
 
           <div className="flex flex-col gap-16 lg:gap-20">
             {STEPS.map(({ num, icon: Icon, title, body, detail, photo }, i) => {
