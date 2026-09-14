@@ -133,7 +133,7 @@ export default function VehicleDetail() {
               data-testid="detail-save"
               aria-pressed={isSaved}
             >
-              <Heart className={`w-4 h-4 transition-colors ${isSaved ? "fill-[#B4472E] text-[#B4472E]" : ""}`} />
+              <Heart className={`w-4 h-4 transition-colors ${isSaved ? "fill-[#111] text-[#111]" : ""}`} />
               {isSaved ? "Saved" : "Save"}
             </button>
             <button
@@ -213,7 +213,7 @@ export default function VehicleDetail() {
                   </p>
                 </div>
                 {/* Kharo Verified badge */}
-                <div className="shrink-0 flex items-center gap-1.5 bg-[#EAF5F1] text-[#0B6B4F] text-[12px] font-semibold px-3 py-1.5 rounded-full border border-[#C3E6D8]">
+                <div className="shrink-0 flex items-center gap-1.5 bg-[#EAF5F1] text-[#0B6B4F] text-[12px] font-semibold px-3 py-1.5 rounded-full border border-[#D4EEE4]">
                   <Shield className="w-3.5 h-3.5" />
                   Kharo Verified
                 </div>
@@ -274,7 +274,7 @@ export default function VehicleDetail() {
                           {t.label}
                         </span>
                         {i > 0 && (
-                          <span className="text-[11px] font-semibold text-[#0B6B4F] bg-[#D4EEE4] px-1.5 py-0.5 rounded-full">
+                          <span className="text-[11px] font-semibold text-[#0B6B4F] bg-[#EAF5F1] px-1.5 py-0.5 rounded-full">
                             save {i === 1 ? "3" : "6"}%
                           </span>
                         )}
@@ -529,7 +529,7 @@ function Spin360({ photos }) {
 
   return (
     <div
-      className="relative rounded-2xl overflow-hidden bg-[#F0EEE9] aspect-[16/10] select-none cursor-grab active:cursor-grabbing"
+      className="relative rounded-2xl overflow-hidden bg-[#EDEDED] aspect-[16/10] select-none cursor-grab active:cursor-grabbing"
       onMouseDown={onDown} onMouseMove={onMove} onMouseUp={onUp} onMouseLeave={onUp}
       onTouchStart={onDown} onTouchMove={onMove} onTouchEnd={onUp}
       data-testid="spin-360"

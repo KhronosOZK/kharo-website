@@ -78,7 +78,7 @@ export const NAV = {
       links: [
         ["Why choose Kharo", "/why-caro"],
         ["Get help", "/help"],
-        ["Trust and safety", "/trust"],
+        ["Trust and safety", "/why-caro"],
         ["Legal and privacy", "/legal"],
       ],
     },

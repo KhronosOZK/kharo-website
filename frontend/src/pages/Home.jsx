@@ -77,10 +77,10 @@ export default function Home() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0.65) 55%, rgba(10,10,10,0.97) 100%), url('https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=1800&q=80')`,
+            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.55) 55%, rgba(10,10,10,0.92) 100%), url('https://images.pexels.com/photos/17152058/pexels-photo-17152058.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
             backgroundSize: "cover",
-            backgroundPosition: "center 35%",
-            filter: "grayscale(0.55) contrast(1.08)",
+            backgroundPosition: "center 30%",
+            filter: "grayscale(0.35) contrast(1.05)",
           }}
         />
 
@@ -187,27 +187,27 @@ export default function Home() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 h-[520px] sm:h-[420px]">
           <FleetTile
-            src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=1000&q=80"
+            src="https://images.pexels.com/photos/100656/pexels-photo-100656.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
             label="Toyota Prius"
             className="col-span-2 row-span-2"
           />
           <FleetTile
-            src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=700&q=80"
+            src="https://images.pexels.com/photos/32716427/pexels-photo-32716427.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
             label="Kia Niro EV"
             className="col-span-1 row-span-1"
           />
           <FleetTile
-            src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=700&q=80"
+            src="https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
             label="Toyota Camry"
             className="col-span-1 row-span-1"
           />
           <FleetTile
-            src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=700&q=80"
+            src="https://images.pexels.com/photos/35414515/pexels-photo-35414515.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
             label="VW Passat GTE"
             className="col-span-1 row-span-1"
           />
           <FleetTile
-            src="https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=700&q=80"
+            src="https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
             label="Mercedes E-Class"
             className="col-span-1 row-span-1"
           />
@@ -378,7 +378,7 @@ export default function Home() {
               List your PCO fleet on Kharo and start generating weekly income. No commission on agreed rates.
             </p>
             <button
-              onClick={() => navigate("/operators")}
+              onClick={() => navigate("/list-your-fleet")}
               className="inline-flex items-center gap-2 font-semibold text-sm px-7 py-3.5 rounded-full transition-transform hover:scale-[1.03]"
               style={{ backgroundColor: ACCENT, color: INK }}
             >

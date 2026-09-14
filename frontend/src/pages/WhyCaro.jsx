@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Check, X, ShieldCheck, Search, BadgeCheck, Users, Zap,
-  ChevronRight, Clock, Wallet, FileCheck,
+  ChevronRight, Clock, Wallet, FileCheck, Lock, MapPin,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
@@ -220,6 +220,45 @@ export default function WhyCaro() {
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Accountability, kept live for both sides of the marketplace */}
+      <section className="py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            Built-in accountability
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-10 max-w-xl mx-auto">
+            Two rules that apply to every car on Kharo, so drivers and operators are protected the same way.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-5">
+            <motion.div {...FADE_UP} className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
+              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
+                <Lock className="w-5 h-5 text-[#0B6B4F]" />
+              </div>
+              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
+                Non-payment is enforced, not chased
+              </h3>
+              <p className="text-[13px] text-[#666] leading-relaxed">
+                If a driver misses a rental payment, Kharo contacts Uber, Bolt and our other platform partners directly to flag the account. The driver cannot accept new trips until the outstanding rent is cleared, so operators are never left chasing payments alone.
+              </p>
+            </motion.div>
+            <motion.div {...FADE_UP} transition={{ duration: 0.4, delay: 0.08 }} className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
+              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
+                <MapPin className="w-5 h-5 text-[#0B6B4F]" />
+              </div>
+              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
+                Every car is GPS tracked
+              </h3>
+              <p className="text-[13px] text-[#666] leading-relaxed">
+                A certified GPS tracker is a condition of listing on Kharo, meeting our minimum specification for real-time location. It protects the operator's asset and means a missing or misused vehicle is never a mystery.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
