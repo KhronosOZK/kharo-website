@@ -104,3 +104,13 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .text-balance { text-wrap: balance; }
+
+/* search map: desaturate default OSM tiles so the map matches the site's
+   monochrome palette instead of the raw colourful OSM style */
+.grayscale-map-tiles {
+  filter: grayscale(0.8) contrast(1.05) brightness(1.02);
+}
+.leaflet-container {
+  font-family: inherit;
+  background: #F5F5F5;
+}

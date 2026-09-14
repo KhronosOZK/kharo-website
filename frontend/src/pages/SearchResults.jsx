@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, X, Map as MapIcon, List as ListIcon } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
+import SearchMap from "@/components/SearchMap";
 
 const BODY_TYPES = ["Saloon", "Estate", "SUV", "Crossover", "MPV", "Hatchback"];
 const FUEL_TYPES = ["Electric", "Plug-in Hybrid", "Hybrid", "Petrol", "Diesel"];
@@ -83,6 +84,7 @@ export default function SearchResults() {
   );
   const [transmission, setTransmission] = useState(searchParams.get("transmission") || "");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showMap, setShowMap] = useState(false); // mobile: list/map toggle
 
   const [results, setResults] = useState([]);
   const [sortBy, setSortBy] = useState("price_asc");
@@ -256,7 +258,7 @@ export default function SearchResults() {
           )}
 
           {/* Main results */}
-          <div className="flex-1 min-w-0">
+          <div className={`flex-1 min-w-0 ${showMap ? "hidden lg:block" : ""}`}>
             {/* Results header */}
             <div className="flex items-center justify-between mb-5">
               <h1 className="font-heading font-bold text-[#111] text-lg">
@@ -300,8 +302,25 @@ export default function SearchResults() {
               </div>
             )}
           </div>
+
+          {/* Map: always-on side panel at desktop widths, full-screen toggle below that */}
+          <div className={`${showMap ? "block" : "hidden"} lg:block flex-1 lg:flex-none lg:w-[42%] lg:sticky lg:top-4 lg:self-start`}>
+            <div className={showMap ? "fixed inset-0 z-40 lg:static lg:z-auto" : ""}>
+              <div className="h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)] rounded-none lg:rounded-2xl overflow-hidden border border-[#E8E8E8]">
+                <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Mobile list/map toggle */}
+      <button
+        onClick={() => setShowMap((s) => !s)}
+        className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-[#111] text-white text-sm font-semibold px-5 py-3 rounded-full shadow-[0_12px_30px_-8px_rgba(0,0,0,0.5)]"
+      >
+        {showMap ? <><ListIcon size={16} /> List</> : <><MapIcon size={16} /> Map</>}
+      </button>
     </div>
   );
 }
