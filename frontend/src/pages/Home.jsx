@@ -281,12 +281,12 @@ export default function Home() {
           className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {[
-            { src: "https://images.pexels.com/photos/100656/pexels-photo-100656.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Prius", sub: "From £225 / week · London" },
-            { src: "https://images.pexels.com/photos/32716427/pexels-photo-32716427.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Kia Niro EV", sub: "From £270 / week · Manchester" },
+            { src: "https://images.pexels.com/photos/6191762/pexels-photo-6191762.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Prius", sub: "From £225 / week · London" },
+            { src: "https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Kia Niro EV", sub: "From £270 / week · Manchester" },
             { src: "https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Camry", sub: "From £245 / week · Birmingham" },
-            { src: "https://images.pexels.com/photos/35414515/pexels-photo-35414515.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "VW Passat GTE", sub: "From £255 / week · Leeds" },
+            { src: "https://images.pexels.com/photos/16062101/pexels-photo-16062101.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "VW Passat GTE", sub: "From £255 / week · Leeds" },
             { src: "https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Mercedes E-Class", sub: "From £310 / week · London" },
-            { src: "https://images.pexels.com/photos/17792325/pexels-photo-17792325.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Ford Kuga PHEV", sub: "From £250 / week · Manchester" },
+            { src: "https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota RAV4", sub: "From £250 / week · Manchester" },
           ].map((tile) => (
             <FleetTile key={tile.label} {...tile} className="snap-start shrink-0 w-[68vw] sm:w-[280px] h-[380px]" />
           ))}
