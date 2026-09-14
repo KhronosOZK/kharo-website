@@ -267,25 +267,26 @@ export default function ForDrivers() {
         </div>
       </section>
 
-      {/* CTA banner */}
-      <section className="bg-[#0A0A0A] py-14 px-4">
+      {/* CTA banner - brand green, not another black block, so it doesn't
+          visually fuse with the black footer directly beneath it */}
+      <section className="bg-[#0B6B4F] py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to find your next car?
           </h2>
-          <p className="text-white/60 text-[15px] mb-8 max-w-md mx-auto">
+          <p className="text-white/70 text-[15px] mb-8 max-w-md mx-auto">
             Browse verified PCO cars across London. Register interest in 60 seconds.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
+              className="px-7 py-3.5 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#EAF5F1] transition-colors"
             >
               Browse PCO cars
             </button>
             <button
               onClick={() => navigate("/driver-guide")}
-              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+              className="px-7 py-3.5 rounded-full border border-white/30 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
             >
               Read the driver guide
               <ChevronRight className="w-4 h-4" />
