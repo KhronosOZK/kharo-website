@@ -15,7 +15,7 @@ import DriverGuide from "@/pages/DriverGuide";
 import ForDrivers from "@/pages/ForDrivers";
 import OperatorGuide from "@/pages/OperatorGuide";
 import Admin from "@/pages/Admin";
-import WhyCaro from "@/pages/WhyCaro";
+import WhyKharo from "@/pages/WhyKharo";
 import Help from "@/pages/Help";
 import Legal from "@/pages/Legal";
 import Saved from "@/pages/Saved";
@@ -56,7 +56,8 @@ function App() {
             <Route path="/driver-guide" element={<DriverGuide />} />
             <Route path="/for-drivers" element={<ForDrivers />} />
             <Route path="/operator-guide" element={<OperatorGuide />} />
-            <Route path="/why-caro" element={<WhyCaro />} />
+            <Route path="/why-kharo" element={<WhyKharo />} />
+            <Route path="/why-caro" element={<Navigate to="/why-kharo" replace />} />
             <Route path="/help" element={<Help />} />
             <Route path="/legal" element={<Legal />} />
             <Route path="/saved" element={<Saved />} />
