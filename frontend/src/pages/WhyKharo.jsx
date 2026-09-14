@@ -115,27 +115,27 @@ export default function WhyKharo() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
 
-      {/* Hero - solid dark ground with film grain, no photo banner */}
-      <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
-        <div className="grain-overlay" />
-        <div className="relative max-w-4xl mx-auto text-center">
+      {/* Hero - light ground matching the rest of the page; bold type carries
+          the section instead of a dark banner */}
+      <section className="relative pt-16 pb-14 sm:pt-20 sm:pb-16 px-4 overflow-hidden border-b border-[#EEEEEE]" style={{ backgroundColor: "#FAFAFA" }}>
+        <div className="relative max-w-3xl mx-auto text-center">
           <motion.p
             {...FADE_UP_HERO}
-            className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]"
+            className="text-[11px] font-bold tracking-[0.14em] uppercase mb-5 text-[#0B6B4F]"
           >
             Why Kharo
           </motion.p>
           <motion.h1
             {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] tracking-tight text-balance"
+            className="text-[40px] sm:text-6xl font-heading font-extrabold leading-[1.02] tracking-tight text-[#111] text-balance"
           >
             PCO car rental that's actually clear.
           </motion.h1>
           <motion.p
             {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-white/70 text-[17px] mt-5 max-w-xl mx-auto leading-relaxed"
+            className="text-[#666] text-[17px] mt-6 max-w-xl mx-auto leading-relaxed"
           >
             Every listing on Kharo shows one real price. Every operator is checked before they list.
             Every driver is vetted before they drive.
@@ -143,17 +143,17 @@ export default function WhyKharo() {
           <motion.div
             {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="mt-8 flex flex-wrap gap-3 justify-center"
+            className="mt-9 flex flex-wrap gap-3 justify-center"
           >
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
             >
               Browse PCO cars
             </button>
             <button
               onClick={() => navigate("/driver-guide")}
-              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/5 transition-colors flex items-center gap-2"
+              className="px-7 py-3.5 rounded-full border border-[#D8D8D8] text-[#111] font-medium text-[15px] hover:bg-white transition-colors flex items-center gap-2"
             >
               How it works
               <ChevronRight className="w-4 h-4" />

@@ -87,33 +87,31 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* HERO - solid dark ground with a film-grain texture instead of a full-bleed
-          photo banner behind the text; typography carries the section on its own */}
+      {/* HERO - light ground matching the rest of the page; bold type carries
+          the section instead of a dark banner or photo behind the text */}
       <section
-        className="relative min-h-[82vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden"
-        style={{ backgroundColor: INK }}
+        className="relative flex flex-col items-center justify-center text-center px-4 pt-16 pb-14 sm:pt-20 sm:pb-16 overflow-hidden border-b border-[#EEEEEE]"
+        style={{ backgroundColor: "#FAFAFA" }}
       >
-        <div className="grain-overlay" />
-
         <div className="relative z-10 flex flex-col items-center w-full">
-          <p className="text-white/50 text-xs font-semibold uppercase tracking-[0.16em] mb-6">
+          <p className="text-[#0B6B4F] text-xs font-bold uppercase tracking-[0.16em] mb-6">
             The Private Hire Marketplace
           </p>
 
-          <h1 className="font-heading text-[42px] leading-[1.02] sm:text-6xl lg:text-7xl font-bold text-white max-w-4xl mb-5" style={{ textWrap: "balance", letterSpacing: "-0.02em" }}>
+          <h1 className="font-heading text-[44px] leading-[1.02] sm:text-6xl lg:text-7xl font-extrabold text-[#111] max-w-4xl mb-5" style={{ textWrap: "balance", letterSpacing: "-0.02em" }}>
             Find your next PHV.
           </h1>
-          <p className="text-white/55 text-base sm:text-lg max-w-xl mb-8">
+          <p className="text-[#666] text-base sm:text-lg max-w-xl mb-8">
             Compare rental cars from operators in London, Manchester, Birmingham and Leeds. One weekly price, insurance and maintenance included.
           </p>
 
-          <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.4)]">
+          <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full bg-white border border-[#E8E8E8]">
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#0B6B4F" }} />
             <span className="text-[#111] text-xs font-semibold">120 vehicles live now</span>
           </div>
 
           {/* SEARCH PANEL - pill fields, single accent CTA */}
-          <div className="w-full max-w-3xl bg-white rounded-[28px] p-4 sm:p-5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
+          <div className="w-full max-w-3xl bg-white rounded-[28px] p-4 sm:p-5 border border-[#E8E8E8] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <FilterSelect
                 options={MOCK_CITIES.map((c) => ({ label: c, value: c }))}
@@ -171,8 +169,7 @@ export default function Home() {
               </button>
               <button
                 onClick={handleSearch}
-                className="flex items-center gap-2 font-bold text-sm px-6 py-3 rounded-full transition-transform hover:scale-[1.03]"
-                style={{ backgroundColor: ACCENT, color: INK }}
+                className="flex items-center gap-2 font-bold text-sm px-6 py-3 rounded-full text-white bg-[#0B6B4F] hover:bg-[#095B43] transition-colors"
               >
                 <Search size={16} />
                 Search Vehicles
