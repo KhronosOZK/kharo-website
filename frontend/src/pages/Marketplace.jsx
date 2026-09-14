@@ -297,7 +297,7 @@ export default function Marketplace() {
       <section id="buyer-alert" className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 scroll-mt-20">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
-            <p className="text-[13px] font-medium text-[#0B6B4F] tracking-wide">{MARKETPLACE.sellerCta.eyebrow}</p>
+            <p className="text-[13px] font-medium text-[#0B6B4F] tracking-wide">{MARKETPLACE.buyerCta.eyebrow}</p>
             <h2 className="text-3xl sm:text-4xl font-heading font-bold text-[#111] mt-2 text-balance">
               {MARKETPLACE.buyerCta.heading}
             </h2>
