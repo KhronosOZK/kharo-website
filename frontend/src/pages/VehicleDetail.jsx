@@ -203,27 +203,20 @@ export default function VehicleDetail() {
           <div>
             {/* Header */}
             <div className="bg-white rounded-2xl p-6 border border-[#E8E8E8]">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#111] leading-tight">
-                    {v.make} {v.model} {v.year}
-                  </h1>
-                  <p className="text-[14px] text-[#888] mt-1">
-                    {v.colour} · {v.mileage?.toLocaleString()} miles on the clock
-                  </p>
-                </div>
-                {/* Kharo Verified badge */}
-                <div className="shrink-0 flex items-center gap-1.5 bg-[#EAF5F1] text-[#0B6B4F] text-[12px] font-semibold px-3 py-1.5 rounded-full border border-[#D4EEE4]">
-                  <Shield className="w-3.5 h-3.5" />
-                  Kharo Verified
-                </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#111] leading-tight">
+                  {v.make} {v.model} {v.year}
+                </h1>
+                <p className="text-[14px] text-[#888] mt-1">
+                  {v.colour} · {v.mileage?.toLocaleString()} miles on the clock
+                </p>
               </div>
 
-              {/* Trust row */}
+              {/* Trust row - the verification claim lives here as plain text, not a badge */}
               <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-[#555]">
                 <span className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-[#0B6B4F]" />
-                  TfL licence verified
+                  TfL licence checked
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-[#0B6B4F]" />
@@ -485,7 +478,7 @@ function CostPanel({ v, insurance, breakdownCost, rentWeekly, weeks, total, mont
       {/* Trust footer */}
       <div className="mt-5 pt-4 border-t border-[#F0F0F0] flex items-center gap-2 text-[12px] text-[#888]">
         <Shield className="w-3.5 h-3.5 text-[#0B6B4F] shrink-0" />
-        Operator verified by Kharo · No payment taken at this stage
+        Operator checked against the licensing register · No payment taken at this stage
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ const PILLARS = [
 
 const COMPARE = [
   { label: "All-in weekly price (no hidden extras)", kharo: true, them: false },
-  { label: "Operator verified before listing", kharo: true, them: false },
+  { label: "Operator checked against Companies House & licensing register", kharo: true, them: false },
   { label: "Driver vetting within 48 hours", kharo: true, them: false },
   { label: "Direct operator contact, no middleman", kharo: true, them: false },
   { label: "TfL-eligible cars only", kharo: true, them: null },
@@ -281,14 +281,15 @@ export default function WhyCaro() {
             {...FADE_UP}
             className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden"
           >
-            {/* Header row */}
-            <div className="grid grid-cols-3 bg-[#F8F8F8] border-b border-[#E8E8E8]">
-              <div className="col-span-1 px-5 py-3" />
-              <div className="col-span-1 px-4 py-3 text-center">
-                <span className="text-[13px] font-extrabold text-[#0B6B4F]">Kharo</span>
+            {/* Header row - label column keeps most of the width so feature text never has to
+                fight two icon columns for room on a phone screen */}
+            <div className="grid grid-cols-[1fr_64px_64px] sm:grid-cols-[1fr_88px_88px] bg-[#F8F8F8] border-b border-[#E8E8E8]">
+              <div className="px-4 sm:px-5 py-3" />
+              <div className="px-2 py-3 text-center">
+                <span className="text-[12px] sm:text-[13px] font-extrabold text-[#0B6B4F]">Kharo</span>
               </div>
-              <div className="col-span-1 px-4 py-3 text-center">
-                <span className="text-[13px] font-semibold text-[#888]">Others</span>
+              <div className="px-2 py-3 text-center">
+                <span className="text-[12px] sm:text-[13px] font-semibold text-[#888]">Others</span>
               </div>
             </div>
 
@@ -296,25 +297,25 @@ export default function WhyCaro() {
             {COMPARE.map(({ label, kharo, them }, i) => (
               <div
                 key={label}
-                className={`grid grid-cols-3 ${i < COMPARE.length - 1 ? "border-b border-[#F0F0F0]" : ""}`}
+                className={`grid grid-cols-[1fr_64px_64px] sm:grid-cols-[1fr_88px_88px] items-center ${i < COMPARE.length - 1 ? "border-b border-[#F0F0F0]" : ""}`}
               >
-                <div className="col-span-1 px-5 py-4">
-                  <span className="text-[13px] text-[#444]">{label}</span>
+                <div className="px-4 sm:px-5 py-4">
+                  <span className="text-[13px] text-[#444] leading-snug">{label}</span>
                 </div>
-                <div className="col-span-1 px-4 py-4 flex justify-center items-center">
+                <div className="px-2 py-4 flex justify-center items-center">
                   {kharo ? (
                     <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
                   ) : (
                     <X className="w-4 h-4 text-[#CCC]" strokeWidth={2.5} />
                   )}
                 </div>
-                <div className="col-span-1 px-4 py-4 flex justify-center items-center">
+                <div className="px-2 py-4 flex justify-center items-center">
                   {them === true ? (
                     <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
                   ) : them === false ? (
                     <X className="w-4 h-4 text-[#CCC]" strokeWidth={2.5} />
                   ) : (
-                    <span className="text-[13px] text-[#CCC]">Varies</span>
+                    <span className="text-[11px] sm:text-[13px] text-[#CCC]">Varies</span>
                   )}
                 </div>
               </div>

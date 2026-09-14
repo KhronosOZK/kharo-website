@@ -452,7 +452,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {[
-              { n: "01", title: "Search & Filter", body: "Browse vehicles by city, area, make, budget and engine type. Every listing is from a verified, checked operator." },
+              { n: "01", title: "Search & Filter", body: "Browse vehicles by city, area, make, budget and engine type. Every operator is checked against Companies House and the licensing register." },
               { n: "02", title: "Register Your Interest", body: "Found a vehicle you like? Submit your name and contact details in under a minute. The operator gets in touch to confirm availability, no commission, no middleman." },
               { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Insurance and maintenance included." },
             ].map((step) => (
