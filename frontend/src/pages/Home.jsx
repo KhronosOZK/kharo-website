@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp } from "lucide-react";
+import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
@@ -29,18 +29,21 @@ function FilterSelect({ options, value, onChange }) {
   );
 }
 
-// Fleet showcase - asymmetric masonry, photography-led, no chrome
-function FleetTile({ src, label, className }) {
+// Fleet showcase - horizontal carousel tile, photography-led, no chrome
+function FleetTile({ src, label, sub, className }) {
   return (
     <div className={`relative rounded-2xl overflow-hidden group ${className}`}>
       <img
         src={src}
         alt={label}
-        className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+        className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
         loading="lazy"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/0" />
-      <span className="absolute bottom-3 left-4 text-white font-heading font-semibold text-sm">{label}</span>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/0" />
+      <div className="absolute bottom-4 left-4 right-4">
+        <span className="block text-white font-heading font-semibold text-base">{label}</span>
+        {sub && <span className="block text-white/70 text-xs mt-0.5">{sub}</span>}
+      </div>
     </div>
   );
 }
@@ -56,6 +59,11 @@ export default function Home() {
   const [bodyType, setBodyType] = useState("");
   const [transmission, setTransmission] = useState("");
   const [listings] = useState(MOCK_LISTINGS.slice(0, 6));
+  const fleetScrollRef = useRef(null);
+  const scrollFleet = (dir) => {
+    const el = fleetScrollRef.current;
+    if (el) el.scrollBy({ left: dir * (el.clientWidth * 0.8), behavior: "smooth" });
+  };
 
   const areaOptions = AREAS_BY_CITY[city] || ["All Areas"];
 
@@ -185,51 +193,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FLEET SHOWCASE - asymmetric masonry, editorial, photography-led */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <div className="flex items-end justify-between mb-6">
+      {/* FLEET SHOWCASE - horizontal drag/scroll carousel, editorial, photography-led */}
+      <section className="max-w-7xl mx-auto py-16">
+        <div className="flex items-end justify-between mb-6 px-4 sm:px-6">
           <div>
             <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">The Fleet</p>
             <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">Cars Drivers Actually Drive</h2>
           </div>
-          <button
-            onClick={() => navigate("/search")}
-            className="hidden sm:flex items-center gap-2 border border-gray-200 hover:border-gray-400 text-gray-900 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
-          >
-            Show all vehicles <ArrowUpRight size={14} />
-          </button>
+          <div className="hidden sm:flex items-center gap-2">
+            <button
+              onClick={() => scrollFleet(-1)}
+              aria-label="Scroll fleet left"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 hover:border-gray-400 text-gray-700 transition-colors"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              onClick={() => scrollFleet(1)}
+              aria-label="Scroll fleet right"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 hover:border-gray-400 text-gray-700 transition-colors"
+            >
+              <ChevronRight size={16} />
+            </button>
+            <button
+              onClick={() => navigate("/search")}
+              className="ml-2 flex items-center gap-2 border border-gray-200 hover:border-gray-400 text-gray-900 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
+            >
+              Show all vehicles <ArrowUpRight size={14} />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 h-[520px] sm:h-[420px]">
-          <FleetTile
-            src="https://images.pexels.com/photos/100656/pexels-photo-100656.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
-            label="Toyota Prius"
-            className="col-span-2 row-span-2"
-          />
-          <FleetTile
-            src="https://images.pexels.com/photos/32716427/pexels-photo-32716427.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
-            label="Kia Niro EV"
-            className="col-span-1 row-span-1"
-          />
-          <FleetTile
-            src="https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
-            label="Toyota Camry"
-            className="col-span-1 row-span-1"
-          />
-          <FleetTile
-            src="https://images.pexels.com/photos/35414515/pexels-photo-35414515.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
-            label="VW Passat GTE"
-            className="col-span-1 row-span-1"
-          />
-          <FleetTile
-            src="https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=750"
-            label="Mercedes E-Class"
-            className="col-span-1 row-span-1"
-          />
+        <div
+          ref={fleetScrollRef}
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {[
+            { src: "https://images.pexels.com/photos/100656/pexels-photo-100656.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Prius", sub: "From £225 / week · London" },
+            { src: "https://images.pexels.com/photos/32716427/pexels-photo-32716427.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Kia Niro EV", sub: "From £270 / week · Manchester" },
+            { src: "https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Camry", sub: "From £245 / week · Birmingham" },
+            { src: "https://images.pexels.com/photos/35414515/pexels-photo-35414515.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "VW Passat GTE", sub: "From £255 / week · Leeds" },
+            { src: "https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Mercedes E-Class", sub: "From £310 / week · London" },
+            { src: "https://images.pexels.com/photos/17792325/pexels-photo-17792325.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Ford Kuga PHEV", sub: "From £250 / week · Manchester" },
+          ].map((tile) => (
+            <FleetTile key={tile.label} {...tile} className="snap-start shrink-0 w-[68vw] sm:w-[280px] h-[380px]" />
+          ))}
         </div>
         <button
           onClick={() => navigate("/search")}
-          className="sm:hidden mt-4 w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-900 text-sm font-semibold px-5 py-3 rounded-full"
+          className="sm:hidden mt-4 mx-4 flex items-center justify-center gap-2 border border-gray-200 text-gray-900 text-sm font-semibold px-5 py-3 rounded-full"
         >
           Show all vehicles <ArrowUpRight size={14} />
         </button>
@@ -370,24 +382,98 @@ export default function Home() {
         </div>
       </section>
 
-      {/* OPERATOR CTA - contained black block, dot-grid texture, pill button */}
+      {/* TESTIMONIALS - photo strip, star ratings, real-feeling voice */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div className="text-center mb-10">
+          <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">Drivers On Kharo</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">What renting direct actually feels like</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            {
+              name: "Amir R.",
+              city: "London",
+              vehicle: "Toyota Prius",
+              rating: 5,
+              quote: "Applied on a Sunday, was driving by Wednesday. The weekly number I saw online is the weekly number I pay, no haggling over insurance quotes.",
+              photo: "https://images.pexels.com/photos/5834947/pexels-photo-5834947.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
+            },
+            {
+              name: "Kelly M.",
+              city: "Manchester",
+              vehicle: "Kia Niro EV",
+              rating: 5,
+              quote: "Switched to electric and my running costs dropped straight away. The operator called within a few hours of me registering interest.",
+              photo: "https://images.pexels.com/photos/5262276/pexels-photo-5262276.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
+            },
+            {
+              name: "Faisal H.",
+              city: "Birmingham",
+              vehicle: "Skoda Octavia",
+              rating: 4.8,
+              quote: "First time renting instead of buying outright. Having maintenance included took one big worry off my plate completely.",
+              photo: "https://images.pexels.com/photos/5835346/pexels-photo-5835346.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
+            },
+            {
+              name: "Grace O.",
+              city: "Leeds",
+              vehicle: "Toyota Corolla",
+              rating: 4.9,
+              quote: "Kharo was the only place showing me the full weekly cost upfront, not a headline price with extras added later.",
+              photo: "https://images.pexels.com/photos/4872060/pexels-photo-4872060.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
+            },
+          ].map((t) => (
+            <div key={t.name} className="bg-white border border-gray-100 rounded-2xl p-5 flex flex-col">
+              <div className="flex items-center gap-1 mb-3">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} size={13} className={i < Math.round(t.rating) ? "text-amber-400" : "text-gray-200"} fill="currentColor" />
+                ))}
+              </div>
+              <p className="text-[#333] text-sm leading-relaxed mb-5 flex-1">&ldquo;{t.quote}&rdquo;</p>
+              <div className="flex items-center gap-3">
+                <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover" loading="lazy" />
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">{t.name}</p>
+                  <p className="text-xs text-gray-400">{t.vehicle} &middot; {t.city}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* EXPANSION INTEREST - for anyone outside our current four cities */}
+      <section className="bg-[#F5F5F5] border-t border-[#EBEBEB] py-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Expanding Beyond London</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-3" style={{ textWrap: "balance" }}>
+            Don&rsquo;t see your city yet?
+          </h2>
+          <p className="text-[#666] text-sm sm:text-base max-w-lg mx-auto mb-7">
+            We&rsquo;re live in London, Manchester, Birmingham and Leeds, with more cities on the way.
+            Tell us where you are and we&rsquo;ll bring operators to your area next.
+          </p>
+          <CityInterestForm className="max-w-xl mx-auto" />
+        </div>
+      </section>
+
+      {/* OPERATOR CTA - full-bleed photographic panel, pill button */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <div
-          className="relative rounded-[32px] px-8 py-16 sm:py-20 text-center overflow-hidden"
-          style={{ backgroundColor: INK }}
-        >
+        <div className="relative rounded-[32px] px-8 py-16 sm:py-24 text-center overflow-hidden">
           <div
-            className="absolute inset-0 opacity-[0.12]"
+            className="absolute inset-0"
             style={{
-              backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)",
-              backgroundSize: "22px 22px",
+              backgroundImage: `linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.75) 45%, rgba(10,10,10,0.45) 100%), url('https://images.pexels.com/photos/29566898/pexels-photo-29566898.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "grayscale(0.25)",
             }}
           />
           <div className="relative">
             <h2 className="font-heading text-2xl sm:text-4xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
               Got vehicles sitting idle?
             </h2>
-            <p className="text-white/55 text-sm sm:text-base max-w-md mx-auto mb-8">
+            <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto mb-8">
               List your PCO fleet on Kharo and start generating weekly income. No commission on agreed rates.
             </p>
             <button
