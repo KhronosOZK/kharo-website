@@ -28,7 +28,7 @@ export default function CityInterestForm({ city, compact, mode = "waitlist" }) {
 
   if (done) return (
     <div className="text-center py-8" data-testid="city-interest-success">
-      <div className="w-14 h-14 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto"><Check className="w-7 h-7 text-[#0B6B4F]" /></div>
+      <Check className="w-11 h-11 text-[#0B6B4F] mx-auto" strokeWidth={1.75} />
       <h3 className="text-xl font-heading font-bold text-[#0A0A0A] mt-4">{isRequest ? "Got it, we are on the hunt" : `You are on the list for ${city}`}</h3>
       <p className="text-gray-600 mt-2 text-[15px]">{isRequest ? `We will let you know as soon as a matching car comes up in ${city}, and we will pass your request to our operators.` : `As soon as we have cars in ${city}, you will be the first to know.`}</p>
     </div>

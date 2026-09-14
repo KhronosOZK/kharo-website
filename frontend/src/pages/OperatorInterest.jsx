@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, Star, MapPin, Lock, Activity } from "lucide-react";
+import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, Star, MapPin, Lock, Activity, Clock3 } from "lucide-react";
 import { toast } from "sonner";
 import { api, trackEvent } from "@/lib/api";
 import { useSeo } from "@/lib/seo";
@@ -120,13 +120,21 @@ export default function OperatorInterest() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      {/* Hero - Obsidian surface, Hyper Blue B2B accent (per DESIGN.md) */}
-      <section className="relative text-white py-20 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
+      {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
+      <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/35011130/pexels-photo-35011130.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
         <div className="relative max-w-6xl mx-auto">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4" style={{ color: "#0B6B4F" }}>
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]">
             For Fleet Operators
           </p>
-          <h1 className="text-[38px] sm:text-5xl font-heading font-extrabold leading-[1.05] max-w-2xl mb-5">
+          <h1 className="text-[38px] sm:text-5xl font-heading font-extrabold leading-[1.05] max-w-2xl mb-5" style={{ textWrap: "balance" }}>
             Stop losing money to idle PCO cars
           </h1>
           <p className="text-white/60 text-[17px] max-w-xl leading-relaxed mb-8">
@@ -136,14 +144,13 @@ export default function OperatorInterest() {
           <div className="flex flex-wrap gap-3">
             <a
               href="#form"
-              className="px-6 py-3 rounded-md font-semibold text-[15px] transition-transform hover:scale-[1.02]"
-              style={{ backgroundColor: "#0B6B4F", color: "#fff" }}
+              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               List your fleet
             </a>
             <button
               onClick={() => navigate("/operator-guide")}
-              className="px-6 py-3 rounded-md border border-white/15 text-white font-medium text-[15px] hover:bg-white/5 transition-colors flex items-center gap-2"
+              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/5 transition-colors flex items-center gap-2"
             >
               Read the operator guide
               <ChevronRight className="w-4 h-4" />
@@ -224,9 +231,7 @@ export default function OperatorInterest() {
                   key={title}
                   className="bg-white rounded-2xl border border-[#E8E8E8] p-5 flex items-start gap-4"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-[#0B6B4F]" />
-                  </div>
+                  <Icon className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
                   <div>
                     <h3 className="font-heading font-bold text-[15px] text-[#111] mb-0.5">
                       {title}
@@ -373,62 +378,66 @@ export default function OperatorInterest() {
         </div>
       </div>
 {/* RISK MANAGEMENT SECTION */}
-      <section className="max-w-6xl mx-auto px-4 pb-12">
-        <div className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden">
-          <div className="px-6 py-5" style={{ backgroundColor: "#0A0A0A" }}>
-            <h2 className="font-heading font-bold text-white text-xl mb-1">
-              Built-in Risk Management
-            </h2>
-            <p className="text-white/70 text-sm">
-              Kharo gives you the tools to protect your fleet and guarantee rental income.
+      <section className="max-w-6xl mx-auto px-4 pb-16">
+        <div className="text-center mb-10">
+          <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Built-in risk management</p>
+          <h2 className="font-heading font-bold text-[#111] text-[26px] sm:text-[30px]">
+            Kharo protects your rental income, automatically
+          </h2>
+        </div>
+
+        {/* Enforcement flow widget */}
+        <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6 sm:p-8 mb-5">
+          <h3 className="font-heading font-bold text-[#111] text-[17px] mb-1">
+            What happens when a driver misses a payment
+          </h3>
+          <p className="text-[13px] text-[#888] mb-8">
+            No chasing, no awkward calls. The moment rent is overdue, this runs on its own.
+          </p>
+
+          <div className="relative">
+            <div className="hidden sm:block absolute top-[22px] left-[11%] right-[11%] h-0.5 bg-[#E8E8E8]" />
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4">
+              {[
+                { icon: Clock3, label: "Rent goes overdue", detail: "Kharo's system flags the missed payment same-day." },
+                { icon: Lock, label: "Uber & Bolt notified", detail: "The driver's account is flagged directly with our platform partners." },
+                { icon: Users, label: "Driver paused", detail: "They can't accept new trips until the balance is cleared." },
+                { icon: Check, label: "Cleared, reinstated", detail: "Pay up and the account is live again within minutes.", done: true },
+              ].map(({ icon: Icon, label, detail, done }, i) => (
+                <div key={label} className="relative flex flex-col items-center text-center px-1">
+                  <div className={`w-11 h-11 rounded-full border-2 flex items-center justify-center z-10 bg-white ${done ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-[#0B6B4F]"}`}>
+                    <Icon className={`w-5 h-5 ${done ? "text-white" : "text-[#0B6B4F]"}`} strokeWidth={2} />
+                  </div>
+                  <span className="text-[11px] font-bold text-[#999] mt-2">STEP {i + 1}</span>
+                  <h4 className="text-[13.5px] font-heading font-bold text-[#111] mt-0.5">{label}</h4>
+                  <p className="text-[12px] text-[#888] mt-1 leading-snug max-w-[150px]">{detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="text-[12px] text-[#AAA] mt-8 pt-5 border-t border-[#F0F0F0]">
+            Applies to Uber, Bolt and any other trip platform we partner with. This is a platform-level integration, not a manual process your team has to run.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
+            <MapPin className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
+            <h3 className="font-heading font-bold text-[#111] text-base mb-2">
+              Every car is GPS tracked
+            </h3>
+            <p className="text-[13px] text-[#666] leading-relaxed">
+              A certified GPS tracker meeting our minimum specification for real-time location is a condition of listing on Kharo, installed before handover. Kharo can recommend approved providers and help arrange fitting through our partner garages.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#F0F0F0]">
-            <div className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                <Lock className="w-5 h-5 text-[#0B6B4F]" />
-              </div>
-              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
-                Uber Enforcement Integration
-              </h3>
-              <p className="text-[13px] text-[#666] leading-relaxed">
-                If a driver misses a rental payment, Kharo contacts Uber directly to flag the account. The driver cannot accept new trips until the outstanding rent is cleared. This ensures you never chase payments alone.
-              </p>
-              <div className="mt-4 flex items-start gap-2">
-                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
-                <span className="text-[12px] text-[#888]">Applies to Uber, Bolt and other platforms we partner with</span>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                <MapPin className="w-5 h-5 text-[#0B6B4F]" />
-              </div>
-              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
-                GPS Tracker Required
-              </h3>
-              <p className="text-[13px] text-[#666] leading-relaxed">
-                All vehicles listed on Kharo must have a certified GPS tracker installed prior to handover. This is a condition of listing. Kharo can recommend approved tracker providers and assist with installation through our partner garages.
-              </p>
-              <div className="mt-4 flex items-start gap-2">
-                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
-                <span className="text-[12px] text-[#888]">Trackers must meet our minimum specification for real-time location</span>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                <Activity className="w-5 h-5 text-[#0B6B4F]" />
-              </div>
-              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
-                Live Fleet Dashboard
-              </h3>
-              <p className="text-[13px] text-[#666] leading-relaxed">
-                Track all your vehicles in real time from the Kharo Operator Dashboard. See location, driver status, mileage and payment status in one place. Get alerts for unusual movement or missed payments.
-              </p>
-              <div className="mt-4 flex items-start gap-2">
-                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
-                <span className="text-[12px] text-[#888]">Access from any device, 24 hours a day</span>
-              </div>
-            </div>
+          <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
+            <Activity className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
+            <h3 className="font-heading font-bold text-[#111] text-base mb-2">
+              Live fleet dashboard
+            </h3>
+            <p className="text-[13px] text-[#666] leading-relaxed">
+              Track every vehicle in real time from the Kharo Operator Dashboard: location, driver status, mileage and payment status in one place, with alerts for unusual movement or a missed payment, day or night.
+            </p>
           </div>
         </div>
       </section>
@@ -442,9 +451,7 @@ function SuccessScreen({ navigate }) {
   return (
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center p-4">
       <div className="max-w-md w-full text-center bg-white rounded-2xl border border-[#E8E8E8] p-8">
-        <div className="w-16 h-16 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto mb-5">
-          <Check className="w-8 h-8 text-[#0B6B4F]" strokeWidth={2.5} />
-        </div>
+        <Check className="w-14 h-14 text-[#0B6B4F] mx-auto mb-5" strokeWidth={1.75} />
         <h1 className="text-[22px] font-heading font-extrabold text-[#111] mb-2">
           We'll be in touch soon
         </h1>

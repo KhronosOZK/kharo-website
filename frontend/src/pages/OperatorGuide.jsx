@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   ClipboardList, Phone, BadgeCheck, Car, TrendingUp, Shield,
   Users, Zap, ChevronDown, ChevronRight, Check, Clock,
-  MapPin, Lock, Activity,
+  Lock, Activity,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
@@ -40,7 +40,7 @@ const STEPS = [
   {
     num: "04",
     icon: BadgeCheck,
-    title: "Drivers check availability: you get the lead",
+    title: "Drivers register interest: you get the lead",
     body: "A driver sees your car and registers interest. Kharo runs the 4-layer vetting check: DVLA, identity, Open Banking affordability, and PHV trade record. You receive the approved driver's details and you make contact.",
     detail: "Vetting takes 48 hours. You only speak to approved drivers.",
   },
@@ -80,6 +80,27 @@ const BENEFITS = [
     icon: TrendingUp,
     title: "No upfront cost",
     body: "Listing is free. Kharo earns only when a rental completes; we are incentivised to find you quality drivers.",
+  },
+];
+
+const VEHICLE_ELIGIBILITY = [
+  {
+    icon: Car,
+    label: "Vehicle age",
+    value: "10 years or newer",
+    body: "TfL requires private hire vehicles to be within 10 years of first registration at the point of first licensing.",
+  },
+  {
+    icon: Activity,
+    label: "Emissions standard",
+    value: "Euro 6, or ZEC",
+    body: "Cars must meet Euro 6 emissions, or qualify as Zero Emission Capable (ZEC): under 50g/km CO2 with 10+ miles of zero-emission range.",
+  },
+  {
+    icon: BadgeCheck,
+    label: "Licensing",
+    value: "M1 category, TfL-recognised",
+    body: "Every vehicle needs a valid TfL private hire vehicle licence before it can be listed or collect passengers.",
   },
 ];
 
@@ -162,8 +183,17 @@ export default function OperatorGuide() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
 
-      {/* Hero - Obsidian surface, Hyper Blue B2B accent (per DESIGN.md) */}
-      <section className="relative text-white py-16 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
+      {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
+      <section className="relative text-white py-20 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.8) 55%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/29566898/pexels-photo-29566898/free-photo-of-aerial-view-of-car-lot-with-parked-vehicles.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "grayscale(0.3)",
+          }}
+        />
         <div className="relative max-w-4xl mx-auto">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-4">
             Operator Guide
@@ -182,7 +212,7 @@ export default function OperatorGuide() {
             transition={{ duration: 0.5, delay: 0.08 }}
             className="text-white/70 text-[17px] max-w-xl leading-relaxed mb-8"
           >
-            List your idle PCO cars. Receive pre-vetted driver leads. Fill your fleet faster.
+            List your idle PCO cars, receive pre-vetted driver leads, and fill your fleet faster,
             with no upfront listing fee.
           </motion.p>
           <div className="flex flex-wrap gap-3">
@@ -214,9 +244,7 @@ export default function OperatorGuide() {
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className="flex items-start gap-3"
               >
-                <div className="w-9 h-9 rounded-xl bg-[#EAF5F1] flex items-center justify-center shrink-0">
-                  <Icon className="w-4 h-4 text-[#0B6B4F]" />
-                </div>
+                <Icon className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
                 <div>
                   <p className="font-heading font-bold text-[14px] text-[#111] mb-0.5">{title}</p>
                   <p className="text-[12.5px] text-[#666] leading-relaxed">{body}</p>
@@ -252,9 +280,7 @@ export default function OperatorGuide() {
                   </div>
                   <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
                     <div className="flex items-start gap-4">
-                      <div className="sm:hidden w-10 h-10 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-[#0B6B4F]" />
-                      </div>
+                      <Icon className="sm:hidden w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-[11px] font-bold text-[#0B6B4F] tracking-widest">{num}</span>
@@ -272,6 +298,45 @@ export default function OperatorGuide() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Vehicle eligibility */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <motion.p
+              {...FADE_UP}
+              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+            >
+              Only TfL-eligible cars get listed
+            </motion.p>
+            <motion.h2
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-[28px] font-heading font-extrabold text-[#111]"
+            >
+              What makes a vehicle eligible
+            </motion.h2>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {VEHICLE_ELIGIBILITY.map(({ icon: Icon, label, value, body }, i) => (
+              <motion.div
+                key={label}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="bg-[#F5F5F5] rounded-2xl border border-[#E8E8E8] p-6"
+              >
+                <Icon className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
+                <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-1">{label}</p>
+                <p className="text-[18px] font-heading font-extrabold text-[#111] mb-2">{value}</p>
+                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-[13px] text-[#AAA] text-center mt-6">
+            We check every listing against current TfL private hire vehicle requirements before it goes live.
+          </p>
         </div>
       </section>
 
@@ -293,9 +358,7 @@ export default function OperatorGuide() {
               <ul className="space-y-2.5">
                 {WHAT_WE_CHECK.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-[14px] text-[#444]">
-                    <span className="w-5 h-5 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-[#0B6B4F]" />
-                    </span>
+                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
                     {item}
                   </li>
                 ))}

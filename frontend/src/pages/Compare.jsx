@@ -17,7 +17,7 @@ export default function Compare() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
       <div className="flex items-center justify-between gap-3 mb-8 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-[#EAF5F1] flex items-center justify-center"><Columns3 className="w-6 h-6 text-[#0B6B4F]" /></div>
+          <Columns3 className="w-8 h-8 text-[#0B6B4F]" strokeWidth={1.5} />
           <div>
             <h1 className="text-3xl font-heading font-extrabold text-[#111]">Compare cars</h1>
             <p className="text-gray-500">{items.length} car{items.length !== 1 ? "s" : ""} side by side</p>

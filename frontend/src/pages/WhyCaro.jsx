@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Check, X, ShieldCheck, Search, BadgeCheck, Users, Zap,
-  ChevronRight, Clock, Wallet, FileCheck, Lock, MapPin,
+  ChevronRight, Clock, Wallet, FileCheck,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
@@ -213,9 +213,7 @@ export default function WhyCaro() {
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className="bg-[#F8F8F8] rounded-2xl p-5"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 text-[#0B6B4F]" />
-                </div>
+                <Icon className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
                 <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
@@ -226,39 +224,34 @@ export default function WhyCaro() {
 
       {/* Accountability, kept live for both sides of the marketplace */}
       <section className="py-16 px-4">
-        <div className="max-w-5xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
-          >
-            Built-in accountability
-          </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-10 max-w-xl mx-auto">
-            Two rules that apply to every car on Kharo, so drivers and operators are protected the same way.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-5">
-            <motion.div {...FADE_UP} className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
-              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                <Lock className="w-5 h-5 text-[#0B6B4F]" />
-              </div>
-              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
-                Non-payment is enforced, not chased
-              </h3>
-              <p className="text-[13px] text-[#666] leading-relaxed">
-                If a driver misses a rental payment, Kharo contacts Uber, Bolt and our other platform partners directly to flag the account. The driver cannot accept new trips until the outstanding rent is cleared, so operators are never left chasing payments alone.
-              </p>
-            </motion.div>
-            <motion.div {...FADE_UP} transition={{ duration: 0.4, delay: 0.08 }} className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
-              <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                <MapPin className="w-5 h-5 text-[#0B6B4F]" />
-              </div>
-              <h3 className="font-heading font-bold text-[#111] text-base mb-2">
-                Every car is GPS tracked
-              </h3>
-              <p className="text-[13px] text-[#666] leading-relaxed">
-                A certified GPS tracker is a condition of listing on Kharo, meeting our minimum specification for real-time location. It protects the operator's asset and means a missing or misused vehicle is never a mystery.
-              </p>
-            </motion.div>
+        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+          <motion.div {...FADE_UP} className="relative rounded-2xl overflow-hidden aspect-[4/5] lg:order-2">
+            <img
+              src="https://images.pexels.com/photos/18969850/pexels-photo-18969850.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1125"
+              alt="Verified driver checking their account on a phone"
+              className="w-full h-full object-cover grayscale contrast-[1.05]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 text-white">
+              <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#5FD3A6] mb-1">Every account, checked</p>
+              <p className="text-[14px] text-white/80 leading-relaxed">Vetted once, monitored for as long as they're driving on Kharo.</p>
+            </div>
+          </motion.div>
+          <div className="lg:order-1">
+            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">Built-in accountability</p>
+            <h2 className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4">
+              The same rules protect both sides
+            </h2>
+            <p className="text-[15px] text-[#666] leading-relaxed mb-6">
+              A marketplace only works if both sides can trust it. Every car on Kharo carries a certified GPS tracker as a condition of listing, and if a driver misses a rental payment, Kharo flags their account directly with Uber and Bolt: they can't accept new trips until it's cleared.
+            </p>
+            <button
+              onClick={() => navigate("/list-your-fleet")}
+              className="inline-flex items-center gap-2 text-[14px] font-semibold text-[#0B6B4F] hover:text-[#095B43] transition-colors"
+            >
+              See exactly how enforcement works
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </section>
@@ -301,24 +294,16 @@ export default function WhyCaro() {
                 </div>
                 <div className="col-span-1 px-4 py-4 flex justify-center items-center">
                   {kharo ? (
-                    <span className="w-6 h-6 rounded-full bg-[#EAF5F1] flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 text-[#0B6B4F]" />
-                    </span>
+                    <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
                   ) : (
-                    <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
-                      <X className="w-3.5 h-3.5 text-gray-400" />
-                    </span>
+                    <X className="w-4 h-4 text-gray-300" strokeWidth={2.5} />
                   )}
                 </div>
                 <div className="col-span-1 px-4 py-4 flex justify-center items-center">
                   {them === true ? (
-                    <span className="w-6 h-6 rounded-full bg-[#EAF5F1] flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 text-[#0B6B4F]" />
-                    </span>
+                    <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
                   ) : them === false ? (
-                    <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
-                      <X className="w-3.5 h-3.5 text-gray-400" />
-                    </span>
+                    <X className="w-4 h-4 text-gray-300" strokeWidth={2.5} />
                   ) : (
                     <span className="text-[13px] text-[#CCC]">Varies</span>
                   )}
@@ -446,9 +431,7 @@ export default function WhyCaro() {
                 transition={{ duration: 0.4, delay: i * 0.08 }}
                 className="bg-white rounded-2xl border border-[#E8E8E8] p-5 text-center"
               >
-                <div className="w-11 h-11 rounded-xl bg-[#EAF5F1] flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-5 h-5 text-[#0B6B4F]" />
-                </div>
+                <Icon className="w-7 h-7 text-[#0B6B4F] mx-auto mb-4" strokeWidth={1.5} />
                 <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>

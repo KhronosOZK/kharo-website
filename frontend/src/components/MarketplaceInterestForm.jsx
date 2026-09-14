@@ -63,9 +63,7 @@ export default function MarketplaceInterestForm({
     const copy = wantsSell ? SELL.form : SELL.buyer;
     return (
       <div className="text-center py-8" data-testid="marketplace-interest-success">
-        <div className="w-14 h-14 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto">
-          <Check className="w-7 h-7 text-[#0B6B4F]" />
-        </div>
+        <Check className="w-11 h-11 text-[#0B6B4F] mx-auto" strokeWidth={1.75} />
         <h3 className="text-xl font-heading font-bold text-[#111] mt-4">{copy.successHeading}</h3>
         <p className="text-[#666] mt-2 text-[15px] leading-relaxed">{copy.successBody}</p>
       </div>

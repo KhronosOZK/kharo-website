@@ -48,7 +48,7 @@ export default function Admin() {
   if (!isAdmin) return (
     <main className="max-w-md mx-auto px-4 py-16">
       <div className="bg-white border border-gray-200 rounded-2xl p-8">
-        <div className="w-11 h-11 rounded-full bg-[#EAF5F1] flex items-center justify-center"><Lock className="w-5 h-5 text-[#0B6B4F]" /></div>
+        <Lock className="w-8 h-8 text-[#0B6B4F]" strokeWidth={1.5} />
         <h1 className="text-2xl font-heading font-bold text-[#0A0A0A] mt-4">Kharo Ops, admin</h1>
         <p className="text-sm text-[#666666] mt-1 mb-6">Sign in with your operations account to view captured leads.</p>
         <form onSubmit={doLogin} className="space-y-4">

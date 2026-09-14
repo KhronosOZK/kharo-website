@@ -308,7 +308,7 @@ export default function Marketplace() {
               <h3 className="font-heading font-bold text-[#111] text-[18px]">{MARKETPLACE.sellerCta.heading}</h3>
               <p className="text-[14.5px] text-[#666] mt-2 leading-relaxed">{MARKETPLACE.sellerCta.sub}</p>
               <Button onClick={() => navigate("/sell-your-car")} data-testid="mp-sell-cta"
-                className="mt-4 rounded-full bg-[#111] hover:bg-[#0A0A0A] text-white">
+                className="mt-4 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white">
                 {MARKETPLACE.sellerCta.cta} <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>

@@ -266,7 +266,7 @@ export default function SearchResults() {
               <div className="text-center py-20 bg-white border border-gray-200 rounded-2xl">
                 <p className="font-heading text-xl font-bold text-gray-900 mb-2">No vehicles match your filters</p>
                 <p className="text-gray-500 text-sm mb-5">Try adjusting your search criteria.</p>
-                <button onClick={clearAll} className="bg-[#0A0A0A] text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-gray-800 transition-colors">
+                <button onClick={clearAll} className="bg-[#0B6B4F] text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-[#095B43] transition-colors">
                   Clear All Filters
                 </button>
               </div>

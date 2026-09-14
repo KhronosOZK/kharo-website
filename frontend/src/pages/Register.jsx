@@ -59,7 +59,7 @@ export default function Register() {
 
   if (done) return (
     <main className="max-w-xl mx-auto px-4 py-24 text-center">
-      <div className="w-16 h-16 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto"><Check className="w-8 h-8 text-[#0B6B4F]" /></div>
+      <Check className="w-12 h-12 text-[#0B6B4F] mx-auto" strokeWidth={1.75} />
       <h1 className="text-3xl font-heading font-extrabold text-[#0A0A0A] mt-6" data-testid="reg-success">You're on the launch list.</h1>
       <p className="text-[#666666] mt-3 text-[16px] leading-relaxed">Thanks {f.name.split(" ")[0]}. We've saved your details and we'll email you the moment cars are ready to rent in {f.city}. In the meantime, feel free to keep browsing the cars.</p>
       <div className="flex gap-3 justify-center mt-8 flex-wrap">

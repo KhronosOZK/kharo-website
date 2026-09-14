@@ -52,7 +52,7 @@ export default function Header() {
                 return (
                   <button key={item.to} onClick={() => navigate(item.to)} data-testid={`menu-${item.title.toLowerCase().split(" ")[0]}`}
                     className="w-full text-left rounded-xl px-3 py-3 hover:bg-gray-50 transition-colors flex items-start gap-3">
-                    <span className="w-8 h-8 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0"><Icon className="w-4 h-4 text-[#0B6B4F]" /></span>
+                    <Icon className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={1.75} />
                     <span>
                       <span className="block font-semibold text-[#0A0A0A] text-[14px]">{item.title}</span>
                       <span className="block text-[12.5px] text-gray-500">{item.sub}</span>

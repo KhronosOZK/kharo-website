@@ -30,10 +30,10 @@ export default function ForgotPassword() {
       <div className="max-w-md mx-auto px-4 py-16 sm:py-20 min-h-[calc(100vh-68px)] flex items-center">
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="w-full bg-[#F5F5F5] rounded-[28px] p-7 sm:p-9 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)]">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#EAF5F1] px-3 py-1 text-[12px] font-medium tracking-wide uppercase text-[#0B6B4F]"><Zap className="w-3.5 h-3.5" /> Account help</div>
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#0B6B4F] mb-1">Account help</p>
           {sent ? (
             <div className="mt-5 text-center py-4" data-testid="forgot-success">
-              <div className="w-14 h-14 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto"><Check className="w-7 h-7 text-[#0B6B4F]" /></div>
+              <Check className="w-11 h-11 text-[#0B6B4F] mx-auto" strokeWidth={1.75} />
               <h1 className="text-2xl font-heading font-extrabold text-[#0A0A0A] mt-4">Check your inbox</h1>
               <p className="text-[#666666] mt-2 text-[15px]">If an account exists for that email, we have sent a link to reset your password. It is valid for one hour.</p>
               <Link to="/login" className="inline-block mt-6 text-[#0B6B4F] font-semibold">Back to sign in</Link>

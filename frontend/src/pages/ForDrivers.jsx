@@ -177,9 +177,7 @@ export default function ForDrivers() {
                 transition={{ duration: 0.4, delay: i * 0.08 }}
                 className="bg-white rounded-2xl border border-[#E8E8E8] p-5"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 text-[#0B6B4F]" />
-                </div>
+                <Icon className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
                 <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
@@ -234,9 +232,7 @@ export default function ForDrivers() {
               <ul className="space-y-3">
                 {REQUIREMENTS.map((r) => (
                   <li key={r} className="flex items-start gap-3 text-[14px] text-[#444]">
-                    <span className="w-5 h-5 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-[#0B6B4F]" />
-                    </span>
+                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
                     {r}
                   </li>
                 ))}

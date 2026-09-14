@@ -46,7 +46,7 @@ export default function Saved() {
     <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
       <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-[#EAF5F1] flex items-center justify-center"><Heart className="w-6 h-6 text-[#0B6B4F]" /></div>
+          <Heart className="w-8 h-8 text-[#0B6B4F]" strokeWidth={1.5} />
           <div>
             <h1 className="text-3xl font-heading font-extrabold text-[#0A0A0A]">Saved vehicles</h1>
             <p className="text-gray-500">{showing} {tab === "rent" ? "rental" : "sale"} listing{showing !== 1 ? "s" : ""} saved</p>
@@ -54,7 +54,7 @@ export default function Saved() {
         </div>
         {tab === "rent" && items.length >= 2 && (
           <Button onClick={() => setCompare((c) => !c)} data-testid="compare-toggle"
-            className="rounded-full bg-[#0A0A0A] hover:bg-gray-800 text-white">
+            className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white">
             {compare ? <><X className="w-4 h-4 mr-2" /> Back to grid</> : <><Columns3 className="w-4 h-4 mr-2" /> Compare {items.length} cars</>}
           </Button>
         )}

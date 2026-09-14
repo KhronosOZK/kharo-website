@@ -16,9 +16,7 @@ export default function Help() {
   return (
     <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
       <div className="text-center">
-        <div className="w-12 h-12 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto mb-4">
-          <LifeBuoy className="w-6 h-6 text-[#0B6B4F]" />
-        </div>
+        <LifeBuoy className="w-9 h-9 text-[#0B6B4F] mx-auto mb-4" strokeWidth={1.5} />
         <h1 className="text-4xl sm:text-5xl font-heading font-extrabold text-[#0A0A0A]">{HELP.heading}</h1>
         <p className="text-gray-600 mt-3">{HELP.sub}</p>
         <div className="relative max-w-xl mx-auto mt-6">

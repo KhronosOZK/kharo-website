@@ -35,7 +35,7 @@ export default function ResetPassword() {
       <div className="max-w-md mx-auto px-4 py-16 sm:py-20 min-h-[calc(100vh-68px)] flex items-center">
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="w-full bg-[#F5F5F5] rounded-[28px] p-7 sm:p-9 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)]">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#EAF5F1] px-3 py-1 text-[12px] font-medium tracking-wide uppercase text-[#0B6B4F]"><Zap className="w-3.5 h-3.5" /> Set a new password</div>
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#0B6B4F] mb-1">Set a new password</p>
           {!token ? (
             <div className="mt-5">
               <h1 className="text-2xl font-heading font-extrabold text-[#0A0A0A]">This link looks incomplete</h1>

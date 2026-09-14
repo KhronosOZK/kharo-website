@@ -26,7 +26,7 @@ const STEPS = [
     num: "02",
     icon: ClipboardList,
     title: "Register your interest",
-    body: "Found a car you like? Hit 'Check availability'. Fill in a short form: your PCO licence number, contact details and when you want to start. No documents at this stage, no payment.",
+    body: "Found a car you like? Hit 'Register interest'. Fill in a short form: your name, contact details and when you want to start. No licence numbers, no documents, no payment at this stage.",
     detail: "Takes 60 seconds. You'll receive an email confirmation.",
   },
   {
@@ -131,26 +131,34 @@ export default function DriverGuide() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
 
-      {/* Hero */}
-      <section className="bg-white border-b border-[#EBEBEB] py-14 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero - key-handover photography, matches the homepage's dark cinematic treatment */}
+      <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.72) 55%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/8482859/pexels-photo-8482859.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center 35%",
+          }}
+        />
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.p
             {...FADE_UP}
-            className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-4"
+            className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]"
           >
             Driver Guide
           </motion.p>
           <motion.h1
             {...FADE_UP}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-[40px] sm:text-5xl font-heading font-extrabold text-[#111] leading-[1.05] tracking-tight text-balance"
+            className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] tracking-tight text-balance"
           >
             How renting works: from browse to keys.
           </motion.h1>
           <motion.p
             {...FADE_UP}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-[17px] text-[#666] mt-5 max-w-xl mx-auto leading-relaxed"
+            className="text-white/60 text-[17px] mt-5 max-w-xl mx-auto leading-relaxed"
           >
             Five steps, 48-hour vetting, and most drivers are in their car within 3 working days.
             No payment until you've met the operator and agreed terms.
@@ -162,13 +170,13 @@ export default function DriverGuide() {
           >
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
             >
               Browse PCO cars
             </button>
             <button
               onClick={() => navigate("/for-drivers")}
-              className="px-7 py-3.5 rounded-full border border-[#E0E0E0] text-[#333] font-medium text-[15px] hover:bg-[#F5F5F5] transition-colors flex items-center gap-2"
+              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/5 transition-colors flex items-center gap-2"
             >
               For drivers overview
               <ChevronRight className="w-4 h-4" />
@@ -205,9 +213,7 @@ export default function DriverGuide() {
 
                   <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
                     <div className="flex items-start gap-4">
-                      <div className="sm:hidden w-10 h-10 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-[#0B6B4F]" />
-                      </div>
+                      <Icon className="sm:hidden w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-[11px] font-bold text-[#0B6B4F] tracking-widest">{num}</span>
@@ -246,9 +252,7 @@ export default function DriverGuide() {
               <ul className="space-y-3">
                 {REQUIREMENTS.map((r) => (
                   <li key={r} className="flex items-start gap-3 text-[14px] text-[#444]">
-                    <span className="w-5 h-5 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-[#0B6B4F]" />
-                    </span>
+                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
                     {r}
                   </li>
                 ))}
@@ -330,9 +334,7 @@ export default function DriverGuide() {
                 className="bg-white rounded-2xl border border-[#E8E8E8] p-5"
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#EAF5F1] flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-[#0B6B4F]" />
-                  </div>
+                  <Icon className="w-7 h-7 text-[#0B6B4F]" strokeWidth={1.5} />
                   {included && (
                     <span className="text-[11px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2.5 py-0.5">
                       Included
