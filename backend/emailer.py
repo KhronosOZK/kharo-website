@@ -1,27 +1,34 @@
 """
-Kharo email scaffold (Emergent-managed Resend).
+Kharo email (Resend, kharo.co.uk sending domain).
 
-EDIT LATER: the values below come from /app/backend/.env and are safe to change
-once the caro.uk domain and welcome documents are ready:
+EDIT LATER: the values below come from /app/backend/.env and are safe to change:
+  RESEND_API_KEY    - Resend API key, from resend.com once kharo.co.uk is verified
   EMAIL_FROM_NAME   - sender display name (currently "Kharo")
-  CONTACT_EMAIL     - reply-to address
+  EMAIL_FROM_ADDRESS- sending address (default noreply@kharo.co.uk)
+  CONTACT_EMAIL     - reply-to address (e.g. hello@kharo.co.uk)
   ALERT_EMAIL       - where new-registration alerts are sent (founder inbox)
   DRIVER_DOC_URL    - link to the driver welcome document
   OPERATOR_DOC_URL  - link to the operator welcome document
   PUBLIC_BASE_URL   - site base url used for links (e.g. password reset)
 
-If EMERGENT_EMAIL_KEY is not present, every send is skipped quietly so the app
-keeps working. Emails start flowing automatically once the key is provisioned.
+If RESEND_API_KEY is not present, every send is skipped quietly so the app
+keeps working. Emails start flowing automatically once the key is provisioned -
+see resend.com: add kharo.co.uk as a sending domain, add the SPF/DKIM records
+it gives you at the domain registrar, wait for verification, then set the key.
+
+Falls back to the legacy Emergent-managed proxy (EMERGENT_EMAIL_KEY) if that's
+set and RESEND_API_KEY isn't, so nothing breaks mid-migration.
 """
 import os
 import logging
 import asyncio
 import httpx
 
-logger = logging.getLogger("caro.email")
+logger = logging.getLogger("kharo.email")
 
-# Managed proxy — a constant on purpose so it survives deployment.
-EMAIL_BASE_URL = "https://integrations.emergentagent.com"
+RESEND_BASE_URL = "https://api.resend.com"
+# Legacy managed proxy, kept only as a fallback during migration.
+EMERGENT_EMAIL_BASE_URL = "https://integrations.emergentagent.com"
 
 
 def cfg(key: str, default: str = "") -> str:
@@ -29,30 +36,57 @@ def cfg(key: str, default: str = "") -> str:
 
 
 async def send_email(to: str, subject: str, html: str) -> None:
-    key = os.environ.get("EMERGENT_EMAIL_KEY")
-    if not key:
-        logger.warning("EMERGENT_EMAIL_KEY not set; skipped email to %s (%s)", to, subject)
-        return
-    payload = {
-        "to": [to],
-        "subject": subject,
-        "html": html,
-        "from_name": cfg("EMAIL_FROM_NAME", "Kharo"),
-    }
+    resend_key = os.environ.get("RESEND_API_KEY")
+    emergent_key = os.environ.get("EMERGENT_EMAIL_KEY")
+    from_name = cfg("EMAIL_FROM_NAME", "Kharo")
     reply_to = cfg("CONTACT_EMAIL")
-    if reply_to:
-        payload["contact_email"] = reply_to
-    try:
-        async with httpx.AsyncClient(timeout=30) as client:
-            resp = await client.post(
-                f"{EMAIL_BASE_URL}/api/v1/email/send",
-                headers={"X-Email-Key": key},
-                json=payload,
-            )
-        resp.raise_for_status()
-        logger.info("Email sent to %s (%s)", to, subject)
-    except Exception as e:  # never let email break a request
-        logger.error("Email send failed to %s: %s", to, e)
+
+    if resend_key:
+        from_address = cfg("EMAIL_FROM_ADDRESS", "noreply@kharo.co.uk")
+        payload = {
+            "from": f"{from_name} <{from_address}>",
+            "to": [to],
+            "subject": subject,
+            "html": html,
+        }
+        if reply_to:
+            payload["reply_to"] = reply_to
+        try:
+            async with httpx.AsyncClient(timeout=30) as client:
+                resp = await client.post(
+                    f"{RESEND_BASE_URL}/emails",
+                    headers={"Authorization": f"Bearer {resend_key}"},
+                    json=payload,
+                )
+            resp.raise_for_status()
+            logger.info("Email sent via Resend to %s (%s)", to, subject)
+        except Exception as e:  # never let email break a request
+            logger.error("Resend send failed to %s: %s", to, e)
+        return
+
+    if emergent_key:
+        payload = {
+            "to": [to],
+            "subject": subject,
+            "html": html,
+            "from_name": from_name,
+        }
+        if reply_to:
+            payload["contact_email"] = reply_to
+        try:
+            async with httpx.AsyncClient(timeout=30) as client:
+                resp = await client.post(
+                    f"{EMERGENT_EMAIL_BASE_URL}/api/v1/email/send",
+                    headers={"X-Email-Key": emergent_key},
+                    json=payload,
+                )
+            resp.raise_for_status()
+            logger.info("Email sent via Emergent proxy to %s (%s)", to, subject)
+        except Exception as e:
+            logger.error("Emergent proxy send failed to %s: %s", to, e)
+        return
+
+    logger.warning("No email provider configured (RESEND_API_KEY unset); skipped email to %s (%s)", to, subject)
 
 
 def fire(coro) -> None:
@@ -70,7 +104,7 @@ def _shell(heading: str, body: str) -> str:
   <tr><td align="center">
     <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #ececec;">
       <tr><td style="background:#0B130F;padding:24px 32px;">
-        <span style="color:#ffffff;font-size:24px;font-weight:800;letter-spacing:-0.5px;">caro<span style="color:#5FD3A6;">.</span></span>
+        <span style="color:#ffffff;font-size:24px;font-weight:800;letter-spacing:-0.5px;">kharo<span style="color:#5FD3A6;">.</span></span>
       </td></tr>
       <tr><td style="padding:32px;">
         <h1 style="margin:0 0 12px;font-size:22px;color:#1A2E25;">{heading}</h1>

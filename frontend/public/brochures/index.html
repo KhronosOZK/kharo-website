@@ -1,25 +1,21 @@
-<title>Kharo Brochures</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kharo Welcome Guides</title>
+<link rel="preconnect" href="https://api.fontshare.com">
 <style>
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500&f[]=satoshi@700,500,400&display=swap');
 :root{
   --green:#0B6B4F; --green-dark:#095B43; --mint:#5FD3A6;
   --ink:#0A0A0A; --text:#111111; --text-2:#4A5D54; --text-3:#7A857F; --muted:#AEAEAE;
   --border:#E8E8E8;
   --page-bg:#F3F2ED; --surface:#FFFFFF; --card:#FAF9F5;
   --amber-bg:#FDF6E7; --amber-text:#8A5E1E; --amber-line:#D9A73C;
-  --red-line:#C97B6E;
-  --font-display:'Space Grotesk',-apple-system,sans-serif;
-  --font-body:'Hanken Grotesk',-apple-system,sans-serif;
-}
-:root[data-theme="dark"]{
-  --green:#0B6B4F; --green-dark:#095B43; --mint:#5FD3A6;
-  --ink:#0A0A0A; --text:#111111; --text-2:#4A5D54; --text-3:#7A857F; --muted:#AEAEAE;
-  --border:#E8E8E8;
-  --page-bg:#F3F2ED; --surface:#FFFFFF; --card:#FAF9F5;
-  --amber-bg:#FDF6E7; --amber-text:#8A5E1E; --amber-line:#D9A73C;
-  --red-line:#C97B6E;
+  --font-display:'Cabinet Grotesk',-apple-system,sans-serif;
+  --font-body:'Satoshi',-apple-system,sans-serif;
 }
 *{box-sizing:border-box;}
 body{background:var(--page-bg);color:var(--text);font-family:var(--font-body);padding:2.5rem 0;margin:0;}
@@ -29,7 +25,6 @@ body{background:var(--page-bg);color:var(--text);font-family:var(--font-body);pa
 .masthead h1{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,3.6vw,32px);line-height:1.15;margin:0 0 10px;color:var(--ink);text-wrap:balance;}
 .masthead p{font-size:14.5px;line-height:1.6;color:var(--text-2);max-width:64ch;margin:0;}
 .doc{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04);}
-.doc + .doc{margin-top:0;}
 .sheet{position:relative;padding:52px 56px 40px;border-bottom:1px solid var(--border);}
 .sheet:last-child{border-bottom:none;}
 .sheet.cover{padding:52px 56px 40px;background:radial-gradient(ellipse 60% 45% at 78% 18%, rgba(95,211,166,.28), transparent 70%),radial-gradient(ellipse 55% 40% at 8% 92%, rgba(217,167,60,.20), transparent 70%);}
@@ -87,6 +82,7 @@ td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
 .closer .contact .k{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;}
 .closer .contact div{color:var(--text-2);line-height:1.7;}
 .note{font-size:11px;color:var(--text-3);text-align:center;}
+.back{font-size:12.5px;color:var(--green);text-decoration:none;font-weight:600;}
 @media (max-width:720px){
   .sheet{padding:32px 22px 60px;}
   .two-col, .card-grid, .closer{grid-template-columns:1fr;}
@@ -95,16 +91,18 @@ td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
   .pagefoot{left:22px;right:22px;}
 }
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <div class="masthead">
-    <p class="eyebrow">Welcome documents</p>
-    <h1>The two brochures Kharo emails on signup</h1>
-    <p>Restyled to match the live site's typography and updated so the pricing they describe matches what the platform actually charges: a rental price only, with insurance quoted separately rather than folded in. Everything else in the originals - the tone, the process detail, the figures that were already accurate - is kept as written.</p>
+    <a class="back" href="https://kharo.co.uk">&larr; kharo.co.uk</a>
+    <p class="eyebrow" style="margin-top:16px;">Welcome guides</p>
+    <h1>Your Kharo welcome guide</h1>
+    <p>Everything you need before your first rental or your first listing - what it costs, how the process works, and how to track your cover, maintenance and claims once you're on the platform.</p>
   </div>
 
   <div id="driver-guide">
-    <p class="eyebrow" style="padding:0 4px;">Document 1 of 2</p>
+    <p class="eyebrow" style="padding:0 4px;">For drivers</p>
     <div class="doc">
 
       <div class="sheet cover">
@@ -164,30 +162,12 @@ td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
       <div class="sheet">
         <p class="kicker">Step by step</p>
         <h2 class="h2">How renting works</h2>
-        <div class="step">
-          <span class="num">01</span>
-          <div><h4>Find a car you can genuinely afford</h4><p>The rental price is shown on its own, priced below the market rate for the same car, so you are comparing like with like. Check three things on every card: the weekly figure, the mileage cap and the deposit.</p></div>
-        </div>
-        <div class="step">
-          <span class="num">02</span>
-          <div><h4>Shortlist, then compare properly</h4><p>Save any car with one tap and set them side by side. Weekly cost, excess, mileage, deposit and area in one view.</p></div>
-        </div>
-        <div class="step">
-          <span class="num">03</span>
-          <div><h4>Register your interest in that car</h4><p>A few minutes, completed once. We ask for your PCO badge, your driving licence and where you drive. Nothing is charged and nothing is committed.</p></div>
-        </div>
-        <div class="step">
-          <span class="num">04</span>
-          <div><h4>We check, then the operator decides</h4><p>We check your badge against the licensing register and your licence with the DVLA. The operator gives you an answer: yes, yes with a higher deposit, or not this time with the reason why.</p></div>
-        </div>
-        <div class="step">
-          <span class="num">05</span>
-          <div><h4>Pay, then book a collection slot</h4><p>Deposit and first week through Kharo, never to a yard. Your agreement, insurance certificate, PHV licence and MOT all land in your account.</p></div>
-        </div>
-        <div class="step">
-          <span class="num">06</span>
-          <div><h4>Check the car over together, then drive</h4><p>You and the operator photograph the car before you leave and both keep a copy. This settles any later question about damage.</p></div>
-        </div>
+        <div class="step"><span class="num">01</span><div><h4>Find a car you can genuinely afford</h4><p>The rental price is shown on its own, priced below the market rate for the same car, so you are comparing like with like. Check three things on every card: the weekly figure, the mileage cap and the deposit.</p></div></div>
+        <div class="step"><span class="num">02</span><div><h4>Shortlist, then compare properly</h4><p>Save any car with one tap and set them side by side. Weekly cost, excess, mileage, deposit and area in one view.</p></div></div>
+        <div class="step"><span class="num">03</span><div><h4>Register your interest in that car</h4><p>A few minutes, completed once. We ask for your PCO badge, your driving licence and where you drive. Nothing is charged and nothing is committed.</p></div></div>
+        <div class="step"><span class="num">04</span><div><h4>We check, then the operator decides</h4><p>We check your badge against the licensing register and your licence with the DVLA. The operator gives you an answer: yes, yes with a higher deposit, or not this time with the reason why.</p></div></div>
+        <div class="step"><span class="num">05</span><div><h4>Pay, then book a collection slot</h4><p>Deposit and first week through Kharo, never to a yard. Your agreement, insurance certificate, PHV licence and MOT all land in your account.</p></div></div>
+        <div class="step"><span class="num">06</span><div><h4>Check the car over together, then drive</h4><p>You and the operator photograph the car before you leave and both keep a copy. This settles any later question about damage.</p></div></div>
         <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
           <div class="card card-green"><h4 class="g">Free</h4><p style="margin-bottom:0;">to browse, register and be introduced</p></div>
           <div class="card card-green"><h4 class="g">£0</h4><p style="margin-bottom:0;">charged before an operator says yes</p></div>
@@ -325,18 +305,9 @@ td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
         <h2 class="h2">Track everything from your dashboard</h2>
         <p class="lede">Insurance, maintenance and claims used to mean three different email threads and a phone number you had to dig out. Now they are three tabs in the app you already use to find the car.</p>
         <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
-          <div class="card">
-            <h4 class="g">Insurance</h4>
-            <p style="margin-bottom:0;">Policy status, this week's cost and your renewal date, all on one screen. Need proof for a job or a check? Download the certificate yourself, at 2am if that is when you need it.</p>
-          </div>
-          <div class="card">
-            <h4 class="g">Maintenance</h4>
-            <p style="margin-bottom:0;">Something wrong with the car? Report the issue or request roadside assistance from the same tab, then watch it move through to fixed. Your repair history sits underneath, so you are never explaining the same problem twice.</p>
-          </div>
-          <div class="card">
-            <h4 class="g">Claims</h4>
-            <p style="margin-bottom:0;">Been in an accident, or had the car stolen or damaged? Report it here and follow it through to settlement, with the status always visible - not a mystery that resurfaces three weeks later as a phone call you were not expecting.</p>
-          </div>
+          <div class="card"><h4 class="g">Insurance</h4><p style="margin-bottom:0;">Policy status, this week's cost and your renewal date, all on one screen. Need proof for a job or a check? Download the certificate yourself, at 2am if that is when you need it.</p></div>
+          <div class="card"><h4 class="g">Maintenance</h4><p style="margin-bottom:0;">Something wrong with the car? Report the issue or request roadside assistance from the same tab, then watch it move through to fixed. Your repair history sits underneath, so you are never explaining the same problem twice.</p></div>
+          <div class="card"><h4 class="g">Claims</h4><p style="margin-bottom:0;">Been in an accident, or had the car stolen or damaged? Report it here and follow it through to settlement, with the status always visible - not a mystery that resurfaces three weeks later as a phone call you were not expecting.</p></div>
         </div>
         <div class="card card-amber" style="margin-top:20px;">
           <h4>Why it matters</h4>
@@ -382,7 +353,7 @@ td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
   </div>
 
   <div id="operator-guide">
-    <p class="eyebrow" style="padding:0 4px;">Document 2 of 2</p>
+    <p class="eyebrow" style="padding:0 4px;">For operators</p>
     <div class="doc">
 
       <div class="sheet cover">
@@ -599,14 +570,8 @@ td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
           <p style="margin-bottom:0;"><b style="color:var(--ink);">It is entirely your choice, and reversible.</b> Switch it on when your own policy beats what we would otherwise quote a driver, switch it off when it does not. Cover details are self-declared by you and not verified by Kharo, so keeping the policy valid while the toggle is on is on you, not us - the driver sees one clear number and relies on your declaration.</p>
         </div>
         <div class="two-col" style="margin-top:20px;">
-          <div class="card">
-            <h4>Maintenance</h4>
-            <p style="margin-bottom:0;">Service and MOT due dates for every vehicle in one list, plus every open repair job and its status. Nothing lapses because a reminder got buried in an inbox.</p>
-          </div>
-          <div class="card">
-            <h4>Claims</h4>
-            <p style="margin-bottom:0;">Every claim across the fleet - accident, theft, damage - tracked by status and settlement amount, so you know your exposure without ringing round to ask.</p>
-          </div>
+          <div class="card"><h4>Maintenance</h4><p style="margin-bottom:0;">Service and MOT due dates for every vehicle in one list, plus every open repair job and its status. Nothing lapses because a reminder got buried in an inbox.</p></div>
+          <div class="card"><h4>Claims</h4><p style="margin-bottom:0;">Every claim across the fleet - accident, theft, damage - tracked by status and settlement amount, so you know your exposure without ringing round to ask.</p></div>
         </div>
         <div class="pagefoot"><span>Listing with Kharo</span><span>08</span></div>
       </div>
@@ -643,5 +608,7 @@ td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
     </div>
   </div>
 
-  <p class="note">To save either document as a PDF: open this page, then use your browser's Print &rarr; Save as PDF.</p>
+  <p class="note">To save either guide as a PDF: use your browser's Print &rarr; Save as PDF.</p>
 </div>
+</body>
+</html>

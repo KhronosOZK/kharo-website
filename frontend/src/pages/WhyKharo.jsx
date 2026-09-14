@@ -203,7 +203,7 @@ export default function WhyKharo() {
           grid of identical icon cards, matching the site's photo-and-number
           language elsewhere rather than the generic SaaS "feature card" look */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <motion.p
             {...FADE_UP}
             className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
@@ -213,18 +213,18 @@ export default function WhyKharo() {
           <motion.h2
             {...FADE_UP}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-[26px] sm:text-[30px] font-heading font-bold text-[#333] leading-snug mb-14 max-w-xl"
+            className="text-[26px] sm:text-[30px] font-heading font-bold text-[#333] leading-snug mb-14 max-w-2xl"
           >
             Kharo isn't a listings board. <span className="text-[#111] font-extrabold">Every price is real, every operator is checked, and every driver is vetted</span> before a single call happens.
           </motion.h2>
 
-          <div>
+          <div className="grid lg:grid-cols-2 lg:gap-x-16">
             {PILLARS.map(({ num, title, body }, i) => (
               <motion.div
                 key={title}
                 {...FADE_UP}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
-                className={`grid sm:grid-cols-[64px_1fr] gap-x-6 gap-y-1 py-6 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}
+                className={`grid sm:grid-cols-[64px_1fr] gap-x-6 gap-y-1 py-6 ${i > 0 ? "border-t border-[#EEEEEE]" : ""} ${i === 1 ? "lg:border-t-0" : ""}`}
               >
                 <span className="font-heading font-extrabold text-[15px] text-[#0B6B4F]">{num}</span>
                 <div>
@@ -240,7 +240,7 @@ export default function WhyKharo() {
       {/* Accountability, kept live for both sides of the marketplace */}
       <section className="py-16 px-4">
         <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
-          <motion.div {...FADE_UP} className="relative rounded-2xl overflow-hidden aspect-[4/5] lg:order-2">
+          <motion.div {...FADE_UP} className="relative rounded-2xl overflow-hidden aspect-[16/10] lg:aspect-[4/5] lg:order-2">
             <img
               src="https://images.pexels.com/photos/18969850/pexels-photo-18969850.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1125"
               alt="Verified driver checking their account on a phone"

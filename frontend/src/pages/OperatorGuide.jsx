@@ -5,7 +5,7 @@ import {
   ClipboardList, Phone, BadgeCheck, Car, TrendingUp, Shield,
   Users, Zap, ChevronDown, ChevronRight, Check, Clock,
   Lock, LayoutDashboard, Wallet, FileCheck2, ShieldPlus,
-  UploadCloud,
+  UploadCloud, Wrench, LifeBuoy,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -160,7 +160,7 @@ const FAQS = [
   },
   {
     q: "I already have fleet insurance. Can that be reflected in my price?",
-    a: "Yes. Add your policy details and certificate in the Fleet insurance section of your dashboard. Once we've verified it, switch on \"Include insurance in the price drivers see\" and your listings show one weekly figure with insurance already built in. Leave it off and we quote insurance separately, based on each driver's own profile, as we do by default.",
+    a: "Yes. Add your policy details and certificate in the Fleet insurance section of your dashboard, then switch on \"Include insurance in the price drivers see\" and your listings show one weekly figure with insurance already built in. Leave it off and we quote insurance separately, based on each driver's own profile, as we do by default. Cover details are self-declared by you, not verified by Kharo, so it's on you to keep the policy valid while the toggle is on.",
   },
 ];
 
@@ -169,6 +169,8 @@ const OPERATOR_DASHBOARD_NAV = [
   { icon: Car, label: "Fleet" },
   { icon: BadgeCheck, label: "Applications" },
   { icon: ShieldPlus, label: "Fleet insurance" },
+  { icon: Wrench, label: "Maintenance" },
+  { icon: LifeBuoy, label: "Claims" },
   { icon: Wallet, label: "Payouts" },
 ];
 
@@ -606,6 +608,28 @@ export default function OperatorGuide() {
                     </div>
                   </div>
                 </div>
+
+                <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                  {/* maintenance */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Wrench className="w-3.5 h-3.5 text-[#0B6B4F]" />
+                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Maintenance</span>
+                    </div>
+                    <p className="text-[13px] text-[#333] mt-2">Ford Galaxy &middot; scheduled service booked</p>
+                    <span className="inline-block text-[10px] font-bold text-[#666] bg-[#F0F0F0] rounded-full px-2 py-0.5 mt-2">2 open jobs</span>
+                  </div>
+
+                  {/* claims */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <LifeBuoy className="w-3.5 h-3.5 text-[#0B6B4F]" />
+                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Claims</span>
+                    </div>
+                    <p className="text-[13px] text-[#333] mt-2">Tesla Model 3 &middot; attempted theft</p>
+                    <span className="inline-block text-[10px] font-bold text-[#8A5E1E] bg-[#FDF3E3] rounded-full px-2 py-0.5 mt-2">Reported</span>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -614,10 +638,12 @@ export default function OperatorGuide() {
             <FileCheck2 className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" />
             <p className="text-[13px] text-[#666] leading-relaxed">
               <span className="font-semibold text-[#111]">Already carry your own fleet cover?</span> Add
-              the policy details and certificate to your operator account and we'll verify it. Once it's
-              on file, switch the toggle on and your listings show one weekly price with insurance
-              already built in, no separate quote for the driver to see. Switch it off at any time and
-              we go back to quoting insurance separately, based on the driver's own profile.
+              the policy details and certificate to your operator account. Once it's on file, switch the
+              toggle on and your listings show one weekly price with insurance already built in, no
+              separate quote for the driver to see. Switch it off at any time and we go back to quoting
+              insurance separately, based on the driver's own profile. Cover details are self-declared by
+              you and not verified by Kharo - you're responsible for keeping the policy valid and adequate
+              while the toggle is on.
             </p>
           </div>
         </div>

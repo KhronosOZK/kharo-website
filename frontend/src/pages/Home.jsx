@@ -272,12 +272,12 @@ export default function Home() {
           className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {[
-            { src: "/images/listings/toyota-prius.jpg", label: "Toyota Prius", sub: "From £225 / week · London" },
-            { src: "https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Kia Niro EV", sub: "From £270 / week · Manchester" },
-            { src: "https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Camry", sub: "From £245 / week · Birmingham" },
-            { src: "/images/listings/vw-passat-gte.jpg", label: "VW Passat GTE", sub: "From £255 / week · Leeds" },
-            { src: "https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Mercedes E-Class", sub: "From £310 / week · London" },
-            { src: "https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota RAV4", sub: "From £250 / week · Manchester" },
+            { src: "/images/listings/toyota-prius.jpg", label: "Toyota Prius", sub: "From £165 / week · London" },
+            { src: "https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Kia Niro EV", sub: "From £190 / week · Manchester" },
+            { src: "https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Camry", sub: "From £175 / week · Birmingham" },
+            { src: "/images/listings/vw-passat-gte.jpg", label: "VW Passat GTE", sub: "From £180 / week · Leeds" },
+            { src: "https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Mercedes E-Class", sub: "From £255 / week · London" },
+            { src: "https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota RAV4", sub: "From £185 / week · Manchester" },
           ].map((tile) => (
             <FleetTile key={tile.label} {...tile} className="snap-start shrink-0 w-[68vw] sm:w-[280px] h-[380px]" />
           ))}
@@ -327,7 +327,7 @@ export default function Home() {
             Stop messaging dozens of operators on WhatsApp and Facebook to find a car. Every vehicle is in one place.
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 border-t border-l border-[#EBEBEB] max-w-3xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-[#EBEBEB]">
           {[
             { title: "More choice", body: "Compare vehicles from different operators in one place." },
             { title: "Clear pricing", body: "See the full weekly price before you get in touch." },
@@ -349,7 +349,7 @@ export default function Home() {
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-8" style={{ textWrap: "balance" }}>
             What every listing on Kharo means
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left max-w-5xl mx-auto">
             {[
               "Every operator is checked against Companies House and the licensing register",
               "The weekly price shown is the rental price, no insurance quietly folded in",

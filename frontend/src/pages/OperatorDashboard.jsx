@@ -1,8 +1,7 @@
 import { useState } from "react";
 import {
   Car, TrendingUp, Users, AlertTriangle, Check, X, PoundSterling, Gauge, Plus,
-  MapPin, Navigation, Radio, Signal, ShieldPlus, UploadCloud, Wrench, LifeBuoy,
-  FileWarning, Info,
+  MapPin, Navigation, Radio, Signal,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -41,17 +40,6 @@ const apps = [
 ];
 const revenue = [["Toyota Prius", "4", "£1,060.00", "£954.00"], ["Skoda Octavia", "4", "£840.00", "£756.00"], ["Toyota Camry", "2", "£560.00", "£504.00"]];
 const compliance = ["MOT due in 12 days, Toyota Prius (LK22 CAR)", "Insurance renewal in 30 days, fleet-wide", "PHV licence renewal in 41 days, Ford Galaxy (LG21 GXY)", "Road tax renewal in 58 days, Skoda Octavia (SK20 OCT)"];
-const maintenance = [
-  { vehicle: "Toyota Prius 2022", plate: "LK22 CAR", issue: "Warning light, reported by driver", garage: "Newham Motors", status: "In progress", cost: "£140 est." },
-  { vehicle: "Ford Galaxy 2021", plate: "LG21 GXY", issue: "Scheduled service", garage: "Bromley Garage", status: "Booked", cost: "£95" },
-  { vehicle: "Skoda Octavia 2020", plate: "SK20 OCT", issue: "Brake pads replaced", garage: "Newham Motors", status: "Completed", cost: "£180" },
-];
-const claims = [
-  { vehicle: "Tesla Model 3 2023", plate: "TM23 EVX", driver: "Unassigned", type: "Attempted theft", date: "2 Sep 2026", status: "Reported", amount: "Pending" },
-  { vehicle: "Toyota Camry 2022", plate: "LK22 CMY", driver: "Elif K.", type: "Third-party damage", date: "18 Aug 2026", status: "Settled", amount: "£1,240.00" },
-];
-const maintenanceColor = (s) => s === "Completed" ? "text-[#0B6B4F] bg-[#EAF5F1]" : s === "In progress" ? "text-[#8A5E1E] bg-[#FDF3E3]" : "text-[#666] bg-[#F0F0F0]";
-const claimColor = (s) => s === "Settled" ? "text-[#0B6B4F] bg-[#EAF5F1]" : s === "Reported" ? "text-[#8A5E1E] bg-[#FDF3E3]" : "text-[#666] bg-[#F0F0F0]";
 const statusColor = (s) => s === "Rented" ? "text-[#0B6B4F] bg-[#EAF5F1]" : s === "Available" ? "text-[#666] bg-[#F0F0F0]" : "text-[#444] bg-[#E8E8E8]";
 const pinColor = (s) => s === "Moving" ? "#5FD3A6" : s === "Idle" ? "#555555" : "#999999";
 
@@ -119,7 +107,7 @@ export default function OperatorDashboard() {
 
       <Tabs value={tab} onValueChange={setTab} className="mt-6">
         <TabsList className="flex-wrap h-auto bg-white border border-[#0A0A0A]/10 p-1">
-          {["overview", "tracking", "fleet", "applications", "financials", "insurance", "maintenance", "claims"].map((t) => (<TabsTrigger key={t} value={t} className="capitalize data-[state=active]:bg-[#0A0A0A] data-[state=active]:text-white" data-testid={`op-tab-${t}`}>{t}</TabsTrigger>))}
+          {["overview", "tracking", "fleet", "applications", "financials", "compliance"].map((t) => (<TabsTrigger key={t} value={t} className="capitalize data-[state=active]:bg-[#0A0A0A] data-[state=active]:text-white" data-testid={`op-tab-${t}`}>{t}</TabsTrigger>))}
         </TabsList>
 
         <TabsContent value="overview" className="mt-6">
@@ -205,89 +193,8 @@ export default function OperatorDashboard() {
           </div>
         </TabsContent>
 
-        <TabsContent value="insurance" className="mt-6">
-          <div className="grid lg:grid-cols-2 gap-4">
-            {/* Fleet insurance - bring your own cover, reflected in the price drivers see */}
-            <div className="rounded-2xl border border-[#0B6B4F]/25 bg-[#FAFFFE] p-6 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2 text-[#0B6B4F] font-heading font-bold"><ShieldPlus className="w-5 h-5" strokeWidth={1.5} /> Fleet insurance</div>
-                <span className="text-[10px] font-bold text-white bg-[#0B6B4F] rounded-full px-2 py-0.5">On file</span>
-              </div>
-              <div className="space-y-2.5 text-[13.5px]">
-                <div className="flex items-center justify-between"><span className="text-[#666666]">Policy holder</span><span className="text-[#0A0A0A] font-medium">South Forest Rentals</span></div>
-                <div className="flex items-center justify-between"><span className="text-[#666666]">Cover expiry</span><span className="text-[#0A0A0A] font-medium">14 Feb 2027</span></div>
-                <div className="flex items-center gap-1.5 text-[#0B6B4F] font-medium pt-1"><UploadCloud className="w-3.5 h-3.5" /> Certificate uploaded</div>
-              </div>
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#0B6B4F]/15">
-                <span className="text-[13px] text-[#444] font-medium leading-snug max-w-[220px]">Include insurance in the price drivers see</span>
-                <span className="w-9 h-5 rounded-full bg-[#0B6B4F] relative shrink-0">
-                  <span className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-white" />
-                </span>
-              </div>
-              <div className="flex items-start gap-2 mt-4 bg-white rounded-xl border border-[#0B6B4F]/15 p-3">
-                <Info className="w-3.5 h-3.5 text-[#888] shrink-0 mt-0.5" />
-                <p className="text-[11.5px] text-[#888888] leading-relaxed">
-                  Cover details are self-declared by you and not verified by Kharo. You're responsible for
-                  ensuring your policy is valid and adequate before switching this on - a driver renting under
-                  it relies on your declaration.
-                </p>
-              </div>
-            </div>
-
-            {/* Renewal alerts */}
-            <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl p-5 shadow-sm">
-              <h3 className="font-heading font-bold text-[#0A0A0A] mb-3">Compliance alerts</h3>
-              {compliance.map((c) => (<div key={c} className="flex items-start gap-2 py-2.5 text-sm text-[#666666] border-b border-[#0A0A0A]/8 last:border-0"><AlertTriangle className="w-4 h-4 text-[#888] shrink-0 mt-0.5" /> {c}</div>))}
-            </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="maintenance" className="mt-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-heading font-bold text-[#0A0A0A] text-lg">Service &amp; repairs</h3>
-            <Button size="sm" className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white"><Wrench className="w-4 h-4 mr-1" /> Log a repair</Button>
-          </div>
-          <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl overflow-hidden shadow-sm">
-            {maintenance.map((m) => (
-              <div key={m.plate} className="flex items-center justify-between flex-wrap gap-3 p-4 border-b border-[#0A0A0A]/8 last:border-0 hover:bg-[#F5F5F5]">
-                <div className="flex items-center gap-3">
-                  <Wrench className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
-                  <div>
-                    <div className="font-medium text-[#0A0A0A] text-sm">{m.vehicle} · {m.plate}</div>
-                    <div className="text-xs text-[#888888]">{m.issue} · {m.garage}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${maintenanceColor(m.status)}`}>{m.status}</span>
-                  <span className="font-heading font-bold text-[#0A0A0A]">{m.cost}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="claims" className="mt-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-heading font-bold text-[#0A0A0A] text-lg">Claims</h3>
-            <Button size="sm" className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white"><FileWarning className="w-4 h-4 mr-1" /> Report a claim</Button>
-          </div>
-          <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl overflow-hidden shadow-sm">
-            {claims.map((c) => (
-              <div key={c.plate + c.date} className="flex items-center justify-between flex-wrap gap-3 p-4 border-b border-[#0A0A0A]/8 last:border-0 hover:bg-[#F5F5F5]">
-                <div className="flex items-center gap-3">
-                  <LifeBuoy className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
-                  <div>
-                    <div className="font-medium text-[#0A0A0A] text-sm">{c.vehicle} · {c.plate}</div>
-                    <div className="text-xs text-[#888888]">{c.type} · {c.driver} · {c.date}</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${claimColor(c.status)}`}>{c.status}</span>
-                  <span className="font-heading font-bold text-[#0A0A0A]">{c.amount}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+        <TabsContent value="compliance" className="mt-6">
+          <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl p-5 shadow-sm">{compliance.map((c) => (<div key={c} className="flex items-center gap-2 py-3 text-sm text-[#666666] border-b border-[#0A0A0A]/8 last:border-0"><AlertTriangle className="w-4 h-4 text-[#888] shrink-0" /> {c}</div>))}</div>
         </TabsContent>
       </Tabs>
     </main>

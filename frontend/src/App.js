@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CookieConsent from "@/components/CookieConsent";
 import Home from "@/pages/Home";
 import SearchResults from "@/pages/SearchResults";
 import VehicleDetail from "@/pages/VehicleDetail";
@@ -31,6 +32,7 @@ import OperatorDashboard from "@/pages/OperatorDashboard";
 import Marketplace from "@/pages/Marketplace";
 import MarketplaceDetail from "@/pages/MarketplaceDetail";
 import SellYourCar from "@/pages/SellYourCar";
+import NotFound from "@/pages/NotFound";
 import { trackEvent } from "@/lib/api";
 
 function RouteTracker() {
@@ -80,9 +82,10 @@ function App() {
             <Route path="/driver-portal" element={<DriverPortal />} />
             <Route path="/operator-dashboard" element={<OperatorDashboard />} />
             <Route path="/admin" element={<Admin />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
+          <CookieConsent />
           <Toaster position="top-center" richColors />
         </BrowserRouter>
       </AuthProvider>

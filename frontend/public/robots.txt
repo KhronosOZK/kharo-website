@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /driver-portal
+Disallow: /operator-dashboard
+Disallow: /login
+Disallow: /operator-login
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /saved
+
+Sitemap: https://kharo.co.uk/sitemap.xml

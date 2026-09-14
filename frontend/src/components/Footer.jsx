@@ -122,6 +122,12 @@ export default function Footer() {
               <Link to="/legal" className="text-[12px] text-white/35 hover:text-white/60 transition-colors">
                 Cookies
               </Link>
+              <button
+                onClick={() => window.dispatchEvent(new Event("kharo:open-cookie-preferences"))}
+                className="text-[12px] text-white/35 hover:text-white/60 transition-colors"
+              >
+                Cookie preferences
+              </button>
             </div>
 
             {/* Social icons */}

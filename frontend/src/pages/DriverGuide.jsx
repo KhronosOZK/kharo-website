@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   Search, ClipboardList, Phone, Car, Check, ChevronDown,
   BadgeCheck, Clock, ChevronRight, LayoutDashboard, ShieldCheck,
-  CreditCard, FileText, ArrowUpRight,
+  CreditCard, FileText, ArrowUpRight, Wrench, LifeBuoy,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -115,6 +115,8 @@ const DASHBOARD_NAV = [
   { icon: LayoutDashboard, label: "Overview", active: true },
   { icon: Car, label: "My rental" },
   { icon: ShieldCheck, label: "Insurance" },
+  { icon: Wrench, label: "Maintenance" },
+  { icon: LifeBuoy, label: "Claims" },
   { icon: CreditCard, label: "Payments" },
   { icon: FileText, label: "Documents" },
 ];
@@ -480,6 +482,28 @@ export default function DriverGuide() {
                     <button className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0B6B4F] mt-2">
                       View certificate <ArrowUpRight className="w-3 h-3" />
                     </button>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  {/* maintenance */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Wrench className="w-3.5 h-3.5 text-[#0B6B4F]" />
+                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Maintenance</span>
+                    </div>
+                    <p className="text-[13px] text-[#333] mt-2">Warning light &middot; reported 4 Sep</p>
+                    <span className="inline-block text-[10px] font-bold text-[#8A5E1E] bg-[#FDF3E3] rounded-full px-2 py-0.5 mt-2">In progress</span>
+                  </div>
+
+                  {/* claims */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <LifeBuoy className="w-3.5 h-3.5 text-[#0B6B4F]" />
+                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Claims</span>
+                    </div>
+                    <p className="text-[13px] text-[#333] mt-2">No open claims</p>
+                    <span className="inline-block text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5 mt-2">Report a claim</span>
                   </div>
                 </div>
 
