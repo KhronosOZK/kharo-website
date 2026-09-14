@@ -366,37 +366,49 @@ export default function WhyCaro() {
               </div>
             </div>
 
-            {/* Stats card */}
-            <div className="bg-[#0B6B4F] rounded-2xl p-7 text-white">
-              <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-6">
-                The London PCO market
-              </p>
-              <div className="space-y-7">
-                <div>
-                  <div className="text-[54px] font-heading font-extrabold text-white leading-none">
-                    12,712
+            {/* Stats card - a photo backdrop instead of a flat fill, matching the
+                dark cinematic treatment used elsewhere on this page */}
+            <div className="relative rounded-2xl overflow-hidden p-7 text-white min-h-[520px] flex flex-col justify-center">
+              <img
+                src="https://images.pexels.com/photos/19153442/pexels-photo-19153442.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1125"
+                alt="London street at dusk"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(165deg, rgba(11,107,79,0.88) 0%, rgba(7,26,20,0.82) 55%, rgba(5,15,12,0.92) 100%)" }}
+              />
+              <div className="relative">
+                <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-6">
+                  The London PCO market
+                </p>
+                <div className="space-y-7">
+                  <div>
+                    <div className="text-[54px] font-heading font-extrabold text-white leading-none">
+                      12,712
+                    </div>
+                    <p className="text-white/70 text-[14px] mt-1">
+                      More licensed PHV drivers than available vehicles in London
+                      <br />
+                      <span className="text-white/40 text-[12px]">TfL May 2026</span>
+                    </p>
                   </div>
-                  <p className="text-white/70 text-[14px] mt-1">
-                    More licensed PHV drivers than available vehicles in London
-                    <br />
-                    <span className="text-white/40 text-[12px]">TfL May 2026</span>
-                  </p>
-                </div>
-                <div className="border-t border-white/15 pt-6">
-                  <div className="text-[36px] font-heading font-extrabold text-white leading-none">
-                    48 hrs
+                  <div className="border-t border-white/15 pt-6">
+                    <div className="text-[36px] font-heading font-extrabold text-white leading-none">
+                      48 hrs
+                    </div>
+                    <p className="text-white/70 text-[14px] mt-1">
+                      Typical vetting turnaround from application to approval
+                    </p>
                   </div>
-                  <p className="text-white/70 text-[14px] mt-1">
-                    Typical vetting turnaround from application to approval
-                  </p>
-                </div>
-                <div className="border-t border-white/15 pt-6">
-                  <div className="text-[36px] font-heading font-extrabold text-white leading-none">
-                    3 days
+                  <div className="border-t border-white/15 pt-6">
+                    <div className="text-[36px] font-heading font-extrabold text-white leading-none">
+                      3 days
+                    </div>
+                    <p className="text-white/70 text-[14px] mt-1">
+                      Most approved drivers collect their car within 3 working days
+                    </p>
                   </div>
-                  <p className="text-white/70 text-[14px] mt-1">
-                    Most approved drivers collect their car within 3 working days
-                  </p>
                 </div>
               </div>
             </div>
@@ -450,25 +462,26 @@ export default function WhyCaro() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-[#0A0A0A] py-14 px-4">
+      {/* CTA - brand green, not another black block, so it doesn't visually
+          fuse with the black footer directly beneath it */}
+      <section className="bg-[#0B6B4F] py-14 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to see for yourself?
           </h2>
-          <p className="text-white/60 text-[15px] mb-8 max-w-md mx-auto">
+          <p className="text-white/70 text-[15px] mb-8 max-w-md mx-auto">
             Browse verified PCO cars across London. One weekly price, no surprises.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <button
               onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
+              className="px-7 py-3.5 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#EAF5F1] transition-colors"
             >
               Browse PCO cars
             </button>
             <button
               onClick={() => navigate("/list-your-fleet")}
-              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+              className="px-7 py-3.5 rounded-full border border-white/30 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
             >
               List your fleet
               <ChevronRight className="w-4 h-4" />
