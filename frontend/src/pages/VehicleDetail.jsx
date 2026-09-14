@@ -227,6 +227,24 @@ export default function VehicleDetail() {
                   Usually replies in {v.operator_response}
                 </span>
               </div>
+
+              {/* About this car - folded into the same card as the title instead of
+                  living as its own disconnected block further down the page */}
+              <div className="mt-6 pt-6 border-t border-[#EEEEEE]">
+                <p className="text-[15px] text-[#444] leading-relaxed">{v.description}</p>
+                {v.features?.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {v.features.map((f) => (
+                      <span
+                        key={f}
+                        className="text-[13px] text-[#333] bg-[#F5F5F5] border border-[#E8E8E8] px-3 py-1.5 rounded-full"
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* What's included */}
@@ -281,23 +299,6 @@ export default function VehicleDetail() {
                   );
                 })}
               </div>
-            </DetailSection>
-
-            {/* About this car */}
-            <DetailSection title="About this car">
-              <p className="text-[15px] text-[#444] leading-relaxed">{v.description}</p>
-              {v.features?.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {v.features.map((f) => (
-                    <span
-                      key={f}
-                      className="text-[13px] text-[#333] bg-[#F5F5F5] border border-[#E8E8E8] px-3 py-1.5 rounded-full"
-                    >
-                      {f}
-                    </span>
-                  ))}
-                </div>
-              )}
             </DetailSection>
 
             {/* 360 spin: only worth offering when the listing actually has distinct angles to show */}
