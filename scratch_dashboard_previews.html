@@ -1,0 +1,367 @@
+<title>Kharo Platform Previews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0B6B4F; --green-dark:#095B43; --green-light:#EAF5F1; --mint:#5FD3A6;
+  --ink:#0A0A0A; --text:#111111; --text-2:#5C5C5C; --text-3:#8A8A8A; --muted:#AEAEAE;
+  --border:#E6E6E1; --border-2:#EDEDE8;
+  --page:#F2F5F3; --surface:#FFFFFF; --surface-1:#F7F8F6; --sidebar:#0B6B4F;
+  --amber-bg:#FDF6E7; --amber-text:#8A5E1E;
+  --red-bg:#FCEEEC; --red-text:#A5372A;
+  --font-display:'Space Grotesk',-apple-system,sans-serif;
+  --font-body:'Hanken Grotesk',-apple-system,sans-serif;
+}
+/* Deliberately single-theme: these are product screenshots, and a
+   screenshot of a white product UI shouldn't invert to dark chrome
+   just because the viewer's OS is in dark mode. */
+:root[data-theme="dark"]{
+  --green:#0B6B4F; --green-dark:#095B43; --green-light:#EAF5F1; --mint:#5FD3A6;
+  --ink:#0A0A0A; --text:#111111; --text-2:#5C5C5C; --text-3:#8A8A8A; --muted:#AEAEAE;
+  --border:#E6E6E1; --border-2:#EDEDE8;
+  --page:#F2F5F3; --surface:#FFFFFF; --surface-1:#F7F8F6; --sidebar:#0B6B4F;
+  --amber-bg:#FDF6E7; --amber-text:#8A5E1E;
+  --red-bg:#FCEEEC; --red-text:#A5372A;
+}
+*{box-sizing:border-box;}
+body{background:var(--page);color:var(--text);font-family:var(--font-body);padding:2.5rem 0;margin:0;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:3rem;}
+.intro{padding:0 4px;}
+.eyebrow{font-weight:700;font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--green);margin:0 0 10px;}
+.intro h1{font-family:var(--font-display);font-weight:700;font-size:clamp(26px,4vw,36px);line-height:1.12;margin:0 0 12px;color:var(--ink);text-wrap:balance;letter-spacing:-.01em;}
+.intro p{font-size:15px;line-height:1.6;color:var(--text-2);max-width:62ch;margin:0;}
+.panel-label{margin:0 0 -8px;padding:0 4px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.panel-label h2{font-family:var(--font-display);font-weight:700;font-size:19px;margin:0;color:var(--ink);}
+.panel-label span{font-size:12px;color:var(--text-3);}
+.frame{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04);margin-top:14px;}
+.chrome{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border-2);background:var(--surface-1);}
+.dots{display:flex;gap:6px;}
+.dots span{width:9px;height:9px;border-radius:50%;background:var(--border);}
+.chrome-url{font-size:12px;color:var(--text-3);background:var(--surface);border:1px solid var(--border-2);border-radius:6px;padding:3px 10px;}
+.app{display:flex;min-height:640px;}
+.rail{width:76px;flex-shrink:0;background:var(--sidebar);display:flex;flex-direction:column;align-items:center;padding:18px 0;gap:26px;}
+.rail-logo{width:36px;height:36px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--green);}
+.rail-nav{display:flex;flex-direction:column;gap:6px;flex:1;}
+.rail-btn{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);}
+.rail-btn svg{width:20px;height:20px;}
+.rail-btn.on{background:rgba(255,255,255,.16);color:#fff;}
+.rail-avatar{width:34px;height:34px;border-radius:50%;background:var(--mint);color:var(--green-dark);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;}
+.list-col{width:290px;flex-shrink:0;border-right:1px solid var(--border-2);display:flex;flex-direction:column;background:var(--surface-1);}
+.list-head{padding:18px 18px 12px;}
+.list-head h3{font-family:var(--font-display);font-weight:700;font-size:16px;margin:0 0 12px;color:var(--ink);}
+.searchbar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border-2);border-radius:9px;padding:7px 11px;}
+.searchbar svg{width:14px;height:14px;color:var(--text-3);flex-shrink:0;}
+.searchbar span{font-size:12.5px;color:var(--text-3);}
+.list-items{overflow-y:auto;padding:4px 12px 12px;flex:1;}
+.item-card{padding:12px 13px;border-radius:12px;margin-bottom:6px;border:1px solid transparent;}
+.item-card.sel{background:var(--surface);border-color:var(--green);box-shadow:0 1px 2px rgba(0,0,0,.05);}
+.item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.item-id{font-size:11px;color:var(--text-3);font-weight:600;}
+.item-who{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.item-ava{width:30px;height:30px;border-radius:50%;background:var(--green-light);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;}
+.item-name{font-weight:600;font-size:13.5px;color:var(--text);}
+.item-sub{font-size:11.5px;color:var(--text-3);margin-top:1px;}
+.item-bottom{display:flex;align-items:center;justify-content:space-between;}
+.item-date{font-size:11px;color:var(--text-3);}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:99px;line-height:1.5;white-space:nowrap;}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.pill-active{background:var(--amber-bg);color:var(--amber-text);}
+.pill-done{background:var(--green-light);color:var(--green);}
+.pill-idle{background:var(--amber-bg);color:var(--amber-text);}
+.pill-maint{background:var(--red-bg);color:var(--red-text);}
+.pill-rec{background:var(--green);color:#fff;}
+.item-earn{font-size:11px;color:var(--text-3);margin-top:6px;}
+.item-earn b{color:var(--text);font-weight:700;font-variant-numeric:tabular-nums;}
+.detail-col{flex:1;padding:22px 26px 28px;overflow-y:auto;}
+.d-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.d-head-left{display:flex;align-items:center;gap:10px;}
+.d-title{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--ink);}
+.d-date{font-size:12px;color:var(--text-3);background:var(--surface-1);border-radius:7px;padding:4px 10px;}
+.btn{font-weight:600;font-size:12.5px;border-radius:99px;padding:8px 16px;border:1px solid var(--border);background:var(--surface);color:var(--text);white-space:nowrap;}
+.btn-primary{background:var(--green);border-color:var(--green);color:#fff;}
+.card-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;}
+.card{background:var(--surface-1);border-radius:14px;padding:16px 17px;border:1px solid var(--border-2);}
+.card-k{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;}
+.person{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+.person-ava{width:42px;height:42px;border-radius:50%;background:var(--green-light);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
+.person-name{font-weight:700;font-size:14px;color:var(--ink);}
+.stars{color:#E3A72E;font-size:11px;margin-top:2px;letter-spacing:1px;}
+.card-full-btn{width:100%;text-align:center;margin-top:2px;}
+.veh-card{background:linear-gradient(150deg,var(--green) 0%,var(--green-dark) 100%);color:#fff;border:none;position:relative;overflow:hidden;}
+.veh-card .card-k{color:rgba(255,255,255,.68);}
+.veh-name{font-family:var(--font-display);font-weight:700;font-size:15.5px;margin-bottom:4px;}
+.veh-stars{color:var(--mint);font-size:11px;letter-spacing:1px;margin-bottom:14px;}
+.veh-thumb{position:absolute;right:-8px;bottom:-4px;font-size:64px;opacity:.9;line-height:1;}
+.veh-meta{display:flex;gap:18px;position:relative;z-index:1;}
+.veh-meta div{font-size:11px;}
+.veh-meta b{display:block;font-size:13px;font-weight:700;margin-top:2px;}
+.pay-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-2);padding:6px 0;border-bottom:1px solid var(--border-2);}
+.pay-row:last-of-type{border-bottom:none;}
+.pay-row b{color:var(--text);font-weight:700;font-variant-numeric:tabular-nums;}
+.cardvisual{margin-top:12px;display:flex;align-items:center;gap:10px;background:var(--ink);border-radius:10px;padding:9px 12px;}
+.cardvisual .chip{width:22px;height:16px;border-radius:3px;background:linear-gradient(135deg,#D9B45C,#B8923A);flex-shrink:0;}
+.cardvisual .ctext{font-size:11px;color:#fff;}
+.cardvisual .ctext b{display:block;font-size:12px;}
+.stat-row{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-bottom:20px;border-top:1px solid var(--border-2);border-bottom:1px solid var(--border-2);}
+.stat-cell{padding:14px 6px;text-align:center;border-right:1px solid var(--border-2);}
+.stat-cell:last-child{border-right:none;}
+.stat-cell .l{font-size:10.5px;color:var(--text-3);margin-bottom:5px;}
+.stat-cell .v{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;}
+.bottom-row{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;}
+.map-card{background:var(--surface-1);border-radius:14px;border:1px solid var(--border-2);overflow:hidden;position:relative;height:210px;}
+.map-svg{width:100%;height:100%;display:block;}
+.pin-list{background:var(--surface-1);border-radius:14px;border:1px solid var(--border-2);padding:14px 16px;}
+.pin-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-2);}
+.pin-row:last-child{border-bottom:none;}
+.pin-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+.pin-txt{font-size:12px;line-height:1.5;color:var(--text-2);}
+.pin-txt b{color:var(--text);font-weight:600;}
+.ins-block{margin-top:16px;background:var(--surface-1);border-radius:14px;border:1px solid var(--border-2);padding:16px 18px;}
+.ins-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.ins-head h4{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--ink);margin:0;}
+.ins-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border-2);}
+.ins-row:last-child{border-bottom:none;}
+.ins-left{display:flex;align-items:center;gap:9px;}
+.ins-left b{font-size:13px;color:var(--text);}
+.ins-price{font-family:var(--font-display);font-weight:700;font-size:14.5px;color:var(--ink);font-variant-numeric:tabular-nums;}
+.ins-price span{font-family:var(--font-body);font-weight:500;font-size:10.5px;color:var(--text-3);}
+.chart{background:var(--surface-1);border-radius:14px;border:1px solid var(--border-2);padding:16px 18px;}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+.chart-head h4{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--ink);margin:0;}
+.chart-head span{font-size:11px;color:var(--text-3);}
+.bars{display:flex;align-items:flex-end;gap:8px;height:96px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
+.bar{width:100%;border-radius:5px 5px 2px 2px;background:var(--green-light);}
+.bar.hi{background:var(--green);}
+.bar-lbl{font-size:9.5px;color:var(--text-3);}
+.note{font-size:11px;color:var(--text-3);text-align:center;padding:0 4px;}
+@media (max-width:900px){
+  .app{flex-direction:column;min-height:0;}
+  .rail{width:100%;flex-direction:row;padding:10px 14px;justify-content:flex-start;}
+  .rail-nav{flex-direction:row;flex:none;}
+  .list-col{width:100%;border-right:none;border-bottom:1px solid var(--border-2);}
+  .card-row{grid-template-columns:1fr;}
+  .stat-row{grid-template-columns:repeat(3,1fr);}
+  .stat-cell:nth-child(3){border-right:none;}
+  .bottom-row{grid-template-columns:1fr;}
+}
+</style>
+
+<div class="wrap">
+  <div class="intro">
+    <p class="eyebrow">Platform preview</p>
+    <h1>What operators and drivers get once Kharo is live</h1>
+    <p>Concept screens for the operator's fleet console and a driver's own account, built against the real Kharo design system. Illustrative data throughout.</p>
+  </div>
+
+  <div>
+    <div class="panel-label"><h2>Running a fleet on Kharo</h2><span>Operator console</span></div>
+    <div class="frame">
+      <div class="chrome"><div class="dots"><span></span><span></span><span></span></div><div class="chrome-url">kharo.co.uk/operator-dashboard</div></div>
+      <div class="app">
+        <div class="rail">
+          <div class="rail-logo">K</div>
+          <div class="rail-nav">
+            <div class="rail-btn on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg></div>
+            <div class="rail-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l1.5-5A2 2 0 0 1 7.4 9.5h9.2A2 2 0 0 1 18.5 11L20 16"></path><rect x="3" y="16" width="18" height="4" rx="1.5"></rect><circle cx="7.5" cy="20" r="1.3"></circle><circle cx="16.5" cy="20" r="1.3"></circle></svg></div>
+            <div class="rail-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg></div>
+            <div class="rail-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a7.5 7.5 0 0 1-11.2 6.5L4 19l1-5.6A7.5 7.5 0 1 1 21 11.5z"></path></svg></div>
+            <div class="rail-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1z"></path></svg></div>
+          </div>
+          <div class="rail-avatar">CW</div>
+        </div>
+        <div class="list-col">
+          <div class="list-head">
+            <h3>Fleet &middot; 24 cars</h3>
+            <div class="searchbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg><span>Search fleet</span></div>
+          </div>
+          <div class="list-items">
+            <div class="item-card sel">
+              <div class="item-top"><span class="item-id">SK20 OCT</span><span class="pill pill-idle"><span class="pill-dot"></span>Idle</span></div>
+              <div class="item-who"><div class="item-ava">SO</div><div><div class="item-name">Skoda Octavia</div><div class="item-sub">Unassigned &middot; Camden</div></div></div>
+              <div class="item-bottom"><span class="item-date">Listed 4 days ago</span></div>
+            </div>
+            <div class="item-card">
+              <div class="item-top"><span class="item-id">LK22 CAR</span><span class="pill pill-done"><span class="pill-dot"></span>Active</span></div>
+              <div class="item-who"><div class="item-ava">AO</div><div><div class="item-name">Toyota Prius</div><div class="item-sub">Amara O. &middot; Croydon</div></div></div>
+              <div class="item-earn">Earned this month <b>&pound;660</b></div>
+            </div>
+            <div class="item-card">
+              <div class="item-top"><span class="item-id">LG21 GXY</span><span class="pill pill-maint"><span class="pill-dot"></span>Maintenance</span></div>
+              <div class="item-who"><div class="item-ava">FG</div><div><div class="item-name">Ford Galaxy</div><div class="item-sub">In for service</div></div></div>
+              <div class="item-bottom"><span class="item-date">Back Thu 18 Sep</span></div>
+            </div>
+            <div class="item-card">
+              <div class="item-top"><span class="item-id">KN23 EVE</span><span class="pill pill-done"><span class="pill-dot"></span>Active</span></div>
+              <div class="item-who"><div class="item-ava">DM</div><div><div class="item-name">Kia Niro EV</div><div class="item-sub">Daniel M. &middot; Hackney</div></div></div>
+              <div class="item-earn">Earned this month <b>&pound;760</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="detail-col">
+          <div class="d-head">
+            <div class="d-head-left"><span class="d-title">Skoda Octavia</span><span class="d-date">SK20 OCT</span><span class="pill pill-idle"><span class="pill-dot"></span>Idle 4 days</span></div>
+            <div style="display:flex;gap:8px;"><button class="btn">Edit listing</button><button class="btn btn-primary">Message applicants</button></div>
+          </div>
+          <div class="card-row">
+            <div class="card">
+              <div class="card-k">Latest applicant</div>
+              <div class="person"><div class="person-ava">RK</div><div><div class="person-name">Ravi K.</div><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div></div></div>
+              <button class="btn card-full-btn">Review application</button>
+            </div>
+            <div class="card veh-card">
+              <div class="card-k">Vehicle</div>
+              <div class="veh-name">Skoda Octavia 2021</div>
+              <div class="veh-stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.7 (28 rentals)</div>
+              <div class="veh-meta"><div>Mileage<b>89,824 km</b></div><div>Gearbox<b>Auto</b></div></div>
+              <div class="veh-thumb">&#128664;</div>
+            </div>
+            <div class="card">
+              <div class="card-k">This vehicle, year to date</div>
+              <div class="pay-row"><span>Weeks rented</span><b>34 / 38</b></div>
+              <div class="pay-row"><span>Gross earned</span><b>&pound;4,930</b></div>
+              <div class="pay-row"><span>Kharo fee (10%)</span><b>&minus; &pound;493</b></div>
+              <div class="cardvisual"><div class="chip"></div><div class="ctext">Payout account<b>United Bank &middot;&middot;3456</b></div></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-cell"><div class="l">Weekly rate</div><div class="v">&pound;145</div></div>
+            <div class="stat-cell"><div class="l">Deposit</div><div class="v">&pound;400</div></div>
+            <div class="stat-cell"><div class="l">Fuel</div><div class="v">Petrol</div></div>
+            <div class="stat-cell"><div class="l">MOT due</div><div class="v" style="color:var(--red-text);">12 days</div></div>
+            <div class="stat-cell"><div class="l">Insurance</div><div class="v" style="color:var(--amber-text);">30 days</div></div>
+            <div class="stat-cell"><div class="l">Road tax</div><div class="v">58 days</div></div>
+          </div>
+          <div class="bottom-row">
+            <div class="map-card">
+              <svg class="map-svg" viewBox="0 0 400 210" preserveAspectRatio="xMidYMid slice">
+                <rect width="400" height="210" fill="var(--surface-1)"></rect>
+                <g stroke="var(--border)" stroke-width="1" fill="none">
+                  <path d="M0 40 H400 M0 90 H400 M0 140 H400 M0 175 H400"></path>
+                  <path d="M60 0 V210 M140 0 V210 M230 0 V210 M310 0 V210 M360 0 V210"></path>
+                </g>
+                <circle cx="140" cy="60" r="5" fill="var(--green)"></circle>
+                <circle cx="230" cy="90" r="5" fill="var(--green)"></circle>
+                <circle cx="90" cy="130" r="5" fill="var(--amber-text)"></circle>
+                <circle cx="300" cy="150" r="5" fill="var(--green)"></circle>
+                <circle cx="330" cy="60" r="5" fill="var(--red-text)"></circle>
+                <circle cx="190" cy="150" r="5" fill="var(--green)"></circle>
+              </svg>
+            </div>
+            <div class="pin-list">
+              <div class="pin-row"><div class="pin-dot" style="background:var(--green);"></div><div class="pin-txt"><b>Camden</b> &middot; 6 vehicles active</div></div>
+              <div class="pin-row"><div class="pin-dot" style="background:var(--green);"></div><div class="pin-txt"><b>Hackney</b> &middot; 5 vehicles active</div></div>
+              <div class="pin-row"><div class="pin-dot" style="background:var(--amber-text);"></div><div class="pin-txt"><b>Croydon</b> &middot; 1 idle, 3 active</div></div>
+              <div class="pin-row"><div class="pin-dot" style="background:var(--red-text);"></div><div class="pin-txt"><b>Newham</b> &middot; 1 in maintenance</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel-label"><h2>A driver's account on Kharo</h2><span>Driver console</span></div>
+    <div class="frame">
+      <div class="chrome"><div class="dots"><span></span><span></span><span></span></div><div class="chrome-url">kharo.co.uk/driver-portal</div></div>
+      <div class="app">
+        <div class="rail">
+          <div class="rail-logo">K</div>
+          <div class="rail-nav">
+            <div class="rail-btn on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg></div>
+            <div class="rail-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l1.5-5A2 2 0 0 1 7.4 9.5h9.2A2 2 0 0 1 18.5 11L20 16"></path><rect x="3" y="16" width="18" height="4" rx="1.5"></rect><circle cx="7.5" cy="20" r="1.3"></circle><circle cx="16.5" cy="20" r="1.3"></circle></svg></div>
+            <div class="rail-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3.5v5c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9v-5z"></path></svg></div>
+            <div class="rail-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a7.5 7.5 0 0 1-11.2 6.5L4 19l1-5.6A7.5 7.5 0 1 1 21 11.5z"></path></svg></div>
+          </div>
+          <div class="rail-avatar">AO</div>
+        </div>
+        <div class="list-col">
+          <div class="list-head">
+            <h3>Weekly activity</h3>
+            <div class="searchbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg><span>Search history</span></div>
+          </div>
+          <div class="list-items">
+            <div class="item-card sel">
+              <div class="item-top"><span class="item-id">This week</span><span class="pill pill-done"><span class="pill-dot"></span>Active</span></div>
+              <div class="item-who"><div class="item-ava">TP</div><div><div class="item-name">Toyota Prius</div><div class="item-sub">Newham Garage</div></div></div>
+              <div class="item-earn">Rent due Fri <b>&pound;165</b></div>
+            </div>
+            <div class="item-card">
+              <div class="item-top"><span class="item-id">Last week</span><span class="pill pill-done"><span class="pill-dot"></span>Paid</span></div>
+              <div class="item-who"><div class="item-ava">TP</div><div><div class="item-name">Toyota Prius</div><div class="item-sub">Rent + insurance settled</div></div></div>
+              <div class="item-earn">Paid on time <b>&pound;203</b></div>
+            </div>
+            <div class="item-card">
+              <div class="item-top"><span class="item-id">2 weeks ago</span><span class="pill pill-done"><span class="pill-dot"></span>Paid</span></div>
+              <div class="item-who"><div class="item-ava">TP</div><div><div class="item-name">Toyota Prius</div><div class="item-sub">Rent + insurance settled</div></div></div>
+              <div class="item-earn">Paid on time <b>&pound;203</b></div>
+            </div>
+            <div class="item-card">
+              <div class="item-top"><span class="item-id">Applications</span></div>
+              <div class="item-who"><div class="item-ava">KN</div><div><div class="item-name">Kia Niro EV</div><div class="item-sub">Saved &middot; Hackney</div></div></div>
+              <div class="item-bottom"><span class="item-date">Not applied yet</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="detail-col">
+          <div class="d-head">
+            <div class="d-head-left"><span class="d-title">Your rental</span><span class="d-date">Since 4 Mar 2025</span><span class="pill pill-done"><span class="pill-dot"></span>Active</span></div>
+            <div style="display:flex;gap:8px;"><button class="btn">Download agreement</button><button class="btn btn-primary">Message operator</button></div>
+          </div>
+          <div class="card-row">
+            <div class="card">
+              <div class="card-k">Operator</div>
+              <div class="person"><div class="person-ava">CM</div><div><div class="person-name">Camden Motor Works</div><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.8</div></div></div>
+              <button class="btn card-full-btn">Start a chat</button>
+            </div>
+            <div class="card veh-card">
+              <div class="card-k">Vehicle</div>
+              <div class="veh-name">Toyota Prius 2022</div>
+              <div class="veh-stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.6 (32 reviews)</div>
+              <div class="veh-meta"><div>Plate<b>LK22 CAR</b></div><div>Fuel<b>Hybrid</b></div></div>
+              <div class="veh-thumb">&#128664;</div>
+            </div>
+            <div class="card">
+              <div class="card-k">This week</div>
+              <div class="pay-row"><span>Rental</span><b>&pound;165.00</b></div>
+              <div class="pay-row"><span>Insurance</span><b>&pound;34.00</b></div>
+              <div class="pay-row"><span>Total due Fri</span><b style="color:var(--green);">&pound;199.00</b></div>
+              <div class="cardvisual"><div class="chip"></div><div class="ctext">Auto pay<b>Monzo &middot;&middot;8821</b></div></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-cell"><div class="l">Weekly rent</div><div class="v">&pound;165</div></div>
+            <div class="stat-cell"><div class="l">Insurer</div><div class="v">Ryde Mutual</div></div>
+            <div class="stat-cell"><div class="l">Cover renews</div><div class="v">2 Dec</div></div>
+            <div class="stat-cell"><div class="l">Deposit</div><div class="v">&pound;400</div></div>
+            <div class="stat-cell"><div class="l">Mileage cap</div><div class="v">1,500/mo</div></div>
+            <div class="stat-cell"><div class="l">Documents</div><div class="v" style="color:var(--green);">Verified</div></div>
+          </div>
+          <div class="bottom-row">
+            <div class="chart">
+              <div class="chart-head"><h4>Take-home, last 6 weeks</h4><span>after rent &amp; insurance</span></div>
+              <div class="bars">
+                <div class="bar-col"><div class="bar" style="height:62%"></div><span class="bar-lbl">wk 1</span></div>
+                <div class="bar-col"><div class="bar" style="height:71%"></div><span class="bar-lbl">wk 2</span></div>
+                <div class="bar-col"><div class="bar" style="height:58%"></div><span class="bar-lbl">wk 3</span></div>
+                <div class="bar-col"><div class="bar" style="height:80%"></div><span class="bar-lbl">wk 4</span></div>
+                <div class="bar-col"><div class="bar" style="height:74%"></div><span class="bar-lbl">wk 5</span></div>
+                <div class="bar-col"><div class="bar hi" style="height:92%"></div><span class="bar-lbl">wk 6</span></div>
+              </div>
+            </div>
+            <div class="ins-block" style="margin-top:0;">
+              <div class="ins-head"><h4>Compare your cover</h4><span class="pill pill-rec">Cheapest live</span></div>
+              <div class="ins-row"><div class="ins-left"><b>Ryde Mutual</b></div><div class="ins-price">&pound;34<span>/wk</span></div></div>
+              <div class="ins-row"><div class="ins-left"><b>Coverline PHV</b></div><div class="ins-price">&pound;41<span>/wk</span></div></div>
+              <div class="ins-row"><div class="ins-left"><b>Hackney &amp; Shaw</b></div><div class="ins-price">&pound;46<span>/wk</span></div></div>
+              <button class="btn card-full-btn" style="margin-top:10px;">Switch insurer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">Concept screens for pitch and planning purposes &middot; names, quotes and figures are illustrative</p>
+</div>

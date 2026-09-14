@@ -22,7 +22,7 @@ export const BRAND = {
   name: "Kharo",
   tagline: "Private hire car rental, made clear.",
   footerBlurb:
-    "Rent or buy a licensed private hire vehicle from operators checked against Companies House and the licensing register. One clear weekly price, cover included.",
+    "Rent or buy a licensed private hire vehicle from operators checked against Companies House and the licensing register. A rental price shown up front, with insurance quoted separately.",
   supportEmail: "hello@kharo.uk",
   privacyEmail: "privacy@kharo.uk",
   // Digits only, UK country code, no leading 0 or +: used to build wa.me links.
@@ -43,6 +43,7 @@ export const NAV = {
     { to: "/search", label: "Rent a car" },
     { to: "/why-kharo", label: "Why Kharo" },
     { to: "/driver-guide", label: "How it works" },
+    { to: "/insurance", label: "Insurance" },
     { to: "/operator-guide", label: "For operators" },
   ],
   accountMenu: [
@@ -65,6 +66,7 @@ export const NAV = {
       links: [
         ["Rent a car", "/search"],
         ["How renting works", "/driver-guide"],
+        ["Insurance", "/insurance"],
         ["Register your interest", "/register"],
       ],
     },
@@ -514,7 +516,7 @@ export const HELP = {
     sub: "We reply within one working day.",
   },
   faqs: [
-    { q: "How much does it cost to use Kharo?", a: "Browsing and applying is free for drivers. You pay the weekly rent, insurance and any add ons shown on the listing. Kharo takes a 10% handling fee from the rental company, never from you." },
+    { q: "How much does it cost to use Kharo?", a: "Browsing and applying is free for drivers. You pay the weekly rental price shown on the listing, plus insurance quoted separately based on your profile, plus any add ons you choose. Kharo takes a 10% handling fee from the rental company, never from you." },
     { q: "Why are the rental company names hidden?", a: "Operator names and contact details are shared once your application is approved. Keeping early enquiries inside Kharo protects both sides while the match is being made." },
     { q: "Is the insurance proper hire and reward cover?", a: "Yes. Standard personal motor policies exclude private hire work. Every quote we show is hire and reward cover suited to the way you earn." },
     { q: "When do I pay, and how?", a: "Nothing is charged until you are approved and your digital rental agreement is signed. All payments run through Kharo, so you never send money directly to an operator." },
@@ -531,7 +533,7 @@ export const LEGAL = {
   sections: [
     { t: "About Kharo", b: "Kharo connects private hire drivers with rental companies we have checked. Kharo operates the platform, the matching process and the payment flow, and works with specialist partners for insurance, claims and support. Kharo is not an insurer and does not provide credit." },
     { t: "How your data is used", b: "We collect the details you provide, including your name, contact details, licence and driving information, to verify your eligibility, generate insurance quotes and match you to vehicles. Your data is used to operate the service and, where you have agreed, to keep you informed about launch and relevant offers. We never sell your personal data." },
-    { t: "Insurance", b: "Insurance quotes are provided for comparison through our specialist insurance partners. Standard personal motor policies exclude hire and reward, so any policy you take must properly cover private hire use. Kharo facilitates quotes and payment, and the insurance contract is between you and the insurer." },
+    { t: "Insurance", b: "Insurance is quoted separately from the rental price, through our specialist hire and reward insurance partners, and is never folded into the weekly rental figure. Standard personal motor policies exclude hire and reward, so any policy you take must properly cover private hire use. Kharo facilitates quotes and payment, and the insurance contract is between you and the insurer. See our Insurance page for how quotes are put together." },
     { t: "Payments and deposits", b: "All rental payments are processed through Kharo. Deposits are held securely and released after return, subject to the agreed handover condition record. Paying an operator directly outside the platform may void your cover and the protections we offer." },
     { t: "Operator verification", b: "Rental companies are checked against the relevant licensing register and Companies House before listing. Operator identity is disclosed to a driver once their application is approved." },
     { t: "Your rights under UK GDPR", b: "You can request access to, correction of, or deletion of your personal data at any time by contacting privacy@kharo.uk. Where processing is based on consent, you can withdraw it at any time in your account settings." },
@@ -548,7 +550,7 @@ export const LEGAL = {
 // ---------------------------------------------------------------------------
 export const CITY_PAGE = {
   eyebrow: "Private hire cars in",
-  heroSubTemplate: "{count} checked rental cars in {city} from {operators} operators we have verified ourselves. Rent, insurance and cover are shown together as one weekly figure.",
+  heroSubTemplate: "{count} checked rental cars in {city} from {operators} operators we have verified ourselves. The rental price is shown on its own, with insurance quoted separately.",
   seeAllCta: "See all {count} cars",
   accountCta: "Create a driver account",
   listingsHeading: "Cars in {city} right now",
@@ -567,11 +569,11 @@ export const CITY_PAGE = {
   },
   cities: {
     London: {
-      intro: "London is where Kharo started. Whether you drive for Uber, Bolt or a local firm, you will find PCO ready hybrids, electric cars and executive saloons in every borough, almost all of them ULEZ friendly. Rent from operators we have checked, with rent, insurance and cover shown as a single weekly figure.",
+      intro: "London is where Kharo started. Whether you drive for Uber, Bolt or a local firm, you will find PCO ready hybrids, electric cars and executive saloons in every borough, almost all of them ULEZ friendly. Rent from operators we have checked, with the rental price shown on its own and insurance quoted separately.",
       faq: [
         { q: "Do I need a PCO licence to rent a car in London?", a: "Yes. Every private hire vehicle in London needs a TfL licence, and so do you. Have your badge ready and you can get started." },
         { q: "Are the cars ULEZ compliant?", a: "Almost all of them. Our hybrids and electric cars are ULEZ exempt or compliant, so the daily charge does not apply." },
-        { q: "How much does a PCO car cost in London?", a: "Prices start from around £225 a week, all-in. Insurance and breakdown cover are already included in that figure, so there's nothing added on top." },
+        { q: "How much does a PCO car cost in London?", a: "Rental prices start from around £140 a week, kept below what other platforms charge for the same car. Insurance is quoted separately, based on your own profile, typically from around £38 a week." },
       ],
     },
     Birmingham: {
@@ -587,7 +589,7 @@ export const CITY_PAGE = {
       faq: [
         { q: "Do I need a Manchester council licence?", a: "Yes. You need a private hire driver and vehicle licence from your local council, and our operators can help you get plated." },
         { q: "Are electric cars a good choice in Manchester?", a: "They can be. Charging points are widespread across the city and running costs are very low. We list electric and hybrid options here." },
-        { q: "What will it cost me each week?", a: "Prices start from around £225 a week, with insurance and breakdown cover already included in that figure." },
+        { q: "What will it cost me each week?", a: "Rental prices start from around £140 a week. Insurance is quoted separately, based on your own profile, typically from around £38 a week." },
       ],
     },
     Leeds: {

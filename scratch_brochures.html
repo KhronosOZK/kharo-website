@@ -1,0 +1,600 @@
+<title>Kharo Brochures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0B6B4F; --green-dark:#095B43; --mint:#5FD3A6;
+  --ink:#0A0A0A; --text:#111111; --text-2:#4A5D54; --text-3:#7A857F; --muted:#AEAEAE;
+  --border:#E8E8E8;
+  --page-bg:#F3F2ED; --surface:#FFFFFF; --card:#FAF9F5;
+  --amber-bg:#FDF6E7; --amber-text:#8A5E1E; --amber-line:#D9A73C;
+  --red-line:#C97B6E;
+  --font-display:'Space Grotesk',-apple-system,sans-serif;
+  --font-body:'Hanken Grotesk',-apple-system,sans-serif;
+}
+:root[data-theme="dark"]{
+  --green:#0B6B4F; --green-dark:#095B43; --mint:#5FD3A6;
+  --ink:#0A0A0A; --text:#111111; --text-2:#4A5D54; --text-3:#7A857F; --muted:#AEAEAE;
+  --border:#E8E8E8;
+  --page-bg:#F3F2ED; --surface:#FFFFFF; --card:#FAF9F5;
+  --amber-bg:#FDF6E7; --amber-text:#8A5E1E; --amber-line:#D9A73C;
+  --red-line:#C97B6E;
+}
+*{box-sizing:border-box;}
+body{background:var(--page-bg);color:var(--text);font-family:var(--font-body);padding:2.5rem 0;margin:0;}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:2.5rem;}
+.masthead{padding:0 4px;}
+.eyebrow{font-weight:700;font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--green);margin:0 0 10px;}
+.masthead h1{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,3.6vw,32px);line-height:1.15;margin:0 0 10px;color:var(--ink);text-wrap:balance;}
+.masthead p{font-size:14.5px;line-height:1.6;color:var(--text-2);max-width:64ch;margin:0;}
+.doc{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+.doc + .doc{margin-top:0;}
+.sheet{position:relative;padding:52px 56px 40px;border-bottom:1px solid var(--border);}
+.sheet:last-child{border-bottom:none;}
+.sheet.cover{padding:52px 56px 40px;background:radial-gradient(ellipse 60% 45% at 78% 18%, rgba(95,211,166,.28), transparent 70%),radial-gradient(ellipse 55% 40% at 8% 92%, rgba(217,167,60,.20), transparent 70%);}
+.logo{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--ink);}
+.logo span{color:var(--green);}
+.cover h1{font-family:var(--font-display);font-weight:700;font-size:clamp(34px,5vw,50px);line-height:1.06;color:var(--ink);margin:70px 0 18px;max-width:14ch;letter-spacing:-.01em;}
+.cover .dek{font-size:15.5px;line-height:1.6;color:var(--text-2);max-width:46ch;margin:0 0 60px;}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-top:22px;border-top:1px solid rgba(10,10,10,.12);}
+.hero-stats .n{font-family:var(--font-display);font-weight:700;font-size:30px;color:var(--ink);}
+.hero-stats .n.g{color:var(--green);}
+.hero-stats .l{font-size:12.5px;color:var(--text-2);margin-top:4px;line-height:1.4;}
+.hero-stats .src{font-size:10.5px;color:var(--muted);margin-top:10px;grid-column:1/-1;}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin:0 0 8px;}
+.h2{font-family:var(--font-display);font-weight:700;font-size:25px;color:var(--ink);margin:0 0 16px;letter-spacing:-.005em;}
+.lede{font-size:14.5px;line-height:1.65;color:var(--text-2);max-width:60ch;margin:0 0 22px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
+p.body-text{font-size:13.5px;line-height:1.7;color:var(--text-2);margin:0 0 14px;}
+.card{background:var(--card);border-radius:14px;padding:20px 22px;}
+.card-green{background:#EAF5F1;}
+.card-amber{background:var(--amber-bg);}
+.card h4{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--ink);margin:0 0 6px;}
+.card h4.g{color:var(--green);}
+.card p{font-size:13px;line-height:1.6;color:var(--text-2);margin:0 0 14px;}
+.card p:last-child{margin-bottom:0;}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+.card-grid .card{padding:18px 20px;}
+.bar-row{margin-bottom:14px;}
+.bar-row:last-child{margin-bottom:0;}
+.bar-top{display:flex;justify-content:space-between;font-size:13px;color:var(--text-2);margin-bottom:6px;}
+.bar-top b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums;}
+.bar-track{height:8px;border-radius:99px;background:rgba(10,10,10,.08);overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;background:var(--green);}
+.bar-fill.amber{background:var(--amber-line);}
+.bar-fill.faint{background:rgba(10,10,10,.14);}
+.step{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);}
+.step:last-child{border-bottom:none;}
+.step .num{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--green);}
+.step h4{font-family:var(--font-display);font-weight:700;font-size:14.5px;color:var(--ink);margin:0 0 4px;}
+.step p{font-size:13px;line-height:1.6;color:var(--text-2);margin:0;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);padding:0 0 10px;border-bottom:1px solid var(--border);}
+td{padding:12px 14px 12px 0;border-bottom:1px solid var(--border);color:var(--text-2);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td.k{color:var(--ink);font-weight:700;white-space:nowrap;}
+.check-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+.check-list li{display:flex;gap:10px;font-size:13px;line-height:1.55;color:var(--text-2);}
+.check-list .dot{width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:1px;}
+.pill{display:inline-flex;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:99px;background:#EAF5F1;color:var(--green);}
+.footline{font-size:10.5px;color:var(--text-3);border-top:1px solid var(--border);padding-top:14px;margin-top:18px;}
+.pagefoot{position:absolute;left:56px;right:56px;bottom:16px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+.closer{background:#EAF5F1;border-radius:14px;padding:24px 26px;margin-top:20px;display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center;}
+.closer .logo{margin-bottom:10px;}
+.closer p{font-size:13.5px;color:var(--text-2);line-height:1.6;margin:0;}
+.closer .contact{font-size:12px;}
+.closer .contact .k{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px;}
+.closer .contact div{color:var(--text-2);line-height:1.7;}
+.note{font-size:11px;color:var(--text-3);text-align:center;}
+@media (max-width:720px){
+  .sheet{padding:32px 22px 60px;}
+  .two-col, .card-grid, .closer{grid-template-columns:1fr;}
+  .cover h1{margin-top:40px;}
+  .hero-stats{grid-template-columns:1fr 1fr;}
+  .pagefoot{left:22px;right:22px;}
+}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <p class="eyebrow">Welcome documents</p>
+    <h1>The two brochures Kharo emails on signup</h1>
+    <p>Restyled to match the live site's typography and updated so the pricing they describe matches what the platform actually charges: a rental price only, with insurance quoted separately rather than folded in. Everything else in the originals - the tone, the process detail, the figures that were already accurate - is kept as written.</p>
+  </div>
+
+  <div>
+    <p class="eyebrow" style="padding:0 4px;">Document 1 of 2</p>
+    <div class="doc">
+
+      <div class="sheet cover">
+        <div class="logo">kharo<span>.</span></div>
+        <h1>Renting with Kharo</h1>
+        <p class="dek">A guide for private hire drivers. What we ask of you, what you can expect from us, and what happens on the day something goes wrong.</p>
+        <div class="hero-stats">
+          <div><div class="n">105,607</div><div class="l">private hire drivers licensed in London</div></div>
+          <div><div class="n">92,895</div><div class="l">private hire vehicles licensed in London</div></div>
+          <div><div class="n g">12,712</div><div class="l">more drivers than there are vehicles</div></div>
+          <div class="src">Transport for London weekly licensing figures, week ending 3 May 2026.</div>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">About us</p>
+        <h2 class="h2">What Kharo does</h2>
+        <div class="two-col">
+          <div>
+            <p class="body-text">We do not own the cars. We bring together the rental companies that do, hold them to the same standard, and make their prices properly comparable. Your agreement is with the operator. When something needs sorting out, you deal with us.</p>
+            <p class="body-text">There are more licensed drivers in London than there are licensed vehicles, which is why a car is often harder to find than the work. Our job is to make the search shorter and the terms clearer.</p>
+          </div>
+          <div class="card">
+            <h4>What drivers tell us</h4>
+            <p><b style="color:var(--ink);">The price moves.</b> Quoted one figure, charged another, with insurance outside the comparison.</p>
+            <p><b style="color:var(--ink);">Nobody tells you anything.</b> The car goes in for repair and you lose a day's earnings for every day of silence.</p>
+            <p style="margin-bottom:0;"><b style="color:var(--ink);">Your record counts for nothing.</b> Two years paying on time, then you move operator and start again as a stranger.</p>
+          </div>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h4 class="g">A rental price, shown on its own</h4>
+            <p style="margin-bottom:0;">Priced below what other platforms charge for the same car. Insurance is quoted separately, so nothing is marked up and hidden inside a bigger number.</p>
+          </div>
+          <div class="card">
+            <h4 class="g">Costs written down first</h4>
+            <p style="margin-bottom:0;">Mileage cap, insurance excess, what counts as fair wear and tear. Published with photographs before you commit.</p>
+          </div>
+          <div class="card">
+            <h4 class="g">One number to ring</h4>
+            <p style="margin-bottom:0;">We arrange recovery, deal with the garage and get the operator's authorisation. We measure ourselves on how fast you are earning again.</p>
+          </div>
+          <div class="card">
+            <h4 class="g">Your record follows you</h4>
+            <p style="margin-bottom:0;">Pay on time with one operator and that history follows you to the next.</p>
+          </div>
+        </div>
+        <div class="card card-amber" style="margin-top:20px;">
+          <h4>The market you are working in</h4>
+          <div class="bar-row"><div class="bar-top"><span>Licensed drivers in London</span><b>105,607</b></div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></div>
+          <div class="bar-row"><div class="bar-top"><span>Licensed vehicles in London</span><b>92,895</b></div><div class="bar-track"><div class="bar-fill amber" style="width:88%"></div></div></div>
+          <p style="margin:8px 0 0;font-size:11px;color:var(--text-3);">Transport for London, week ending 3 May 2026.</p>
+        </div>
+        <div class="pagefoot"><span>Renting with Kharo</span><span>02</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Step by step</p>
+        <h2 class="h2">How renting works</h2>
+        <div class="step">
+          <span class="num">01</span>
+          <div><h4>Find a car you can genuinely afford</h4><p>The rental price is shown on its own, priced below the market rate for the same car, so you are comparing like with like. Check three things on every card: the weekly figure, the mileage cap and the deposit.</p></div>
+        </div>
+        <div class="step">
+          <span class="num">02</span>
+          <div><h4>Shortlist, then compare properly</h4><p>Save any car with one tap and set them side by side. Weekly cost, excess, mileage, deposit and area in one view.</p></div>
+        </div>
+        <div class="step">
+          <span class="num">03</span>
+          <div><h4>Register your interest in that car</h4><p>A few minutes, completed once. We ask for your PCO badge, your driving licence and where you drive. Nothing is charged and nothing is committed.</p></div>
+        </div>
+        <div class="step">
+          <span class="num">04</span>
+          <div><h4>We check, then the operator decides</h4><p>We check your badge against the licensing register and your licence with the DVLA. The operator gives you an answer: yes, yes with a higher deposit, or not this time with the reason why.</p></div>
+        </div>
+        <div class="step">
+          <span class="num">05</span>
+          <div><h4>Pay, then book a collection slot</h4><p>Deposit and first week through Kharo, never to a yard. Your agreement, insurance certificate, PHV licence and MOT all land in your account.</p></div>
+        </div>
+        <div class="step">
+          <span class="num">06</span>
+          <div><h4>Check the car over together, then drive</h4><p>You and the operator photograph the car before you leave and both keep a copy. This settles any later question about damage.</p></div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:repeat(3,1fr);margin-top:20px;">
+          <div class="card card-green"><h4 class="g">Free</h4><p style="margin-bottom:0;">to browse, register and be introduced</p></div>
+          <div class="card card-green"><h4 class="g">£0</h4><p style="margin-bottom:0;">charged before an operator says yes</p></div>
+          <div class="card card-green"><h4 class="g">Once</h4><p style="margin-bottom:0;">you enter your details, reused on every car</p></div>
+        </div>
+        <div class="pagefoot"><span>Renting with Kharo</span><span>03</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Prices</p>
+        <h2 class="h2">What it costs</h2>
+        <p class="lede">There is nothing below this line we have not already shown you on the listing - and the number on the card is a rental price, not an all-in figure with insurance quietly folded into it.</p>
+        <div class="card">
+          <h4>Where your money goes</h4>
+          <p>Indicative example on a typical London hybrid. Your listing shows the exact figures for that car.</p>
+          <div class="bar-row"><div class="bar-top"><span>Weekly rental (car, servicing, breakdown cover)</span><b>£165</b></div><div class="bar-track"><div class="bar-fill" style="width:81%"></div></div></div>
+          <div class="bar-row"><div class="bar-top"><span>Insurance, quoted separately at checkout</span><b>+ about £38</b></div><div class="bar-track"><div class="bar-fill amber" style="width:38%"></div></div></div>
+          <div class="bar-row" style="margin-bottom:0;"><div class="bar-top"><span style="font-weight:700;color:var(--ink);">Typical total, both lines</span><b>about £203</b></div><div class="bar-track"><div class="bar-fill faint" style="width:100%"></div></div></div>
+          <p style="margin:14px 0 0;font-size:11.5px;color:var(--text-3);">Illustrative only. Because insurance is quoted on your own profile rather than bundled into one figure, two drivers looking at the same car can see two different totals - and both are lower than a competitor's all-in price for the same car.</p>
+        </div>
+        <table style="margin-top:22px;">
+          <thead><tr><th>Charge</th><th>When</th><th>How it is set</th></tr></thead>
+          <tbody>
+            <tr><td class="k">Deposit</td><td>Before collection</td><td>On the listing. Held securely, released after return</td></tr>
+            <tr><td class="k">First week's rental</td><td>Before collection</td><td>The weekly rental figure on the listing</td></tr>
+            <tr><td class="k">Weekly rental</td><td>Weekly</td><td>Fixed for the term unless you agree otherwise</td></tr>
+            <tr><td class="k">Weekly insurance</td><td>Weekly</td><td>Quoted separately at checkout, based on your profile</td></tr>
+            <tr><td class="k">Mileage over the cap</td><td>Only if you exceed it</td><td>A stated rate per mile, on every listing</td></tr>
+            <tr><td class="k">Damage below the excess</td><td>If it happens</td><td>At cost, against the published wear and tear standard</td></tr>
+            <tr><td class="k">Browsing and registering</td><td>Never</td><td>Free, always</td></tr>
+          </tbody>
+        </table>
+        <div class="card-grid" style="margin-top:20px;">
+          <div class="card"><h4>How we get paid</h4><p style="margin-bottom:0;">A commission from the rental company, not from you. Your weekly rental is the same whether you come through us or go direct.</p></div>
+          <div class="card"><h4>Costs outside the rental</h4><p style="margin-bottom:0;">The London Congestion Charge is £18 a day, which for full time central work runs to a serious annual figure. Worth building into your own sums before you commit to a weekly rent.</p></div>
+        </div>
+        <div class="pagefoot"><span>Renting with Kharo</span><span>04</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Tracking</p>
+        <h2 class="h2">The tracker in your car</h2>
+        <p class="lede">We would rather set this out plainly than leave you wondering. It is there for theft recovery and to protect the car. It is not there to watch you work.</p>
+        <div class="two-col">
+          <div class="card card-green">
+            <h4 class="g">Kharo can see</h4>
+            <p><b style="color:var(--ink);">Live location, in three situations only.</b> The car is reported stolen, the rental is in serious arrears, or you have asked us to help find it.</p>
+            <p><b style="color:var(--ink);">Ignition and mileage.</b> For servicing intervals and the mileage cap.</p>
+            <p style="margin-bottom:0;"><b style="color:var(--ink);">Impact detection.</b> So if you are in a collision we can ring you rather than wait to be told.</p>
+          </div>
+          <div class="card">
+            <h4>Your operator sees</h4>
+            <p><b style="color:var(--ink);">Mileage, and whether the car is in use.</b> Enough to manage servicing.</p>
+            <p><b style="color:var(--ink);">Not your live location.</b> They do not get to watch where you are, where you stop or where you sleep. That is deliberate.</p>
+            <p style="margin-bottom:0;"><b style="color:var(--ink);">Kept for ninety days, then deleted.</b> Never sold. Not to insurers, not to Uber or Bolt, not to anybody.</p>
+          </div>
+        </div>
+        <div class="card card-amber" style="margin-top:20px;">
+          <h4>Why it is fitted at all</h4>
+          <div class="card-grid" style="grid-template-columns:1fr 1fr 1.4fr;background:transparent;padding:0;margin-top:10px;">
+            <div><div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--ink);">About 1 in 3</div><p style="margin-top:6px;">vehicle thefts in England and Wales involved keyless entry, the most common method recorded</p></div>
+            <div><div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--ink);">73%</div><p style="margin-top:6px;">of stolen cars are taken from outside the owner's home</p></div>
+            <div><p style="margin-bottom:0;">A relay attack copies your key signal through your front door and starts the car without ever touching the key. Every set of keys we issue comes with a signal blocking pouch, which defeats it. An AA survey found just 22% of drivers use one. Please be in that 22%.</p></div>
+          </div>
+          <p style="margin:14px 0 0;font-size:10.5px;color:var(--text-3);">Office for National Statistics, England and Wales. Figures vary between sources and years, so treat these as scale rather than precision.</p>
+        </div>
+        <div class="pagefoot"><span>Renting with Kharo</span><span>05</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Problems</p>
+        <h2 class="h2">If something goes wrong</h2>
+        <p class="lede">You lose money every hour the car is off the road, so this is built around one thing: getting you earning again.</p>
+        <table>
+          <thead><tr><th>When</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td class="k">Straight away</td><td>If anyone is hurt, ring 999 first. Always. Then one button in the app and the photographs it asks for.</td></tr>
+            <tr><td class="k">Within half an hour</td><td>A person rings you. Not a form, not an email. We work out whether the car is drivable and settle what happens next on that call.</td></tr>
+            <tr><td class="k">Same day</td><td>If it cannot be driven we arrange recovery and tell you your options for getting back on the road.</td></tr>
+            <tr><td class="k">After that</td><td>We deal with the garage and the operator. You chase nobody. Updates come to you in the app.</td></tr>
+          </tbody>
+        </table>
+        <div class="card card-green" style="margin-top:20px;display:grid;grid-template-columns:1fr 2fr;gap:20px;align-items:center;">
+          <div><div style="font-family:var(--font-display);font-weight:700;font-size:30px;color:var(--ink);">£150</div><p style="margin-top:4px;margin-bottom:0;">a day is roughly what a full time driver stands to lose while the car sits still</p></div>
+          <p style="margin-bottom:0;">Which means a repair that takes five days rather than two costs you more than three weeks of the difference between a cheap rental and an expensive one. Speed of repair is worth more to you than a few pounds off the weekly rate, and almost nobody prices it that way. We do.</p>
+        </div>
+        <div class="two-col" style="margin-top:20px;">
+          <table>
+            <thead><tr><th>Who pays for what</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Fair wear and tear</td><td class="k">Operator</td></tr>
+              <tr><td>Damage below the excess</td><td class="k">You</td></tr>
+              <tr><td>Damage above the excess</td><td class="k">Insurer</td></tr>
+              <tr><td>Someone else at fault</td><td class="k">Their insurer</td></tr>
+              <tr><td>Mechanical failure</td><td class="k">Operator</td></tr>
+              <tr><td>Tickets and road charges</td><td class="k">You</td></tr>
+            </tbody>
+          </table>
+          <div class="card">
+            <h4>If the car is stolen</h4>
+            <ul class="check-list">
+              <li><span class="dot">&#10003;</span>Ring us, then the police. You will need a crime reference number.</li>
+              <li><span class="dot">&#10003;</span>Recovery starts at once. The trackers we fit are monitored around the clock.</li>
+              <li><span class="dot">&#10003;</span>Use the pouch. It is the single cheapest thing that prevents the most common theft method.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="pagefoot"><span>Renting with Kharo</span><span>06</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Missed payments</p>
+        <h2 class="h2">If you fall behind</h2>
+        <p class="lede">Almost nobody who falls behind is avoiding payment. So this starts with a conversation, and all of it is written down here so nothing comes as a surprise.</p>
+        <table>
+          <thead><tr><th>Day</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td class="k">0</td><td>The payment fails and you are told at once. We try again in 24 hours. No fee.</td></tr>
+            <tr><td class="k">1</td><td>A person rings you. If you need to spread the payment, ask on that call. We would far rather arrange something than chase you.</td></tr>
+            <tr><td class="k">3</td><td>Written notice. The payment plan is still there. A late fee applies.</td></tr>
+            <tr><td class="k">7</td><td>Formal notice that the car may be immobilised, with a last chance to sort something out.</td></tr>
+            <tr><td class="k">10</td><td>If we still have not heard from you, the car is immobilised so it will not restart. We tell you exactly what clears it.</td></tr>
+            <tr><td class="k">14</td><td>Recovery is arranged. Your operator and the insurer are told.</td></tr>
+          </tbody>
+        </table>
+        <div class="card-grid" style="margin-top:20px;">
+          <div class="card card-green"><h4 class="g">Ten days of conversation before anything happens</h4><p style="margin-bottom:0;">The tracker can stop the engine restarting. It can never stop a car that is moving, and it is never used while you have a passenger. A named manager has to authorise it and every use is logged. Talk to us and it does not happen.</p></div>
+          <div class="card card-amber"><h4>Why we assess affordability properly</h4><p style="margin-bottom:0;">Because putting you in a car that is a few pounds a week too dear helps nobody. We look at your quiet weeks rather than your best ones, and we would rather offer a cheaper car you keep for two years than an expensive one you hand back in six weeks.</p></div>
+        </div>
+        <div class="pagefoot"><span>Renting with Kharo</span><span>07</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Getting started</p>
+        <h2 class="h2">What you need</h2>
+        <div class="two-col">
+          <div class="card">
+            <h4>To complete a rental</h4>
+            <ul class="check-list">
+              <li><span class="dot">&#10003;</span>A valid TfL or council private hire driver licence</li>
+              <li><span class="dot">&#10003;</span>A full UK or exchangeable driving licence, held for the period on the listing</li>
+              <li><span class="dot">&#10003;</span>To meet the minimum age insurers require for hire and reward cover, usually 25</li>
+              <li><span class="dot">&#10003;</span>The right to work and drive private hire in the UK</li>
+              <li><span class="dot">&#10003;</span>A claims history within the limit on the listing</li>
+            </ul>
+            <p style="margin-top:14px;margin-bottom:0;font-size:12px;color:var(--text-3);">You can browse and register without any of this to hand. It is only needed to complete a rental.</p>
+          </div>
+          <div class="card card-green">
+            <h4 class="g">What we will never do</h4>
+            <p><b style="color:var(--ink);">Ask you to pay an operator directly.</b> Every payment runs through Kharo. If anyone asks you to send money elsewhere, tell us.</p>
+            <p><b style="color:var(--ink);">Charge you to register.</b> Browsing and registering are free and will stay that way.</p>
+            <p><b style="color:var(--ink);">Sell your data.</b> Not to insurers, not to anybody.</p>
+            <p style="margin-bottom:0;"><b style="color:var(--ink);">Change your weekly figure quietly.</b> Fixed for the term unless you agree otherwise.</p>
+          </div>
+        </div>
+        <div class="closer">
+          <div>
+            <div class="logo">kharo<span>.</span></div>
+            <p>Have a look at what is available. Browsing is free, registering is free, and nothing is charged until an operator has said yes.</p>
+          </div>
+          <div class="contact"><div class="k">Get in touch</div><div>kharo.co.uk<br>hello@kharo.co.uk<br><br>London, Birmingham, Manchester, Leeds and Sheffield</div></div>
+        </div>
+        <div class="pagefoot"><span>Renting with Kharo</span><span>08</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div>
+    <p class="eyebrow" style="padding:0 4px;">Document 2 of 2</p>
+    <div class="doc">
+
+      <div class="sheet cover">
+        <div class="logo">kharo<span>.</span></div>
+        <h1>Listing with Kharo</h1>
+        <p class="dek">A guide for private hire rental companies. How we fill your vehicles, how we protect your income, and what we ask of you in return.</p>
+        <div class="hero-stats">
+          <div><div class="n g">12,712</div><div class="l">more licensed drivers than licensed vehicles in London</div></div>
+          <div><div class="n">£0</div><div class="l">listing fees, setup fees or monthly charges</div></div>
+          <div><div class="n">Checked</div><div class="l">licence, identity and affordability, before an application reaches you</div></div>
+          <div class="src">Transport for London weekly licensing figures, week ending 3 May 2026.</div>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">The opportunity</p>
+        <h2 class="h2">More drivers than cars</h2>
+        <div class="two-col">
+          <div>
+            <p class="body-text">London has 105,607 licensed private hire drivers and 92,895 licensed private hire vehicles. That gap of nearly thirteen thousand is the clearest evidence there is that demand for a car outstrips supply in this city.</p>
+            <p class="body-text">Which raises an awkward question. If drivers are short of cars, why does any vehicle on your forecourt sit idle for a single day?</p>
+            <p class="body-text" style="margin-bottom:0;">Usually because the two sides cannot find each other efficiently, and because the drivers who do turn up have not been checked, so a proportion of them stop paying in the second month. Both of those are solvable.</p>
+          </div>
+          <div class="card card-amber">
+            <h4>London licensing</h4>
+            <div class="bar-row"><div class="bar-top"><span>Licensed drivers</span><b>105,607</b></div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></div>
+            <div class="bar-row" style="margin-bottom:0;"><div class="bar-top"><span>Licensed vehicles</span><b>92,895</b></div><div class="bar-track"><div class="bar-fill amber" style="width:88%"></div></div></div>
+            <div class="footline">Transport for London, week ending 3 May 2026.<br><br><b style="color:var(--ink);">England, excluding London:</b> 196,600 licensed private hire vehicles, up 20% since 2024. 342,300 licensed taxi and private hire vehicles nationally against 417,300 driver licences.<br>Department for Transport, as at 1 April 2026.</div>
+          </div>
+        </div>
+        <div class="card-grid" style="margin-top:20px;">
+          <div class="card"><h4>Void days between hirers</h4><p style="margin-bottom:0;">Pure loss. We begin matching the next driver before the current rental ends.</p></div>
+          <div class="card"><h4>Drivers who cannot sustain the payment</h4><p style="margin-bottom:0;">A deposit does not test affordability. A year of earnings data does.</p></div>
+          <div class="card"><h4>Arrears found too late</h4><p style="margin-bottom:0;">On a monthly cycle, by the time you know there is a problem the driver is four figures behind.</p></div>
+          <div class="card"><h4>Deposit disputes</h4><p style="margin-bottom:0;">Slow, expensive and reputationally costly. Solved by evidence rather than argument.</p></div>
+        </div>
+        <div class="pagefoot"><span>Listing with Kharo</span><span>02</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Protecting you</p>
+        <h2 class="h2">How we check drivers</h2>
+        <p class="lede">You keep the final decision on every driver. What changes is the quality of what you are deciding on.</p>
+        <div class="step"><span class="num">01</span><div><h4>Eligibility, checked in seconds</h4><p>The private hire badge is checked against the licensing register. We check the driving licence directly with the DVLA, with the driver's permission, so we are looking at the real record rather than a photograph of a card.</p></div></div>
+        <div class="step"><span class="num">02</span><div><h4>Identity, where the costliest fraud is caught</h4><p>We check their documents are genuine and that the person holding them is the person applying, confirm their address, and look for duplicates across everyone already on Kharo.</p></div></div>
+        <div class="step"><span class="num">03</span><div><h4>Affordability, the check that matters most</h4><p>With the driver's permission, we take a look at a year of their earnings from Uber and Bolt. What we care about most is not their average week but their quiet weeks, because that is when a driver falls behind.</p></div></div>
+        <div class="step"><span class="num">04</span><div><h4>Their record in the trade</h4><p>How long they have been driving, references from previous operators and, in time, their payment history across the whole of Kharo. On a network, a default follows a driver.</p></div></div>
+        <div class="card card-green" style="margin-top:20px;">
+          <h4 class="g">We price risk rather than turning people away</h4>
+          <div class="card-grid" style="background:transparent;padding:0;margin-top:12px;">
+            <div><span class="pill">Standard</span><p style="margin-top:10px;margin-bottom:0;">Established record. One week deposit, weekly collection.</p></div>
+            <div><span class="pill">Higher deposit</span><p style="margin-top:10px;margin-bottom:0;">Newer to the trade, or a thinner earnings record. Two to four weeks.</p></div>
+          </div>
+          <p style="margin-top:14px;margin-bottom:0;"><b style="color:var(--ink);">Twice weekly:</b> collected twice a week rather than once, so your exposure never exceeds a few days of rent and trouble surfaces within 72 hours rather than 10 days.</p>
+        </div>
+        <div class="pagefoot"><span>Listing with Kharo</span><span>03</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Money</p>
+        <h2 class="h2">How you get paid</h2>
+        <p class="lede">Rent is collected by us and paid on a fixed schedule. Drivers never send money to a yard, which removes the most common route to a dispute.</p>
+        <div class="two-col">
+          <div class="card">
+            <h4>Order of priority</h4>
+            <p>Where a driver can pay only part, the payment is applied in this order.</p>
+            <table>
+              <tbody>
+                <tr><td class="k">1</td><td>Insurance premium</td></tr>
+                <tr><td class="k">2</td><td><b style="color:var(--ink);">Your rental income</b></td></tr>
+                <tr><td class="k">3</td><td>Kharo commission</td></tr>
+                <tr><td class="k">4</td><td>Maintenance reserve</td></tr>
+                <tr><td class="k">5</td><td>Arrears</td></tr>
+              </tbody>
+            </table>
+            <p style="margin-top:12px;margin-bottom:0;font-size:12px;">Insurance sits first deliberately. A licensed vehicle carrying passengers on lapsed cover is the one outcome nobody can afford.</p>
+          </div>
+          <div class="card card-amber">
+            <h4>Why collection method matters</h4>
+            <p>How quickly you learn a payment has failed.</p>
+            <div class="bar-row"><div class="bar-top"><span>Open banking, instant</span><b>Seconds</b></div><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div></div>
+            <div class="bar-row"><div class="bar-top"><span>Direct Debit</span><b>3 working days</b></div><div class="bar-track"><div class="bar-fill amber" style="width:45%"></div></div></div>
+            <div class="bar-row" style="margin-bottom:0;"><div class="bar-top"><span>Waiting for a bank transfer</span><b>Anyone's guess</b></div><div class="bar-track"><div class="bar-fill faint" style="width:100%"></div></div></div>
+            <p style="margin-top:12px;margin-bottom:0;font-size:12px;">We collect on open banking rails, which settle instantly and cannot be charged back.</p>
+          </div>
+        </div>
+        <table style="margin-top:20px;">
+          <thead><tr><th>Day</th><th>Action</th><th>Who</th></tr></thead>
+          <tbody>
+            <tr><td class="k">0</td><td>Payment fails. Driver notified at once. Automatic retry within 24 hours</td><td>Kharo</td></tr>
+            <tr><td class="k">1</td><td>Telephone call. A payment plan is offered on that call</td><td>Kharo</td></tr>
+            <tr><td class="k">3</td><td>Written notice and late fee. You are informed</td><td>Kharo</td></tr>
+            <tr><td class="k">7</td><td>Formal notice of immobilisation. Replacement driver search begins</td><td>Kharo</td></tr>
+            <tr><td class="k">10</td><td>Vehicle immobilised so it will not restart. Authorised by a named manager</td><td>Kharo</td></tr>
+            <tr><td class="k">14</td><td>Recovery instructed. You and your insurer are notified</td><td>Kharo, with you</td></tr>
+          </tbody>
+        </table>
+        <div class="pagefoot"><span>Listing with Kharo</span><span>04</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Your asset</p>
+        <h2 class="h2">Tracking and theft</h2>
+        <div class="two-col">
+          <div class="card">
+            <h4>What you see</h4>
+            <ul class="check-list">
+              <li><span class="dot">&#10003;</span>Mileage against the cap, and whether the vehicle is in use</li>
+              <li><span class="dot">&#10003;</span>Service and MOT intervals, with reminders before anything lapses</li>
+              <li><span class="dot">&#10003;</span>Immediate alert on theft, impact or an unexpected departure from the licensing area</li>
+            </ul>
+            <p style="margin-top:14px;margin-bottom:0;font-size:12px;color:var(--text-3);">You do not see the driver's live location, and we tell drivers so. That constraint is what makes drivers willing to accept a tracked vehicle at all.</p>
+          </div>
+          <div class="card card-amber">
+            <h4>Why it matters</h4>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--ink);">About 1 in 3</div>
+            <p style="margin-top:4px;">vehicle thefts in England and Wales involved keyless entry</p>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--ink);">73%</div>
+            <p style="margin-top:4px;">of stolen cars are taken from outside the owner's home</p>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--ink);">22%</div>
+            <p style="margin-top:4px;margin-bottom:0;">of drivers use a signal blocking pouch. We issue one with every set of keys</p>
+          </div>
+        </div>
+        <div class="card card-green" style="margin-top:20px;">
+          <h4 class="g">What a tracker costs you, per vehicle</h4>
+          <div class="card-grid" style="background:transparent;padding:0;margin-top:10px;">
+            <div><div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--ink);">£300&ndash;£450</div><p style="margin-top:4px;margin-bottom:0;">once, for the unit and a proper installation</p></div>
+            <div><div style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--ink);">£15&ndash;£20</div><p style="margin-top:4px;margin-bottom:0;">a month, for monitoring around the clock</p></div>
+          </div>
+          <p style="margin-top:14px;margin-bottom:0;">On a car earning £200 a week that is under a tenth of one week's rent. We point most operators to the <b style="color:var(--ink);">Meta Trak S5 with Deadlock</b>, which combines the tracker and immobiliser in one fitting. <b style="color:var(--ink);">ScorpionTrack S5</b> is the tracker-only option.</p>
+        </div>
+        <div class="pagefoot"><span>Listing with Kharo</span><span>05</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Incidents</p>
+        <h2 class="h2">Damage and repairs</h2>
+        <p class="lede">We coordinate, you authorise, and the driver chases nobody.</p>
+        <div class="step"><span class="num">01</span><div><h4>Reported in the app, or detected by the tracker</h4><p>One button with guided photographs. Where the tracker registers an impact we contact the driver first.</p></div></div>
+        <div class="step"><span class="num">02</span><div><h4>Triaged by a person within half an hour</h4><p>Drivable, drivable but needs inspection, or not drivable. Recovery is instructed on that call where needed.</p></div></div>
+        <div class="step"><span class="num">03</span><div><h4>Estimated by an approved repairer</h4><p>We obtain the estimate and put it to you with photographs and a recommendation.</p></div></div>
+        <div class="step"><span class="num">04</span><div><h4>Managed to completion</h4><p>We track the repair, keep the driver informed, and return the vehicle to service.</p></div></div>
+        <div class="two-col" style="margin-top:20px;">
+          <table>
+            <thead><tr><th>Cost allocation, agreed in advance</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Fair wear and tear</td><td class="k">Operator</td></tr>
+              <tr><td>Damage below the excess</td><td class="k">Driver</td></tr>
+              <tr><td>Damage above the excess</td><td class="k">Insurer</td></tr>
+              <tr><td>Third party at fault</td><td class="k">Their insurer</td></tr>
+              <tr><td>Mechanical failure</td><td class="k">Operator</td></tr>
+              <tr><td>Penalty and road charges</td><td class="k">Driver</td></tr>
+            </tbody>
+          </table>
+          <div class="card card-green">
+            <h4 class="g">Your interests and the driver's point the same way</h4>
+            <p style="margin-bottom:0;">A driver off the road is losing roughly £150 a day and you are collecting nothing. Every hour taken out of the repair cycle is money returned to both of you - and it is the loudest thing drivers say about their operator, in either direction.</p>
+          </div>
+        </div>
+        <div class="pagefoot"><span>Listing with Kharo</span><span>06</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Commercials</p>
+        <h2 class="h2">What it costs, and what we ask</h2>
+        <div class="two-col">
+          <div class="card">
+            <h4>How we are paid</h4>
+            <ul class="check-list">
+              <li><span class="dot">&#10003;</span>A commission on the rental, deducted before your payout</li>
+              <li><span class="dot">&#10003;</span>No listing fee, no setup fee, no monthly charge</li>
+              <li><span class="dot">&#10003;</span>Payouts on a fixed schedule, so you can plan against them</li>
+              <li><span class="dot">&#10003;</span>You set your own weekly rates and approve every driver</li>
+              <li><span class="dot">&#10003;</span>Pause or withdraw a listing whenever you choose</li>
+            </ul>
+          </div>
+          <div class="card card-green">
+            <h4 class="g">What we ask of you</h4>
+            <ul class="check-list">
+              <li><span class="dot">&#10003;</span>Verification against Companies House and the licensing register</li>
+              <li><span class="dot">&#10003;</span>Honest listings: real photographs, correct mileage, current licensing dates</li>
+              <li><span class="dot">&#10003;</span>Adoption of the published fair wear and tear standard</li>
+              <li><span class="dot">&#10003;</span>A response to each application within one working day</li>
+              <li><span class="dot">&#10003;</span>Deposits returned within the published period</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card" style="margin-top:20px;border-left:3px solid var(--green);border-radius:0 14px 14px 0;">
+          <h4>We are selective, and it works in your favour</h4>
+          <p style="margin-bottom:0;">Operators who do not meet the standards above come off the platform. Drivers who have a poor experience with one yard do not conclude that one yard is poor. They conclude that Kharo is, and they tell forty other drivers.</p>
+        </div>
+        <div class="card" style="margin-top:20px;">
+          <h4>Joining</h4>
+          <table>
+            <tbody>
+              <tr><td class="k">01</td><td><b style="color:var(--ink);">Register your interest.</b> Fleet size, vehicle types, the areas you cover</td></tr>
+              <tr><td class="k">02</td><td><b style="color:var(--ink);">Verification.</b> Companies House, operator licence, confirmation of who runs the business</td></tr>
+              <tr><td class="k">03</td><td><b style="color:var(--ink);">Terms.</b> Commission, payout schedule, response times and the wear and tear standard</td></tr>
+              <tr><td class="k">04</td><td><b style="color:var(--ink);">Listing.</b> We photograph and list your vehicles with you, and fit trackers where needed</td></tr>
+              <tr><td class="k">05</td><td><b style="color:var(--ink);">Live.</b> Applications begin arriving, already checked</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagefoot"><span>Listing with Kharo</span><span>07</span></div>
+      </div>
+
+      <div class="sheet">
+        <p class="kicker">Where we are</p>
+        <h2 class="h2">We are onboarding a small number of fleets</h2>
+        <div class="two-col">
+          <div>
+            <p class="body-text">Most marketplaces open to everyone on day one and end up with the operators who could not fill their vehicles by any other means. That is a poor foundation, because drivers arrive, have a bad experience, and do not come back.</p>
+            <p class="body-text">We are doing the opposite: approaching fleets we already believe are well run, giving them preferential terms for taking a chance on something new.</p>
+            <p class="body-text" style="margin-bottom:0;">If that describes your business, we would like to hear from you before we open more widely.</p>
+          </div>
+          <div class="card">
+            <h4>Worth knowing before you speak to us</h4>
+            <ul class="check-list">
+              <li><span class="dot">&#10003;</span>Your agreement remains with the driver. We are the platform, not the owner of the vehicle</li>
+              <li><span class="dot">&#10003;</span>You retain the decision on every applicant, without exception</li>
+              <li><span class="dot">&#10003;</span>You keep your existing insurance arrangements, or use ours if they are better</li>
+              <li><span class="dot">&#10003;</span>Nothing is exclusive. List with us and elsewhere if you wish</li>
+            </ul>
+          </div>
+        </div>
+        <div class="closer">
+          <div>
+            <div class="logo">kharo<span>.</span></div>
+            <p>Tell us about your fleet. We will come back to you within one working day.</p>
+          </div>
+          <div class="contact"><div class="k">Operator enquiries</div><div>kharo.co.uk<br>hello@kharo.co.uk<br><br>London, Birmingham, Manchester, Leeds and Sheffield</div></div>
+        </div>
+        <div class="pagefoot"><span>Listing with Kharo</span><span>08</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="note">To save either document as a PDF: open this page, then use your browser's Print &rarr; Save as PDF.</p>
+</div>
