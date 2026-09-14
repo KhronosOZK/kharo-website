@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star } from "lucide-react";
+import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star, Layers, Tag, MapPin, MessageCircleOff, HelpCircle } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
@@ -328,18 +328,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* KEY FEATURES - circular monochrome icon badges, no colour */}
+      {/* WHY KHARO - the marketplace value prop, in plain English, hits the real pain point */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Taking Care of Every Driver</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Every rental, fully covered</h2>
+          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">No More WhatsApp Hunting</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]" style={{ textWrap: "balance" }}>Why drivers use Kharo</h2>
+          <p className="text-[#888] text-sm mt-2 max-w-lg mx-auto">
+            Stop messaging dozens of operators on WhatsApp and Facebook to find a car. Every vehicle is in one place.
+          </p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {[
-            { icon: ShieldCheck, title: "Fully comprehensive insurance", body: "Included in every weekly rate." },
-            { icon: Wrench, title: "Maintenance included", body: "Servicing handled by the operator." },
-            { icon: FileCheck, title: "TfL-licensed vehicles only", body: "Every listing is PCO compliant." },
-            { icon: Zap, title: "On the road fast", body: "Most drivers are matched within 48 hours." },
+            { icon: Layers, title: "More choice", body: "Compare vehicles from different operators in one place." },
+            { icon: Tag, title: "Clear pricing", body: "See the full weekly price before you get in touch." },
+            { icon: MapPin, title: "Search your area", body: "Find vehicles close to where you live or work." },
+            { icon: MessageCircleOff, title: "Less hassle", body: "No more chasing operators one by one to find a car." },
           ].map((f) => (
             <div key={f.title} className="flex flex-col items-center text-center">
               <f.icon size={30} className="text-[#0B6B4F] mb-4" strokeWidth={1.5} />
@@ -347,6 +350,29 @@ export default function Home() {
               <p className="text-[#888] text-xs leading-relaxed">{f.body}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* TRUST - honest, no claims we can't back yet */}
+      <section className="bg-[#0A0A0A] py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-xs uppercase tracking-widest text-[#5FD3A6] font-semibold mb-2">Built For The Private Hire Community</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-8" style={{ textWrap: "balance" }}>
+            What every listing on Kharo means
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 text-left max-w-2xl mx-auto">
+            {[
+              "Every operator is checked against Companies House and the licensing register",
+              "The weekly price shown is the whole price, insurance and maintenance included",
+              "You speak directly to the operator, no middleman marking up the rate",
+              "Your details go to the operator, and nowhere else",
+            ].map((t) => (
+              <div key={t} className="flex items-start gap-3">
+                <Check size={16} className="text-[#5FD3A6] mt-0.5 shrink-0" strokeWidth={2.5} />
+                <span className="text-white/75 text-[14px] leading-relaxed">{t}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -512,6 +538,34 @@ export default function Home() {
             Tell us where you are and we&rsquo;ll bring operators to your area next.
           </p>
           <CityInterestForm className="max-w-xl mx-auto" />
+        </div>
+      </section>
+
+      {/* FAQ - short, genuinely useful, driver-focused */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
+        <div className="text-center mb-8">
+          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Questions</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Frequently asked</h2>
+        </div>
+        <div className="divide-y divide-[#E8E8E8] rounded-2xl ring-1 ring-[#E8E8E8] bg-white">
+          {[
+            { q: "What is a PHV?", a: "A private hire vehicle: a car licensed to carry fare-paying passengers booked in advance, for services like Uber, Bolt and local minicab firms. It is different to a black cab." },
+            { q: "Do I need a licence to rent a car on Kharo?", a: "Yes. You need a valid private hire driver licence for the city you plan to drive in (a TfL licence for London, or the equivalent local council licence elsewhere)." },
+            { q: "Is insurance included in the price?", a: "Yes. The weekly price shown on every listing is all-in: insurance and maintenance are already included, not billed separately." },
+            { q: "Is a deposit required?", a: "Most operators ask for a deposit, shown on the vehicle's listing page. It's held by the operator and is separate from the weekly rent." },
+            { q: "What happens if the vehicle breaks down?", a: "Most listings include breakdown cover, shown on the vehicle page. If anything goes wrong, you contact the operator directly, since the rental agreement is between you and them." },
+            { q: "How do I contact the operator?", a: "Register your interest on a listing and the operator gets your details directly. There's no messaging system yet, most operators call or message within a few hours." },
+            { q: "How much does it cost to list a vehicle?", a: "Listing is free for operators. Kharo doesn't charge a monthly fee to appear on the marketplace." },
+            { q: "Who handles payments?", a: "Kharo doesn't process rental payments. Rent, deposit and any other terms are agreed and paid directly between the driver and the operator." },
+          ].map((item) => (
+            <details key={item.q} className="group p-5">
+              <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-heading font-semibold text-[#111]">
+                {item.q}
+                <ChevronDown className="w-5 h-5 text-[#0B6B4F] shrink-0 transition-transform duration-300 group-open:rotate-180" />
+              </summary>
+              <p className="text-[15px] text-[#555] mt-3 leading-relaxed">{item.a}</p>
+            </details>
+          ))}
         </div>
       </section>
 
