@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, Star, MapPin, Lock, Activity, Clock3 } from "lucide-react";
+import { Check, TrendingUp, Shield, Users, Zap, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { api, trackEvent } from "@/lib/api";
 import { useSeo } from "@/lib/seo";
@@ -245,33 +245,6 @@ export default function OperatorInterest() {
         </div>
       </section>
 
-      {/* TESTIMONIAL - matches the homepage testimonial card style */}
-      <section className="bg-[#F5F5F5] border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-lg mx-auto bg-white rounded-2xl border border-[#F0F0F0] p-6">
-          <div className="flex items-center gap-1 mb-3">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={13} className="text-amber-400" fill="currentColor" />
-            ))}
-          </div>
-          <p className="text-[#333] text-[15px] leading-relaxed mb-5">
-            &ldquo;We had 4 cars sitting idle for weeks. Kharo filled them within 10 days, and every driver was
-            properly vetted before I ever spoke to them. No surprises.&rdquo;
-          </p>
-          <div className="flex items-center gap-3">
-            <img
-              src="https://images.pexels.com/photos/4872060/pexels-photo-4872060.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200"
-              alt="Fleet operator"
-              className="w-10 h-10 rounded-full object-cover"
-              loading="lazy"
-            />
-            <div>
-              <p className="text-sm font-semibold text-[#111]">Fleet operator</p>
-              <p className="text-xs text-[#AAA]">6 vehicles &middot; East London</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* LEAD FORM - own centred section, single column */}
       <section id="form" className="py-16 px-4">
         <div className="max-w-lg mx-auto">
@@ -400,71 +373,6 @@ export default function OperatorInterest() {
                 ))}
               </ul>
             </form>
-          </div>
-        </div>
-      </section>
-
-      {/* RISK MANAGEMENT SECTION */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center mb-10">
-          <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Built-in risk management</p>
-          <h2 className="font-heading font-bold text-[#111] text-[26px] sm:text-[30px]">
-            Kharo protects your rental income, automatically
-          </h2>
-        </div>
-
-        {/* Enforcement flow widget */}
-        <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6 sm:p-8 mb-5">
-          <h3 className="font-heading font-bold text-[#111] text-[17px] mb-1">
-            What happens when a driver misses a payment
-          </h3>
-          <p className="text-[13px] text-[#888] mb-8">
-            No chasing, no awkward calls. The moment rent is overdue, this runs on its own.
-          </p>
-
-          <div className="relative">
-            <div className="hidden sm:block absolute top-[22px] left-[11%] right-[11%] h-0.5 bg-[#E8E8E8]" />
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4">
-              {[
-                { icon: Clock3, label: "Rent goes overdue", detail: "Kharo's system flags the missed payment same-day." },
-                { icon: Lock, label: "Uber & Bolt notified", detail: "The driver's account is flagged directly with our platform partners." },
-                { icon: Users, label: "Driver paused", detail: "They can't accept new trips until the balance is cleared." },
-                { icon: Check, label: "Cleared, reinstated", detail: "Pay up and the account is live again within minutes.", done: true },
-              ].map(({ icon: Icon, label, detail, done }, i) => (
-                <div key={label} className="relative flex flex-col items-center text-center px-1">
-                  <div className={`w-11 h-11 rounded-full border-2 flex items-center justify-center z-10 bg-white ${done ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-[#0B6B4F]"}`}>
-                    <Icon className={`w-5 h-5 ${done ? "text-white" : "text-[#0B6B4F]"}`} strokeWidth={2} />
-                  </div>
-                  <span className="text-[11px] font-bold text-[#999] mt-2">STEP {i + 1}</span>
-                  <h4 className="text-[13.5px] font-heading font-bold text-[#111] mt-0.5">{label}</h4>
-                  <p className="text-[12px] text-[#888] mt-1 leading-snug max-w-[150px]">{detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <p className="text-[12px] text-[#AAA] mt-8 pt-5 border-t border-[#F0F0F0]">
-            Applies to Uber, Bolt and any other trip platform we partner with. This is a platform-level integration, not a manual process your team has to run.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
-            <MapPin className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-            <h3 className="font-heading font-bold text-[#111] text-base mb-2">
-              Every car is GPS tracked
-            </h3>
-            <p className="text-[13px] text-[#666] leading-relaxed">
-              A certified GPS tracker meeting our minimum specification for real-time location is a condition of listing on Kharo, installed before handover. Kharo can recommend approved providers and help arrange fitting through our partner garages.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
-            <Activity className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-            <h3 className="font-heading font-bold text-[#111] text-base mb-2">
-              Live fleet dashboard
-            </h3>
-            <p className="text-[13px] text-[#666] leading-relaxed">
-              Track every vehicle in real time from the Kharo Operator Dashboard: location, driver status, mileage and payment status in one place, with alerts for unusual movement or a missed payment, day or night.
-            </p>
           </div>
         </div>
       </section>

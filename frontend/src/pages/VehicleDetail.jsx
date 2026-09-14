@@ -75,8 +75,9 @@ export default function VehicleDetail() {
   const monthly = (Number(total) * 4.33).toFixed(0);
   const isSaved = saved.includes(v.id);
   const [lat, lon] = COORDS[v.borough] || [51.509, -0.118];
-  const bbox = `${lon - 0.06}%2C${lat - 0.03}%2C${lon + 0.06}%2C${lat + 0.03}`;
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
+  // no marker param: this is an approximate-area map, a precise pin would overclaim location accuracy
+  const bbox = `${lon - 0.07}%2C${lat - 0.035}%2C${lon + 0.07}%2C${lat + 0.035}`;
+  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
 
   const isElectric = (v.fuel || "").toLowerCase() === "electric";
 
@@ -333,14 +334,19 @@ export default function VehicleDetail() {
 
             {/* Location map */}
             <DetailSection title="Collection area">
-              <div className="rounded-2xl overflow-hidden border border-[#E8E8E8]">
+              <div className="relative rounded-2xl overflow-hidden border border-[#E8E8E8]">
                 <iframe
                   title="Collection area map"
                   src={mapUrl}
-                  className="w-full h-64 border-0"
+                  className="w-full h-64 border-0 pointer-events-none"
+                  style={{ filter: "grayscale(0.9) contrast(1.05) brightness(1.03)" }}
                   loading="lazy"
                   data-testid="location-map"
                 />
+                {/* soft area indicator, not a precise pin: this is an approximate area, not an exact address */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="w-24 h-24 rounded-full bg-[#0B6B4F]/10 ring-1 ring-[#0B6B4F]/30" />
+                </div>
               </div>
               <p className="text-[13px] text-[#888] mt-3 flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#0B6B4F] shrink-0" />

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star, Heart, ArrowUpRight, MapPin, Fuel, Cog } from "lucide-react";
+import { Star, Heart, ArrowUpRight, MapPin, Fuel, Cog, Gauge } from "lucide-react";
 
 export default function VehicleCard({ vehicle }) {
   const navigate = useNavigate();
@@ -8,7 +8,13 @@ export default function VehicleCard({ vehicle }) {
   const {
     id, make, model, year, fuel, weekly_rent, borough,
     photos, rating, review_count, transmission,
+    mileage_allowance, breakdown_included, features,
   } = vehicle;
+
+  const pcoLicensed = features?.includes("PCO Licensed");
+  const includesLine = breakdown_included
+    ? "Includes insurance, maintenance & breakdown cover"
+    : "Includes insurance & maintenance";
 
   const photo = Array.isArray(photos) ? photos[0] : photos;
 
@@ -62,9 +68,14 @@ export default function VehicleCard({ vehicle }) {
           <span className="inline-flex items-center gap-1"><MapPin size={12} className="text-[#AAA]" /> {borough}</span>
           <span className="inline-flex items-center gap-1"><Fuel size={12} className="text-[#AAA]" /> {fuel}</span>
           <span className="inline-flex items-center gap-1"><Cog size={12} className="text-[#AAA]" /> {transmission}</span>
+          {mileage_allowance && (
+            <span className="inline-flex items-center gap-1"><Gauge size={12} className="text-[#AAA]" /> {mileage_allowance.toLocaleString()} mi/mo</span>
+          )}
         </div>
 
-        <p className="text-[#AAA] text-[11.5px] mt-1.5">Includes insurance &amp; maintenance</p>
+        <p className="text-[#AAA] text-[11.5px] mt-1.5">
+          {pcoLicensed ? "PCO licensed. " : ""}{includesLine}
+        </p>
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-1">

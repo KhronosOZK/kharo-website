@@ -95,7 +95,7 @@ export default function Home() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.55) 55%, rgba(10,10,10,0.92) 100%), url('https://images.pexels.com/photos/17152058/pexels-photo-17152058.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
+            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 55%, rgba(10,10,10,0.95) 100%), url('https://images.pexels.com/photos/17152058/pexels-photo-17152058.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
             backgroundSize: "cover",
             backgroundPosition: "center 30%",
             filter: "grayscale(0.35) contrast(1.05)",
@@ -104,7 +104,7 @@ export default function Home() {
 
         {/* Floating stat card - layered editorial touch, same solid-card language as the pricing widget below */}
         <div
-          className="hidden lg:block absolute left-8 top-28 z-10 bg-white rounded-2xl px-5 py-4 shadow-[0_24px_48px_-16px_rgba(0,0,0,0.5)]"
+          className="hidden xl:block absolute left-8 top-28 z-10 bg-white rounded-2xl px-5 py-4 shadow-[0_24px_48px_-16px_rgba(0,0,0,0.5)]"
           style={{ transform: "rotate(-3deg)" }}
         >
           <div className="flex items-center gap-1.5 mb-1.5">
