@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   ArrowLeft, CalendarCheck, ShieldCheck, Gauge, Users, FileCheck, Fuel, Cog,
   MapPin, Check, Building2, User, AlertCircle, Heart, Share2, ChevronLeft,
-  ChevronRight, TrendingDown, ChevronRight as Chev,
+  ChevronRight, TrendingDown, ChevronRight as Chev, Car,
 } from "lucide-react";
 import { toast } from "sonner";
 import { api, trackEvent } from "@/lib/api";
@@ -11,7 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 import { MARKETPLACE } from "@/content/site";
 import { useSeo, vehicleJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import {
-  formatPrice, formatMileage, formatDate, licenceTone, TONE_CLASSES, typeLabel, monthsLeft,
+  formatPrice, formatMileage, formatDate, licenceTone, typeLabel, monthsLeft,
 } from "@/lib/phv";
 import MarketplaceInterestForm from "@/components/MarketplaceInterestForm";
 import OwnershipCalculator from "@/components/OwnershipCalculator";
@@ -105,6 +105,7 @@ export default function MarketplaceDetail() {
   ];
 
   const details = [
+    { icon: Car, l: "Body type", v: typeLabel(v.vehicle_type) },
     { icon: Gauge, l: "Mileage", v: formatMileage(v.mileage) },
     { icon: Fuel, l: "Fuel", v: String(v.fuel).charAt(0).toUpperCase() + String(v.fuel).slice(1) },
     { icon: Cog, l: "Transmission", v: v.transmission },
@@ -180,18 +181,16 @@ export default function MarketplaceDetail() {
           </div>
 
           <div className="mt-8">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12.5px] font-semibold ${TONE_CLASSES[badge.tone]}`} data-testid="md-pco-badge">
-                <CalendarCheck className="w-3.5 h-3.5" /> {badge.text}
-              </span>
-              <span className="rounded-full bg-[#EBEBEB] text-[#666] px-3 py-1 text-[12.5px] font-medium">{typeLabel(v.vehicle_type)}</span>
-              <span className="rounded-full bg-[#EBEBEB] text-[#666] px-3 py-1 text-[12.5px] font-medium capitalize">{v.fuel}</span>
-              {v.status === "under_offer" && (
-                <span className="rounded-full bg-[#111] text-white px-3 py-1 text-[12.5px] font-semibold">Under offer</span>
-              )}
-            </div>
-            <h1 className="text-3xl sm:text-[42px] font-heading font-extrabold text-[#111] mt-3 leading-tight" data-testid="md-title">{title}</h1>
+            {v.status === "under_offer" && (
+              <p className="text-[13px] font-semibold text-[#111] mb-2" data-testid="md-under-offer">
+                Under offer &mdash; another buyer's offer is being considered
+              </p>
+            )}
+            <h1 className="text-3xl sm:text-[42px] font-heading font-extrabold text-[#111] leading-tight" data-testid="md-title">{title}</h1>
             <p className="text-[#666] mt-1.5 text-[15px]">{v.colour} · {v.plate} · {v.seller_area}</p>
+            <p className="text-[13.5px] text-[#0B6B4F] font-medium mt-2" data-testid="md-pco-status">
+              {badge.text}
+            </p>
           </div>
 
           {/* LICENSING */}
@@ -254,9 +253,7 @@ export default function MarketplaceDetail() {
             <ul className="mt-4 space-y-3" data-testid="md-checklist">
               {MARKETPLACE.detail.checklist.map((c) => (
                 <li key={c} className="flex gap-3">
-                  <span className="w-5 h-5 rounded-full bg-[#0B6B4F] text-white flex items-center justify-center shrink-0 mt-0.5">
-                    <Check className="w-3 h-3" strokeWidth={3} />
-                  </span>
+                  <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-1" strokeWidth={2.5} />
                   <span className="text-[15px] text-[#111] leading-relaxed">{c}</span>
                 </li>
               ))}
