@@ -12,8 +12,8 @@ export default function RequestCar() {
   return (
     <main className="relative min-h-[calc(100vh-68px)] bg-[#0A0A0A] overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <img src={IMG.taxiDriver} alt="" className="w-full h-full object-cover opacity-[0.14]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#0A0A0A]/94 to-[#0A0A0A]/85" />
+        <img src={IMG.phoneInCar} alt="" className="w-full h-full object-cover" style={{ filter: "grayscale(0.5)" }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/90 via-[#0A0A0A]/88 to-[#0A0A0A]/75" />
         <div className="absolute inset-0 grain opacity-40" />
       </div>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-10 lg:py-16 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[calc(100vh-68px)]">

@@ -12,7 +12,7 @@ import { api } from "@/lib/api";
  * empty state). Otherwise the visitor types the city or area themselves
  * (used on the homepage, for anyone outside our current four cities).
  */
-export default function CityInterestForm({ city: fixedCity, className = "" }) {
+export default function CityInterestForm({ city: fixedCity, className = "", compact = false }) {
   const [city, setCity] = useState(fixedCity || "");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -54,7 +54,7 @@ export default function CityInterestForm({ city: fixedCity, className = "" }) {
   }
 
   return (
-    <form onSubmit={submit} className={`flex flex-col sm:flex-row gap-2.5 ${className}`}>
+    <form onSubmit={submit} className={`flex flex-col ${compact ? "" : "sm:flex-row"} gap-2.5 ${className}`}>
       {!fixedCity && (
         <input
           value={city}
