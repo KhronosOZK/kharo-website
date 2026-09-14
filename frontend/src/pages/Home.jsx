@@ -28,7 +28,7 @@ function FilterSelect({ options, value, onChange }) {
   );
 }
 
-// Fleet showcase — asymmetric masonry, photography-led, no chrome
+// Fleet showcase - asymmetric masonry, photography-led, no chrome
 function FleetTile({ src, label, className }) {
   return (
     <div className={`relative rounded-2xl overflow-hidden group ${className}`}>
@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* HERO — cinematic, tight cropped car, grayscale-treated for a studio feel */}
+      {/* HERO - cinematic, tight cropped car, grayscale-treated for a studio feel */}
       <section
         className="relative min-h-[82vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden"
         style={{ backgroundColor: INK }}
@@ -93,10 +93,10 @@ export default function Home() {
             Drive London.<br />On Your Terms.
           </h1>
           <p className="text-white/55 text-base sm:text-lg max-w-xl mb-10">
-            Weekly PCO rentals direct from licensed operators — insurance and maintenance included.
+            Weekly PCO rentals direct from licensed operators, insurance and maintenance included.
           </p>
 
-          {/* SEARCH PANEL — pill fields, single accent CTA */}
+          {/* SEARCH PANEL - pill fields, single accent CTA */}
           <div className="w-full max-w-3xl bg-white rounded-[28px] p-4 sm:p-5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <FilterSelect
@@ -159,7 +159,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* BRAND STRIP — the makes actually on the platform */}
+      {/* BRAND STRIP - the makes actually on the platform */}
       <section className="border-b border-gray-100 py-7">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
           {BRANDS.map((b) => (
@@ -170,7 +170,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FLEET SHOWCASE — asymmetric masonry, editorial, photography-led */}
+      {/* FLEET SHOWCASE - asymmetric masonry, editorial, photography-led */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="flex items-end justify-between mb-6">
           <div>
@@ -220,7 +220,7 @@ export default function Home() {
         </button>
       </section>
 
-      {/* FEATURED LISTINGS — real cards, explicit interest-capture CTA on each */}
+      {/* FEATURED LISTINGS - real cards, explicit interest-capture CTA on each */}
       <section className="bg-gray-50 border-t border-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-8">
@@ -243,7 +243,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* KEY FEATURES — circular monochrome icon badges, no colour */}
+      {/* KEY FEATURES - circular monochrome icon badges, no colour */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
           <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">Taking Care of Every Driver</p>
@@ -267,7 +267,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING TRANSPARENCY — bespoke floating widget, reinforces the all-in weekly rate */}
+      {/* PRICING TRANSPARENCY - bespoke floating widget, reinforces the all-in weekly rate */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           <div className="order-2 lg:order-1">
@@ -357,7 +357,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* OPERATOR CTA — contained black block, dot-grid texture, pill button */}
+      {/* OPERATOR CTA - contained black block, dot-grid texture, pill button */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div
           className="relative rounded-[32px] px-8 py-16 sm:py-20 text-center overflow-hidden"

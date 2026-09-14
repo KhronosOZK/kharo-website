@@ -17,7 +17,7 @@ export default function VehicleCard({ vehicle }) {
       onClick={() => navigate(`/vehicle/${id}`)}
       className="group cursor-pointer"
     >
-      {/* Image — tight, cinematic, neutral studio ground */}
+      {/* Image - tight, cinematic, neutral studio ground */}
       <div className="relative bg-[#EDEDED] aspect-[4/3] overflow-hidden rounded-2xl">
         <img
           src={photo}
@@ -33,17 +33,17 @@ export default function VehicleCard({ vehicle }) {
           <Heart size={15} className={saved ? "fill-[#111] text-[#111]" : "text-gray-500"} />
         </button>
 
-        {/* Check Availability — explicit interest-capture action, appears on hover (desktop) / always (touch) */}
+        {/* Register Interest - lightweight lead-capture action, appears on hover (desktop) / always (touch) */}
         <button
           onClick={(e) => { e.stopPropagation(); navigate(`/apply/${id}`); }}
           className="absolute bottom-3 left-3 right-3 sm:opacity-0 sm:translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 bg-white text-[#0A0A0A] text-[13px] font-semibold py-2.5 rounded-full flex items-center justify-center gap-1.5"
         >
-          Check Availability
+          Register Interest
           <ArrowUpRight size={14} />
         </button>
       </div>
 
-      {/* Text — no colour chrome, typography carries it */}
+      {/* Text - no colour chrome, typography carries it */}
       <div className="pt-3">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">

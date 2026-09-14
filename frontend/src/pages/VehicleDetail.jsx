@@ -372,7 +372,7 @@ export default function VehicleDetail() {
             </DetailSection>
           </div>
 
-          {/* RIGHT COLUMN — sticky cost panel (desktop) */}
+          {/* RIGHT COLUMN - sticky cost panel (desktop) */}
           <div className="hidden lg:block">
             <div className="sticky top-24">
               <CostPanel
@@ -406,7 +406,7 @@ export default function VehicleDetail() {
             data-testid="apply-mobile-btn"
             className="flex-1 h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[15px] transition-colors"
           >
-            Check availability
+            Register Interest
           </button>
         </div>
       </div>
@@ -456,7 +456,7 @@ function CostPanel({ v, insurance, breakdownCost, rentWeekly, weeks, total, mont
         data-testid="apply-to-rent-btn"
         className="w-full mt-5 h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[15px] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B6B4F] focus-visible:ring-offset-2"
       >
-        Check availability
+        Register Interest
       </button>
       <PreviewNotice variant="inline" className="mt-3" />
 
@@ -467,10 +467,10 @@ function CostPanel({ v, insurance, breakdownCost, rentWeekly, weeks, total, mont
         </p>
         <ol className="space-y-2.5">
           {[
-            "You submit your contact details and PCO licence number",
-            "We share them with the operator",
-            "The fleet manager calls to confirm availability",
-            "You agree terms and arrange key collection",
+            "You register your interest with your name and contact details",
+            "We add you to the priority list for this vehicle and borough",
+            "We email you the moment Kharo goes live near you",
+            "No commitment, no charge, until you decide to go ahead",
           ].map((step, i) => (
             <li key={step} className="flex items-start gap-2.5 text-[12.5px] text-[#666]">
               <span className="w-5 h-5 rounded-full bg-[#EAF5F1] text-[#0B6B4F] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">

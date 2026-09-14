@@ -120,7 +120,7 @@ export default function OperatorInterest() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      {/* Hero — Obsidian surface, Hyper Blue B2B accent (per DESIGN.md) */}
+      {/* Hero - Obsidian surface, Hyper Blue B2B accent (per DESIGN.md) */}
       <section className="relative text-white py-20 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
         <div className="relative max-w-6xl mx-auto">
           <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4" style={{ color: "#0B6B4F" }}>

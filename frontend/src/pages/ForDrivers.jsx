@@ -78,7 +78,7 @@ export default function ForDrivers() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      {/* Hero — white/light grey */}
+      {/* Hero - white/light grey */}
       <section className="bg-white border-b border-[#EBEBEB] pt-12 pb-0 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-0">
@@ -133,7 +133,7 @@ export default function ForDrivers() {
               </div>
             </div>
 
-            {/* Right — stat card */}
+            {/* Right - stat card */}
             <div className="w-full lg:w-[400px] lg:ml-16 shrink-0">
               <div className="relative bg-[#F5F5F5] rounded-3xl p-8 text-center mx-auto max-w-sm lg:max-w-none">
                 <p className="text-[13px] text-[#888] mb-3 uppercase tracking-wide font-semibold">
