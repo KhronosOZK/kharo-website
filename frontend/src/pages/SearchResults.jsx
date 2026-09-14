@@ -243,9 +243,11 @@ export default function SearchResults() {
             <Sidebar />
           </div>
 
-          {/* Mobile sidebar overlay */}
+          {/* Mobile sidebar overlay - z-[60] so it sits above the floating
+              map/list toggle button (z-50), which otherwise stayed visible
+              and overlapped the drawer's content since they share a layer */}
           {showSidebar && (
-            <div className="fixed inset-0 z-50 lg:hidden">
+            <div className="fixed inset-0 z-[60] lg:hidden">
               <div className="absolute inset-0 bg-black/40" onClick={() => setShowSidebar(false)} />
               <div className="absolute right-0 top-0 h-full w-72 bg-white overflow-y-auto p-5">
                 <div className="flex items-center justify-between mb-4">
