@@ -172,12 +172,12 @@ export default function VehicleDetail() {
           <span className="absolute bottom-3 right-3 text-[12px] font-medium text-white bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1">
             {photo + 1} / {v.photos?.length ?? 1}
           </span>
-          {isElectric && (
-            <span className="absolute top-3 left-3 inline-flex items-center gap-1 text-[12px] font-semibold text-[#0B6B4F] bg-white rounded-full px-3 py-1.5 shadow-sm">
-              <Zap className="w-3.5 h-3.5" /> Electric · ULEZ exempt
-            </span>
-          )}
         </div>
+        {isElectric && (
+          <p className="flex items-center gap-1.5 text-[13px] font-medium text-[#0B6B4F] mt-2.5">
+            <Zap className="w-3.5 h-3.5" /> Electric &middot; ULEZ exempt
+          </p>
+        )}
 
         {/* Thumbnail strip */}
         {v.photos?.length > 1 && (

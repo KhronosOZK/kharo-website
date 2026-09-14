@@ -48,7 +48,7 @@ export const NAV = {
     { to: "/list-your-fleet", title: "Rental operators", sub: "Register your fleet for launch" },
   ],
   mobileCtas: [
-    { to: "/register", label: "Drivers, register your interest" },
+    { to: "/register", label: "Join the waitlist" },
     { to: "/list-your-fleet", label: "Operators, list your fleet" },
   ],
   newsletter: {

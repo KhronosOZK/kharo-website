@@ -3,8 +3,15 @@ import { Gauge, CalendarCheck, User, Building2, Heart } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { trackEvent } from "@/lib/api";
 import {
-  formatPrice, formatMileage, formatDate, licenceTone, TONE_CLASSES, typeLabel, monthsLeft,
+  formatPrice, formatMileage, formatDate, licenceTone, typeLabel, monthsLeft,
 } from "@/lib/phv";
+
+const TONE_TEXT = {
+  good: "#0B6B4F",
+  fair: "#0B6B4F",
+  short: "#C08A2D",
+  neutral: "#888",
+};
 
 export default function SaleCard({ v }) {
   const navigate = useNavigate();
@@ -27,12 +34,6 @@ export default function SaleCard({ v }) {
       <div className="relative aspect-[16/11] overflow-hidden bg-[#EBEBEB]">
         <img src={v.photos[0]} alt={`${v.make} ${v.model}`} loading="lazy"
           className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700" />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent" />
-
-        <span data-testid={`sale-pco-${v.id}`}
-          className={`absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold ${TONE_CLASSES[badge.tone]}`}>
-          <CalendarCheck className="w-3.5 h-3.5" /> {badge.text}
-        </span>
 
         <button data-testid={`sale-save-${v.id}`} aria-pressed={isSaved}
           aria-label={isSaved ? "Remove from saved" : "Save this vehicle"}
@@ -40,16 +41,6 @@ export default function SaleCard({ v }) {
           className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/85 backdrop-blur flex items-center justify-center hover:bg-white transition-colors">
           <Heart className={`w-[18px] h-[18px] ${isSaved ? "fill-[#111] text-[#111]" : "text-[#333]"}`} />
         </button>
-
-        {v.status === "under_offer" && (
-          <span className="absolute bottom-3 right-3 rounded-full bg-[#111] text-white px-2.5 py-1 text-[12px] font-semibold">
-            Under offer
-          </span>
-        )}
-
-        <span className="absolute bottom-3 left-3 inline-flex items-center text-[12.5px] font-medium text-white bg-black/45 backdrop-blur-sm rounded-full px-2.5 py-1">
-          {v.borough}
-        </span>
       </div>
 
       <div className="p-5">
@@ -68,13 +59,18 @@ export default function SaleCard({ v }) {
           </div>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-[#F5F5F5] grid grid-cols-2 gap-y-2 text-[13px] text-[#333]">
+        <p className="mt-1.5 flex items-center gap-1.5 text-[13px]" style={{ color: TONE_TEXT[badge.tone] }}>
+          <CalendarCheck className="w-3.5 h-3.5" /> {badge.text}
+          {v.status === "under_offer" && <span className="text-[#111] font-semibold">&middot; Under offer</span>}
+        </p>
+
+        <div className="mt-3 pt-4 border-t border-[#F5F5F5] grid grid-cols-2 gap-y-2 text-[13px] text-[#333]">
           <span className="inline-flex items-center gap-1.5"><Gauge className="w-4 h-4 text-[#888]" /> {formatMileage(v.mileage)}</span>
           <span className="inline-flex items-center gap-1.5 justify-end"><SellerIcon className="w-4 h-4 text-[#888]" /> {v.seller_label}</span>
         </div>
 
         <p className="mt-2 text-[12.5px] text-[#888]">
-          MOT to {formatDate(v.mot_expiry)} · ULEZ {String(v.ulez).toLowerCase()}
+          {v.borough} &middot; MOT to {formatDate(v.mot_expiry)} &middot; ULEZ {String(v.ulez).toLowerCase()}
         </p>
       </div>
     </div>

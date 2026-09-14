@@ -102,6 +102,19 @@ export default function Home() {
           }}
         />
 
+        {/* Floating stat card - layered editorial touch, same solid-card language as the pricing widget below */}
+        <div
+          className="hidden lg:block absolute left-8 top-28 z-10 bg-white rounded-2xl px-5 py-4 shadow-[0_24px_48px_-16px_rgba(0,0,0,0.5)]"
+          style={{ transform: "rotate(-3deg)" }}
+        >
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
+            <span className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: "#0B6B4F" }}>Live now</span>
+          </div>
+          <p className="font-heading text-2xl font-bold text-[#111] leading-none">120 vehicles</p>
+          <p className="text-[#888] text-xs mt-1">across London, Manchester, Birmingham &amp; Leeds</p>
+        </div>
+
         <div className="relative z-10 flex flex-col items-center w-full">
           <p className="text-white/50 text-xs font-semibold uppercase tracking-[0.16em] mb-6">
             Direct Operator PCO Rentals

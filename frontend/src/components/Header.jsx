@@ -38,12 +38,20 @@ export default function Header() {
             <Heart className="w-[18px] h-[18px]" /> {savedTotal > 0 && savedTotal}
           </button>
 
+          <Link
+            to="/register"
+            data-testid="join-waitlist-link"
+            className="hidden md:inline-flex items-center gap-1.5 bg-[#0B6B4F] hover:bg-[#095B43] text-white text-[13.5px] font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap"
+          >
+            Join Waitlist
+          </Link>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button data-testid="account-menu-btn"
-                className="hidden md:inline-flex items-center gap-2.5 rounded-full border border-[#CCC] bg-white pl-3.5 pr-2 py-1.5 hover:shadow-md transition-shadow">
+                className="hidden md:inline-flex items-center gap-2 rounded-full border border-[#CCC] bg-white pl-3.5 pr-3.5 py-2 hover:shadow-md transition-shadow">
                 <Menu className="w-4 h-4 text-[#666]" />
-                <span className="w-7 h-7 rounded-full bg-[#0B6B4F] text-white flex items-center justify-center text-xs font-semibold"><User className="w-4 h-4" /></span>
+                <User className="w-4 h-4 text-[#0B6B4F]" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72 bg-white shadow-xl border-[#E8E8E8] p-1.5">
