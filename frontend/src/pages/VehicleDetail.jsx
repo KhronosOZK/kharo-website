@@ -193,6 +193,11 @@ export default function VehicleDetail() {
           </div>
         )}
 
+        {/* Preview notice - shown once in the normal page flow on mobile, instead
+            of living permanently inside the fixed bottom CTA bar where it used to
+            eat a third of the viewport on every scroll position */}
+        <PreviewNotice variant="inline" className="lg:hidden mt-4" />
+
         {/* Content grid */}
         <div className="grid lg:grid-cols-[1fr_340px] gap-8 mt-8 items-start">
           {/* LEFT COLUMN */}
@@ -376,9 +381,9 @@ export default function VehicleDetail() {
         </div>
       </div>
 
-      {/* Mobile sticky CTA bar */}
+      {/* Mobile sticky CTA bar - kept to just price + action so it stays a fixed
+          compact height instead of growing with the preview notice's text */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E8E8E8] p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-        <PreviewNotice />
         <div className="flex items-center justify-between gap-3">
           <div>
             <div className="text-[11px] text-[#888]">All-in from</div>
