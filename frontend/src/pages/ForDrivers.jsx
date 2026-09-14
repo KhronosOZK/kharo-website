@@ -12,6 +12,14 @@ const FADE_UP = {
   transition: { duration: 0.5 },
 };
 
+// hero content is already in view on load: animate on mount, not on scroll-into-view,
+// since whileInView's IntersectionObserver can miss content that's visible at paint time
+const FADE_UP_HERO = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
 const BENEFITS = [
   {
     icon: Wallet,
@@ -88,13 +96,13 @@ export default function ForDrivers() {
                 For PCO Drivers
               </p>
               <motion.h1
-                {...FADE_UP}
+                {...FADE_UP_HERO}
                 className="text-[40px] sm:text-5xl lg:text-[54px] font-heading font-extrabold text-[#111] leading-[1.04] tracking-tight"
               >
                 Your next PCO car.<br />Sorted.
               </motion.h1>
               <motion.p
-                {...FADE_UP}
+                {...FADE_UP_HERO}
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-[#666] text-[17px] mt-5 max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
@@ -102,7 +110,7 @@ export default function ForDrivers() {
                 Register interest in 60 seconds. No documents yet.
               </motion.p>
               <motion.div
-                {...FADE_UP}
+                {...FADE_UP_HERO}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start"
               >

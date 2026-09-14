@@ -1,16 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, ClipboardList, Phone, Car, Check, ChevronDown,
   ShieldCheck, BadgeCheck, Wallet, Clock, ChevronRight,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
+import { IMG } from "@/lib/images";
 
 const FADE_UP = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
+  transition: { duration: 0.5 },
+};
+
+// hero content is already in view on load: animate on mount, not on scroll-into-view,
+// since whileInView's IntersectionObserver can miss content that's visible at paint time
+const FADE_UP_HERO = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
   transition: { duration: 0.5 },
 };
 
@@ -21,6 +30,7 @@ const STEPS = [
     title: "Browse and find your car",
     body: "Use filters to narrow by budget, fuel type, car make and borough. Every car on Kharo is TfL-eligible. You'll see a single all-in weekly price covering rent, insurance and breakdown, with no hidden add-ons.",
     detail: "Takes about 5 minutes. No account needed to browse.",
+    photo: IMG.phoneInCar,
   },
   {
     num: "02",
@@ -28,6 +38,7 @@ const STEPS = [
     title: "Register your interest",
     body: "Found a car you like? Hit 'Register interest'. Fill in a short form: your name, contact details and when you want to start. No licence numbers, no documents, no payment at this stage.",
     detail: "Takes 60 seconds. You'll receive an email confirmation.",
+    photo: IMG.signingLaptop,
   },
   {
     num: "03",
@@ -35,6 +46,7 @@ const STEPS = [
     title: "The operator calls you",
     body: "A fleet manager from the operator reviews your interest and gets in touch, usually within 1 working day. They'll confirm the car is available, explain the deposit, and answer any questions.",
     detail: "Kharo isn't in this call. You deal directly with the operator.",
+    photo: IMG.handshakeDesk,
   },
   {
     num: "04",
@@ -42,6 +54,7 @@ const STEPS = [
     title: "Vetting in 48 hours",
     body: "Once you and the operator agree to move forward, Kharo's 4-layer check runs: DVLA eligibility, liveness identity, Open Banking affordability (no credit impact), and PHV trade record. Most checks complete in 48 hours.",
     detail: "All done on your phone. No in-person appointments.",
+    photo: IMG.signingCouple,
   },
   {
     num: "05",
@@ -49,6 +62,7 @@ const STEPS = [
     title: "Collect your car",
     body: "Approved? Agree the rental terms, hand over the deposit, and pick up your car. Active PCO licence holders typically collect within 3 working days of first applying.",
     detail: "Start earning on Uber, Bolt or your platform of choice.",
+    photo: IMG.keysHandover,
   },
 ];
 
@@ -121,6 +135,7 @@ function Faq({ q, a }) {
 
 export default function DriverGuide() {
   const navigate = useNavigate();
+  const [activeStep, setActiveStep] = useState(0);
 
   useSeo({
     title: "Driver Guide · How to Rent a PCO Car on Kharo",
@@ -143,20 +158,20 @@ export default function DriverGuide() {
         />
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.p
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]"
           >
             Driver Guide
           </motion.p>
           <motion.h1
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.05 }}
             className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] tracking-tight text-balance"
           >
             How renting works: from browse to keys.
           </motion.h1>
           <motion.p
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-white/60 text-[17px] mt-5 max-w-xl mx-auto leading-relaxed"
           >
@@ -164,7 +179,7 @@ export default function DriverGuide() {
             No payment until you've met the operator and agreed terms.
           </motion.p>
           <motion.div
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.15 }}
             className="mt-8 flex flex-wrap gap-3 justify-center"
           >
@@ -185,52 +200,86 @@ export default function DriverGuide() {
         </div>
       </section>
 
-      {/* Step-by-step */}
+      {/* Step-by-step - interactive: click a step to see it, photo changes with it */}
       <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <motion.h2
             {...FADE_UP}
             className="text-[28px] font-heading font-extrabold text-[#111] mb-10 text-center"
           >
             Step by step
           </motion.h2>
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-[20px] top-0 bottom-0 w-px bg-[#E8E8E8] hidden sm:block" />
 
-            <div className="space-y-8">
-              {STEPS.map(({ num, icon: Icon, title, body, detail }, i) => (
-                <motion.div
-                  key={num}
-                  {...FADE_UP}
-                  transition={{ duration: 0.4, delay: i * 0.07 }}
-                  className="relative sm:pl-14"
-                >
-                  {/* Step circle */}
-                  <div className="hidden sm:flex absolute left-0 top-0 w-10 h-10 rounded-full bg-white border-2 border-[#0B6B4F] items-center justify-center">
-                    <Icon className="w-4 h-4 text-[#0B6B4F]" />
-                  </div>
-
-                  <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
+          <motion.div {...FADE_UP} className="grid lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-10 items-start">
+            {/* Step list - click to select */}
+            <div className="order-2 lg:order-1 flex flex-col gap-2">
+              {STEPS.map(({ num, icon: Icon, title, detail }, i) => {
+                const active = i === activeStep;
+                return (
+                  <button
+                    key={num}
+                    onClick={() => setActiveStep(i)}
+                    className={`text-left rounded-2xl p-5 border transition-colors ${
+                      active ? "bg-white border-[#0B6B4F]" : "bg-transparent border-transparent hover:bg-white/60"
+                    }`}
+                  >
                     <div className="flex items-start gap-4">
-                      <Icon className="sm:hidden w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-[11px] font-bold text-[#0B6B4F] tracking-widest">{num}</span>
-                          <h3 className="font-heading font-bold text-[17px] text-[#111]">{title}</h3>
+                      <div
+                        className={`shrink-0 w-9 h-9 rounded-full border-2 flex items-center justify-center transition-colors ${
+                          active ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-[#CCC]"
+                        }`}
+                      >
+                        <Icon className={`w-4 h-4 ${active ? "text-white" : "text-[#999]"}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2.5">
+                          <span className={`text-[11px] font-bold tracking-widest ${active ? "text-[#0B6B4F]" : "text-[#AAA]"}`}>{num}</span>
+                          <h3 className={`font-heading font-bold text-[16px] ${active ? "text-[#111]" : "text-[#777]"}`}>{title}</h3>
                         </div>
-                        <p className="text-[14px] text-[#555] leading-relaxed mb-3">{body}</p>
-                        <div className="inline-flex items-center gap-1.5 text-[12px] text-[#888] bg-[#F8F8F8] rounded-full px-3 py-1">
-                          <Clock className="w-3 h-3" />
-                          {detail}
-                        </div>
+                        {active && (
+                          <motion.p
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            transition={{ duration: 0.25 }}
+                            className="text-[14px] text-[#555] leading-relaxed mt-2 overflow-hidden"
+                          >
+                            {STEPS[i].body}
+                          </motion.p>
+                        )}
+                        {active && (
+                          <div className="inline-flex items-center gap-1.5 text-[12px] text-[#888] bg-[#F8F8F8] rounded-full px-3 py-1 mt-3">
+                            <Clock className="w-3 h-3" />
+                            {detail}
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </button>
+                );
+              })}
             </div>
-          </div>
+
+            {/* Photo panel - crossfades with the selected step */}
+            <div className="order-1 lg:order-2 relative aspect-[4/3] rounded-[28px] overflow-hidden bg-[#EDEDED]">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeStep}
+                  src={STEPS[activeStep].photo}
+                  alt={STEPS[activeStep].title}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0" />
+              <div className="absolute bottom-5 left-5 right-5 flex items-center gap-2">
+                <span className="text-white/70 text-[11px] font-bold tracking-widest">{STEPS[activeStep].num}</span>
+                <span className="text-white font-heading font-semibold text-[15px]">{STEPS[activeStep].title}</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

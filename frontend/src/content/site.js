@@ -41,6 +41,7 @@ export const BRAND = {
 export const NAV = {
   primary: [
     { to: "/", label: "Rent a car" },
+    { to: "/marketplace", label: "Buy a car" },
     { to: "/why-caro", label: "Why Kharo" },
     { to: "/driver-guide", label: "How it works" },
     { to: "/operator-guide", label: "For operators" },
@@ -48,6 +49,7 @@ export const NAV = {
   accountMenu: [
     { to: "/register", title: "Drivers", sub: "Join the list for launch in your city" },
     { to: "/list-your-fleet", title: "Rental operators", sub: "Register your fleet for launch" },
+    { to: "/marketplace", title: "Buy or sell a car", sub: "Browse the used PCO vehicle marketplace" },
   ],
   mobileCtas: [
     { to: "/register", label: "Join the waitlist" },
@@ -73,6 +75,13 @@ export const NAV = {
       links: [
         ["List your fleet", "/list-your-fleet"],
         ["Operator guide", "/operator-guide"],
+      ],
+    },
+    {
+      heading: "Marketplace",
+      links: [
+        ["Buy a used car", "/marketplace"],
+        ["Sell your car", "/sell-your-car"],
       ],
     },
     {
@@ -213,7 +222,7 @@ export const WHY = {
     img: IMG.fleetLot,
     cta: "List your fleet",
     points: [
-      { t: "12,712 drivers looking for a car right now", d: "London has more licensed drivers than licensed vehicles. We connect you to qualified, vetted drivers who are ready and legal to work today." },
+      { t: "12,712 more licensed drivers than vehicles in London", d: "TfL, May 2026. That gap is real demand with nowhere to go. We connect you to qualified, vetted drivers looking for a car." },
       { t: "Four layers of checks before they reach your queue", d: "Eligibility against the TfL register, identity with a liveness check, affordability via Open Banking, and trade record against Kharo's driver network. The application that reaches you is one you can act on." },
       { t: "Rent that arrives in seconds, not days", d: "Variable Recurring Payments settle instantly and cannot be reversed. If a payment fails, you know before the next working day." },
       { t: "Full visibility, within published limits", d: "You see mileage, vehicle status and service alerts. Live location stays with Kharo and is accessed only under a logged procedure in genuine theft or serious arrears situations." },
