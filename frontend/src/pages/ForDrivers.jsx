@@ -20,8 +20,8 @@ const FADE_UP_HERO = {
 
 const BENEFITS = [
   {
-    title: "One clear weekly payment",
-    body: "Rent, insurance and servicing rolled into a single figure. No surprise invoices mid-week.",
+    title: "Rental price below the market rate",
+    body: "One clear weekly rental figure, kept cheaper than other PCO platforms. Insurance is quoted separately, never silently marked up.",
   },
   {
     title: "4-layer vetting: fair and fast",
@@ -75,7 +75,7 @@ export default function ForDrivers() {
   useSeo({
     title: "For Drivers · Rent a PCO Car in London · Kharo",
     description:
-      "Rent a PCO car in London from a verified operator. One weekly payment covers rent, insurance and servicing. Start this week.",
+      "Rent a PCO car in London from a verified operator. Weekly rental price below market rate, servicing included, insurance quoted separately. Start this week.",
   });
 
   return (
@@ -100,8 +100,8 @@ export default function ForDrivers() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-[#666] text-[17px] mt-5 max-w-lg mx-auto lg:mx-0 leading-relaxed"
               >
-                Browse London's PCO fleet. One weekly payment covers rent, insurance and servicing.
-                Register interest in 60 seconds. No documents yet.
+                Browse London's PCO fleet. Weekly rental price below the market rate, servicing
+                included, insurance quoted separately. Register interest in 60 seconds.
               </motion.p>
               <motion.div
                 {...FADE_UP_HERO}

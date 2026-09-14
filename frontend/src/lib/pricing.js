@@ -29,7 +29,7 @@ export const PRICING_TIERS = [
 // Rough operator earnings estimate (gross, before Kharo's 10% fee)
 export function estimateOperatorAnnual(fleetSizeLabel) {
   const midpoint = { "1-5": 3, "6-15": 10, "16-30": 22, "30+": 40 }[fleetSizeLabel] || 10;
-  const avgWeekly = 255;
+  const avgWeekly = 185;
   const utilisation = 0.85;
   const perCarYear = Math.round(avgWeekly * 52 * utilisation);
   return { perCarYear, fleetYear: perCarYear * midpoint, cars: midpoint };
@@ -37,10 +37,10 @@ export function estimateOperatorAnnual(fleetSizeLabel) {
 
 // Vehicle classes used by the interactive earnings estimator
 export const VEHICLE_CLASSES = [
-  { key: "hybrid", label: "Hybrid saloon", weekly: 255 },
-  { key: "executive", label: "Executive", weekly: 330 },
-  { key: "electric", label: "Electric", weekly: 235 },
-  { key: "wav", label: "Wheelchair access", weekly: 255 },
+  { key: "hybrid", label: "Hybrid saloon", weekly: 165 },
+  { key: "executive", label: "Executive", weekly: 245 },
+  { key: "electric", label: "Electric", weekly: 190 },
+  { key: "wav", label: "Wheelchair access", weekly: 185 },
 ];
 
 export function fleetBucket(cars) {
@@ -73,9 +73,9 @@ export const DRIVER_CARS = [
 
 export function estimateDriverWeek(carKey) {
   const grossFull = { electric: 1180, hybrid: 1220, executive: 1450 };
-  const rentByCar = { electric: 235, hybrid: 255, executive: 330 };
+  const rentByCar = { electric: 190, hybrid: 165, executive: 245 };
   const gross = Math.round(grossFull[carKey] ?? 1220);
-  const insurance = 72;
+  const insurance = 38;
   const cover = 8;
   const rent = rentByCar[carKey] ?? 255;
   const fuel = carKey === "electric" ? 55 : carKey === "executive" ? 155 : 135;

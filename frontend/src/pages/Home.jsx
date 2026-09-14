@@ -99,7 +99,7 @@ export default function Home() {
             Find your next PHV.
           </h1>
           <p className="text-[#666] text-base sm:text-lg max-w-xl mb-8">
-            Compare rental cars from operators in London, Manchester, Birmingham and Leeds. One weekly price, insurance and maintenance included.
+            Compare rental cars from operators in London, Manchester, Birmingham and Leeds. One clear weekly rental price, maintenance included, insurance quoted separately.
           </p>
 
           <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full bg-white border border-[#E8E8E8]">
@@ -352,7 +352,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
             {[
               "Every operator is checked against Companies House and the licensing register",
-              "The weekly price shown is the whole price, insurance and maintenance included",
+              "The weekly price shown is the rental price, no insurance quietly folded in",
               "You speak directly to the operator, no middleman marking up the rate",
               "Your details go to the operator, and nowhere else",
             ].map((t) => (
@@ -369,20 +369,21 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           <div className="order-2 lg:order-1">
-            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">One Number, No Surprises</p>
+            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">Rental Price, No Hidden Markup</p>
             <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-5" style={{ textWrap: "balance" }}>
-              The weekly price is the whole price
+              The price you see is the rental price
             </h2>
             <p className="text-[#888] text-sm leading-relaxed mb-6 max-w-md">
-              No separate insurance quote. No maintenance invoice halfway through the month.
-              Every listing on Kharo shows one weekly figure, and that figure is what you pay
-              from day one to the day you hand the keys back.
+              The weekly figure on every listing is the rental cost only, priced to beat
+              what other PCO platforms charge for the same car. Insurance is quoted
+              separately, based on your own profile, so you're never paying a markup
+              baked silently into someone else's "all-in" number.
             </p>
             <div className="space-y-3 max-w-md">
               {[
-                "Fully comprehensive PCO insurance",
-                "Scheduled servicing and maintenance",
-                "Breakdown cover on most vehicles",
+                "Rental price kept below the market rate for the same car",
+                "Insurance quoted transparently, based on your profile",
+                "Scheduled servicing and maintenance included",
               ].map((line) => (
                 <div key={line} className="flex items-center gap-2.5">
                   <Check size={14} style={{ color: "#0B6B4F" }} strokeWidth={2.5} />
@@ -405,15 +406,16 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£249</span>
-                <span className="text-[#AAA] text-sm font-medium">/ week</span>
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£165</span>
+                <span className="text-[#AAA] text-sm font-medium">/ week rental</span>
               </div>
+              <p className="text-[#AAA] text-[12px] mb-5">All-in from £203/week with insurance quoted below</p>
 
               <div className="space-y-0 border-t border-[#F5F5F5]">
                 {[
-                  { label: "Weekly rental", value: "£169" },
-                  { label: "Insurance", value: "Included" },
+                  { label: "Weekly rental", value: "£165" },
+                  { label: "Insurance (indicative)", value: "£38" },
                   { label: "Maintenance", value: "Included" },
                 ].map((row) => (
                   <div key={row.label} className="flex items-center justify-between py-3 border-b border-[#F5F5F5]">
@@ -443,7 +445,7 @@ export default function Home() {
             {[
               { n: "01", title: "Search & Filter", body: "Browse vehicles by city, area, make, budget and engine type. Every operator is checked against Companies House and the licensing register." },
               { n: "02", title: "Register Your Interest", body: "Found a vehicle you like? Submit your name and contact details in under a minute. The operator gets in touch to confirm availability, no commission, no middleman." },
-              { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Insurance and maintenance included." },
+              { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Maintenance included, insurance quoted separately." },
             ].map((step) => (
               <div key={step.n} className="flex flex-col">
                 <span className="font-heading text-4xl font-bold text-[#E0E0E0] mb-3 select-none">{step.n}</span>
@@ -468,7 +470,7 @@ export default function Home() {
               city: "London",
               vehicle: "Toyota Prius",
               rating: 5,
-              quote: "Applied on a Sunday, was driving by Wednesday. The weekly number I saw online is the weekly number I pay, no haggling over insurance quotes.",
+              quote: "Applied on a Sunday, was driving by Wednesday. The rental price I saw online is the rental price I pay, and my insurance quote came through just as clearly.",
               photo: "https://images.pexels.com/photos/5834947/pexels-photo-5834947.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
             },
             {
@@ -540,7 +542,7 @@ export default function Home() {
           {[
             { q: "What is a PHV?", a: "A private hire vehicle: a car licensed to carry fare-paying passengers booked in advance, for services like Uber, Bolt and local minicab firms. It is different to a black cab." },
             { q: "Do I need a licence to rent a car on Kharo?", a: "Yes. You need a valid private hire driver licence for the city you plan to drive in (a TfL licence for London, or the equivalent local council licence elsewhere)." },
-            { q: "Is insurance included in the price?", a: "Yes. The weekly price shown on every listing is all-in: insurance and maintenance are already included, not billed separately." },
+            { q: "Is insurance included in the price?", a: "No. The weekly price shown is the rental price only, kept below what other PCO platforms charge for the same car. Maintenance is included; insurance is quoted separately based on your profile, so you always see it broken out rather than marked up and hidden inside someone else's \"all-in\" figure." },
             { q: "Is a deposit required?", a: "Most operators ask for a deposit, shown on the vehicle's listing page. It's held by the operator and is separate from the weekly rent." },
             { q: "What happens if the vehicle breaks down?", a: "Most listings include breakdown cover, shown on the vehicle page. If anything goes wrong, you contact the operator directly, since the rental agreement is between you and them." },
             { q: "How do I contact the operator?", a: "Register your interest on a listing and the operator gets your details directly. There's no messaging system yet, most operators call or message within a few hours." },

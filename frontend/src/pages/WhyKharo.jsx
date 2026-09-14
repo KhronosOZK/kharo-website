@@ -21,7 +21,7 @@ const FADE_UP_HERO = {
 const PROBLEMS = [
   {
     problem: "Hidden fees discovered after you commit",
-    solution: "One all-in weekly price (rent, insurance, breakdown), listed upfront. No surprises.",
+    solution: "Rental price listed upfront, kept below the market rate. Insurance quoted separately, never hidden inside the number.",
   },
   {
     problem: "Operators with no checks, no accountability",
@@ -41,7 +41,7 @@ const PILLARS = [
   {
     num: "01",
     title: "Transparent listings",
-    body: "Every listing shows the full weekly price: rent, insurance, and breakdown bundled in. What you see is what you pay.",
+    body: "Every listing shows the rental price up front, priced below the market rate for the same car. Insurance is quoted separately, not bundled and marked up.",
   },
   {
     num: "02",

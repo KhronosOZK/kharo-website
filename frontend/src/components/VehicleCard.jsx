@@ -13,8 +13,8 @@ export default function VehicleCard({ vehicle }) {
 
   const pcoLicensed = features?.includes("PCO Licensed");
   const includesLine = breakdown_included
-    ? "Includes insurance, maintenance & breakdown cover"
-    : "Includes insurance & maintenance";
+    ? "Maintenance & breakdown cover included. Insurance quoted separately."
+    : "Maintenance included. Insurance quoted separately.";
 
   const photo = Array.isArray(photos) ? photos[0] : photos;
 

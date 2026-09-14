@@ -28,7 +28,7 @@ const STEPS = [
     num: "01",
     icon: Search,
     title: "Browse and find your car",
-    body: "Use filters to narrow by budget, fuel type, car make and borough. Every car on Kharo is TfL-eligible. You'll see a single all-in weekly price covering rent, insurance and breakdown, with no hidden add-ons.",
+    body: "Use filters to narrow by budget, fuel type, car make and borough. Every car on Kharo is TfL-eligible. You'll see the weekly rental price upfront, kept below what other PCO platforms charge for the same car, with breakdown cover included and insurance quoted separately.",
     detail: "Takes about 5 minutes. No account needed to browse.",
     photo: IMG.phoneInCar,
   },
@@ -98,7 +98,7 @@ const FAQS = [
   },
   {
     q: "What is included in the weekly price?",
-    a: "Every Kharo listing shows a single all-in weekly price covering the car rental, motor insurance, and breakdown cover. Fuel is not included. That is your own cost.",
+    a: "Every Kharo listing shows the rental price and breakdown cover only, kept below what other PCO platforms charge for the same car. Insurance is quoted separately based on your profile, and fuel is your own cost.",
   },
   {
     q: "Can I switch car or operator later?",
@@ -329,30 +329,34 @@ export default function DriverGuide() {
             What you pay and what's included
           </motion.h2>
           <p className="text-[15px] text-[#888] text-center mb-10">
-            No hidden extras. One weekly price covers everything listed below.
+            The weekly price is the rental price, kept below the market rate. Insurance is
+            quoted separately, not folded in and marked up.
           </p>
           <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
             {[
               {
                 title: "Car rental",
-                body: "The cost of renting the TfL-eligible PCO vehicle, set by the operator.",
+                body: "The cost of renting the TfL-eligible PCO vehicle, priced below what other PCO platforms charge for the same car.",
+                included: true,
               },
               {
-                title: "Motor insurance",
-                body: "PHV insurance for private hire driving is bundled into the weekly price.",
+                title: "Maintenance & servicing",
+                body: "Scheduled servicing at the operator's designated garage, included in the weekly price.",
+                included: true,
               },
               {
                 title: "Breakdown cover",
                 body: "Roadside assistance included if the car breaks down during your rental.",
+                included: true,
               },
-            ].map(({ title, body }) => (
+            ].map(({ title, body, included }) => (
               <motion.div
                 key={title}
                 {...FADE_UP}
                 className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
               >
                 <span className="text-[11px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2.5 py-0.5">
-                  Included
+                  {included ? "Included" : "Quoted separately"}
                 </span>
                 <h3 className="font-heading font-bold text-[15px] text-[#111] mt-3 mb-1.5">{title}</h3>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
@@ -360,7 +364,8 @@ export default function DriverGuide() {
             ))}
           </div>
           <p className="text-[13px] text-[#AAA] text-center mt-5">
-            Fuel is not included. That is your own cost. Deposit is agreed with the operator.
+            Insurance is quoted separately based on your profile, and fuel is not included -
+            that is your own cost. Deposit is agreed with the operator.
           </p>
         </div>
       </section>

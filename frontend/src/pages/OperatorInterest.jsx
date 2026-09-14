@@ -15,8 +15,8 @@ import { Slider } from "@/components/ui/slider";
 
 const inputCls = "h-12 bg-[#F5F5F5] border border-transparent rounded-xl px-4 text-[15px] focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0B6B4F]/25 focus-visible:border-[#0B6B4F] transition-colors";
 
-// same £255/week default used as the slider's starting point
-const AVG_WEEKLY_RATE = 255;
+// same £185/week default used as the slider's starting point
+const AVG_WEEKLY_RATE = 185;
 
 const STEPS = [
   { key: "company", q: "What's your company name?", sub: "So we know who we're speaking with.", fields: [{ label: "Company name", name: "company_name", placeholder: "e.g. London PHV Ltd", testid: "op-company" }], required: ["company_name"] },
@@ -138,7 +138,7 @@ export default function OperatorInterest() {
                 <span className="text-[13px] font-medium text-[#666666]">Weekly rate per car</span>
                 <span className="text-[15px] font-heading font-bold text-[#0A0A0A] tabular-nums">£{weeklyRate}</span>
               </div>
-              <Slider value={[weeklyRate]} onValueChange={([v]) => setWeeklyRate(v)} min={150} max={500} step={5} data-testid="operator-rate-slider" />
+              <Slider value={[weeklyRate]} onValueChange={([v]) => setWeeklyRate(v)} min={100} max={300} step={5} data-testid="operator-rate-slider" />
             </div>
 
             <div className="mt-5 space-y-2 text-[13px]">

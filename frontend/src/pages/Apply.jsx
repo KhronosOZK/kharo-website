@@ -103,7 +103,7 @@ export default function Apply() {
                 <span className="font-heading font-bold text-[#111] text-3xl">£{v.weekly_rent}</span>
                 <span className="text-[#AAA] text-sm">/ week</span>
               </div>
-              <p className="text-[#AAA] text-xs mt-1">£{v.weekly_rent} / week &middot; Includes Insurance &amp; Maintenance</p>
+              <p className="text-[#AAA] text-xs mt-1">Rental price &middot; maintenance included &middot; insurance quoted separately</p>
               <div className="mt-4 flex items-start gap-2 text-xs text-[#666] border-t border-[#EBEBEB] pt-4">
                 <ShieldCheck size={14} style={{ color: ACCENT_TEXT }} className="flex-shrink-0 mt-0.5" />
                 Kharo hasn't launched in {v.borough} yet. Registering your interest costs nothing and
