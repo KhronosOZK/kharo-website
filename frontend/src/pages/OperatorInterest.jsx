@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, TrendingUp, Shield, Users, Zap, ChevronRight } from "lucide-react";
+import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { api, trackEvent } from "@/lib/api";
 import { useSeo } from "@/lib/seo";
+import { BRAND } from "@/content/site";
 
 const BENEFITS = [
   {
@@ -74,6 +75,7 @@ export default function OperatorInterest() {
   const navigate = useNavigate();
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState(1);
   const [idleCars, setIdleCars] = useState(3);
   const [weeklyRate, setWeeklyRate] = useState(265);
   const [f, setF] = useState({
@@ -95,10 +97,22 @@ export default function OperatorInterest() {
 
   const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
 
-  const submit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!f.company_name.trim() || !f.email.includes("@") || !f.phone.trim() || !f.areas.trim()) {
-      toast.error("Please fill in company name, email, phone and areas covered.");
+    if (step === 1) {
+      if (!f.company_name.trim() || !f.email.includes("@") || !f.phone.trim()) {
+        toast.error("Please fill in company name, email and phone.");
+        return;
+      }
+      setStep(2);
+      return;
+    }
+    submit();
+  };
+
+  const submit = async () => {
+    if (!f.areas.trim()) {
+      toast.error("Let us know which areas you operate in.");
       return;
     }
     setLoading(true);
@@ -245,7 +259,7 @@ export default function OperatorInterest() {
         </div>
       </section>
 
-      {/* LEAD FORM - own centred section, single column */}
+      {/* LEAD FORM - two-step: minimal contact info first, details second. Fewer fields up front lifts B2B form completion. */}
       <section id="form" className="py-16 px-4">
         <div className="max-w-lg mx-auto">
           <div className="text-center mb-8">
@@ -257,108 +271,154 @@ export default function OperatorInterest() {
           </div>
 
           <div className="bg-white rounded-[26px] border border-[#E8E8E8] p-6 sm:p-8">
-            <form onSubmit={submit} className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <FormField label="Company name" required>
-                  <input
-                    className={INPUT}
-                    placeholder="e.g. London PHV Ltd"
-                    value={f.company_name}
-                    onChange={set("company_name")}
-                    required
-                  />
-                </FormField>
-                <FormField label="Your name">
-                  <input
-                    className={INPUT}
-                    placeholder="Your full name"
-                    value={f.contact_name}
-                    onChange={set("contact_name")}
-                  />
-                </FormField>
-              </div>
+            <div className="flex items-center gap-2 mb-6">
+              {[1, 2].map((n) => (
+                <div key={n} className="flex-1 flex items-center gap-2">
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${step >= n ? "bg-[#0B6B4F] text-white" : "bg-[#F0F0F0] text-[#AAA]"}`}>
+                    {step > n ? <Check className="w-3.5 h-3.5" /> : n}
+                  </div>
+                  <span className={`text-[12px] font-medium ${step >= n ? "text-[#111]" : "text-[#AAA]"}`}>
+                    {n === 1 ? "Your details" : "About your fleet"}
+                  </span>
+                  {n === 1 && <div className={`flex-1 h-px ${step > 1 ? "bg-[#0B6B4F]" : "bg-[#EBEBEB]"}`} />}
+                </div>
+              ))}
+            </div>
 
-              <FormField label="Email address" required>
-                <input
-                  className={INPUT}
-                  type="email"
-                  placeholder="you@company.com"
-                  value={f.email}
-                  onChange={set("email")}
-                  required
-                  autoComplete="email"
-                  inputMode="email"
-                />
-              </FormField>
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              {step === 1 ? (
+                <>
+                  <FormField label="Company name" required>
+                    <input
+                      className={INPUT}
+                      placeholder="e.g. London PHV Ltd"
+                      value={f.company_name}
+                      onChange={set("company_name")}
+                      required
+                      autoFocus
+                    />
+                  </FormField>
+                  <FormField label="Your name">
+                    <input
+                      className={INPUT}
+                      placeholder="Your full name"
+                      value={f.contact_name}
+                      onChange={set("contact_name")}
+                    />
+                  </FormField>
+                  <FormField label="Email address" required>
+                    <input
+                      className={INPUT}
+                      type="email"
+                      placeholder="you@company.com"
+                      value={f.email}
+                      onChange={set("email")}
+                      required
+                      autoComplete="email"
+                      inputMode="email"
+                    />
+                  </FormField>
+                  <FormField label="Phone number" required>
+                    <input
+                      className={INPUT}
+                      type="tel"
+                      placeholder="07700 900 000"
+                      value={f.phone}
+                      onChange={set("phone")}
+                      required
+                      autoComplete="tel"
+                      inputMode="tel"
+                    />
+                  </FormField>
 
-              <FormField label="Phone number" required>
-                <input
-                  className={INPUT}
-                  type="tel"
-                  placeholder="07700 900 000"
-                  value={f.phone}
-                  onChange={set("phone")}
-                  required
-                  autoComplete="tel"
-                  inputMode="tel"
-                />
-              </FormField>
-
-              <FormField label="Areas you operate in" required>
-                <input
-                  className={INPUT}
-                  placeholder="e.g. East London, Barking, Ilford"
-                  value={f.areas}
-                  onChange={set("areas")}
-                  required
-                />
-              </FormField>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <FormField label="Total fleet size">
-                  <select
-                    className={INPUT + " appearance-none cursor-pointer"}
-                    value={f.fleet_size}
-                    onChange={set("fleet_size")}
+                  <button
+                    type="submit"
+                    className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[15px] transition-colors"
                   >
-                    <option value="">Select...</option>
-                    <option value="1-5">1 to 5 vehicles</option>
-                    <option value="6-15">6 to 15 vehicles</option>
-                    <option value="16-30">16 to 30 vehicles</option>
-                    <option value="30+">30+ vehicles</option>
-                  </select>
-                </FormField>
-                <FormField label="Cars currently idle">
-                  <select
-                    className={INPUT + " appearance-none cursor-pointer"}
-                    value={f.current_idle}
-                    onChange={set("current_idle")}
-                  >
-                    <option value="">Select...</option>
-                    <option value="1">1 car</option>
-                    <option value="2-3">2 to 3 cars</option>
-                    <option value="4-5">4 to 5 cars</option>
-                    <option value="5+">5+ cars</option>
-                  </select>
-                </FormField>
-              </div>
+                    Continue
+                  </button>
 
-              <FormField label="Anything else we should know?">
-                <textarea
-                  className={INPUT + " h-24 py-3 resize-none"}
-                  placeholder="Vehicle makes, specific requirements, borough coverage..."
-                  value={f.message}
-                  onChange={set("message")}
-                />
-              </FormField>
+                  {BRAND.whatsapp && (
+                    <a
+                      href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hi Kharo, I'd like to list my fleet.")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 text-[13px] font-medium text-[#555] hover:text-[#0B6B4F] transition-colors"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      Prefer WhatsApp? Message us instead
+                    </a>
+                  )}
+                </>
+              ) : (
+                <>
+                  <FormField label="Areas you operate in" required>
+                    <input
+                      className={INPUT}
+                      placeholder="e.g. East London, Barking, Ilford"
+                      value={f.areas}
+                      onChange={set("areas")}
+                      required
+                      autoFocus
+                    />
+                  </FormField>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
-              >
-                {loading ? "Sending..." : "Request a call back"}
-              </button>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <FormField label="Total fleet size">
+                      <select
+                        className={INPUT + " appearance-none cursor-pointer"}
+                        value={f.fleet_size}
+                        onChange={set("fleet_size")}
+                      >
+                        <option value="">Select...</option>
+                        <option value="1-5">1 to 5 vehicles</option>
+                        <option value="6-15">6 to 15 vehicles</option>
+                        <option value="16-30">16 to 30 vehicles</option>
+                        <option value="30+">30+ vehicles</option>
+                      </select>
+                    </FormField>
+                    <FormField label="Cars currently idle">
+                      <select
+                        className={INPUT + " appearance-none cursor-pointer"}
+                        value={f.current_idle}
+                        onChange={set("current_idle")}
+                      >
+                        <option value="">Select...</option>
+                        <option value="1">1 car</option>
+                        <option value="2-3">2 to 3 cars</option>
+                        <option value="4-5">4 to 5 cars</option>
+                        <option value="5+">5+ cars</option>
+                      </select>
+                    </FormField>
+                  </div>
+
+                  <FormField label="Anything else we should know?">
+                    <textarea
+                      className={INPUT + " h-24 py-3 resize-none"}
+                      placeholder="Vehicle makes, specific requirements, borough coverage..."
+                      value={f.message}
+                      onChange={set("message")}
+                    />
+                  </FormField>
+
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setStep(1)}
+                      className="h-12 px-5 rounded-full border border-[#E8E8E8] text-[#555] font-medium text-[15px] hover:bg-[#F5F5F5] transition-colors"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="flex-1 h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
+                    >
+                      {loading ? "Sending..." : "Request a call back"}
+                    </button>
+                  </div>
+                </>
+              )}
 
               <ul className="space-y-1.5 pt-1">
                 {[

@@ -25,7 +25,9 @@ export const BRAND = {
     "Rent or buy a licensed private hire vehicle from operators checked against Companies House and the licensing register. One clear weekly price, cover included.",
   supportEmail: "hello@kharo.uk",
   privacyEmail: "privacy@kharo.uk",
-  copyright: "© 2026 Kharo. Serving drivers in London, Birmingham, Manchester, Leeds and Sheffield.",
+  // Digits only, UK country code, no leading 0 or +: used to build wa.me links.
+  whatsapp: "447392829759",
+  copyright: "© 2026 Kharo. Serving drivers in London, Birmingham, Manchester and Leeds, with Sheffield coming soon.",
   // Add your real profile URLs to switch these on. Icons stay hidden while the
   // values are empty, because a link that leaves the site and lands on a
   // generic homepage costs a visitor and returns nothing.
@@ -124,7 +126,7 @@ export const HOME = {
   // The first stat count comes from live inventory. Keep the rest factual.
   stats: [
     { fallback: "60", label: "cars in the launch preview" },
-    { value: "5 cities", label: "London, Birmingham, Manchester, Leeds and Sheffield" },
+    { value: "4 cities", label: "London, Birmingham, Manchester and Leeds" },
     { value: "Free", label: "to register, with nothing to pay" },
     { value: "One price", label: "rent, insurance and cover in a single weekly figure" },
   ],
@@ -231,7 +233,7 @@ export const FOR_DRIVERS = {
   hero: {
     eyebrow: "For drivers",
     heading: "Renting with Kharo",
-    sub: "Rent from checked operators across five cities. One weekly figure covers everything, and you pay nothing until you are approved.",
+    sub: "Rent from checked operators across four cities. One weekly figure covers everything, and you pay nothing until you are approved.",
     img: IMG.happyDriver,
     primaryCta: "Browse cars",
     secondaryCta: "Register your interest",
@@ -240,7 +242,7 @@ export const FOR_DRIVERS = {
     ["Free", "to browse and apply"],
     ["Under 24h", "typical response after you apply"],
     ["One price", "rent, insurance and cover"],
-    ["5 cities", "and growing"],
+    ["4 cities", "and growing"],
   ],
   benefits: {
     eyebrow: "Why drivers choose Kharo",
@@ -251,7 +253,7 @@ export const FOR_DRIVERS = {
       { icon: "BadgeCheck", t: "Companies House and the licensing register", d: "Those are the two places we check every rental company against before a single one of its cars goes live on Kharo." },
       { icon: "Navigation", t: "Every rental is GPS tracked", d: "Vehicle location is tracked for the length of the rental, which protects you as much as the operator if anything is ever queried." },
       { icon: "Wrench", t: "Cover built in", d: "Breakdown cover and servicing are handled on most cars, so a flat battery or a warning light does not cost you a day of earnings." },
-      { icon: "MapPin", t: "Cars across five cities", d: "Browse vehicles in London, Birmingham, Manchester, Leeds and Sheffield, with more cities opening as we grow." },
+      { icon: "MapPin", t: "Cars across four cities", d: "Browse vehicles in London, Birmingham, Manchester and Leeds, with more cities opening as we grow." },
     ],
   },
   earnings: {
@@ -600,7 +602,7 @@ export const CITY_PAGE = {
       intro: "Sheffield is one of our newest cities. Kharo connects you with checked local operators across the city, from the centre to Burngreave, Attercliffe and Firth Park, with efficient cars suited to the hills and the daily miles.",
       faq: [
         { q: "What licence do I need in Sheffield?", a: "A private hire driver and vehicle licence from Sheffield City Council. Our operators can guide you through plating." },
-        { q: "Which cars suit Sheffield best?", a: "Hybrids handle the hills well and keep fuel costs down. We list plenty of Priuses and Corollas here." },
+        { q: "Which cars suit Sheffield best?", a: "Hybrids handle the hills well and keep fuel costs down. Expect plenty of Priuses and Corollas once we're live here." },
         { q: "When can I rent a car in Sheffield?", a: "Register your interest now and we will email you the moment cars are ready to rent in Sheffield." },
       ],
     },

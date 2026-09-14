@@ -41,6 +41,11 @@ export default function Help() {
         <p className="text-white/60 mt-2">{HELP.contact.sub}</p>
         <div className="flex flex-wrap gap-3 justify-center mt-6">
           <a href={`mailto:${BRAND.supportEmail}`}><Button className="h-11 rounded-full bg-[#5FD3A6] hover:bg-white text-[#0A0A0A] transition-colors"><Mail className="w-4 h-4 mr-2" /> {BRAND.supportEmail}</Button></a>
+          {BRAND.whatsapp && (
+            <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hi Kharo, I have a question about")}`} target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" className="h-11 rounded-full border-white/40 text-white bg-transparent hover:bg-white/10 hover:text-white"><MessageCircle className="w-4 h-4 mr-2" /> WhatsApp us</Button>
+            </a>
+          )}
           <Button onClick={() => navigate("/list-your-fleet")} variant="outline" className="h-11 rounded-full border-white/40 text-white bg-transparent hover:bg-white/10 hover:text-white">List your fleet <ArrowRight className="w-4 h-4 ml-2" /></Button>
         </div>
       </div>
