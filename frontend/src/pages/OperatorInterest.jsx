@@ -29,7 +29,7 @@ const BENEFITS = [
 ];
 
 const INPUT =
-  "w-full h-11 bg-[#F5F5F5] border border-[#E8E8E8] rounded-xl px-4 text-[15px] text-[#111] placeholder:text-[#BBB] focus:outline-none focus:border-[#3B82F6] focus:bg-white transition-colors";
+  "w-full h-11 bg-[#F5F5F5] border border-[#E8E8E8] rounded-xl px-4 text-[15px] text-[#111] placeholder:text-[#BBB] focus:outline-none focus:border-[#0B6B4F] focus:bg-white transition-colors";
 const LABEL = "block text-[13px] font-semibold text-[#555] mb-1.5";
 
 function SliderTrack({ min, max, value, onChange, step = 1, label, formatVal }) {
@@ -44,7 +44,7 @@ function SliderTrack({ min, max, value, onChange, step = 1, label, formatVal }) 
       </div>
       <div className="relative h-2 rounded-full bg-[#F0F0F0]">
         <div
-          className="absolute h-2 rounded-full bg-[#3B82F6] transition-all"
+          className="absolute h-2 rounded-full bg-[#0B6B4F] transition-all"
           style={{ width: `${pct}%` }}
         />
         <input
@@ -58,7 +58,7 @@ function SliderTrack({ min, max, value, onChange, step = 1, label, formatVal }) 
           aria-label={label}
         />
         <div
-          className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white border-2 border-[#3B82F6] shadow-md pointer-events-none transition-all"
+          className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white border-2 border-[#0B6B4F] shadow-md pointer-events-none transition-all"
           style={{ left: `calc(${pct}% - 10px)` }}
         />
       </div>
@@ -121,13 +121,9 @@ export default function OperatorInterest() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
       {/* Hero — Obsidian surface, Hyper Blue B2B accent (per DESIGN.md) */}
-      <section className="relative text-white py-20 px-4 overflow-hidden" style={{ backgroundColor: "#0B0D12" }}>
-        <div
-          className="absolute -top-32 -right-24 w-[500px] h-[500px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, rgba(59,130,246,0) 70%)" }}
-        />
+      <section className="relative text-white py-20 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
         <div className="relative max-w-6xl mx-auto">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4" style={{ color: "#3B82F6" }}>
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4" style={{ color: "#0B6B4F" }}>
             For Fleet Operators
           </p>
           <h1 className="text-[38px] sm:text-5xl font-heading font-extrabold leading-[1.05] max-w-2xl mb-5">
@@ -141,7 +137,7 @@ export default function OperatorInterest() {
             <a
               href="#form"
               className="px-6 py-3 rounded-md font-semibold text-[15px] transition-transform hover:scale-[1.02]"
-              style={{ backgroundColor: "#3B82F6", color: "#fff" }}
+              style={{ backgroundColor: "#0B6B4F", color: "#fff" }}
             >
               List your fleet
             </a>
@@ -229,7 +225,7 @@ export default function OperatorInterest() {
                   className="bg-white rounded-2xl border border-[#E8E8E8] p-5 flex items-start gap-4"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-[#3B82F6]" />
+                    <Icon className="w-5 h-5 text-[#0B6B4F]" />
                   </div>
                   <div>
                     <h3 className="font-heading font-bold text-[15px] text-[#111] mb-0.5">
@@ -242,10 +238,10 @@ export default function OperatorInterest() {
             </div>
 
             {/* Social proof */}
-            <div className="mt-6 bg-[#3B82F6] rounded-2xl p-5 text-white">
+            <div className="mt-6 bg-[#0B6B4F] rounded-2xl p-5 text-white">
               <div className="flex items-center gap-1 mb-2">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[#93C5FD] text-[#93C5FD]" />
+                  <Star key={i} className="w-4 h-4 fill-[#5FD3A6] text-[#5FD3A6]" />
                 ))}
               </div>
               <p className="text-[14px] text-white/90 leading-relaxed mb-3">
@@ -354,7 +350,7 @@ export default function OperatorInterest() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-12 rounded-full bg-[#3B82F6] hover:bg-[#2563EB] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
+                  className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
                 >
                   {loading ? "Sending..." : "Request a call back"}
                 </button>
@@ -366,7 +362,7 @@ export default function OperatorInterest() {
                     "Your details are never sold",
                   ].map((t) => (
                     <li key={t} className="flex items-center gap-2 text-[12.5px] text-[#888]">
-                      <Check className="w-3.5 h-3.5 text-[#3B82F6] shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-[#0B6B4F] shrink-0" />
                       {t}
                     </li>
                   ))}
@@ -379,7 +375,7 @@ export default function OperatorInterest() {
 {/* RISK MANAGEMENT SECTION */}
       <section className="max-w-6xl mx-auto px-4 pb-12">
         <div className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden">
-          <div className="px-6 py-5" style={{ backgroundImage: "linear-gradient(to right, #0B0D12, #101a2e)" }}>
+          <div className="px-6 py-5" style={{ backgroundColor: "#0A0A0A" }}>
             <h2 className="font-heading font-bold text-white text-xl mb-1">
               Built-in Risk Management
             </h2>
@@ -399,7 +395,7 @@ export default function OperatorInterest() {
                 If a driver misses a rental payment, Kharo contacts Uber directly to flag the account. The driver cannot accept new trips until the outstanding rent is cleared. This ensures you never chase payments alone.
               </p>
               <div className="mt-4 flex items-start gap-2">
-                <Check className="w-4 h-4 text-[#3B82F6] flex-shrink-0 mt-0.5" />
+                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
                 <span className="text-[12px] text-[#888]">Applies to Uber, Bolt and other platforms we partner with</span>
               </div>
             </div>
@@ -414,13 +410,13 @@ export default function OperatorInterest() {
                 All vehicles listed on Kharo must have a certified GPS tracker installed prior to handover. This is a condition of listing. Kharo can recommend approved tracker providers and assist with installation through our partner garages.
               </p>
               <div className="mt-4 flex items-start gap-2">
-                <Check className="w-4 h-4 text-[#3B82F6] flex-shrink-0 mt-0.5" />
+                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
                 <span className="text-[12px] text-[#888]">Trackers must meet our minimum specification for real-time location</span>
               </div>
             </div>
             <div className="p-6">
               <div className="w-10 h-10 rounded-xl bg-[#EAF5F1] flex items-center justify-center mb-4">
-                <Activity className="w-5 h-5 text-[#3B82F6]" />
+                <Activity className="w-5 h-5 text-[#0B6B4F]" />
               </div>
               <h3 className="font-heading font-bold text-[#111] text-base mb-2">
                 Live Fleet Dashboard
@@ -429,7 +425,7 @@ export default function OperatorInterest() {
                 Track all your vehicles in real time from the Kharo Operator Dashboard. See location, driver status, mileage and payment status in one place. Get alerts for unusual movement or missed payments.
               </p>
               <div className="mt-4 flex items-start gap-2">
-                <Check className="w-4 h-4 text-[#3B82F6] flex-shrink-0 mt-0.5" />
+                <Check className="w-4 h-4 text-[#0B6B4F] flex-shrink-0 mt-0.5" />
                 <span className="text-[12px] text-[#888]">Access from any device, 24 hours a day</span>
               </div>
             </div>
@@ -447,7 +443,7 @@ function SuccessScreen({ navigate }) {
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center p-4">
       <div className="max-w-md w-full text-center bg-white rounded-2xl border border-[#E8E8E8] p-8">
         <div className="w-16 h-16 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto mb-5">
-          <Check className="w-8 h-8 text-[#3B82F6]" strokeWidth={2.5} />
+          <Check className="w-8 h-8 text-[#0B6B4F]" strokeWidth={2.5} />
         </div>
         <h1 className="text-[22px] font-heading font-extrabold text-[#111] mb-2">
           We'll be in touch soon
@@ -465,7 +461,7 @@ function SuccessScreen({ navigate }) {
           </button>
           <button
             onClick={() => navigate("/")}
-            className="h-11 rounded-full bg-[#3B82F6] text-white text-[14px] font-semibold hover:bg-[#2563EB] transition-colors"
+            className="h-11 rounded-full bg-[#0B6B4F] text-white text-[14px] font-semibold hover:bg-[#095B43] transition-colors"
           >
             Back to home
           </button>
@@ -480,7 +476,7 @@ function FormField({ label, required, children }) {
     <div>
       <label className={LABEL}>
         {label}
-        {required && <span className="text-[#3B82F6] ml-0.5">*</span>}
+        {required && <span className="text-[#0B6B4F] ml-0.5">*</span>}
       </label>
       {children}
     </div>

@@ -163,13 +163,9 @@ export default function OperatorGuide() {
     <div className="min-h-screen bg-[#F5F5F5]">
 
       {/* Hero — Obsidian surface, Hyper Blue B2B accent (per DESIGN.md) */}
-      <section className="relative text-white py-16 px-4 overflow-hidden" style={{ backgroundColor: "#0B0D12" }}>
-        <div
-          className="absolute -top-32 -right-24 w-[480px] h-[480px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, rgba(59,130,246,0) 70%)" }}
-        />
+      <section className="relative text-white py-16 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
         <div className="relative max-w-4xl mx-auto">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#93C5FD] mb-4">
+          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-4">
             Operator Guide
           </p>
           <motion.h1
@@ -192,7 +188,7 @@ export default function OperatorGuide() {
           <div className="flex flex-wrap gap-3">
             <a
               href="/list-your-fleet"
-              className="px-6 py-3 rounded-full bg-white text-[#3B82F6] font-semibold text-[15px] hover:bg-[#93C5FD] hover:text-white transition-colors"
+              className="px-6 py-3 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#5FD3A6] hover:text-white transition-colors"
             >
               List your fleet
             </a>
@@ -219,7 +215,7 @@ export default function OperatorGuide() {
                 className="flex items-start gap-3"
               >
                 <div className="w-9 h-9 rounded-xl bg-[#EAF5F1] flex items-center justify-center shrink-0">
-                  <Icon className="w-4 h-4 text-[#3B82F6]" />
+                  <Icon className="w-4 h-4 text-[#0B6B4F]" />
                 </div>
                 <div>
                   <p className="font-heading font-bold text-[14px] text-[#111] mb-0.5">{title}</p>
@@ -251,17 +247,17 @@ export default function OperatorGuide() {
                   transition={{ duration: 0.4, delay: i * 0.07 }}
                   className="relative sm:pl-14"
                 >
-                  <div className="hidden sm:flex absolute left-0 top-0 w-10 h-10 rounded-full bg-white border-2 border-[#3B82F6] items-center justify-center">
-                    <Icon className="w-4 h-4 text-[#3B82F6]" />
+                  <div className="hidden sm:flex absolute left-0 top-0 w-10 h-10 rounded-full bg-white border-2 border-[#0B6B4F] items-center justify-center">
+                    <Icon className="w-4 h-4 text-[#0B6B4F]" />
                   </div>
                   <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
                     <div className="flex items-start gap-4">
                       <div className="sm:hidden w-10 h-10 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-[#3B82F6]" />
+                        <Icon className="w-4 h-4 text-[#0B6B4F]" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <span className="text-[11px] font-bold text-[#3B82F6] tracking-widest">{num}</span>
+                          <span className="text-[11px] font-bold text-[#0B6B4F] tracking-widest">{num}</span>
                           <h3 className="font-heading font-bold text-[17px] text-[#111]">{title}</h3>
                         </div>
                         <p className="text-[14px] text-[#555] leading-relaxed mb-3">{body}</p>
@@ -298,7 +294,7 @@ export default function OperatorGuide() {
                 {WHAT_WE_CHECK.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-[14px] text-[#444]">
                     <span className="w-5 h-5 rounded-full bg-[#EAF5F1] flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-[#3B82F6]" />
+                      <Check className="w-3 h-3 text-[#0B6B4F]" />
                     </span>
                     {item}
                   </li>
@@ -306,8 +302,8 @@ export default function OperatorGuide() {
               </ul>
             </div>
 
-            <div className="bg-[#3B82F6] rounded-2xl p-7 text-white">
-              <BadgeCheck className="w-10 h-10 text-[#93C5FD] mb-4" />
+            <div className="bg-[#0B6B4F] rounded-2xl p-7 text-white">
+              <BadgeCheck className="w-10 h-10 text-[#5FD3A6] mb-4" />
               <h3 className="font-heading font-bold text-[20px] mb-3">What the check covers</h3>
               <div className="space-y-4">
                 {[
@@ -371,7 +367,7 @@ export default function OperatorGuide() {
                 className="bg-white rounded-2xl border border-[#E8E8E8] p-5 text-center"
               >
                 <p className="text-[12px] font-bold text-[#888] uppercase tracking-wider mb-1">{label}</p>
-                <p className="text-[22px] font-heading font-extrabold text-[#3B82F6] mb-2">{value}</p>
+                <p className="text-[22px] font-heading font-extrabold text-[#0B6B4F] mb-2">{value}</p>
                 <p className="text-[13px] text-[#666] leading-relaxed">{sub}</p>
               </motion.div>
             ))}
@@ -397,7 +393,7 @@ export default function OperatorGuide() {
             Still have questions?{" "}
             <button
               onClick={() => navigate("/help")}
-              className="text-[#3B82F6] font-medium hover:underline"
+              className="text-[#0B6B4F] font-medium hover:underline"
             >
               Visit our help centre
             </button>
@@ -417,7 +413,7 @@ export default function OperatorGuide() {
           <div className="flex flex-wrap gap-3 justify-center">
             <a
               href="/list-your-fleet"
-              className="px-7 py-3.5 rounded-full bg-[#3B82F6] text-white font-semibold text-[15px] hover:bg-[#93C5FD] transition-colors"
+              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#5FD3A6] transition-colors"
             >
               List your fleet
             </a>
