@@ -270,7 +270,7 @@ export default function WhyCaro() {
         <div className="max-w-3xl mx-auto">
           <motion.h2
             {...FADE_UP}
-            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
+            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
           >
             Kharo vs. the rest
           </motion.h2>
@@ -337,7 +337,7 @@ export default function WhyCaro() {
               <motion.h2
                 {...FADE_UP}
                 transition={{ duration: 0.5, delay: 0.05 }}
-                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
+                className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4"
               >
                 4-layer vetting in 48 hours
               </motion.h2>
@@ -408,7 +408,7 @@ export default function WhyCaro() {
         <div className="max-w-4xl mx-auto">
           <motion.h2
             {...FADE_UP}
-            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
+            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
           >
             Every operator checked before they list
           </motion.h2>

@@ -49,7 +49,7 @@ export default function Saved() {
           <Heart className="w-8 h-8 text-[#0B6B4F]" strokeWidth={1.5} />
           <div>
             <h1 className="text-3xl font-heading font-extrabold text-[#0A0A0A]">Saved vehicles</h1>
-            <p className="text-gray-500">{showing} {tab === "rent" ? "rental" : "sale"} listing{showing !== 1 ? "s" : ""} saved</p>
+            <p className="text-[#888]">{showing} {tab === "rent" ? "rental" : "sale"} listing{showing !== 1 ? "s" : ""} saved</p>
           </div>
         </div>
         {tab === "rent" && items.length >= 2 && (
@@ -66,7 +66,7 @@ export default function Saved() {
             onClick={() => { setTab(t.key); setCompare(false); }}
             className={`inline-flex items-center gap-2 rounded-full px-4 py-2 min-h-[44px] text-[14px] font-medium ring-1 transition-all ${
               tab === t.key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.07] text-[#0B6B4F]"
-                            : "ring-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}>
+                            : "ring-[#E8E8E8] bg-white text-[#666] hover:bg-[#F5F5F5]"}`}>
             <t.icon className="w-4 h-4" /> {t.label}
             <span className={`rounded-full px-2 py-0.5 text-[12px] ${tab === t.key ? "bg-[#0B6B4F] text-white" : "bg-[#F0F0F0] text-[#888]"}`}>{t.n}</span>
           </button>

@@ -74,7 +74,7 @@ export default function DriverPortal() {
             <DocRow label="PCO / TfL badge" ok={hasPco} value={user.pco_licence} />
           </div>
           {docsDone < 2 && (
-            <Button onClick={() => navigate("/apply/ve-001")} variant="outline" className="w-full mt-4 rounded-full border-[#0A0A0A]/20 text-[13px]">Add your licence details</Button>
+            <Button onClick={() => navigate("/help")} variant="outline" className="w-full mt-4 rounded-full border-[#0A0A0A]/20 text-[13px]">Get help adding your documents</Button>
           )}
         </motion.div>
 

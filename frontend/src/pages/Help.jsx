@@ -14,7 +14,7 @@ export default function Help() {
   const filtered = faqs.filter((f) => (f.q + f.a).toLowerCase().includes(q.toLowerCase()));
 
   return (
-    <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <main className="max-w-3xl mx-auto px-4 sm:px-6 py-14">
       <div className="text-center">
         <LifeBuoy className="w-9 h-9 text-[#0B6B4F] mx-auto mb-4" strokeWidth={1.5} />
         <h1 className="text-4xl sm:text-5xl font-heading font-extrabold text-[#0A0A0A]">{HELP.heading}</h1>

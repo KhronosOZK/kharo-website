@@ -553,6 +553,9 @@ export const CITY_PAGE = {
   greenNote: "{green} of them are hybrid or fully electric, which keeps your running costs down.",
   emptyNote: "No cars listed in {city} yet. Register your interest and we will let you know the moment one arrives.",
   faqHeading: "Renting a car in {city}",
+  marketplaceHeading: "Prefer to buy outright in {city}?",
+  marketplaceSub: "Browse PCO-ready cars for sale from checked sellers, with the PCO licence expiry shown on every listing.",
+  marketplaceCta: "Browse the marketplace",
   otherCitiesHeading: "Other cities we cover",
   stats: {
     cars: "cars ready to rent",
@@ -834,6 +837,23 @@ export const MARKETPLACE = {
   pcoNote: {
     heading: "Every vehicle comes with an active PCO licence",
     body: "TfL requires a valid PCO licence on the vehicle, not just the driver. On Kharo every listing shows the exact expiry date so buyers know exactly what they are getting.",
+  },
+  detail: {
+    licensingHeading: "Licensing",
+    vehicleHeading: "Vehicle details",
+    descriptionHeading: "Description",
+    featuresHeading: "Features",
+    checklistHeading: "What to check before you buy",
+    checklist: [
+      "View the vehicle in person and take it for a test drive before agreeing a price.",
+      "Check the PCO licence expiry date matches what is shown on the listing.",
+      "Ask for the full service history and confirm the MOT is current.",
+      "Get an independent vehicle check if you are not confident inspecting it yourself.",
+      "Agree the price and any part exchange in writing before you pay a deposit.",
+    ],
+    sellerHeading: "Seller",
+    interestCta: "Interested in this car?",
+    interestNote: "Send the seller a message with your budget and timeline. They will get back to you directly.",
   },
   sellerCta: {
     eyebrow: "Selling a PCO vehicle?",

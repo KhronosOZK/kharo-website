@@ -47,7 +47,7 @@ export default function Admin() {
 
   if (!isAdmin) return (
     <main className="max-w-md mx-auto px-4 py-16">
-      <div className="bg-white border border-gray-200 rounded-2xl p-8">
+      <div className="bg-white border border-[#E8E8E8] rounded-2xl p-8">
         <Lock className="w-8 h-8 text-[#0B6B4F]" strokeWidth={1.5} />
         <h1 className="text-2xl font-heading font-bold text-[#0A0A0A] mt-4">Kharo Ops, admin</h1>
         <p className="text-sm text-[#666666] mt-1 mb-6">Sign in with your operations account to view captured leads.</p>
@@ -103,7 +103,7 @@ export default function Admin() {
       {/* Headline KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
         {headline.map((c) => (
-          <div key={c.l} className="bg-white border border-gray-200 rounded-2xl p-5" data-testid={`stat-${c.l}`}>
+          <div key={c.l} className="bg-white border border-[#E8E8E8] rounded-2xl p-5" data-testid={`stat-${c.l}`}>
             <c.i className="w-5 h-5 text-[#0B6B4F]" />
             <AnimatedNumber value={c.v} className="text-[32px] font-heading font-extrabold text-[#0A0A0A] mt-3 block leading-none" />
             <div className="text-[13px] font-medium text-[#0A0A0A] mt-2">{c.l}</div>
@@ -114,7 +114,7 @@ export default function Admin() {
 
       {/* Marketplace demand, buy versus sell */}
       {analytics?.marketplace && (
-        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mt-4" data-testid="admin-marketplace">
+        <div className="bg-white border border-[#E8E8E8] rounded-2xl p-5 sm:p-6 mt-4" data-testid="admin-marketplace">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
               <h3 className="font-heading font-bold text-[#0A0A0A] text-lg">Marketplace demand</h3>
@@ -129,7 +129,7 @@ export default function Admin() {
               { l: "Vehicles listed", v: analytics.marketplace.listings, i: Building2, hint: "live sale inventory" },
               { l: "Listing views", v: analytics.marketplace.views, i: TrendingUp, hint: "sale detail page opens" },
             ].map((c) => (
-              <div key={c.l} className="rounded-2xl bg-[#F5F5F5] ring-1 ring-gray-200/70 p-5" data-testid={`mp-stat-${c.l}`}>
+              <div key={c.l} className="rounded-2xl bg-[#F5F5F5] ring-1 ring-[#E8E8E8]/70 p-5" data-testid={`mp-stat-${c.l}`}>
                 <c.i className="w-5 h-5 text-[#0B6B4F]" />
                 <AnimatedNumber value={c.v} className="text-[30px] font-heading font-extrabold text-[#0A0A0A] mt-3 block leading-none" />
                 <div className="text-[13px] font-medium text-[#0A0A0A] mt-2">{c.l}</div>
@@ -138,7 +138,7 @@ export default function Admin() {
             ))}
           </div>
           {analytics.marketplace.by_city?.length > 0 && (
-            <div className="mt-5 pt-5 border-t border-gray-100">
+            <div className="mt-5 pt-5 border-t border-[#F0F0F0]">
               <div className="text-[13px] font-semibold text-[#0A0A0A] mb-3">Marketplace interest by city</div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
                 {analytics.marketplace.by_city.map((c) => (
@@ -155,7 +155,7 @@ export default function Admin() {
 
       {/* Trend chart */}
       {analytics?.trend && (
-        <div className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 mt-4">
+        <div className="bg-white border border-[#E8E8E8] rounded-2xl p-5 sm:p-6 mt-4">
           <div className="flex items-center justify-between flex-wrap gap-2 mb-5">
             <h3 className="font-heading font-bold text-[#0A0A0A] text-lg">Growth over the last 14 days</h3>
             <div className="flex gap-4 text-[12px]">
@@ -184,7 +184,7 @@ export default function Admin() {
       {/* Secondary metrics + funnel + demand */}
       {analytics && (
         <div className="grid lg:grid-cols-3 gap-4 mt-4">
-          <div className="lg:col-span-2 bg-white rounded-2xl p-5 ring-1 ring-gray-200/70">
+          <div className="lg:col-span-2 bg-white rounded-2xl p-5 ring-1 ring-[#E8E8E8]/70">
             <h3 className="font-heading font-bold text-[#0A0A0A] mb-4">Acquisition funnel</h3>
             <div className="space-y-2.5">
               {[["Page views", analytics.funnel.page_views], ["Searches", analytics.funnel.searches], ["Listing views", analytics.funnel.listing_views], ["Card clicks", analytics.funnel.card_clicks], ["Applications", analytics.funnel.applications], ["Driver signups", analytics.funnel.driver_signups]].map(([l, n], i, arr) => {
@@ -198,13 +198,13 @@ export default function Admin() {
                 );
               })}
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-gray-100">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-[#F0F0F0]">
               {secondary.map((s) => (
                 <div key={s.l}><div className="text-xl font-heading font-extrabold text-[#0A0A0A]">{s.v}</div><div className="text-[12px] text-[#666666]">{s.l}</div></div>
               ))}
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-5 ring-1 ring-gray-200/70">
+          <div className="bg-white rounded-2xl p-5 ring-1 ring-[#E8E8E8]/70">
             <h3 className="font-heading font-bold text-[#0A0A0A] mb-4">City demand (waitlist)</h3>
             {analytics.city_demand.length === 0 ? <p className="text-[13px] text-[#888888]">No city requests yet.</p> : (
               <div className="space-y-2">{analytics.city_demand.map((c) => (<div key={c.label} className="flex justify-between text-[14px]"><span className="text-[#666666]">{c.label}</span><span className="font-semibold text-[#0A0A0A]">{c.count}</span></div>))}</div>
@@ -223,16 +223,16 @@ export default function Admin() {
           <Button onClick={exportCsv} variant="outline" className="rounded-full" data-testid="export-csv-btn"><Download className="w-4 h-4 mr-2" /> Export CSV</Button>
         </div>
 
-        <div className="mt-4 bg-white border border-gray-200 rounded-2xl p-3 flex flex-wrap items-center gap-3">
+        <div className="mt-4 bg-white border border-[#E8E8E8] rounded-2xl p-3 flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-4 h-4 text-[#999999] absolute left-3 top-1/2 -translate-y-1/2" />
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search this table…" data-testid="admin-filter-search" className="h-10 pl-9 rounded-full border-gray-200" />
+            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search this table…" data-testid="admin-filter-search" className="h-10 pl-9 rounded-full border-[#E8E8E8]" />
           </div>
           <div className="flex items-center gap-2 text-[13px] text-[#666666]">
             <span>From</span>
-            <Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} data-testid="admin-filter-from" className="h-10 w-[150px] rounded-lg border-gray-200" />
+            <Input type="date" value={from} onChange={(e) => setFrom(e.target.value)} data-testid="admin-filter-from" className="h-10 w-[150px] rounded-lg border-[#E8E8E8]" />
             <span>To</span>
-            <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} data-testid="admin-filter-to" className="h-10 w-[150px] rounded-lg border-gray-200" />
+            <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} data-testid="admin-filter-to" className="h-10 w-[150px] rounded-lg border-[#E8E8E8]" />
           </div>
           {(q || from || to) && <Button variant="ghost" onClick={() => { setQ(""); setFrom(""); setTo(""); }} data-testid="admin-filter-clear" className="rounded-full text-[#0B6B4F]">Clear</Button>}
           <span className="text-[12.5px] text-[#999999] ml-auto" data-testid="admin-filter-count">{filtered.length} of {rows.length}</span>
@@ -240,19 +240,19 @@ export default function Admin() {
 
         {TABS.map((t) => (
           <TabsContent key={t} value={t} className="mt-4">
-            <div className="bg-white border border-gray-200 rounded-xl overflow-x-auto">
+            <div className="bg-white border border-[#E8E8E8] rounded-xl overflow-x-auto">
               {rows.length === 0 ? (
                 <div className="p-8 text-center text-[#666666] text-sm">No records yet.</div>
               ) : filtered.length === 0 ? (
                 <div className="p-8 text-center text-[#666666] text-sm" data-testid="admin-no-matches">No records match your filters.</div>
               ) : (
                 <table className="w-full text-sm" data-testid={`table-${t}`}>
-                  <thead><tr className="text-left text-[#666666] text-xs border-b border-gray-200 bg-[#F5F5F5]">
+                  <thead><tr className="text-left text-[#666666] text-xs border-b border-[#E8E8E8] bg-[#F5F5F5]">
                     {columns.map((c) => <th key={c} className="py-3 px-4 capitalize whitespace-nowrap">{c.replace(/_/g, " ")}</th>)}
                   </tr></thead>
                   <tbody>
                     {filtered.map((r, i) => (
-                      <tr key={`${t}-${r.id || r.email || "row"}-${i}`} className="border-b border-gray-100 last:border-0 hover:bg-[#F5F5F5]">
+                      <tr key={`${t}-${r.id || r.email || "row"}-${i}`} className="border-b border-[#F0F0F0] last:border-0 hover:bg-[#F5F5F5]">
                         {columns.map((c) => <td key={c} className="py-2.5 px-4 text-[#555555] whitespace-nowrap max-w-xs truncate">{String(r[c] ?? "-")}</td>)}
                       </tr>
                     ))}

@@ -40,7 +40,7 @@ const apps = [
 ];
 const revenue = [["Toyota Prius", "4", "£1,060.00", "£954.00"], ["Skoda Octavia", "4", "£840.00", "£756.00"], ["Toyota Camry", "2", "£560.00", "£504.00"]];
 const compliance = ["MOT due in 12 days, Toyota Prius (LK22 CAR)", "Insurance renewal in 30 days, fleet-wide", "PHV licence renewal in 41 days, Ford Galaxy (LG21 GXY)", "Road tax renewal in 58 days, Skoda Octavia (SK20 OCT)"];
-const statusColor = (s) => s === "Rented" ? "text-[#0B6B4F] bg-[#EAF5F1]" : s === "Available" ? "text-gray-600 bg-gray-100" : "text-gray-700 bg-gray-200";
+const statusColor = (s) => s === "Rented" ? "text-[#0B6B4F] bg-[#EAF5F1]" : s === "Available" ? "text-[#666] bg-[#F0F0F0]" : "text-[#444] bg-[#E8E8E8]";
 const pinColor = (s) => s === "Moving" ? "#5FD3A6" : s === "Idle" ? "#555555" : "#999999";
 
 function LiveMap() {
@@ -100,7 +100,7 @@ export default function OperatorDashboard() {
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-2xl bg-[#0A0A0A] text-white flex items-center justify-center font-heading font-bold text-lg">SF</div>
-          <div><h1 className="text-2xl font-heading font-extrabold text-[#0A0A0A]">South Forest Rentals</h1><p className="text-sm text-[#666666]">Newham &amp; East London <span className="ml-2 text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">Preview</span></p></div>
+          <div><h1 className="text-2xl font-heading font-extrabold text-[#0A0A0A]">South Forest Rentals</h1><p className="text-sm text-[#666666]">Newham &amp; East London <span className="ml-2 text-xs bg-[#F0F0F0] text-[#666] px-2 py-0.5 rounded-full">Preview</span></p></div>
         </div>
         <Button className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white hover:-translate-y-[2px] transition-transform"><Plus className="w-4 h-4 mr-2" /> Add vehicle</Button>
       </div>
@@ -143,7 +143,7 @@ export default function OperatorDashboard() {
             </div>
             <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl p-5 shadow-sm">
               <h3 className="font-heading font-bold text-[#0A0A0A] mb-3">Compliance alerts</h3>
-              {compliance.slice(0, 3).map((c) => (<div key={c} className="flex items-start gap-2 py-2 text-sm text-[#666666] border-b border-[#0A0A0A]/8 last:border-0"><AlertTriangle className="w-4 h-4 text-gray-500 shrink-0 mt-0.5" /> {c}</div>))}
+              {compliance.slice(0, 3).map((c) => (<div key={c} className="flex items-start gap-2 py-2 text-sm text-[#666666] border-b border-[#0A0A0A]/8 last:border-0"><AlertTriangle className="w-4 h-4 text-[#888] shrink-0 mt-0.5" /> {c}</div>))}
             </div>
           </div>
         </TabsContent>
@@ -169,7 +169,7 @@ export default function OperatorDashboard() {
             <div key={a[0]} className="bg-white border border-[#0A0A0A]/10 rounded-2xl p-4 flex items-center justify-between flex-wrap gap-3 shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#EBEBEB] flex items-center justify-center font-heading font-bold text-[#0B6B4F]">{a[0][0]}</div>
-                <div><div className="font-medium text-[#0A0A0A]">{a[0]}</div><div className="text-xs text-[#888888]">{a[1]} · <span className={a[3] ? "text-[#0B6B4F]" : "text-gray-500"}>{a[2]}</span></div></div>
+                <div><div className="font-medium text-[#0A0A0A]">{a[0]}</div><div className="text-xs text-[#888888]">{a[1]} · <span className={a[3] ? "text-[#0B6B4F]" : "text-[#888]"}>{a[2]}</span></div></div>
               </div>
               <div className="flex gap-2"><Button size="sm" variant="outline" className="rounded-full border-[#0A0A0A]/20"><X className="w-4 h-4 mr-1" /> Decline</Button><Button size="sm" className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white"><Check className="w-4 h-4 mr-1" /> Approve</Button></div>
             </div>
@@ -194,7 +194,7 @@ export default function OperatorDashboard() {
         </TabsContent>
 
         <TabsContent value="compliance" className="mt-6">
-          <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl p-5 shadow-sm">{compliance.map((c) => (<div key={c} className="flex items-center gap-2 py-3 text-sm text-[#666666] border-b border-[#0A0A0A]/8 last:border-0"><AlertTriangle className="w-4 h-4 text-gray-500 shrink-0" /> {c}</div>))}</div>
+          <div className="bg-white border border-[#0A0A0A]/10 rounded-2xl p-5 shadow-sm">{compliance.map((c) => (<div key={c} className="flex items-center gap-2 py-3 text-sm text-[#666666] border-b border-[#0A0A0A]/8 last:border-0"><AlertTriangle className="w-4 h-4 text-[#888] shrink-0" /> {c}</div>))}</div>
         </TabsContent>
       </Tabs>
     </main>

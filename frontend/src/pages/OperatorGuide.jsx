@@ -184,7 +184,7 @@ export default function OperatorGuide() {
     <div className="min-h-screen bg-[#F5F5F5]">
 
       {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
-      <section className="relative text-white py-20 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
+      <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
         <div
           className="absolute inset-0"
           style={{
@@ -224,7 +224,7 @@ export default function OperatorGuide() {
             </a>
             <button
               onClick={() => navigate("/help")}
-              className="px-6 py-3 rounded-full border border-white/30 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+              className="px-6 py-3 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/5 transition-colors flex items-center gap-2"
             >
               Get help
               <ChevronRight className="w-4 h-4" />
