@@ -16,7 +16,6 @@ import ForDrivers from "@/pages/ForDrivers";
 import OperatorGuide from "@/pages/OperatorGuide";
 import Admin from "@/pages/Admin";
 import WhyKharo from "@/pages/WhyKharo";
-import Insurance from "@/pages/Insurance";
 import Help from "@/pages/Help";
 import Legal from "@/pages/Legal";
 import Saved from "@/pages/Saved";
@@ -58,7 +57,6 @@ function App() {
             <Route path="/for-drivers" element={<ForDrivers />} />
             <Route path="/operator-guide" element={<OperatorGuide />} />
             <Route path="/why-kharo" element={<WhyKharo />} />
-            <Route path="/insurance" element={<Insurance />} />
             <Route path="/why-caro" element={<Navigate to="/why-kharo" replace />} />
             <Route path="/help" element={<Help />} />
             <Route path="/legal" element={<Legal />} />

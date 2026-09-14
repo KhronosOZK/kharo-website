@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Search, ClipboardList, Phone, Car, Check, ChevronDown,
-  BadgeCheck, Clock, ChevronRight,
+  BadgeCheck, Clock, ChevronRight, LayoutDashboard, ShieldCheck,
+  CreditCard, FileText, ArrowUpRight,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -108,6 +109,26 @@ const FAQS = [
     q: "What happens if the car breaks down?",
     a: "Breakdown cover is included in the weekly price. Contact the breakdown provider whose details are in your rental agreement. In most cases the operator will arrange a replacement vehicle while repairs are made.",
   },
+];
+
+const DASHBOARD_NAV = [
+  { icon: LayoutDashboard, label: "Overview", active: true },
+  { icon: Car, label: "My rental" },
+  { icon: ShieldCheck, label: "Insurance" },
+  { icon: CreditCard, label: "Payments" },
+  { icon: FileText, label: "Documents" },
+];
+
+const DASHBOARD_PAYMENTS = [
+  { label: "Weekly rental", value: "£165.00", date: "Paid 3 Sep" },
+  { label: "Weekly insurance", value: "£38.00", date: "Paid 3 Sep" },
+  { label: "Breakdown cover", value: "£8.00", date: "Paid 3 Sep" },
+];
+
+const DASHBOARD_DOCUMENTS = [
+  { label: "PCO driver licence", status: "Valid", detail: "Expires Mar 2027" },
+  { label: "Insurance certificate", status: "Valid", detail: "Renews 14 Sep" },
+  { label: "Rental agreement", status: "Signed", detail: "12-week term" },
 ];
 
 function Faq({ q, a }) {
@@ -364,9 +385,143 @@ export default function DriverGuide() {
             ))}
           </div>
           <p className="text-[13px] text-[#AAA] text-center mt-5">
-            Insurance is quoted separately based on your profile, and fuel is not included -
-            that is your own cost. Deposit is agreed with the operator.
+            Insurance is quoted separately based on your profile, unless the operator's own
+            fleet cover is already built into the price shown, in which case the listing says so.
+            Fuel is not included - that is your own cost. Deposit is agreed with the operator.
           </p>
+        </div>
+      </section>
+
+      {/* Dashboard showcase */}
+      <section className="py-16 px-4 overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          <div className="max-w-xl mx-auto text-center mb-12">
+            <motion.p
+              {...FADE_UP}
+              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+            >
+              Your account
+            </motion.p>
+            <motion.h2
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4"
+            >
+              Your rental and your cover, in one dashboard
+            </motion.h2>
+            <motion.p
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[15px] text-[#666] leading-relaxed"
+            >
+              Once you're approved, everything lives in your Kharo account: the rental itself,
+              your insurance certificate and renewal date, every payment, and every document,
+              all in one place instead of scattered across emails.
+            </motion.p>
+          </div>
+
+          <motion.div
+            {...FADE_UP}
+            className="rounded-[22px] overflow-hidden border border-[#E8E8E8] bg-white"
+            style={{ boxShadow: "0 40px 80px -30px rgba(0,0,0,0.22)" }}
+          >
+            {/* browser chrome */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-[#F5F5F5] border-b border-[#E8E8E8]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+              <span className="ml-3 text-[11px] text-[#999] bg-white border border-[#E8E8E8] rounded-full px-3 py-1">
+                app.kharo.co.uk/driver
+              </span>
+            </div>
+
+            <div className="grid sm:grid-cols-[168px_1fr]">
+              {/* sidebar */}
+              <div className="hidden sm:flex flex-col gap-1 p-3 bg-[#FAFAFA] border-r border-[#EEEEEE]">
+                {DASHBOARD_NAV.map(({ icon: Icon, label, active }) => (
+                  <div
+                    key={label}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium ${active ? "bg-[#0B6B4F] text-white" : "text-[#666]"}`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {label}
+                  </div>
+                ))}
+              </div>
+
+              {/* main content */}
+              <div className="p-5 sm:p-6">
+                <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                  {/* rental card */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">My rental</span>
+                      <span className="text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5">Active</span>
+                    </div>
+                    <p className="font-heading font-bold text-[17px] text-[#111]">Toyota Prius &middot; Southwark</p>
+                    <div className="flex items-baseline gap-1 mt-2">
+                      <span className="font-heading font-extrabold text-[26px] text-[#111]">£165</span>
+                      <span className="text-[#AAA] text-[12px]">/ week rental</span>
+                    </div>
+                    <p className="text-[11px] text-[#AAA] mt-1">Next payment due 10 Sep</p>
+                  </div>
+
+                  {/* insurance card */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5 bg-[#FAFFFE]">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Insurance</span>
+                      <span className="text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5">Active</span>
+                    </div>
+                    <p className="font-heading font-bold text-[17px] text-[#111]">Hire &amp; reward cover</p>
+                    <div className="flex items-baseline gap-1 mt-2">
+                      <span className="font-heading font-extrabold text-[26px] text-[#111]">£38</span>
+                      <span className="text-[#AAA] text-[12px]">/ week, indicative</span>
+                    </div>
+                    <button className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0B6B4F] mt-2">
+                      View certificate <ArrowUpRight className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {/* payments */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Recent payments</span>
+                    <div className="mt-2">
+                      {DASHBOARD_PAYMENTS.map(({ label, value, date }, i) => (
+                        <div key={label} className={`flex items-center justify-between py-2.5 ${i > 0 ? "border-t border-[#F0F0F0]" : ""}`}>
+                          <div>
+                            <p className="text-[13px] text-[#333] font-medium">{label}</p>
+                            <p className="text-[11px] text-[#AAA]">{date}</p>
+                          </div>
+                          <span className="text-[13px] font-semibold text-[#111]">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* documents */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Documents</span>
+                    <div className="mt-2">
+                      {DASHBOARD_DOCUMENTS.map(({ label, status, detail }, i) => (
+                        <div key={label} className={`flex items-center justify-between py-2.5 ${i > 0 ? "border-t border-[#F0F0F0]" : ""}`}>
+                          <div className="flex items-center gap-2">
+                            <FileText className="w-3.5 h-3.5 text-[#AAA]" />
+                            <div>
+                              <p className="text-[13px] text-[#333] font-medium">{label}</p>
+                              <p className="text-[11px] text-[#AAA]">{detail}</p>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5 shrink-0">{status}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

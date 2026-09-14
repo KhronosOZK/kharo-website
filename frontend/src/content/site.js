@@ -43,7 +43,6 @@ export const NAV = {
     { to: "/search", label: "Rent a car" },
     { to: "/why-kharo", label: "Why Kharo" },
     { to: "/driver-guide", label: "How it works" },
-    { to: "/insurance", label: "Insurance" },
     { to: "/operator-guide", label: "For operators" },
   ],
   accountMenu: [
@@ -66,7 +65,6 @@ export const NAV = {
       links: [
         ["Rent a car", "/search"],
         ["How renting works", "/driver-guide"],
-        ["Insurance", "/insurance"],
         ["Register your interest", "/register"],
       ],
     },
@@ -533,7 +531,7 @@ export const LEGAL = {
   sections: [
     { t: "About Kharo", b: "Kharo connects private hire drivers with rental companies we have checked. Kharo operates the platform, the matching process and the payment flow, and works with specialist partners for insurance, claims and support. Kharo is not an insurer and does not provide credit." },
     { t: "How your data is used", b: "We collect the details you provide, including your name, contact details, licence and driving information, to verify your eligibility, generate insurance quotes and match you to vehicles. Your data is used to operate the service and, where you have agreed, to keep you informed about launch and relevant offers. We never sell your personal data." },
-    { t: "Insurance", b: "Insurance is quoted separately from the rental price, through our specialist hire and reward insurance partners, and is never folded into the weekly rental figure. Standard personal motor policies exclude hire and reward, so any policy you take must properly cover private hire use. Kharo facilitates quotes and payment, and the insurance contract is between you and the insurer. See our Insurance page for how quotes are put together." },
+    { t: "Insurance", b: "Insurance is quoted separately from the rental price by default, through our specialist hire and reward insurance partners. Where an operator holds their own fleet cover and adds it to their listing, the weekly price shown may already include insurance. Standard personal motor policies exclude hire and reward, so any policy relied on must properly cover private hire use. Kharo facilitates quotes and payment, and the insurance contract is between you and the insurer." },
     { t: "Payments and deposits", b: "All rental payments are processed through Kharo. Deposits are held securely and released after return, subject to the agreed handover condition record. Paying an operator directly outside the platform may void your cover and the protections we offer." },
     { t: "Operator verification", b: "Rental companies are checked against the relevant licensing register and Companies House before listing. Operator identity is disclosed to a driver once their application is approved." },
     { t: "Your rights under UK GDPR", b: "You can request access to, correction of, or deletion of your personal data at any time by contacting privacy@kharo.uk. Where processing is based on consent, you can withdraw it at any time in your account settings." },

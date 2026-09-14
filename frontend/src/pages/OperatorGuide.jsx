@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import {
   ClipboardList, Phone, BadgeCheck, Car, TrendingUp, Shield,
   Users, Zap, ChevronDown, ChevronRight, Check, Clock,
-  Lock,
+  Lock, LayoutDashboard, Wallet, FileCheck2, ShieldPlus,
+  UploadCloud,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -157,6 +158,30 @@ const FAQS = [
     q: "What types of vehicles can I list?",
     a: "Any TfL-licensed private hire vehicle: saloons, estates, MPVs, executive cars, and WAVs. The car must hold a valid TfL PHV licence. Electric and hybrid vehicles are clearly marked on listings.",
   },
+  {
+    q: "I already have fleet insurance. Can that be reflected in my price?",
+    a: "Yes. Add your policy details and certificate in the Fleet insurance section of your dashboard. Once we've verified it, switch on \"Include insurance in the price drivers see\" and your listings show one weekly figure with insurance already built in. Leave it off and we quote insurance separately, based on each driver's own profile, as we do by default.",
+  },
+];
+
+const OPERATOR_DASHBOARD_NAV = [
+  { icon: LayoutDashboard, label: "Overview", active: true },
+  { icon: Car, label: "Fleet" },
+  { icon: BadgeCheck, label: "Applications" },
+  { icon: ShieldPlus, label: "Fleet insurance" },
+  { icon: Wallet, label: "Payouts" },
+];
+
+const OPERATOR_STATS = [
+  { label: "Fleet size", value: "24 cars" },
+  { label: "Active rentals", value: "19" },
+  { label: "This month", value: "£14,820" },
+];
+
+const OPERATOR_APPLICATIONS = [
+  { name: "A. Okafor", car: "Toyota Prius · LK22 CAR", status: "Vetted" },
+  { name: "M. Hussain", car: "Skoda Octavia · SK20 OCT", status: "Vetted" },
+  { name: "R. Novak", car: "Ford Galaxy · LG21 GXY", status: "In review" },
 ];
 
 function Faq({ q, a }) {
@@ -460,6 +485,140 @@ export default function OperatorGuide() {
                 <p className="text-[13px] text-[#666] leading-relaxed">{sub}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard showcase */}
+      <section className="py-16 px-4 overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          <div className="max-w-xl mx-auto text-center mb-12">
+            <motion.p
+              {...FADE_UP}
+              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+            >
+              Your account
+            </motion.p>
+            <motion.h2
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4"
+            >
+              Your fleet, your applications and your cover, in one dashboard
+            </motion.h2>
+            <motion.p
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[15px] text-[#666] leading-relaxed"
+            >
+              Every vehicle, every vetted application and every payout in one view. If you
+              already carry your own fleet insurance, add it once and we build it straight
+              into the rental price drivers see.
+            </motion.p>
+          </div>
+
+          <motion.div
+            {...FADE_UP}
+            className="rounded-[22px] overflow-hidden border border-[#E8E8E8] bg-white"
+            style={{ boxShadow: "0 40px 80px -30px rgba(0,0,0,0.22)" }}
+          >
+            {/* browser chrome */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-[#F5F5F5] border-b border-[#E8E8E8]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+              <span className="ml-3 text-[11px] text-[#999] bg-white border border-[#E8E8E8] rounded-full px-3 py-1">
+                app.kharo.co.uk/operator
+              </span>
+            </div>
+
+            <div className="grid sm:grid-cols-[168px_1fr]">
+              {/* sidebar */}
+              <div className="hidden sm:flex flex-col gap-1 p-3 bg-[#FAFAFA] border-r border-[#EEEEEE]">
+                {OPERATOR_DASHBOARD_NAV.map(({ icon: Icon, label, active }) => (
+                  <div
+                    key={label}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium ${active ? "bg-[#0B6B4F] text-white" : "text-[#666]"}`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {label}
+                  </div>
+                ))}
+              </div>
+
+              {/* main content */}
+              <div className="p-5 sm:p-6">
+                {/* stat row */}
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  {OPERATOR_STATS.map(({ label, value }) => (
+                    <div key={label} className="rounded-2xl border border-[#EEEEEE] p-4">
+                      <p className="text-[11px] font-semibold text-[#888] uppercase tracking-wide">{label}</p>
+                      <p className="font-heading font-extrabold text-[19px] sm:text-[22px] text-[#111] mt-1">{value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {/* applications */}
+                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
+                    <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Vetted applications</span>
+                    <div className="mt-2">
+                      {OPERATOR_APPLICATIONS.map(({ name, car, status }, i) => (
+                        <div key={name} className={`flex items-center justify-between py-2.5 ${i > 0 ? "border-t border-[#F0F0F0]" : ""}`}>
+                          <div>
+                            <p className="text-[13px] text-[#333] font-medium">{name}</p>
+                            <p className="text-[11px] text-[#AAA]">{car}</p>
+                          </div>
+                          <span className={`text-[10px] font-bold rounded-full px-2 py-0.5 shrink-0 ${status === "Vetted" ? "text-[#0B6B4F] bg-[#EAF5F1]" : "text-[#8A5E1E] bg-[#FDF3E3]"}`}>
+                            {status}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* fleet insurance card - the bring-your-own-cover feature */}
+                  <div className="rounded-2xl border border-[#0B6B4F]/25 p-5 bg-[#FAFFFE]">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[12px] font-semibold text-[#0B6B4F] uppercase tracking-wide flex items-center gap-1.5">
+                        <ShieldPlus className="w-3.5 h-3.5" /> Fleet insurance
+                      </span>
+                      <span className="text-[10px] font-bold text-white bg-[#0B6B4F] rounded-full px-2 py-0.5">On file</span>
+                    </div>
+                    <div className="space-y-2 text-[12px]">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#888]">Policy holder</span>
+                        <span className="text-[#111] font-medium">Your fleet policy</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#888]">Cover expiry</span>
+                        <span className="text-[#111] font-medium">14 Feb 2027</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[#0B6B4F] font-medium pt-1">
+                        <UploadCloud className="w-3.5 h-3.5" /> Certificate uploaded
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#0B6B4F]/15">
+                      <span className="text-[11px] text-[#444] font-medium leading-snug max-w-[140px]">Include insurance in the price drivers see</span>
+                      <span className="w-9 h-5 rounded-full bg-[#0B6B4F] relative shrink-0">
+                        <span className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-white" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <div className="max-w-2xl mx-auto mt-8 flex items-start gap-3 bg-white border border-[#E8E8E8] rounded-2xl p-5">
+            <FileCheck2 className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" />
+            <p className="text-[13px] text-[#666] leading-relaxed">
+              <span className="font-semibold text-[#111]">Already carry your own fleet cover?</span> Add
+              the policy details and certificate to your operator account and we'll verify it. Once it's
+              on file, switch the toggle on and your listings show one weekly price with insurance
+              already built in, no separate quote for the driver to see. Switch it off at any time and
+              we go back to quoting insurance separately, based on the driver's own profile.
+            </p>
           </div>
         </div>
       </section>
