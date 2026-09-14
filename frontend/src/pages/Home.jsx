@@ -1,12 +1,9 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star, Layers, Tag, MapPin, MessageCircleOff, HelpCircle } from "lucide-react";
+import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star, HelpCircle } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
-
-const INK = "#0A0A0A";
-const ACCENT = "#5FD3A6";
 
 const BRANDS = ["Toyota", "Kia", "Volkswagen", "Skoda", "Mercedes-Benz", "Hyundai", "Ford"];
 
@@ -190,24 +187,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TWO-SIDED MARKETPLACE - the two journeys, stated plainly, right under the fold */}
+      {/* TWO-SIDED MARKETPLACE - the two journeys, stated plainly, right under the fold.
+          Light cards with a small inset photo instead of a full-bleed dark banner,
+          so they don't repeat the heavy dark-photo treatment dropped elsewhere. */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div
             onClick={() => navigate("/search")}
-            className="group relative rounded-[28px] overflow-hidden cursor-pointer h-[260px] sm:h-[300px]"
+            className="group bg-white border border-[#E8E8E8] rounded-[28px] overflow-hidden cursor-pointer"
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-              style={{ backgroundImage: "url('https://images.pexels.com/photos/5834947/pexels-photo-5834947.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1000')" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
-            <div className="relative h-full flex flex-col justify-end p-7 sm:p-8">
-              <p className="text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Need a car to drive?</p>
-              <h3 className="font-heading text-2xl sm:text-[28px] font-bold text-white mb-2" style={{ textWrap: "balance" }}>
+            <div className="aspect-[16/9] overflow-hidden">
+              <div
+                className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                style={{ backgroundImage: "url('https://images.pexels.com/photos/5834947/pexels-photo-5834947.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=560')" }}
+              />
+            </div>
+            <div className="p-6 sm:p-7">
+              <p className="text-[#0B6B4F] text-xs font-semibold uppercase tracking-wide mb-2">Need a car to drive?</p>
+              <h3 className="font-heading text-xl sm:text-[22px] font-bold text-[#111] mb-3" style={{ textWrap: "balance" }}>
                 Find a vehicle that fits your budget.
               </h3>
-              <span className="inline-flex items-center gap-1.5 text-white font-semibold text-sm">
+              <span className="inline-flex items-center gap-1.5 text-[#111] font-semibold text-sm">
                 Find a vehicle <ArrowRight size={15} />
               </span>
             </div>
@@ -215,20 +215,21 @@ export default function Home() {
 
           <div
             onClick={() => navigate("/list-your-fleet")}
-            className="group relative rounded-[28px] overflow-hidden cursor-pointer h-[260px] sm:h-[300px]"
+            className="group bg-white border border-[#E8E8E8] rounded-[28px] overflow-hidden cursor-pointer"
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-              style={{ backgroundImage: "url('https://images.pexels.com/photos/29566898/pexels-photo-29566898.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1000')" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
-            <div className="relative h-full flex flex-col justify-end p-7 sm:p-8">
-              <p className="text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Have a car sitting idle?</p>
-              <h3 className="font-heading text-2xl sm:text-[28px] font-bold text-white mb-2" style={{ textWrap: "balance" }}>
+            <div className="aspect-[16/9] overflow-hidden">
+              <div
+                className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                style={{ backgroundImage: "url('https://images.pexels.com/photos/29566898/pexels-photo-29566898.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=560')" }}
+              />
+            </div>
+            <div className="p-6 sm:p-7">
+              <p className="text-[#0B6B4F] text-xs font-semibold uppercase tracking-wide mb-2">Have a car sitting idle?</p>
+              <h3 className="font-heading text-xl sm:text-[22px] font-bold text-[#111] mb-3" style={{ textWrap: "balance" }}>
                 List it and reach drivers looking to rent.
               </h3>
-              <span className="inline-flex items-center gap-1.5" style={{ color: ACCENT }}>
-                <span className="font-semibold text-sm">List your vehicle</span> <ArrowRight size={15} color={ACCENT} />
+              <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm">
+                List your vehicle <ArrowRight size={15} />
               </span>
             </div>
           </div>
@@ -321,17 +322,16 @@ export default function Home() {
             Stop messaging dozens of operators on WhatsApp and Facebook to find a car. Every vehicle is in one place.
           </p>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 border-t border-l border-[#EBEBEB] max-w-3xl mx-auto">
           {[
-            { icon: Layers, title: "More choice", body: "Compare vehicles from different operators in one place." },
-            { icon: Tag, title: "Clear pricing", body: "See the full weekly price before you get in touch." },
-            { icon: MapPin, title: "Search your area", body: "Find vehicles close to where you live or work." },
-            { icon: MessageCircleOff, title: "Less hassle", body: "No more chasing operators one by one to find a car." },
+            { title: "More choice", body: "Compare vehicles from different operators in one place." },
+            { title: "Clear pricing", body: "See the full weekly price before you get in touch." },
+            { title: "Search your area", body: "Find vehicles close to where you live or work." },
+            { title: "Less hassle", body: "No more chasing operators one by one to find a car." },
           ].map((f) => (
-            <div key={f.title} className="flex flex-col items-center text-center">
-              <f.icon size={30} className="text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-              <p className="font-semibold text-[#111] text-sm mb-1">{f.title}</p>
-              <p className="text-[#888] text-xs leading-relaxed">{f.body}</p>
+            <div key={f.title} className="p-6 sm:p-7 border-r border-b border-[#EBEBEB]">
+              <p className="font-semibold text-[#111] text-[15px] mb-1.5">{f.title}</p>
+              <p className="text-[#888] text-[13px] leading-relaxed">{f.body}</p>
             </div>
           ))}
         </div>
@@ -553,33 +553,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* OPERATOR CTA - full-bleed photographic panel, pill button */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <div className="relative rounded-[32px] px-8 py-16 sm:py-24 text-center overflow-hidden">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.75) 45%, rgba(10,10,10,0.45) 100%), url('https://images.pexels.com/photos/29566898/pexels-photo-29566898.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              filter: "grayscale(0.25)",
-            }}
-          />
-          <div className="relative">
-            <h2 className="font-heading text-2xl sm:text-4xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
-              Got vehicles sitting idle?
-            </h2>
-            <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto mb-8">
-              List your PCO fleet on Kharo and start generating weekly income. No commission on agreed rates.
-            </p>
-            <button
-              onClick={() => navigate("/list-your-fleet")}
-              className="inline-flex items-center gap-2 font-semibold text-sm px-7 py-3.5 rounded-full transition-transform hover:scale-[1.03]"
-              style={{ backgroundColor: ACCENT, color: INK }}
-            >
-              List Your Fleet <ArrowRight size={15} />
-            </button>
-          </div>
+      {/* OPERATOR CTA - solid brand green, matching the CTA band used on every
+          other page instead of a dark full-bleed photo panel */}
+      <section className="bg-[#0B6B4F] py-14 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="font-heading text-2xl sm:text-4xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
+            Got vehicles sitting idle?
+          </h2>
+          <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto mb-8">
+            List your PCO fleet on Kharo and start generating weekly income. No commission on agreed rates.
+          </p>
+          <button
+            onClick={() => navigate("/list-your-fleet")}
+            className="inline-flex items-center gap-2 font-semibold text-sm px-7 py-3.5 rounded-full bg-white text-[#0B6B4F] hover:bg-[#EAF5F1] transition-colors"
+          >
+            List Your Fleet <ArrowRight size={15} />
+          </button>
         </div>
       </section>
 
