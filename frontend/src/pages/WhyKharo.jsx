@@ -10,6 +10,14 @@ const FADE_UP = {
   transition: { duration: 0.5 },
 };
 
+// hero content is already in view on load: animate on mount, not on scroll-into-view,
+// since whileInView's IntersectionObserver can miss content that's visible at paint time
+const FADE_UP_HERO = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
 const PROBLEMS = [
   {
     problem: "Hidden fees discovered after you commit",
@@ -107,33 +115,25 @@ export default function WhyKharo() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
 
-      {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
+      {/* Hero - solid dark ground with film grain, no photo banner */}
       <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/7362886/pexels-photo-7362886.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "grayscale(0.3)",
-          }}
-        />
+        <div className="grain-overlay" />
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.p
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]"
           >
             Why Kharo
           </motion.p>
           <motion.h1
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.05 }}
             className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] tracking-tight text-balance"
           >
             PCO car rental that's actually clear.
           </motion.h1>
           <motion.p
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-white/70 text-[17px] mt-5 max-w-xl mx-auto leading-relaxed"
           >
@@ -141,7 +141,7 @@ export default function WhyKharo() {
             Every driver is vetted before they drive.
           </motion.p>
           <motion.div
-            {...FADE_UP}
+            {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.15 }}
             className="mt-8 flex flex-wrap gap-3 justify-center"
           >
@@ -372,49 +372,38 @@ export default function WhyKharo() {
               </div>
             </div>
 
-            {/* Stats card - a photo backdrop instead of a flat fill, matching the
-                dark cinematic treatment used elsewhere on this page */}
-            <div className="relative rounded-2xl overflow-hidden p-7 text-white min-h-[520px] flex flex-col justify-center">
-              <img
-                src="https://images.pexels.com/photos/19153442/pexels-photo-19153442.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1125"
-                alt="London street at dusk"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div
-                className="absolute inset-0"
-                style={{ background: "linear-gradient(165deg, rgba(11,107,79,0.88) 0%, rgba(7,26,20,0.82) 55%, rgba(5,15,12,0.92) 100%)" }}
-              />
-              <div className="relative">
-                <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-6">
-                  The London PCO market
-                </p>
-                <div className="space-y-7">
-                  <div>
-                    <div className="text-[54px] font-heading font-extrabold text-white leading-none">
-                      12,712
-                    </div>
-                    <p className="text-white/70 text-[14px] mt-1">
-                      More licensed PHV drivers than available vehicles in London
-                      <br />
-                      <span className="text-white/40 text-[12px]">TfL May 2026</span>
-                    </p>
+            {/* Stats card - clean and light, matching the numbered-index
+                language used elsewhere on this page instead of a dark photo card */}
+            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
+              <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#0B6B4F] mb-6">
+                The London PCO market
+              </p>
+              <div>
+                <div>
+                  <div className="text-[54px] font-heading font-extrabold text-[#111] leading-none">
+                    12,712
                   </div>
-                  <div className="border-t border-white/15 pt-6">
-                    <div className="text-[36px] font-heading font-extrabold text-white leading-none">
-                      48 hrs
-                    </div>
-                    <p className="text-white/70 text-[14px] mt-1">
-                      Typical vetting turnaround from application to approval
-                    </p>
+                  <p className="text-[#666] text-[14px] mt-1">
+                    More licensed PHV drivers than available vehicles in London
+                    <br />
+                    <span className="text-[#AAA] text-[12px]">TfL May 2026</span>
+                  </p>
+                </div>
+                <div className="border-t border-[#EEEEEE] pt-6 mt-7">
+                  <div className="text-[36px] font-heading font-extrabold text-[#111] leading-none">
+                    48 hrs
                   </div>
-                  <div className="border-t border-white/15 pt-6">
-                    <div className="text-[36px] font-heading font-extrabold text-white leading-none">
-                      3 days
-                    </div>
-                    <p className="text-white/70 text-[14px] mt-1">
-                      Most approved drivers collect their car within 3 working days
-                    </p>
+                  <p className="text-[#666] text-[14px] mt-1">
+                    Typical vetting turnaround from application to approval
+                  </p>
+                </div>
+                <div className="border-t border-[#EEEEEE] pt-6 mt-7">
+                  <div className="text-[36px] font-heading font-extrabold text-[#111] leading-none">
+                    3 days
                   </div>
+                  <p className="text-[#666] text-[14px] mt-1">
+                    Most approved drivers collect their car within 3 working days
+                  </p>
                 </div>
               </div>
             </div>

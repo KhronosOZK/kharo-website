@@ -87,20 +87,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* HERO - cinematic, tight cropped car, grayscale-treated for a studio feel */}
+      {/* HERO - solid dark ground with a film-grain texture instead of a full-bleed
+          photo banner behind the text; typography carries the section on its own */}
       <section
         className="relative min-h-[82vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden"
         style={{ backgroundColor: INK }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 55%, rgba(10,10,10,0.95) 100%), url('https://images.pexels.com/photos/17152058/pexels-photo-17152058.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center 30%",
-            filter: "grayscale(0.35) contrast(1.05)",
-          }}
-        />
+        <div className="grain-overlay" />
 
         <div className="relative z-10 flex flex-col items-center w-full">
           <p className="text-white/50 text-xs font-semibold uppercase tracking-[0.16em] mb-6">

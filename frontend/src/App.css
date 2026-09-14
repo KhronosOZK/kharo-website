@@ -1,2 +1,14 @@
 /* Kharo app styles */
 .App { min-height: 100vh; }
+
+/* Subtle film-grain texture for dark hero sections, so they read as
+   photographic and considered rather than a flat black fill. Absolutely
+   positioned by the caller; this only supplies the noise pattern. */
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}

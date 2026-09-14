@@ -194,17 +194,9 @@ export default function OperatorGuide() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
 
-      {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
+      {/* Hero - solid dark ground with film grain, no photo banner */}
       <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/29566898/pexels-photo-29566898/free-photo-of-aerial-view-of-car-lot-with-parked-vehicles.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "grayscale(0.3)",
-          }}
-        />
+        <div className="grain-overlay" />
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.p
             {...FADE_UP_HERO}
@@ -403,41 +395,25 @@ export default function OperatorGuide() {
               </ul>
             </div>
 
-            <div className="relative rounded-2xl overflow-hidden p-7 text-white">
-              <img
-                src="https://images.pexels.com/photos/8388228/pexels-photo-8388228.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1125"
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div
-                className="absolute inset-0"
-                style={{ background: "linear-gradient(165deg, rgba(11,107,79,0.90) 0%, rgba(7,26,20,0.85) 55%, rgba(5,15,12,0.94) 100%)" }}
-              />
-              <div className="relative">
-                <BadgeCheck className="w-10 h-10 text-[#5FD3A6] mb-4" />
-                <h3 className="font-heading font-bold text-[20px] mb-3">What the check covers</h3>
-                <div className="space-y-4">
-                  {[
-                    { step: "1", label: "DVLA eligibility", desc: "Licence confirmed, points verified against operator threshold" },
-                    { step: "2", label: "Liveness identity", desc: "AI-assisted check against government-issued photo ID" },
-                    { step: "3", label: "Open Banking affordability", desc: "Read-only review, no credit impact on the driver" },
-                    { step: "4", label: "PHV trade record", desc: "History reviewed with previous operators and platforms" },
-                  ].map(({ step, label, desc }) => (
-                    <div key={step} className="flex items-start gap-3">
-                      <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
-                        {step}
-                      </span>
-                      <div>
-                        <p className="font-semibold text-[14px]">{label}</p>
-                        <p className="text-white/60 text-[12px]">{desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 pt-5 border-t border-white/15 text-[13px] text-white/60">
-                  Vetting runs within 48 hours of the driver registering interest. You are notified when a driver is approved.
-                </div>
+            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
+              <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
+              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-3">What the check covers</h3>
+              <div>
+                {[
+                  { step: "01", label: "DVLA eligibility", desc: "Licence confirmed, points verified against operator threshold" },
+                  { step: "02", label: "Liveness identity", desc: "AI-assisted check against government-issued photo ID" },
+                  { step: "03", label: "Open Banking affordability", desc: "Read-only review, no credit impact on the driver" },
+                  { step: "04", label: "PHV trade record", desc: "History reviewed with previous operators and platforms" },
+                ].map(({ step, label, desc }, i) => (
+                  <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
+                    <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
+                    <p className="font-semibold text-[14px] text-[#111] mt-0.5">{label}</p>
+                    <p className="text-[#888] text-[12px]">{desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-[#EEEEEE] text-[13px] text-[#888]">
+                Vetting runs within 48 hours of the driver registering interest. You are notified when a driver is approved.
               </div>
             </div>
           </div>
