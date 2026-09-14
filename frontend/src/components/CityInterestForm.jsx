@@ -60,21 +60,21 @@ export default function CityInterestForm({ city: fixedCity, className = "" }) {
           value={city}
           onChange={(e) => setCity(e.target.value)}
           placeholder="Your city or area"
-          className="flex-1 min-w-0 border border-gray-200 text-sm text-gray-800 px-4 py-3 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+          className="flex-1 min-w-0 border border-[#E8E8E8] text-sm text-[#333] px-4 py-3 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
         />
       )}
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Your name"
-        className="flex-1 min-w-0 border border-gray-200 text-sm text-gray-800 px-4 py-3 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+        className="flex-1 min-w-0 border border-[#E8E8E8] text-sm text-[#333] px-4 py-3 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
       />
       <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Your email"
-        className="flex-1 min-w-0 border border-gray-200 text-sm text-gray-800 px-4 py-3 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+        className="flex-1 min-w-0 border border-[#E8E8E8] text-sm text-[#333] px-4 py-3 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
       />
       <button
         type="submit"

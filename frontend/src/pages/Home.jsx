@@ -16,7 +16,7 @@ function FilterSelect({ options, value, onChange }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="appearance-none w-full bg-white border border-gray-200 text-gray-800 text-sm font-medium px-4 py-3 pr-9 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400 cursor-pointer"
+        className="appearance-none w-full bg-white border border-[#E8E8E8] text-[#333] text-sm font-medium px-4 py-3 pr-9 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA] cursor-pointer"
       >
         {options.map((o) => (
           <option key={o.value ?? o} value={o.value ?? o}>
@@ -24,7 +24,7 @@ function FilterSelect({ options, value, onChange }) {
           </option>
         ))}
       </select>
-      <ChevronDown size={15} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+      <ChevronDown size={15} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#AAA] pointer-events-none" />
     </div>
   );
 }
@@ -164,7 +164,7 @@ export default function Home() {
             <div className="flex items-center justify-between gap-3 px-1">
               <button
                 onClick={() => setShowMore(!showMore)}
-                className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1 transition-colors"
+                className="text-sm text-[#888] hover:text-[#555] flex items-center gap-1 transition-colors"
               >
                 <ChevronDown size={14} className={`transition-transform ${showMore ? "rotate-180" : ""}`} />
                 {showMore ? "Fewer filters" : "More filters"}
@@ -183,10 +183,10 @@ export default function Home() {
       </section>
 
       {/* BRAND STRIP - the makes actually on the platform */}
-      <section className="border-b border-gray-100 py-7">
+      <section className="border-b border-[#F5F5F5] py-7">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
           {BRANDS.map((b) => (
-            <span key={b} className="text-gray-400 hover:text-gray-900 font-heading font-semibold text-sm tracking-wide transition-colors cursor-default">
+            <span key={b} className="text-[#AAA] hover:text-[#111] font-heading font-semibold text-sm tracking-wide transition-colors cursor-default">
               {b}
             </span>
           ))}
@@ -197,27 +197,27 @@ export default function Home() {
       <section className="max-w-7xl mx-auto py-16">
         <div className="flex items-end justify-between mb-6 px-4 sm:px-6">
           <div>
-            <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">The Fleet</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">Cars Drivers Actually Drive</h2>
+            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">The Fleet</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Cars Drivers Actually Drive</h2>
           </div>
           <div className="hidden sm:flex items-center gap-2">
             <button
               onClick={() => scrollFleet(-1)}
               aria-label="Scroll fleet left"
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 hover:border-gray-400 text-gray-700 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#E8E8E8] hover:border-[#AAA] text-[#555] transition-colors"
             >
               <ChevronLeft size={16} />
             </button>
             <button
               onClick={() => scrollFleet(1)}
               aria-label="Scroll fleet right"
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 hover:border-gray-400 text-gray-700 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#E8E8E8] hover:border-[#AAA] text-[#555] transition-colors"
             >
               <ChevronRight size={16} />
             </button>
             <button
               onClick={() => navigate("/search")}
-              className="ml-2 flex items-center gap-2 border border-gray-200 hover:border-gray-400 text-gray-900 text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
+              className="ml-2 flex items-center gap-2 border border-[#E8E8E8] hover:border-[#AAA] text-[#111] text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
             >
               Show all vehicles <ArrowUpRight size={14} />
             </button>
@@ -241,23 +241,23 @@ export default function Home() {
         </div>
         <button
           onClick={() => navigate("/search")}
-          className="sm:hidden mt-4 mx-4 flex items-center justify-center gap-2 border border-gray-200 text-gray-900 text-sm font-semibold px-5 py-3 rounded-full"
+          className="sm:hidden mt-4 mx-4 flex items-center justify-center gap-2 border border-[#E8E8E8] text-[#111] text-sm font-semibold px-5 py-3 rounded-full"
         >
           Show all vehicles <ArrowUpRight size={14} />
         </button>
       </section>
 
       {/* FEATURED LISTINGS - real cards, explicit interest-capture CTA on each */}
-      <section className="bg-gray-50 border-t border-gray-100 py-16">
+      <section className="bg-[#FAFAFA] border-t border-[#F5F5F5] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">Available Now</p>
-              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">Featured Rentals</h2>
+              <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Available Now</p>
+              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Featured Rentals</h2>
             </div>
             <button
               onClick={() => navigate("/search")}
-              className="flex items-center gap-1 text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors"
+              className="flex items-center gap-1 text-sm font-medium text-[#111] hover:text-[#666] transition-colors"
             >
               View all <ArrowRight size={14} />
             </button>
@@ -273,7 +273,7 @@ export default function Home() {
       {/* KEY FEATURES - circular monochrome icon badges, no colour */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">Taking Care of Every Driver</p>
+          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Taking Care of Every Driver</p>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Every rental, fully covered</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -296,11 +296,11 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
           <div className="order-2 lg:order-1">
-            <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-2">One Number, No Surprises</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900 mb-5" style={{ textWrap: "balance" }}>
+            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">One Number, No Surprises</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-5" style={{ textWrap: "balance" }}>
               The weekly price is the whole price
             </h2>
-            <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-md">
+            <p className="text-[#888] text-sm leading-relaxed mb-6 max-w-md">
               No separate insurance quote. No maintenance invoice halfway through the month.
               Every listing on Kharo shows one weekly figure, and that figure is what you pay
               from day one to the day you hand the keys back.
@@ -313,7 +313,7 @@ export default function Home() {
               ].map((line) => (
                 <div key={line} className="flex items-center gap-2.5">
                   <Check size={14} style={{ color: "#0B6B4F" }} strokeWidth={2.5} />
-                  <span className="text-gray-700 text-sm">{line}</span>
+                  <span className="text-[#555] text-sm">{line}</span>
                 </div>
               ))}
             </div>
@@ -321,11 +321,11 @@ export default function Home() {
 
           <div className="order-1 lg:order-2 flex justify-center">
             <div
-              className="relative bg-white rounded-3xl p-6 w-full max-w-sm border border-gray-100"
+              className="relative bg-white rounded-3xl p-6 w-full max-w-sm border border-[#F5F5F5]"
               style={{ boxShadow: "0 32px 64px -20px rgba(0,0,0,0.22)", transform: "rotate(-2deg)" }}
             >
               <div className="flex items-center justify-between mb-5">
-                <span className="text-gray-400 text-xs font-semibold uppercase tracking-wide">Toyota Prius &middot; Southwark</span>
+                <span className="text-[#AAA] text-xs font-semibold uppercase tracking-wide">Toyota Prius &middot; Southwark</span>
                 <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#0B6B4F" }}>
                   <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
                   Live rate
@@ -333,26 +333,26 @@ export default function Home() {
               </div>
 
               <div className="flex items-baseline gap-1 mb-6">
-                <span className="font-heading font-bold text-gray-900 text-5xl tracking-tight">£249</span>
-                <span className="text-gray-400 text-sm font-medium">/ week</span>
+                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£249</span>
+                <span className="text-[#AAA] text-sm font-medium">/ week</span>
               </div>
 
-              <div className="space-y-0 border-t border-gray-100">
+              <div className="space-y-0 border-t border-[#F5F5F5]">
                 {[
                   { label: "Weekly rental", value: "£169" },
                   { label: "Insurance", value: "Included" },
                   { label: "Maintenance", value: "Included" },
                 ].map((row) => (
-                  <div key={row.label} className="flex items-center justify-between py-3 border-b border-gray-100">
-                    <span className="text-gray-500 text-sm">{row.label}</span>
-                    <span className="text-gray-900 text-sm font-semibold">{row.value}</span>
+                  <div key={row.label} className="flex items-center justify-between py-3 border-b border-[#F5F5F5]">
+                    <span className="text-[#888] text-sm">{row.label}</span>
+                    <span className="text-[#111] text-sm font-semibold">{row.value}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="flex items-center gap-2 mt-5 bg-gray-50 rounded-xl px-3.5 py-3">
-                <TrendingUp size={15} className="text-gray-400 flex-shrink-0" />
-                <span className="text-gray-500 text-xs">Typical driver nets £480&ndash;£650/week after this rental</span>
+              <div className="flex items-center gap-2 mt-5 bg-[#FAFAFA] rounded-xl px-3.5 py-3">
+                <TrendingUp size={15} className="text-[#AAA] flex-shrink-0" />
+                <span className="text-[#888] text-xs">Typical driver nets £480&ndash;£650/week after this rental</span>
               </div>
             </div>
           </div>
@@ -385,8 +385,8 @@ export default function Home() {
       {/* TESTIMONIALS - photo strip, star ratings, real-feeling voice */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">Drivers On Kharo</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">What renting direct actually feels like</h2>
+          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Drivers On Kharo</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">What renting direct actually feels like</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
@@ -423,18 +423,18 @@ export default function Home() {
               photo: "https://images.pexels.com/photos/4872060/pexels-photo-4872060.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
             },
           ].map((t) => (
-            <div key={t.name} className="bg-white border border-gray-100 rounded-2xl p-5 flex flex-col">
+            <div key={t.name} className="bg-white border border-[#F5F5F5] rounded-2xl p-5 flex flex-col">
               <div className="flex items-center gap-1 mb-3">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={13} className={i < Math.round(t.rating) ? "text-amber-400" : "text-gray-200"} fill="currentColor" />
+                  <Star key={i} size={13} className={i < Math.round(t.rating) ? "text-amber-400" : "text-[#E8E8E8]"} fill="currentColor" />
                 ))}
               </div>
               <p className="text-[#333] text-sm leading-relaxed mb-5 flex-1">&ldquo;{t.quote}&rdquo;</p>
               <div className="flex items-center gap-3">
                 <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover" loading="lazy" />
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">{t.name}</p>
-                  <p className="text-xs text-gray-400">{t.vehicle} &middot; {t.city}</p>
+                  <p className="text-sm font-semibold text-[#111]">{t.name}</p>
+                  <p className="text-xs text-[#AAA]">{t.vehicle} &middot; {t.city}</p>
                 </div>
               </div>
             </div>

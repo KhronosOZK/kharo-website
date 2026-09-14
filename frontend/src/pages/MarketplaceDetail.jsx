@@ -82,10 +82,10 @@ export default function MarketplaceDetail() {
 
   if (!v) return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10" data-testid="md-loading">
-      <div className="h-5 w-48 rounded bg-gray-200 animate-pulse" />
+      <div className="h-5 w-48 rounded bg-[#E8E8E8] animate-pulse" />
       <div className="grid lg:grid-cols-[1.55fr,1fr] gap-8 mt-6">
-        <div className="h-[420px] rounded-[26px] bg-white ring-1 ring-gray-200/70 animate-pulse" />
-        <div className="h-[420px] rounded-[26px] bg-white ring-1 ring-gray-200/70 animate-pulse" />
+        <div className="h-[420px] rounded-[26px] bg-white ring-1 ring-[#E8E8E8]/70 animate-pulse" />
+        <div className="h-[420px] rounded-[26px] bg-white ring-1 ring-[#E8E8E8]/70 animate-pulse" />
       </div>
     </main>
   );
@@ -199,7 +199,7 @@ export default function MarketplaceDetail() {
             <h2 className="text-xl font-heading font-bold text-[#111]">{MARKETPLACE.detail.licensingHeading}</h2>
             <div className="grid sm:grid-cols-2 gap-3 mt-4" data-testid="md-licensing">
               {licensing.map((row) => (
-                <div key={row.l} className="bg-white rounded-2xl ring-1 ring-gray-200/70 p-4 flex gap-3">
+                <div key={row.l} className="bg-white rounded-2xl ring-1 ring-[#E8E8E8]/70 p-4 flex gap-3">
                   <row.icon className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={1.7} />
                   <div className="min-w-0">
                     <div className="text-[12.5px] text-[#888]">{row.l}</div>
@@ -220,7 +220,7 @@ export default function MarketplaceDetail() {
             <h2 className="text-xl font-heading font-bold text-[#111]">{MARKETPLACE.detail.vehicleHeading}</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4" data-testid="md-details">
               {details.map((row) => (
-                <div key={row.l} className="bg-white rounded-2xl ring-1 ring-gray-200/70 p-4">
+                <div key={row.l} className="bg-white rounded-2xl ring-1 ring-[#E8E8E8]/70 p-4">
                   <row.icon className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.7} />
                   <div className="text-[12.5px] text-[#888] mt-2.5">{row.l}</div>
                   <div className="font-heading font-bold text-[#111] text-[15px]">{row.v}</div>
@@ -238,7 +238,7 @@ export default function MarketplaceDetail() {
                 <h3 className="font-heading font-bold text-[#111] mt-6">{MARKETPLACE.detail.featuresHeading}</h3>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {v.features.map((ft) => (
-                    <span key={ft} className="rounded-full bg-white ring-1 ring-gray-200 text-[#333] px-3 py-1.5 text-[13px]">{ft}</span>
+                    <span key={ft} className="rounded-full bg-white ring-1 ring-[#E8E8E8] text-[#333] px-3 py-1.5 text-[13px]">{ft}</span>
                   ))}
                 </div>
               </>
@@ -266,7 +266,7 @@ export default function MarketplaceDetail() {
 
         {/* RIGHT, sticky enquiry panel */}
         <aside className="lg:sticky lg:top-24 lg:self-start" ref={enquiryRef}>
-          <div className="bg-white rounded-[26px] ring-1 ring-gray-200 p-6 sm:p-7 shadow-xl">
+          <div className="bg-white rounded-[26px] ring-1 ring-[#E8E8E8] p-6 sm:p-7 shadow-xl">
             <div className="text-[12px] text-[#888] uppercase tracking-[0.16em]">Asking price</div>
             <div className="text-[40px] font-heading font-extrabold text-[#111] leading-none mt-1" data-testid="md-price">
               {formatPrice(v.price)}
@@ -298,7 +298,7 @@ export default function MarketplaceDetail() {
             </div>
             <p className="text-[13px] text-[#666] mt-3 leading-relaxed">{v.reason_for_sale}.</p>
 
-            <div className="h-px bg-gray-200 my-5" />
+            <div className="h-px bg-[#E8E8E8] my-5" />
 
             <h2 className="font-heading font-bold text-[#111] text-[17px]">{MARKETPLACE.detail.interestCta}</h2>
             <p className="text-[13px] text-[#666] mt-1.5 mb-5 leading-relaxed">{MARKETPLACE.detail.interestNote}</p>
@@ -320,7 +320,7 @@ export default function MarketplaceDetail() {
       )}
 
       {/* MOBILE STICKY BAR */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-gray-200 px-4 py-3 flex items-center justify-between gap-3"
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E8E8E8] px-4 py-3 flex items-center justify-between gap-3"
         data-testid="md-mobile-bar">
         <div className="min-w-0">
           <div className="text-[20px] font-heading font-extrabold text-[#111] leading-none">{formatPrice(v.price)}</div>

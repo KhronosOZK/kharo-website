@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 
 const statusMap = {
   approved: { c: "text-[#0B6B4F] bg-[#EAF5F1]", i: Check, t: "Approved" },
-  under_review: { c: "text-gray-600 bg-gray-100", i: Clock, t: "Under review" },
+  under_review: { c: "text-[#666] bg-[#F5F5F5]", i: Clock, t: "Under review" },
   declined: { c: "text-red-700 bg-red-50", i: X, t: "Declined" },
 };
 

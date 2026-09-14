@@ -85,7 +85,7 @@ export default function MarketplaceInterestForm({
           {[["sell", SELL.buyerToggle.sell], ["buy", SELL.buyerToggle.buy], ["both", SELL.buyerToggle.both]].map(([key, label]) => (
             <button key={key} type="button" onClick={() => setIntent(key)} data-testid={`intent-${key}`}
               className={`rounded-2xl px-2 py-3 min-h-[44px] text-[13.5px] font-semibold ring-1 transition-all ${
-                intent === key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.07] text-[#0B6B4F]" : "ring-gray-200 bg-white text-[#666] hover:bg-gray-50"
+                intent === key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.07] text-[#0B6B4F]" : "ring-[#E8E8E8] bg-white text-[#666] hover:bg-[#FAFAFA]"
               }`}>
               {label}
             </button>
@@ -117,7 +117,7 @@ export default function MarketplaceInterestForm({
       </div>
 
       {wantsSell && (
-        <div className="rounded-2xl bg-[#FAFAFA] ring-1 ring-gray-200/70 p-4 space-y-3" data-testid="mi-sell-block">
+        <div className="rounded-2xl bg-[#FAFAFA] ring-1 ring-[#E8E8E8]/70 p-4 space-y-3" data-testid="mi-sell-block">
           <p className="text-[13px] font-semibold text-[#0B6B4F]">About the vehicle you are selling</p>
           <div className="grid sm:grid-cols-2 gap-3">
             <div><Label className="mb-1.5 block text-[13px] font-medium text-[#666]">Make</Label>
@@ -150,7 +150,7 @@ export default function MarketplaceInterestForm({
       )}
 
       {wantsBuy && (
-        <div className="rounded-2xl bg-[#FAFAFA] ring-1 ring-gray-200/70 p-4 space-y-3" data-testid="mi-buy-block">
+        <div className="rounded-2xl bg-[#FAFAFA] ring-1 ring-[#E8E8E8]/70 p-4 space-y-3" data-testid="mi-buy-block">
           <p className="text-[13px] font-semibold text-[#0B6B4F]">What you are looking for</p>
           <div><Label className="mb-1.5 block text-[13px] font-medium text-[#666]">Make, model or body type</Label>
             <Input value={f.looking_for} onChange={set("looking_for")} placeholder="Hybrid saloon, ideally a Prius or Corolla" data-testid="mi-looking" className={field} /></div>

@@ -82,7 +82,7 @@ export default function CityPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 -mt-10 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {stats.map((s) => (
-            <div key={s.l} data-testid="city-stat" className="bg-white rounded-2xl p-5 ring-1 ring-gray-200/70 shadow-sm">
+            <div key={s.l} data-testid="city-stat" className="bg-white rounded-2xl p-5 ring-1 ring-[#E8E8E8]/70 shadow-sm">
               <s.icon className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.6} />
               <div className="text-2xl sm:text-[28px] font-heading font-extrabold text-[#111] mt-3 leading-none">{s.n}</div>
               <div className="text-[12.5px] text-[#888] mt-1.5">{s.l}</div>
@@ -103,7 +103,7 @@ export default function CityPage() {
           </p>
         </div>
         {count === 0 ? (
-          <div className="text-center py-16 px-6 bg-white rounded-2xl ring-1 ring-gray-200">
+          <div className="text-center py-16 px-6 bg-white rounded-2xl ring-1 ring-[#E8E8E8]">
             <p className="text-[#888] mb-6 max-w-md mx-auto">{t(CITY_PAGE.emptyNote, { city })}</p>
             <div className="max-w-xl mx-auto">
               <CityInterestForm city={city} />
@@ -125,7 +125,7 @@ export default function CityPage() {
 
       <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="city-faq">
         <h2 className="text-[28px] sm:text-3xl font-heading font-bold text-[#111] mb-6">{t(CITY_PAGE.faqHeading, { city })}</h2>
-        <div className="divide-y divide-gray-200 rounded-2xl ring-1 ring-gray-200 bg-white">
+        <div className="divide-y divide-[#E8E8E8] rounded-2xl ring-1 ring-[#E8E8E8] bg-white">
           {(CITY_SEO[city]?.faq || []).map((item) => (
             <details key={item.q} data-testid="city-faq-item" className="group p-5">
               <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-heading font-semibold text-[#111]">
@@ -158,7 +158,7 @@ export default function CityPage() {
         <div className="flex flex-wrap gap-2.5">
           {LIVE_CITIES.filter((c) => c !== city).map((c) => (
             <Link key={c} to={`/city/${c}`} data-testid={`city-link-${c}`}
-              className="px-4 py-2 rounded-full bg-white ring-1 ring-gray-200 text-[#111] text-sm font-medium hover:ring-[#0B6B4F] hover:text-[#0B6B4F] transition-colors">
+              className="px-4 py-2 rounded-full bg-white ring-1 ring-[#E8E8E8] text-[#111] text-sm font-medium hover:ring-[#0B6B4F] hover:text-[#0B6B4F] transition-colors">
               {c}
             </Link>
           ))}

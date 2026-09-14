@@ -64,7 +64,7 @@ export default function Register() {
       <p className="text-[#666666] mt-3 text-[16px] leading-relaxed">Thanks {f.name.split(" ")[0]}. We've saved your details and we'll email you the moment cars are ready to rent in {f.city}. In the meantime, feel free to keep browsing the cars.</p>
       <div className="flex gap-3 justify-center mt-8 flex-wrap">
         <Button onClick={() => navigate("/search")} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white" data-testid="reg-browse">Browse the cars <ArrowRight className="w-4 h-4 ml-2" /></Button>
-        <Button onClick={() => navigate("/driver-guide")} variant="outline" className="rounded-full border-gray-200">See how it works</Button>
+        <Button onClick={() => navigate("/driver-guide")} variant="outline" className="rounded-full border-[#E8E8E8]">See how it works</Button>
       </div>
     </main>
   );
@@ -82,17 +82,17 @@ export default function Register() {
           </p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.5 }}
-            className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-white ring-1 ring-gray-200/70 p-6 sm:p-7 shadow-sm" data-testid="driver-take-home">
+            className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-white ring-1 ring-[#E8E8E8]/70 p-6 sm:p-7 shadow-sm" data-testid="driver-take-home">
             <div className="text-[11px] text-[#888888] uppercase tracking-[0.18em]">Your estimated take-home</div>
             <div className="flex items-end gap-2 mt-1.5">
               <AnimatedNumber value={est.takeHome} prefix="£" data-testid="driver-takehome-value" className="text-[clamp(2.6rem,8vw,4rem)] font-heading font-extrabold text-[#0A0A0A] leading-[0.9]" />
               <span className="text-[#888888] text-lg pb-2">/ week, full time</span>
             </div>
-            <div className="mt-4 h-px bg-gray-200/80" />
+            <div className="mt-4 h-px bg-[#E8E8E8]/80" />
             <div className="mt-4 grid grid-cols-3 gap-2">
               {DRIVER_CARS.map((c) => (
                 <button key={c.key} onClick={() => setCarKey(c.key)} data-testid={`driver-car-${c.key}`}
-                  className={`rounded-2xl px-3 py-3 text-left ring-1 transition-all hover:-translate-y-[2px] ${carKey === c.key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.06]" : "ring-gray-200 bg-white hover:bg-gray-50"}`}>
+                  className={`rounded-2xl px-3 py-3 text-left ring-1 transition-all hover:-translate-y-[2px] ${carKey === c.key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.06]" : "ring-[#E8E8E8] bg-white hover:bg-[#FAFAFA]"}`}>
                   <div className="text-[13px] font-semibold text-[#0A0A0A]">{c.label}</div>
                   <div className="text-[10.5px] text-[#888888] leading-tight mt-0.5">{c.sub}</div>
                 </button>
@@ -114,7 +114,7 @@ export default function Register() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-          className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[28px] ring-1 ring-gray-200 p-6 sm:p-9 shadow-xl">
+          className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[28px] ring-1 ring-[#E8E8E8] p-6 sm:p-9 shadow-xl">
           <div className="mb-7">
             <div className="flex items-center justify-between text-[12.5px] text-[#888888] mb-2.5">
               <span data-testid="reg-step-label">Step {step + 1} of {STEPS.length}</span>
@@ -132,7 +132,7 @@ export default function Register() {
                 <p className="text-[15px] text-[#666666] mt-2 mb-7">{cur.sub}</p>
                 {cur.select ? (
                   <Select value={f[cur.select.name]} onValueChange={(val) => setF((p) => ({ ...p, [cur.select.name]: val }))}>
-                    <SelectTrigger data-testid={cur.select.testid} className="h-12 rounded-xl bg-white border-gray-200"><SelectValue /></SelectTrigger>
+                    <SelectTrigger data-testid={cur.select.testid} className="h-12 rounded-xl bg-white border-[#E8E8E8]"><SelectValue /></SelectTrigger>
                     <SelectContent>{cur.select.options.map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
                   </Select>
                 ) : (
@@ -148,7 +148,7 @@ export default function Register() {
             </AnimatePresence>
 
             <div className="flex gap-3 mt-8">
-              {step > 0 && <Button type="button" variant="outline" onClick={back} className="rounded-full border-gray-200 hover:-translate-y-[2px] transition-transform" data-testid="reg-back"><ArrowLeft className="w-4 h-4" /></Button>}
+              {step > 0 && <Button type="button" variant="outline" onClick={back} className="rounded-full border-[#E8E8E8] hover:-translate-y-[2px] transition-transform" data-testid="reg-back"><ArrowLeft className="w-4 h-4" /></Button>}
               <Button type="submit" disabled={loading} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white flex-1 h-11 hover:-translate-y-[2px] transition-transform" data-testid={isLast ? "reg-submit" : "reg-continue"}>
                 {isLast ? (loading ? "Sending" : "Register my interest") : "Continue"} {!isLast && <ArrowRight className="w-4 h-4 ml-2" />}
               </Button>

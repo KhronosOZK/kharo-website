@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const inputCls = "h-12 bg-white border-gray-200 rounded-xl focus-visible:ring-[#0B6B4F]/30 focus-visible:border-[#0B6B4F]";
+const inputCls = "h-12 bg-white border-[#E8E8E8] rounded-xl focus-visible:ring-[#0B6B4F]/30 focus-visible:border-[#0B6B4F]";
 
 export default function Login() {
   const { login } = useAuth();
@@ -41,7 +41,7 @@ export default function Login() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-          className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[24px] ring-1 ring-gray-200/70 p-7 sm:p-9 shadow-sm">
+          className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[24px] ring-1 ring-[#E8E8E8]/70 p-7 sm:p-9 shadow-sm">
           <h2 className="text-3xl font-heading font-bold text-[#0A0A0A]">Sign in</h2>
           <p className="text-[15px] text-[#666666] mt-2 mb-7">See your rentals, applications and saved cars.</p>
           <form onSubmit={submit} className="space-y-4">

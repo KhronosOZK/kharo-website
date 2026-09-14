@@ -40,7 +40,7 @@ export default function SellYourCar() {
 
           {/* Live demand, the reason a seller should bother */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-            className="mt-8 rounded-[24px] bg-white ring-1 ring-gray-200/70 p-6 sm:p-7 shadow-sm" data-testid="sell-demand">
+            className="mt-8 rounded-[24px] bg-white ring-1 ring-[#E8E8E8]/70 p-6 sm:p-7 shadow-sm" data-testid="sell-demand">
             <div className="text-[11px] text-[#888] uppercase tracking-[0.18em]">Registered on the marketplace</div>
             <div className="grid grid-cols-3 gap-4 mt-4">
               <div>
@@ -82,7 +82,7 @@ export default function SellYourCar() {
         </div>
 
         {/* RIGHT, the form */}
-        <div className="w-full lg:justify-self-end lg:max-w-md bg-white rounded-[28px] ring-1 ring-gray-200 p-6 sm:p-8 shadow-xl">
+        <div className="w-full lg:justify-self-end lg:max-w-md bg-white rounded-[28px] ring-1 ring-[#E8E8E8] p-6 sm:p-8 shadow-xl">
           <h2 className="text-[22px] font-heading font-bold text-[#111]">{SELL.form.heading}</h2>
           <p className="text-[14px] text-[#666] mt-1.5">{SELL.form.sub}</p>
           <div className="mt-5 mb-6 rounded-2xl bg-[#EAF5F1] border border-[#0B6B4F]/15 p-3.5">

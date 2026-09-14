@@ -106,7 +106,7 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
         </div>
       </div>
 
-      <div className="mt-5 rounded-[26px] bg-white ring-1 ring-gray-200/70 overflow-hidden">
+      <div className="mt-5 rounded-[26px] bg-white ring-1 ring-[#E8E8E8]/70 overflow-hidden">
         {/* Headline result */}
         <div className={`p-6 sm:p-7 ${ownCheaper ? "bg-[#0B6B4F]" : "bg-[#0A0A0A]"} text-white`}>
           {model.breakEven && model.breakEven <= 520 ? (
@@ -136,7 +136,7 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
         </div>
 
         {/* Comparison bars */}
-        <div className="p-6 sm:p-7 border-b border-gray-100">
+        <div className="p-6 sm:p-7 border-b border-[#F5F5F5]">
           <div className="flex items-baseline justify-between flex-wrap gap-2">
             <span className="text-[13px] font-semibold text-[#111]">Total cost over {weeks} weeks</span>
             <span className={`text-[13px] font-semibold ${ownCheaper ? "text-[#0B6B4F]" : "text-[#111]"}`}>
@@ -175,7 +175,7 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
                 <button key={w} onClick={() => { setWeeks(w); setTouched(true); }} data-testid={`calc-weeks-${w}`}
                   className={`rounded-xl py-3 min-h-[44px] text-[13px] font-semibold ring-1 transition-all ${
                     weeks === w ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.07] text-[#0B6B4F]"
-                                : "ring-gray-200 bg-white text-[#666] hover:bg-white/60"}`}>
+                                : "ring-[#E8E8E8] bg-white text-[#666] hover:bg-white/60"}`}>
                   {w === 26 ? "6 months" : `${w / 52} year${w > 52 ? "s" : ""}`}
                 </button>
               ))}
@@ -191,7 +191,7 @@ export default function OwnershipCalculator({ vehicle, typicalWeeklyRent }) {
             <Input label="Purchase price" prefix="£" value={price} readOnly testid="calc-input-price" />
           </div>
 
-          <div className="mt-5 flex gap-2.5 items-start rounded-2xl bg-white ring-1 ring-gray-200/70 p-3.5">
+          <div className="mt-5 flex gap-2.5 items-start rounded-2xl bg-white ring-1 ring-[#E8E8E8]/70 p-3.5">
             <Info className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={1.8} />
             <p className="text-[12.5px] text-[#666] leading-relaxed">
               These are estimates to help you think it through, not a quote or financial advice. Licensing
@@ -221,7 +221,7 @@ const Bar = ({ label, total, width, tone, weekly, testid }) => (
 );
 
 const Cell = ({ label, value, highlight }) => (
-  <div className={`rounded-2xl p-4 ${highlight ? "bg-[#EAF5F1] ring-1 ring-[#0B6B4F]/15" : "bg-[#FAFAFA] ring-1 ring-gray-200/70"}`}>
+  <div className={`rounded-2xl p-4 ${highlight ? "bg-[#EAF5F1] ring-1 ring-[#0B6B4F]/15" : "bg-[#FAFAFA] ring-1 ring-[#E8E8E8]/70"}`}>
     <div className="text-[12px] text-[#888] leading-snug">{label}</div>
     <div className="font-heading font-bold text-[#111] text-[18px] mt-1.5">{value}</div>
   </div>
@@ -231,7 +231,7 @@ const Input = ({ label, prefix, suffix, value, onChange, readOnly, testid }) => 
   <label className="block">
     <span className="text-[12.5px] font-medium text-[#666] block mb-1.5">{label}</span>
     <span className={`flex items-center gap-1 h-11 rounded-xl px-3 ring-1 transition-colors ${
-      readOnly ? "bg-[#EBEBEB] ring-transparent" : "bg-white ring-gray-200 focus-within:ring-2 focus-within:ring-[#0B6B4F]"}`}>
+      readOnly ? "bg-[#EBEBEB] ring-transparent" : "bg-white ring-[#E8E8E8] focus-within:ring-2 focus-within:ring-[#0B6B4F]"}`}>
       {prefix && <span className="text-[15px] text-[#888]">{prefix}</span>}
       <input type="number" inputMode="numeric" value={value} onChange={onChange} readOnly={readOnly}
         data-testid={testid} aria-label={label}

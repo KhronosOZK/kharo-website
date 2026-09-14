@@ -23,7 +23,7 @@ export default function SaleCard({ v }) {
     <div data-testid={`sale-card-${v.id}`} onClick={open} role="link" tabIndex={0}
       aria-label={`${v.year} ${v.make} ${v.model}, ${formatPrice(v.price)}, in ${v.borough}`}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } }}
-      className="group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B6B4F] focus-visible:ring-offset-2 bg-white rounded-2xl overflow-hidden ring-1 ring-gray-200/70 hover:ring-gray-300 hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.25)] transition-all duration-300">
+      className="group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B6B4F] focus-visible:ring-offset-2 bg-white rounded-2xl overflow-hidden ring-1 ring-[#E8E8E8]/70 hover:ring-[#CCC] hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.25)] transition-all duration-300">
       <div className="relative aspect-[16/11] overflow-hidden bg-[#EBEBEB]">
         <img src={v.photos[0]} alt={`${v.make} ${v.model}`} loading="lazy"
           className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700" />
@@ -68,7 +68,7 @@ export default function SaleCard({ v }) {
           </div>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-2 gap-y-2 text-[13px] text-[#333]">
+        <div className="mt-4 pt-4 border-t border-[#F5F5F5] grid grid-cols-2 gap-y-2 text-[13px] text-[#333]">
           <span className="inline-flex items-center gap-1.5"><Gauge className="w-4 h-4 text-[#888]" /> {formatMileage(v.mileage)}</span>
           <span className="inline-flex items-center gap-1.5 justify-end"><SellerIcon className="w-4 h-4 text-[#888]" /> {v.seller_label}</span>
         </div>

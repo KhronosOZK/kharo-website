@@ -33,23 +33,23 @@ export default function CompareTable({ items, onRemove }) {
   ];
 
   return (
-    <div className="overflow-x-auto rounded-2xl ring-1 ring-gray-200 bg-white" data-testid="compare-table">
+    <div className="overflow-x-auto rounded-2xl ring-1 ring-[#E8E8E8] bg-white" data-testid="compare-table">
       <table className="w-full border-collapse min-w-[640px]">
         <thead>
           <tr>
             <th className="sticky left-0 z-10 bg-white p-4 text-left align-bottom w-40" />
             {items.map((v) => (
-              <th key={v.id} className={`p-4 align-bottom border-l border-gray-100 min-w-[220px] ${cheapest === v.id ? "bg-[#EAF5F1]" : ""}`}>
+              <th key={v.id} className={`p-4 align-bottom border-l border-[#F5F5F5] min-w-[220px] ${cheapest === v.id ? "bg-[#EAF5F1]" : ""}`}>
                 <div className="relative">
                   <button onClick={() => onRemove(v.id)} data-testid={`compare-remove-${v.id}`}
-                    className="absolute -top-1 -right-1 w-7 h-7 rounded-full bg-white ring-1 ring-gray-200 flex items-center justify-center hover:bg-gray-50">
-                    <X className="w-3.5 h-3.5 text-gray-600" />
+                    className="absolute -top-1 -right-1 w-7 h-7 rounded-full bg-white ring-1 ring-[#E8E8E8] flex items-center justify-center hover:bg-[#FAFAFA]">
+                    <X className="w-3.5 h-3.5 text-[#666]" />
                   </button>
                   <div className="aspect-[16/11] rounded-xl overflow-hidden bg-[#EDEDED] mb-3 cursor-pointer" onClick={() => navigate(`/vehicle/${v.id}`)}>
                     <img src={v.photos[0]} alt={`${v.make} ${v.model}`} className="w-full h-full object-cover" />
                   </div>
                   <div className="font-heading font-bold text-[#111] leading-snug">{v.make} {v.model}</div>
-                  <div className="text-[12.5px] text-gray-500 capitalize">{v.year} · {v.colour}</div>
+                  <div className="text-[12.5px] text-[#888] capitalize">{v.year} · {v.colour}</div>
                   <div className="mt-2 h-6">{cheapest === v.id && <span className="inline-block text-[11px] font-semibold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5">Best all-in price</span>}</div>
                 </div>
               </th>
@@ -58,20 +58,20 @@ export default function CompareTable({ items, onRemove }) {
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.label} className="border-t border-gray-100">
-              <td className="sticky left-0 z-10 bg-white p-4 text-[13px] font-medium text-gray-500">{r.label}</td>
+            <tr key={r.label} className="border-t border-[#F5F5F5]">
+              <td className="sticky left-0 z-10 bg-white p-4 text-[13px] font-medium text-[#888]">{r.label}</td>
               {items.map((v) => (
                 <td key={v.id} data-testid={`compare-cell-${v.id}`}
-                  className={`p-4 border-l border-gray-100 text-[14px] ${r.cap ? "capitalize" : ""} ${r.strong ? "font-heading font-extrabold text-[#0B6B4F] text-[16px]" : "text-[#111]"} ${cheapest === v.id ? "bg-[#EAF5F1]/40" : ""}`}>
+                  className={`p-4 border-l border-[#F5F5F5] text-[14px] ${r.cap ? "capitalize" : ""} ${r.strong ? "font-heading font-extrabold text-[#0B6B4F] text-[16px]" : "text-[#111]"} ${cheapest === v.id ? "bg-[#EAF5F1]/40" : ""}`}>
                   {r.get(v)}
                 </td>
               ))}
             </tr>
           ))}
-          <tr className="border-t border-gray-100">
+          <tr className="border-t border-[#F5F5F5]">
             <td className="sticky left-0 z-10 bg-white p-4" />
             {items.map((v) => (
-              <td key={v.id} className={`p-4 border-l border-gray-100 ${cheapest === v.id ? "bg-[#EAF5F1]/40" : ""}`}>
+              <td key={v.id} className={`p-4 border-l border-[#F5F5F5] ${cheapest === v.id ? "bg-[#EAF5F1]/40" : ""}`}>
                 <Button onClick={() => navigate(`/apply/${v.id}`)} data-testid={`compare-apply-${v.id}`}
                   className="w-full rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white text-[13px] h-9">Apply</Button>
               </td>

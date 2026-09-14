@@ -10,13 +10,13 @@ const FUEL_TYPES = ["Electric", "Plug-in Hybrid", "Hybrid", "Petrol", "Diesel"];
 function FilterSection({ title, children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border-b border-gray-100 pb-4 mb-4">
+    <div className="border-b border-[#F5F5F5] pb-4 mb-4">
       <button
-        className="flex items-center justify-between w-full text-sm font-semibold text-gray-800 mb-3"
+        className="flex items-center justify-between w-full text-sm font-semibold text-[#333] mb-3"
         onClick={() => setOpen(!open)}
       >
         {title}
-        <ChevronDown size={14} className={`transition-transform text-gray-400 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown size={14} className={`transition-transform text-[#AAA] ${open ? "rotate-180" : ""}`} />
       </button>
       {open && children}
     </div>
@@ -28,12 +28,12 @@ function CheckItem({ label, checked, onChange }) {
     <label className="flex items-center gap-2.5 cursor-pointer group mb-2">
       <div
         className={`w-4 h-4 rounded-sm border flex items-center justify-center flex-shrink-0 transition-colors ${
-          checked ? "bg-[#0A0A0A] border-[#0A0A0A]" : "border-gray-300 bg-white group-hover:border-gray-400"
+          checked ? "bg-[#0A0A0A] border-[#0A0A0A]" : "border-[#CCC] bg-white group-hover:border-[#AAA]"
         }`}
       >
         {checked && <X size={10} className="text-white" strokeWidth={3} />}
       </div>
-      <span className="text-sm text-gray-600">{label}</span>
+      <span className="text-sm text-[#666]">{label}</span>
     </label>
   );
 }
@@ -48,7 +48,7 @@ function PillGroup({ options, value, onChange }) {
           className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-colors ${
             value === o
               ? "bg-[#0B6B4F] border-[#0B6B4F] text-white"
-              : "bg-white border-gray-200 text-gray-600 hover:border-gray-400"
+              : "bg-white border-[#E8E8E8] text-[#666] hover:border-[#AAA]"
           }`}
         >
           {o}
@@ -118,11 +118,11 @@ export default function SearchResults() {
 
   const Sidebar = () => (
     <aside className="w-full lg:w-64 flex-shrink-0">
-      <div className="bg-white border border-gray-200 rounded-2xl p-5 sticky top-4">
+      <div className="bg-white border border-[#E8E8E8] rounded-2xl p-5 sticky top-4">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-heading font-bold text-gray-900 text-sm">Filter by</h2>
+          <h2 className="font-heading font-bold text-[#111] text-sm">Filter by</h2>
           {hasFilters && (
-            <button onClick={clearAll} className="text-xs text-gray-500 hover:text-gray-900 font-medium">
+            <button onClick={clearAll} className="text-xs text-[#888] hover:text-[#111] font-medium">
               Reset all
             </button>
           )}
@@ -132,7 +132,7 @@ export default function SearchResults() {
           <select
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+            className="w-full border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
           >
             <option value="">All Cities</option>
             {MOCK_CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -143,7 +143,7 @@ export default function SearchResults() {
           <select
             value={borough}
             onChange={(e) => setBorough(e.target.value)}
-            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+            className="w-full border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
           >
             <option value="">All Areas</option>
             {areaOptions.slice(1).map((b) => <option key={b} value={b}>{b}</option>)}
@@ -178,13 +178,13 @@ export default function SearchResults() {
               <label key={o.value} className="flex items-center gap-2.5 cursor-pointer group">
                 <div
                   className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 transition-colors ${
-                    maxBudget === o.value ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-gray-300"
+                    maxBudget === o.value ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-[#CCC]"
                   }`}
                   onClick={() => setMaxBudget(o.value)}
                 >
                   {maxBudget === o.value && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                 </div>
-                <span className="text-sm text-gray-600">{o.label}</span>
+                <span className="text-sm text-[#666]">{o.label}</span>
               </label>
             ))}
           </div>
@@ -194,7 +194,7 @@ export default function SearchResults() {
           <select
             value={make}
             onChange={(e) => setMake(e.target.value)}
-            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+            className="w-full border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
           >
             <option value="">All Makes</option>
             {MOCK_MAKES.slice(1).map((m) => <option key={m} value={m}>{m}</option>)}
@@ -224,12 +224,12 @@ export default function SearchResults() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAFAFA]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         {/* Mobile filter toggle */}
         <button
           onClick={() => setShowSidebar(!showSidebar)}
-          className="flex items-center gap-2 border border-gray-200 bg-white px-3 py-2.5 rounded-full text-sm text-gray-700 font-medium hover:border-gray-400 lg:hidden mb-4"
+          className="flex items-center gap-2 border border-[#E8E8E8] bg-white px-3 py-2.5 rounded-full text-sm text-[#555] font-medium hover:border-[#AAA] lg:hidden mb-4"
         >
           <SlidersHorizontal size={14} />
           Filters
@@ -247,7 +247,7 @@ export default function SearchResults() {
               <div className="absolute inset-0 bg-black/40" onClick={() => setShowSidebar(false)} />
               <div className="absolute right-0 top-0 h-full w-72 bg-white overflow-y-auto p-5">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-semibold text-gray-900">Filters</span>
+                  <span className="font-semibold text-[#111]">Filters</span>
                   <button onClick={() => setShowSidebar(false)}><X size={18} /></button>
                 </div>
                 <Sidebar />
@@ -259,13 +259,13 @@ export default function SearchResults() {
           <div className="flex-1 min-w-0">
             {/* Results header */}
             <div className="flex items-center justify-between mb-5">
-              <h1 className="font-heading font-bold text-gray-900 text-lg">
+              <h1 className="font-heading font-bold text-[#111] text-lg">
                 {results.length} vehicle{results.length !== 1 ? "s" : ""} to rent
               </h1>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 bg-white"
+                className="border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] bg-white"
               >
                 <option value="price_asc">Price: Low to High</option>
                 <option value="price_desc">Price: High to Low</option>
@@ -287,9 +287,9 @@ export default function SearchResults() {
             )}
 
             {results.length === 0 ? (
-              <div className="text-center py-20 bg-white border border-gray-200 rounded-2xl px-6">
-                <p className="font-heading text-xl font-bold text-gray-900 mb-2">No vehicles match your filters</p>
-                <p className="text-gray-500 text-sm mb-5">Try adjusting your search criteria.</p>
+              <div className="text-center py-20 bg-white border border-[#E8E8E8] rounded-2xl px-6">
+                <p className="font-heading text-xl font-bold text-[#111] mb-2">No vehicles match your filters</p>
+                <p className="text-[#888] text-sm mb-5">Try adjusting your search criteria.</p>
                 <button onClick={clearAll} className="bg-[#0B6B4F] text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-[#095B43] transition-colors">
                   Clear All Filters
                 </button>
@@ -308,9 +308,9 @@ export default function SearchResults() {
 
 function FilterChip({ label, onRemove }) {
   return (
-    <span className="inline-flex items-center gap-1.5 bg-white border border-gray-300 text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full">
+    <span className="inline-flex items-center gap-1.5 bg-white border border-[#CCC] text-[#333] text-xs font-medium px-3 py-1.5 rounded-full">
       {label}
-      <button onClick={onRemove} className="hover:text-gray-900"><X size={11} /></button>
+      <button onClick={onRemove} className="hover:text-[#111]"><X size={11} /></button>
     </span>
   );
 }

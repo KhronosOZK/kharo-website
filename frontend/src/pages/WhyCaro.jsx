@@ -188,7 +188,7 @@ export default function WhyCaro() {
               >
                 <div className="grid sm:grid-cols-2">
                   <div className="p-5 sm:border-r border-b sm:border-b-0 border-[#F0F0F0] flex items-start gap-3">
-                    <X className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
+                    <X className="w-4 h-4 text-[#AAA] shrink-0 mt-0.5" />
                     <p className="text-[14px] text-[#666] leading-relaxed">{problem}</p>
                   </div>
                   <div className="p-5 bg-[#FAFFFE] flex items-start gap-3">
@@ -305,14 +305,14 @@ export default function WhyCaro() {
                   {kharo ? (
                     <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
                   ) : (
-                    <X className="w-4 h-4 text-gray-300" strokeWidth={2.5} />
+                    <X className="w-4 h-4 text-[#CCC]" strokeWidth={2.5} />
                   )}
                 </div>
                 <div className="col-span-1 px-4 py-4 flex justify-center items-center">
                   {them === true ? (
                     <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
                   ) : them === false ? (
-                    <X className="w-4 h-4 text-gray-300" strokeWidth={2.5} />
+                    <X className="w-4 h-4 text-[#CCC]" strokeWidth={2.5} />
                   ) : (
                     <span className="text-[13px] text-[#CCC]">Varies</span>
                   )}
