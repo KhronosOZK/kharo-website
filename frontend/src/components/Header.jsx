@@ -96,7 +96,7 @@ export default function Header() {
                     className="py-3 px-2 font-semibold text-[#0B6B4F] flex items-center gap-2">{c.label} <ArrowRight className="w-4 h-4" /></Link>
                 ))}
                 <div className="border-t border-[#E8E8E8] my-3" />
-                <Link to="/why-caro" onClick={() => setOpen(false)} className="py-3 px-2 text-[#666]">Why choose {BRAND.name}</Link>
+                <Link to="/why-kharo" onClick={() => setOpen(false)} className="py-3 px-2 text-[#666]">Why choose {BRAND.name}</Link>
                 <Link to="/help" onClick={() => setOpen(false)} className="py-3 px-2 text-[#666]">Get help</Link>
                 <Link to="/legal" onClick={() => setOpen(false)} className="py-3 px-2 text-[#666]">Legal and privacy</Link>
               </div>

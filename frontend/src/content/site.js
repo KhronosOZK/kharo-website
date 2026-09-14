@@ -41,7 +41,7 @@ export const BRAND = {
 export const NAV = {
   primary: [
     { to: "/search", label: "Rent a car" },
-    { to: "/why-caro", label: "Why Kharo" },
+    { to: "/why-kharo", label: "Why Kharo" },
     { to: "/driver-guide", label: "How it works" },
     { to: "/operator-guide", label: "For operators" },
   ],
@@ -78,9 +78,9 @@ export const NAV = {
     {
       heading: "Company",
       links: [
-        ["Why choose Kharo", "/why-caro"],
+        ["Why choose Kharo", "/why-kharo"],
         ["Get help", "/help"],
-        ["Trust and safety", "/why-caro"],
+        ["Trust and safety", "/why-kharo"],
         ["Legal and privacy", "/legal"],
       ],
     },
