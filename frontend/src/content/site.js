@@ -41,7 +41,6 @@ export const BRAND = {
 export const NAV = {
   primary: [
     { to: "/", label: "Rent a car" },
-    { to: "/marketplace", label: "Buy a car" },
     { to: "/why-caro", label: "Why Kharo" },
     { to: "/driver-guide", label: "How it works" },
     { to: "/operator-guide", label: "For operators" },
@@ -49,7 +48,6 @@ export const NAV = {
   accountMenu: [
     { to: "/register", title: "Drivers", sub: "Join the list for launch in your city" },
     { to: "/list-your-fleet", title: "Rental operators", sub: "Register your fleet for launch" },
-    { to: "/marketplace", title: "Buy or sell a car", sub: "Browse the used PCO vehicle marketplace" },
   ],
   mobileCtas: [
     { to: "/register", label: "Join the waitlist" },
@@ -75,13 +73,6 @@ export const NAV = {
       links: [
         ["List your fleet", "/list-your-fleet"],
         ["Operator guide", "/operator-guide"],
-      ],
-    },
-    {
-      heading: "Marketplace",
-      links: [
-        ["Buy a used car", "/marketplace"],
-        ["Sell your car", "/sell-your-car"],
       ],
     },
     {

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Menu, Heart, User, Building2, Tag, ArrowRight } from "lucide-react";
+import { Menu, Heart, User, Building2, ArrowRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { BRAND, NAV } from "@/content/site";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -8,7 +8,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
-const MENU_ICONS = [User, Building2, Tag];
+const MENU_ICONS = [User, Building2];
 
 export default function Header() {
   const { saved, savedSales } = useAuth();

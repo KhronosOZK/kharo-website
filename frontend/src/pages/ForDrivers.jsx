@@ -131,14 +131,9 @@ export default function ForDrivers() {
               </motion.div>
 
               {/* Trust row */}
-              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 justify-center lg:justify-start text-[13px] text-[#777]">
-                {["TfL-eligible cars only", "Verified operators", "No payment yet"].map((t) => (
-                  <span key={t} className="flex items-center gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-[#0B6B4F]" />
-                    {t}
-                  </span>
-                ))}
-              </div>
+              <p className="mt-8 text-[13px] text-[#777] leading-relaxed">
+                TfL-eligible cars only<span className="text-[#CCC] mx-2">&middot;</span>Verified operators<span className="text-[#CCC] mx-2">&middot;</span>No payment yet
+              </p>
             </div>
 
             {/* Right - stat card */}

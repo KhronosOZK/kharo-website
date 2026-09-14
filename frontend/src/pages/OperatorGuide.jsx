@@ -16,6 +16,13 @@ const FADE_UP = {
   transition: { duration: 0.5 },
 };
 
+// hero content is already in view on load: animate on mount, not on scroll-into-view
+const FADE_UP_HERO = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
 const STEPS = [
   {
     num: "01",
@@ -202,28 +209,33 @@ export default function OperatorGuide() {
             filter: "grayscale(0.3)",
           }}
         />
-        <div className="relative max-w-4xl mx-auto">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#5FD3A6] mb-4">
+        <div className="relative max-w-4xl mx-auto text-center">
+          <motion.p
+            {...FADE_UP_HERO}
+            className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]"
+          >
             Operator Guide
-          </p>
+          </motion.p>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] max-w-2xl mb-5"
+            {...FADE_UP_HERO}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-[40px] sm:text-5xl font-heading font-extrabold leading-[1.05] tracking-tight text-balance"
           >
             How Kharo works for fleet operators.
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08 }}
-            className="text-white/70 text-[17px] max-w-xl leading-relaxed mb-8"
+            {...FADE_UP_HERO}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-white/70 text-[17px] mt-5 max-w-xl mx-auto leading-relaxed"
           >
             List your idle PCO cars, receive pre-vetted driver leads, and fill your fleet faster,
             with no upfront listing fee.
           </motion.p>
-          <div className="flex flex-wrap gap-3">
+          <motion.div
+            {...FADE_UP_HERO}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-8 flex flex-wrap gap-3 justify-center"
+          >
             <a
               href="/list-your-fleet"
               className="px-6 py-3 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
@@ -237,7 +249,7 @@ export default function OperatorGuide() {
               Get help
               <ChevronRight className="w-4 h-4" />
             </button>
-          </div>
+          </motion.div>
         </div>
       </section>
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ArrowRight, ArrowLeft, ShieldCheck, Clock } from "lucide-react";
+import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import { api } from "@/lib/api";
 import { DRIVER_CARS, estimateDriverWeek } from "@/lib/pricing";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
@@ -106,11 +106,9 @@ export default function Register() {
             <p className="text-[11px] text-[#999999] mt-4 leading-relaxed">A guide based on typical London minicab fares at full-time hours. Your figure moves with the hours you put in.</p>
           </motion.div>
 
-          <div className="mt-7 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-2.5">
-            {[[ShieldCheck, "Cover built in"], [Clock, "We'll email you at launch"], [Check, "Nothing to pay to register"]].map(([Icon, t]) => (
-              <span key={t} className="flex items-center gap-2 text-[13px] text-[#666666]"><Icon className="w-4 h-4 text-[#0B6B4F]" strokeWidth={1.6} /> {t}</span>
-            ))}
-          </div>
+          <p className="mt-7 text-[13px] text-[#666666] leading-relaxed">
+            Cover built in<span className="text-[#CCC] mx-2">&middot;</span>We'll email you at launch<span className="text-[#CCC] mx-2">&middot;</span>Nothing to pay to register
+          </p>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}

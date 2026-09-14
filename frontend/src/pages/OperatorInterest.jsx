@@ -1,93 +1,54 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, TrendingUp, Shield, Users, Zap, ChevronRight, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, ArrowRight, ArrowLeft, MessageCircle } from "lucide-react";
 import { api, trackEvent } from "@/lib/api";
 import { useSeo } from "@/lib/seo";
+import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { BRAND } from "@/content/site";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const BENEFITS = [
-  {
-    icon: TrendingUp,
-    title: "Fill idle cars faster",
-    body: "Every week a PCO car sits empty is revenue gone. Kharo puts it in front of vetted drivers actively looking.",
-  },
-  {
-    icon: Shield,
-    title: "Pre-screened drivers only",
-    body: "4-layer vetting: DVLA check, identity, Open Banking affordability and trade record. Your fleet, protected.",
-  },
-  {
-    icon: Users,
-    title: "You control the terms",
-    body: "Set your weekly rate, deposit, mileage allowance and restrictions. Kharo handles the lead; you close the deal.",
-  },
-  {
-    icon: Zap,
-    title: "No upfront cost",
-    body: "Listing is free. Kharo earns only when a rental completes, so we are incentivised to find you quality drivers.",
-  },
+const inputCls = "h-12 bg-[#F5F5F5] border border-transparent rounded-xl px-4 text-[15px] focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0B6B4F]/25 focus-visible:border-[#0B6B4F] transition-colors";
+
+// same £255/week assumption used elsewhere on the site (lib/pricing.js estimateOperatorAnnual)
+const AVG_WEEKLY_RATE = 255;
+const IDLE_BUCKETS = [
+  { key: "low", label: "1 to 2 cars", sub: "Light idle", count: 2 },
+  { key: "mid", label: "3 to 5 cars", sub: "Moderate idle", count: 4 },
+  { key: "high", label: "6+ cars", sub: "Heavy idle", count: 8 },
 ];
 
-const INPUT =
-  "w-full h-11 bg-[#F5F5F5] border border-[#E8E8E8] rounded-xl px-4 text-[15px] text-[#111] placeholder:text-[#BBB] focus:outline-none focus:border-[#0B6B4F] focus:bg-white transition-colors";
-const LABEL = "block text-[13px] font-semibold text-[#555] mb-1.5";
-
-function SliderTrack({ min, max, value, onChange, step = 1, label, formatVal }) {
-  const pct = ((value - min) / (max - min)) * 100;
-  return (
-    <div className="mb-5">
-      <div className="flex items-center justify-between mb-2">
-        <label className="text-[13px] font-semibold text-[#555]">{label}</label>
-        <span className="text-[22px] font-heading font-extrabold text-[#111] tabular-nums">
-          {formatVal(value)}
-        </span>
-      </div>
-      <div className="relative h-2 rounded-full bg-[#F0F0F0]">
-        <div
-          className="absolute h-2 rounded-full bg-[#0B6B4F] transition-all"
-          style={{ width: `${pct}%` }}
-        />
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full opacity-0 cursor-pointer h-2"
-          aria-label={label}
-        />
-        <div
-          className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white border-2 border-[#0B6B4F] shadow-md pointer-events-none transition-all"
-          style={{ left: `calc(${pct}% - 10px)` }}
-        />
-      </div>
-      <div className="flex justify-between text-[11px] text-[#CCC] mt-2">
-        <span>{formatVal(min)}</span>
-        <span>{formatVal(max)}</span>
-      </div>
-    </div>
-  );
-}
+const STEPS = [
+  { key: "company", q: "What's your company name?", sub: "So we know who we're speaking with.", fields: [{ label: "Company name", name: "company_name", placeholder: "e.g. London PHV Ltd", testid: "op-company" }], required: ["company_name"] },
+  { key: "contact", q: "What's your name?", sub: "Your point of contact for this fleet.", fields: [{ label: "Your name", name: "contact_name", placeholder: "Your full name", testid: "op-contact" }] },
+  { key: "email", q: "What's your email?", sub: "We'll send confirmation here.", fields: [{ label: "Email", name: "email", type: "email", placeholder: "you@company.com", testid: "op-email" }], required: ["email"] },
+  { key: "phone", q: "Your phone number", sub: "So we can call you within 1 working day.", fields: [{ label: "Phone number", name: "phone", type: "tel", placeholder: "07700 900 000", testid: "op-phone" }], required: ["phone"] },
+  { key: "areas", q: "Which areas do you operate in?", sub: "Boroughs or areas your fleet covers.", fields: [{ label: "Areas", name: "areas", placeholder: "e.g. East London, Barking, Ilford", testid: "op-areas" }], required: ["areas"] },
+  { key: "fleet", q: "How big is your fleet?", sub: "A rough number is fine.", select: { name: "fleet_size", testid: "op-fleet", options: ["1 to 5 vehicles", "6 to 15 vehicles", "16 to 30 vehicles", "30+ vehicles"] } },
+  { key: "idle", q: "How many cars are sitting idle?", sub: "This is what we'll help you fill first.", select: { name: "current_idle", testid: "op-idle", options: ["1 car", "2 to 3 cars", "4 to 5 cars", "5+ cars"] } },
+  { key: "notes", q: "Anything else we should know?", sub: "Optional. Vehicle makes, requirements, borough coverage.", fields: [{ label: "Notes", name: "message", placeholder: "Optional", testid: "op-notes" }] },
+];
 
 export default function OperatorInterest() {
   const navigate = useNavigate();
-  const [sent, setSent] = useState(false);
+  const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1);
-  const [idleCars, setIdleCars] = useState(3);
-  const [weeklyRate, setWeeklyRate] = useState(265);
+  const [done, setDone] = useState(false);
   const [f, setF] = useState({
-    company_name: "",
-    contact_name: "",
-    email: "",
-    phone: "",
-    fleet_size: "",
-    current_idle: "",
-    areas: "",
-    message: "",
+    company_name: "", contact_name: "", email: "", phone: "", areas: "",
+    fleet_size: "1 to 5 vehicles", current_idle: "1 car", message: "",
   });
+  const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
+
+  const [idleKey, setIdleKey] = useState("mid");
+  const idleBucket = IDLE_BUCKETS.find((b) => b.key === idleKey);
+  const weeklyLoss = idleBucket.count * AVG_WEEKLY_RATE;
+  const monthlyLoss = Math.round(weeklyLoss * 4.33);
+  const yearlyLoss = weeklyLoss * 52;
 
   useSeo({
     title: "List Your Fleet · Kharo | PCO Operator Platform",
@@ -95,26 +56,16 @@ export default function OperatorInterest() {
       "Stop losing revenue to idle PCO cars. List your fleet on Kharo and connect with vetted London drivers in days, not weeks.",
   });
 
-  const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
+  const cur = STEPS[step];
+  const isLast = step === STEPS.length - 1;
+  const pct = Math.round(((step + 1) / STEPS.length) * 100);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (step === 1) {
-      if (!f.company_name.trim() || !f.email.includes("@") || !f.phone.trim()) {
-        toast.error("Please fill in company name, email and phone.");
-        return;
-      }
-      setStep(2);
-      return;
-    }
-    submit();
+  const canNext = () => {
+    if (cur.required) { for (const r of cur.required) if (!f[r]?.trim()) return false; }
+    return true;
   };
 
-  const submit = async () => {
-    if (!f.areas.trim()) {
-      toast.error("Let us know which areas you operate in.");
-      return;
-    }
+  const finish = async () => {
     setLoading(true);
     try {
       await api.post("/interest", {
@@ -125,10 +76,11 @@ export default function OperatorInterest() {
         fleet_size: f.fleet_size,
         areas: f.areas,
         // backend's InterestIn has no idle-count/notes field; fold them into heard_from so the ops team still sees them
-        heard_from: f.message ? `Idle: ${f.current_idle || "n/a"}. Notes: ${f.message}` : `Idle: ${f.current_idle || "n/a"}`,
+        heard_from: f.message ? `Idle: ${f.current_idle}. Notes: ${f.message}` : `Idle: ${f.current_idle}`,
       });
       trackEvent("operator_interest", { fleet_size: f.fleet_size });
-      setSent(true);
+      setDone(true);
+      window.scrollTo(0, 0);
     } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {
@@ -136,351 +88,128 @@ export default function OperatorInterest() {
     }
   };
 
-  const weeklyRevenueLost = idleCars * weeklyRate;
-  const monthlyRevenueLost = Math.round(weeklyRevenueLost * 4.33);
-  const yearlyRevenueLost = weeklyRevenueLost * 52;
+  const next = () => {
+    if (!canNext()) { toast.error("Please fill this in to continue."); return; }
+    if (!isLast) setStep(step + 1); else finish();
+  };
+  const back = () => setStep((s) => Math.max(0, s - 1));
 
-  if (sent) return <SuccessScreen navigate={navigate} />;
+  if (done) return (
+    <main className="max-w-xl mx-auto px-4 py-24 text-center">
+      <Check className="w-12 h-12 text-[#0B6B4F] mx-auto" strokeWidth={1.75} />
+      <h1 className="text-3xl font-heading font-extrabold text-[#0A0A0A] mt-6" data-testid="op-success">We'll be in touch soon.</h1>
+      <p className="text-[#666666] mt-3 text-[16px] leading-relaxed">
+        A Kharo fleet specialist will call you within 1 working day to discuss how we can help fill your idle cars.
+      </p>
+      <div className="flex gap-3 justify-center mt-8 flex-wrap">
+        <Button onClick={() => navigate("/")} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white">Back to home <ArrowRight className="w-4 h-4 ml-2" /></Button>
+        <Button onClick={() => navigate("/operator-guide")} variant="outline" className="rounded-full border-[#E8E8E8]">Read the operator guide</Button>
+      </div>
+    </main>
+  );
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
-      <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.97) 100%), url('https://images.pexels.com/photos/35011130/pexels-photo-35011130.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1800&h=1000')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="relative max-w-6xl mx-auto">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-4 text-[#5FD3A6]">
-            For Fleet Operators
-          </p>
-          <h1 className="text-[38px] sm:text-5xl font-heading font-extrabold leading-[1.05] max-w-2xl mb-5" style={{ textWrap: "balance" }}>
-            Stop losing money to idle PCO cars
+    <main className="bg-[#F5F5F5] min-h-[calc(100vh-68px)]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 lg:py-20 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center lg:text-left">
+          <p className="text-[13px] font-medium text-[#0B6B4F] tracking-wide">List with Kharo</p>
+          <h1 className="mt-3 font-heading font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.03] text-[#0A0A0A] text-balance">
+            Stop losing money<br /><span className="text-[#0B6B4F]">to idle cars.</span>
           </h1>
-          <p className="text-white/60 text-[17px] max-w-xl leading-relaxed mb-8">
-            Every week a licensed car sits without a driver costs you hundreds of pounds.
-            Kharo connects your fleet with vetted London drivers who are ready to rent now.
+          <p className="mt-4 text-[16px] text-[#666666] max-w-md mx-auto lg:mx-0 leading-relaxed">
+            List your idle PCO cars and connect with vetted London drivers who are ready to rent now.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="#form"
-              className="px-7 py-3.5 rounded-full bg-[#5FD3A6] text-[#0A0A0A] font-semibold text-[15px] hover:bg-white transition-colors"
-            >
-              List your fleet
-            </a>
-            <button
-              onClick={() => navigate("/operator-guide")}
-              className="px-7 py-3.5 rounded-full border border-white/20 text-white font-medium text-[15px] hover:bg-white/5 transition-colors flex items-center gap-2"
-            >
-              Read the operator guide
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </section>
 
-      {/* BENEFITS STRIP - clean icon + text, matches the Operator Guide page */}
-      <section className="bg-white border-b border-[#EBEBEB] py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {BENEFITS.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="flex items-start gap-3">
-                <Icon className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
-                <div>
-                  <p className="font-heading font-bold text-[14px] text-[#111] mb-0.5">{title}</p>
-                  <p className="text-[12.5px] text-[#666] leading-relaxed">{body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* REVENUE CALCULATOR - its own full-width, breathing section */}
-      <section className="bg-[#FAFAFA] border-b border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Idle Cars Cost You</p>
-            <h2 className="font-heading font-bold text-[#111] text-[26px] sm:text-[30px]" style={{ textWrap: "balance" }}>
-              See what idle cars are costing you
-            </h2>
-            <p className="text-[14px] text-[#888] mt-2">Adjust both sliders to estimate your lost revenue.</p>
-          </div>
-
-          <div className="bg-white rounded-[26px] border border-[#E8E8E8] p-6 sm:p-8">
-            <SliderTrack
-              label="Cars sitting idle"
-              min={1}
-              max={20}
-              value={idleCars}
-              onChange={setIdleCars}
-              formatVal={(v) => `${v} car${v !== 1 ? "s" : ""}`}
-            />
-
-            <SliderTrack
-              label="Weekly rate per car"
-              min={150}
-              max={500}
-              step={5}
-              value={weeklyRate}
-              onChange={setWeeklyRate}
-              formatVal={(v) => `£${v}`}
-            />
-
-            <div className="grid grid-cols-3 gap-3 mt-6">
-              <div className="bg-[#FAFAFA] rounded-xl p-4 text-center">
-                <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">Per week</div>
-                <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
-                  £{weeklyRevenueLost.toLocaleString()}
-                </div>
-              </div>
-              <div className="bg-[#FAFAFA] rounded-xl p-4 text-center">
-                <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">Per month</div>
-                <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
-                  £{monthlyRevenueLost.toLocaleString()}
-                </div>
-              </div>
-              <div className="bg-[#FAFAFA] rounded-xl p-4 text-center ring-1 ring-[#DC2626]/15">
-                <div className="text-[10px] font-semibold text-[#DC2626] uppercase tracking-wide mb-1.5">Per year</div>
-                <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
-                  £{yearlyRevenueLost.toLocaleString()}
-                </div>
-              </div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.5 }}
+            className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-white ring-1 ring-[#E8E8E8]/70 p-6 sm:p-7 shadow-sm" data-testid="operator-loss-card">
+            <div className="text-[11px] text-[#888888] uppercase tracking-[0.18em]">Idle cars cost you</div>
+            <div className="flex items-end gap-2 mt-1.5">
+              <AnimatedNumber value={weeklyLoss} prefix="£" data-testid="operator-loss-value" className="text-[clamp(2.6rem,8vw,4rem)] font-heading font-extrabold text-[#0A0A0A] leading-[0.9]" />
+              <span className="text-[#888888] text-lg pb-2">/ week</span>
             </div>
-
-            <p className="text-[12px] text-[#BBB] mt-4 text-center">
-              An illustrative estimate based on your inputs, not a quote. Actual figures depend on your contracts.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* LEAD FORM - two-step: minimal contact info first, details second. Fewer fields up front lifts B2B form completion. */}
-      <section id="form" className="py-16 px-4">
-        <div className="max-w-lg mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Get Started</p>
-            <h2 className="font-heading font-bold text-[#111] text-[26px] sm:text-[30px]" style={{ textWrap: "balance" }}>
-              Tell us about your fleet
-            </h2>
-            <p className="text-[14px] text-[#888] mt-2">A Kharo fleet specialist will call within 1 working day.</p>
-          </div>
-
-          <div className="bg-white rounded-[26px] border border-[#E8E8E8] p-6 sm:p-8">
-            <div className="flex items-center gap-2 mb-6">
-              {[1, 2].map((n) => (
-                <div key={n} className="flex-1 flex items-center gap-2">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0 ${step >= n ? "bg-[#0B6B4F] text-white" : "bg-[#F0F0F0] text-[#AAA]"}`}>
-                    {step > n ? <Check className="w-3.5 h-3.5" /> : n}
-                  </div>
-                  <span className={`text-[12px] font-medium ${step >= n ? "text-[#111]" : "text-[#AAA]"}`}>
-                    {n === 1 ? "Your details" : "About your fleet"}
-                  </span>
-                  {n === 1 && <div className={`flex-1 h-px ${step > 1 ? "bg-[#0B6B4F]" : "bg-[#EBEBEB]"}`} />}
-                </div>
+            <div className="mt-4 h-px bg-[#E8E8E8]/80" />
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              {IDLE_BUCKETS.map((b) => (
+                <button key={b.key} onClick={() => setIdleKey(b.key)} data-testid={`operator-idle-${b.key}`}
+                  className={`rounded-2xl px-3 py-3 text-left ring-1 transition-all hover:-translate-y-[2px] ${idleKey === b.key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.06]" : "ring-[#E8E8E8] bg-white hover:bg-[#FAFAFA]"}`}>
+                  <div className="text-[13px] font-semibold text-[#0A0A0A]">{b.label}</div>
+                  <div className="text-[10.5px] text-[#888888] leading-tight mt-0.5">{b.sub}</div>
+                </button>
               ))}
             </div>
+            <div className="mt-5 space-y-2 text-[13px]">
+              <Line l="Per week" v={`£${weeklyLoss.toLocaleString()}`} strong />
+              <Line l="Per month" v={`£${monthlyLoss.toLocaleString()}`} />
+              <Line l="Per year" v={`£${yearlyLoss.toLocaleString()}`} />
+            </div>
+            <p className="text-[11px] text-[#999999] mt-4 leading-relaxed">
+              Based on a typical £{AVG_WEEKLY_RATE}/week PCO rental rate. An illustrative estimate, not a quote.
+            </p>
+          </motion.div>
 
-            <form onSubmit={handleFormSubmit} className="space-y-4">
-              {step === 1 ? (
-                <>
-                  <FormField label="Company name" required>
-                    <input
-                      className={INPUT}
-                      placeholder="e.g. London PHV Ltd"
-                      value={f.company_name}
-                      onChange={set("company_name")}
-                      required
-                      autoFocus
-                    />
-                  </FormField>
-                  <FormField label="Your name">
-                    <input
-                      className={INPUT}
-                      placeholder="Your full name"
-                      value={f.contact_name}
-                      onChange={set("contact_name")}
-                    />
-                  </FormField>
-                  <FormField label="Email address" required>
-                    <input
-                      className={INPUT}
-                      type="email"
-                      placeholder="you@company.com"
-                      value={f.email}
-                      onChange={set("email")}
-                      required
-                      autoComplete="email"
-                      inputMode="email"
-                    />
-                  </FormField>
-                  <FormField label="Phone number" required>
-                    <input
-                      className={INPUT}
-                      type="tel"
-                      placeholder="07700 900 000"
-                      value={f.phone}
-                      onChange={set("phone")}
-                      required
-                      autoComplete="tel"
-                      inputMode="tel"
-                    />
-                  </FormField>
+          <p className="mt-7 text-[13px] text-[#666666] leading-relaxed">
+            Pre-screened drivers only<span className="text-[#CCC] mx-2">&middot;</span>Kharo calls within 1 working day<span className="text-[#CCC] mx-2">&middot;</span>Free to list, no monthly fees
+          </p>
+        </motion.div>
 
-                  <button
-                    type="submit"
-                    className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[15px] transition-colors"
-                  >
-                    Continue
-                  </button>
-
-                  {BRAND.whatsapp && (
-                    <a
-                      href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hi Kharo, I'd like to list my fleet.")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 text-[13px] font-medium text-[#555] hover:text-[#0B6B4F] transition-colors"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      Prefer WhatsApp? Message us instead
-                    </a>
-                  )}
-                </>
-              ) : (
-                <>
-                  <FormField label="Areas you operate in" required>
-                    <input
-                      className={INPUT}
-                      placeholder="e.g. East London, Barking, Ilford"
-                      value={f.areas}
-                      onChange={set("areas")}
-                      required
-                      autoFocus
-                    />
-                  </FormField>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <FormField label="Total fleet size">
-                      <select
-                        className={INPUT + " appearance-none cursor-pointer"}
-                        value={f.fleet_size}
-                        onChange={set("fleet_size")}
-                      >
-                        <option value="">Select...</option>
-                        <option value="1-5">1 to 5 vehicles</option>
-                        <option value="6-15">6 to 15 vehicles</option>
-                        <option value="16-30">16 to 30 vehicles</option>
-                        <option value="30+">30+ vehicles</option>
-                      </select>
-                    </FormField>
-                    <FormField label="Cars currently idle">
-                      <select
-                        className={INPUT + " appearance-none cursor-pointer"}
-                        value={f.current_idle}
-                        onChange={set("current_idle")}
-                      >
-                        <option value="">Select...</option>
-                        <option value="1">1 car</option>
-                        <option value="2-3">2 to 3 cars</option>
-                        <option value="4-5">4 to 5 cars</option>
-                        <option value="5+">5+ cars</option>
-                      </select>
-                    </FormField>
-                  </div>
-
-                  <FormField label="Anything else we should know?">
-                    <textarea
-                      className={INPUT + " h-24 py-3 resize-none"}
-                      placeholder="Vehicle makes, specific requirements, borough coverage..."
-                      value={f.message}
-                      onChange={set("message")}
-                    />
-                  </FormField>
-
-                  <div className="flex gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setStep(1)}
-                      className="h-12 px-5 rounded-full border border-[#E8E8E8] text-[#555] font-medium text-[15px] hover:bg-[#F5F5F5] transition-colors"
-                    >
-                      Back
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="flex-1 h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
-                    >
-                      {loading ? "Sending..." : "Request a call back"}
-                    </button>
-                  </div>
-                </>
-              )}
-
-              <ul className="space-y-1.5 pt-1">
-                {[
-                  "Free to list, no monthly fees",
-                  "Kharo calls you within 1 working day",
-                  "Your details are never sold",
-                ].map((t) => (
-                  <li key={t} className="flex items-center gap-2 text-[12.5px] text-[#888]">
-                    <Check className="w-3.5 h-3.5 text-[#0B6B4F] shrink-0" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </form>
+        <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
+          className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[28px] ring-1 ring-[#E8E8E8] p-6 sm:p-9 shadow-xl">
+          <div className="mb-7">
+            <div className="flex items-center justify-between text-[12.5px] text-[#888888] mb-2.5">
+              <span data-testid="op-step-label">Step {step + 1} of {STEPS.length}</span>
+              <span>{pct}%</span>
+            </div>
+            <div className="flex items-center gap-1.5" data-testid="op-progress">
+              {STEPS.map((_, i) => (<div key={i} className={`h-1.5 rounded-full flex-1 transition-all duration-500 ${i <= step ? "bg-[#0B6B4F]" : "bg-[#E8E8E8]"}`} />))}
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
-  );
-}
 
-/* Success screen */
+          <form onSubmit={(e) => { e.preventDefault(); next(); }}>
+            <AnimatePresence mode="wait">
+              <motion.div key={cur.key} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.25 }}>
+                <h2 className="text-3xl sm:text-4xl font-heading font-bold text-[#0A0A0A] leading-tight text-balance">{cur.q}</h2>
+                <p className="text-[15px] text-[#666666] mt-2 mb-7">{cur.sub}</p>
+                {cur.select ? (
+                  <Select value={f[cur.select.name]} onValueChange={(val) => setF((p) => ({ ...p, [cur.select.name]: val }))}>
+                    <SelectTrigger data-testid={cur.select.testid} className="h-12 rounded-xl bg-white border-[#E8E8E8]"><SelectValue /></SelectTrigger>
+                    <SelectContent>{cur.select.options.map((x) => <SelectItem key={x} value={x}>{x}</SelectItem>)}</SelectContent>
+                  </Select>
+                ) : (
+                  <div className="space-y-4">
+                    {cur.fields.map((fl, idx) => (
+                      <Field key={fl.name} label={fl.label}>
+                        <Input autoFocus={idx === 0} type={fl.type || "text"} value={f[fl.name]} onChange={set(fl.name)} data-testid={fl.testid} className={inputCls} placeholder={fl.placeholder} />
+                      </Field>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
 
-function SuccessScreen({ navigate }) {
-  return (
-    <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center p-4">
-      <div className="max-w-md w-full text-center bg-white rounded-2xl border border-[#E8E8E8] p-8">
-        <Check className="w-14 h-14 text-[#0B6B4F] mx-auto mb-5" strokeWidth={1.75} />
-        <h1 className="text-[22px] font-heading font-extrabold text-[#111] mb-2">
-          We'll be in touch soon
-        </h1>
-        <p className="text-[14px] text-[#555] leading-relaxed mb-6">
-          A Kharo fleet specialist will call you within 1 working day to discuss
-          how we can help fill your idle cars.
-        </p>
-        <div className="flex flex-col gap-3">
-          <button
-            onClick={() => navigate("/operator-guide")}
-            className="h-11 rounded-full border border-[#E8E8E8] text-[#333] text-[14px] font-medium hover:bg-[#F5F5F5] transition-colors"
-          >
-            Read the operator guide
-          </button>
-          <button
-            onClick={() => navigate("/")}
-            className="h-11 rounded-full bg-[#0B6B4F] text-white text-[14px] font-semibold hover:bg-[#095B43] transition-colors"
-          >
-            Back to home
-          </button>
-        </div>
+            <div className="flex gap-3 mt-8">
+              {step > 0 && <Button type="button" variant="outline" onClick={back} className="rounded-full border-[#E8E8E8] hover:-translate-y-[2px] transition-transform" data-testid="op-back"><ArrowLeft className="w-4 h-4" /></Button>}
+              <Button type="submit" disabled={loading} className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white flex-1 h-11 hover:-translate-y-[2px] transition-transform" data-testid={isLast ? "op-submit" : "op-continue"}>
+                {isLast ? (loading ? "Sending" : "Request a call back") : "Continue"} {!isLast && <ArrowRight className="w-4 h-4 ml-2" />}
+              </Button>
+            </div>
+
+            {step === 0 && BRAND.whatsapp && (
+              <a
+                href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hi Kharo, I'd like to list my fleet.")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 text-[13px] font-medium text-[#666666] hover:text-[#0B6B4F] transition-colors mt-5"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Prefer WhatsApp? Message us instead
+              </a>
+            )}
+          </form>
+        </motion.div>
       </div>
-    </div>
+    </main>
   );
 }
 
-function FormField({ label, required, children }) {
-  return (
-    <div>
-      <label className={LABEL}>
-        {label}
-        {required && <span className="text-[#0B6B4F] ml-0.5">*</span>}
-      </label>
-      {children}
-    </div>
-  );
-}
+const Field = ({ label, children }) => (<div><Label className="text-[13px] font-medium text-[#666666] mb-1.5 block">{label}</Label>{children}</div>);
+const Line = ({ l, v, strong }) => (<div className="flex justify-between"><span className="text-[#888888]">{l}</span><span className={strong ? "text-[#0A0A0A] font-semibold" : "text-[#666666]"}>{v}</span></div>);
