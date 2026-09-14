@@ -83,6 +83,7 @@ export default function OperatorInterest() {
     phone: "",
     fleet_size: "",
     current_idle: "",
+    areas: "",
     message: "",
   });
 
@@ -96,13 +97,22 @@ export default function OperatorInterest() {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!f.company_name.trim() || !f.email.includes("@") || !f.phone.trim()) {
-      toast.error("Please fill in company name, email and phone.");
+    if (!f.company_name.trim() || !f.email.includes("@") || !f.phone.trim() || !f.areas.trim()) {
+      toast.error("Please fill in company name, email, phone and areas covered.");
       return;
     }
     setLoading(true);
     try {
-      await api.post("/operator-interest", f);
+      await api.post("/interest", {
+        company_name: f.company_name,
+        contact_name: f.contact_name,
+        email: f.email,
+        phone: f.phone,
+        fleet_size: f.fleet_size,
+        areas: f.areas,
+        // backend's InterestIn has no idle-count/notes field; fold them into heard_from so the ops team still sees them
+        heard_from: f.message ? `Idle: ${f.current_idle || "n/a"}. Notes: ${f.message}` : `Idle: ${f.current_idle || "n/a"}`,
+      });
       trackEvent("operator_interest", { fleet_size: f.fleet_size });
       setSent(true);
     } catch {
@@ -318,6 +328,16 @@ export default function OperatorInterest() {
                   required
                   autoComplete="tel"
                   inputMode="tel"
+                />
+              </FormField>
+
+              <FormField label="Areas you operate in" required>
+                <input
+                  className={INPUT}
+                  placeholder="e.g. East London, Barking, Ilford"
+                  value={f.areas}
+                  onChange={set("areas")}
+                  required
                 />
               </FormField>
 
