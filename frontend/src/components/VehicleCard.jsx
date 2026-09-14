@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star, Heart, ArrowUpRight } from "lucide-react";
+import { Star, Heart, ArrowUpRight, MapPin, Fuel, Cog } from "lucide-react";
 
 export default function VehicleCard({ vehicle }) {
   const navigate = useNavigate();
@@ -50,16 +50,21 @@ export default function VehicleCard({ vehicle }) {
             <h3 className="font-heading font-bold text-[#111] text-[15px] leading-tight truncate">
               {make} {model}
             </h3>
-            <p className="text-[#888] text-[13px] mt-0.5">
-              {year} &middot; {fuel} &middot; {transmission}
-            </p>
+            <p className="text-[#888] text-[13px] mt-0.5">{year}</p>
           </div>
           <span className="font-heading font-bold text-[#111] text-[15px] whitespace-nowrap">
             £{weekly_rent}
             <span className="font-normal text-[#AAA] text-xs"> / wk</span>
           </span>
         </div>
-        <p className="text-[#AAA] text-[11.5px] mt-1">Includes insurance &amp; maintenance</p>
+
+        <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-2 text-[12px] text-[#666]">
+          <span className="inline-flex items-center gap-1"><MapPin size={12} className="text-[#AAA]" /> {borough}</span>
+          <span className="inline-flex items-center gap-1"><Fuel size={12} className="text-[#AAA]" /> {fuel}</span>
+          <span className="inline-flex items-center gap-1"><Cog size={12} className="text-[#AAA]" /> {transmission}</span>
+        </div>
+
+        <p className="text-[#AAA] text-[11.5px] mt-1.5">Includes insurance &amp; maintenance</p>
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-1">
@@ -67,7 +72,9 @@ export default function VehicleCard({ vehicle }) {
             <span className="text-[12px] font-semibold text-[#333]">{rating?.toFixed(1)}</span>
             <span className="text-[12px] text-[#AAA]">({review_count})</span>
           </div>
-          <span className="text-[12px] text-[#AAA]">{borough}</span>
+          <span className="inline-flex items-center gap-1 text-[12px] text-[#0B6B4F] font-medium">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#5FD3A6" }} /> Available now
+          </span>
         </div>
       </div>
     </article>

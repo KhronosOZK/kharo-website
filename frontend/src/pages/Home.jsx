@@ -117,14 +117,14 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col items-center w-full">
           <p className="text-white/50 text-xs font-semibold uppercase tracking-[0.16em] mb-6">
-            Direct Operator PCO Rentals
+            The Private Hire Marketplace
           </p>
 
           <h1 className="font-heading text-[42px] leading-[1.02] sm:text-6xl lg:text-7xl font-bold text-white max-w-4xl mb-5" style={{ textWrap: "balance", letterSpacing: "-0.02em" }}>
-            Your City.<br />Your Terms.
+            Find your next PHV.
           </h1>
           <p className="text-white/55 text-base sm:text-lg max-w-xl mb-10">
-            Weekly PCO rentals direct from licensed operators in London, Manchester, Birmingham and Leeds. Insurance and maintenance included.
+            Compare rental cars from operators in London, Manchester, Birmingham and Leeds. One weekly price, insurance and maintenance included.
           </p>
 
           {/* SEARCH PANEL - pill fields, single accent CTA */}
@@ -203,6 +203,51 @@ export default function Home() {
               {b}
             </span>
           ))}
+        </div>
+      </section>
+
+      {/* TWO-SIDED MARKETPLACE - the two journeys, stated plainly, right under the fold */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div
+            onClick={() => navigate("/search")}
+            className="group relative rounded-[28px] overflow-hidden cursor-pointer h-[260px] sm:h-[300px]"
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+              style={{ backgroundImage: "url('https://images.pexels.com/photos/5834947/pexels-photo-5834947.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1000')" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+            <div className="relative h-full flex flex-col justify-end p-7 sm:p-8">
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Need a car to drive?</p>
+              <h3 className="font-heading text-2xl sm:text-[28px] font-bold text-white mb-2" style={{ textWrap: "balance" }}>
+                Find a vehicle that fits your budget.
+              </h3>
+              <span className="inline-flex items-center gap-1.5 text-white font-semibold text-sm">
+                Find a vehicle <ArrowRight size={15} />
+              </span>
+            </div>
+          </div>
+
+          <div
+            onClick={() => navigate("/list-your-fleet")}
+            className="group relative rounded-[28px] overflow-hidden cursor-pointer h-[260px] sm:h-[300px]"
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+              style={{ backgroundImage: "url('https://images.pexels.com/photos/29566898/pexels-photo-29566898.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1000')" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+            <div className="relative h-full flex flex-col justify-end p-7 sm:p-8">
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-wide mb-2">Have a car sitting idle?</p>
+              <h3 className="font-heading text-2xl sm:text-[28px] font-bold text-white mb-2" style={{ textWrap: "balance" }}>
+                List it and reach drivers looking to rent.
+              </h3>
+              <span className="inline-flex items-center gap-1.5" style={{ color: ACCENT }}>
+                <span className="font-semibold text-sm">List your vehicle</span> <ArrowRight size={15} color={ACCENT} />
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
