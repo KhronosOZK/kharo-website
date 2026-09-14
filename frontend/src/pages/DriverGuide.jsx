@@ -299,30 +299,43 @@ export default function DriverGuide() {
               </button>
             </div>
 
-            {/* Vetting card */}
-            <div className="bg-[#0B6B4F] rounded-2xl p-7 text-white">
-              <BadgeCheck className="w-10 h-10 text-[#5FD3A6] mb-4" />
-              <h3 className="font-heading font-bold text-[20px] mb-1">4-Layer Vetting</h3>
-              <p className="text-white/60 text-[13px] mb-5">
-                Done on your phone. Takes 48 hours. No credit impact.
-              </p>
-              <div className="space-y-4">
-                {[
-                  { step: "1", label: "DVLA eligibility check", desc: "Licence confirmed, points verified" },
-                  { step: "2", label: "Liveness identity check", desc: "AI check against your photo ID" },
-                  { step: "3", label: "Open Banking affordability", desc: "Read-only account review, no credit impact" },
-                  { step: "4", label: "PHV trade record review", desc: "Your history with operators and platforms" },
-                ].map(({ step, label, desc }) => (
-                  <div key={step} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
-                      {step}
-                    </span>
-                    <div>
-                      <p className="font-semibold text-[14px]">{label}</p>
-                      <p className="text-white/60 text-[12px]">{desc}</p>
+            {/* Vetting card - a photo backdrop instead of a flat fill, matching
+                the treatment used for the equivalent card on Operator Guide */}
+            <div className="relative rounded-2xl overflow-hidden p-7 text-white">
+              <img
+                src="https://images.pexels.com/photos/8388228/pexels-photo-8388228.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1125"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(165deg, rgba(11,107,79,0.90) 0%, rgba(7,26,20,0.85) 55%, rgba(5,15,12,0.94) 100%)" }}
+              />
+              <div className="relative">
+                <BadgeCheck className="w-10 h-10 text-[#5FD3A6] mb-4" />
+                <h3 className="font-heading font-bold text-[20px] mb-1">4-Layer Vetting</h3>
+                <p className="text-white/60 text-[13px] mb-5">
+                  Done on your phone. Takes 48 hours. No credit impact.
+                </p>
+                <div className="space-y-4">
+                  {[
+                    { step: "1", label: "DVLA eligibility check", desc: "Licence confirmed, points verified" },
+                    { step: "2", label: "Liveness identity check", desc: "AI check against your photo ID" },
+                    { step: "3", label: "Open Banking affordability", desc: "Read-only account review, no credit impact" },
+                    { step: "4", label: "PHV trade record review", desc: "Your history with operators and platforms" },
+                  ].map(({ step, label, desc }) => (
+                    <div key={step} className="flex items-start gap-3">
+                      <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5">
+                        {step}
+                      </span>
+                      <div>
+                        <p className="font-semibold text-[14px]">{label}</p>
+                        <p className="text-white/60 text-[12px]">{desc}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
