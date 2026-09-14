@@ -348,22 +348,22 @@ export default function Home() {
       </section>
 
       {/* TRUST - honest, no claims we can't back yet */}
-      <section className="bg-[#0A0A0A] py-16 px-4">
+      <section className="bg-[#FAFAFA] border-y border-[#EBEBEB] py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs uppercase tracking-widest text-[#5FD3A6] font-semibold mb-2">Built For The Private Hire Community</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-8" style={{ textWrap: "balance" }}>
+          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Built For The Private Hire Community</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-8" style={{ textWrap: "balance" }}>
             What every listing on Kharo means
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 text-left max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
             {[
               "Every operator is checked against Companies House and the licensing register",
               "The weekly price shown is the whole price, insurance and maintenance included",
               "You speak directly to the operator, no middleman marking up the rate",
               "Your details go to the operator, and nowhere else",
             ].map((t) => (
-              <div key={t} className="flex items-start gap-3">
-                <Check size={16} className="text-[#5FD3A6] mt-0.5 shrink-0" strokeWidth={2.5} />
-                <span className="text-white/75 text-[14px] leading-relaxed">{t}</span>
+              <div key={t} className="flex items-start gap-3 bg-white rounded-2xl border border-[#E8E8E8] p-4">
+                <Check size={16} className="text-[#0B6B4F] mt-0.5 shrink-0" strokeWidth={2.5} />
+                <span className="text-[#333] text-[14px] leading-relaxed">{t}</span>
               </div>
             ))}
           </div>

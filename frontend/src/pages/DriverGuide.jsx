@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Search, ClipboardList, Phone, Car, Check, ChevronDown,
   ShieldCheck, BadgeCheck, Wallet, Clock, ChevronRight,
@@ -135,7 +135,6 @@ function Faq({ q, a }) {
 
 export default function DriverGuide() {
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = useState(0);
 
   useSeo({
     title: "Driver Guide · How to Rent a PCO Car on Kharo",
@@ -200,86 +199,55 @@ export default function DriverGuide() {
         </div>
       </section>
 
-      {/* Step-by-step - interactive: click a step to see it, photo changes with it */}
-      <section className="py-16 px-4">
-        <div className="max-w-5xl mx-auto">
+      {/* Step-by-step - alternating photo/text rows, all visible, reveal on scroll */}
+      <section className="py-16 px-4 overflow-hidden">
+        <div className="max-w-4xl mx-auto">
           <motion.h2
             {...FADE_UP}
-            className="text-[28px] font-heading font-extrabold text-[#111] mb-10 text-center"
+            className="text-[28px] font-heading font-extrabold text-[#111] mb-16 text-center"
           >
             Step by step
           </motion.h2>
 
-          <motion.div {...FADE_UP} className="grid lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-10 items-start">
-            {/* Step list - click to select */}
-            <div className="order-2 lg:order-1 flex flex-col gap-2">
-              {STEPS.map(({ num, icon: Icon, title, detail }, i) => {
-                const active = i === activeStep;
-                return (
-                  <button
-                    key={num}
-                    onClick={() => setActiveStep(i)}
-                    className={`text-left rounded-2xl p-5 border transition-colors ${
-                      active ? "bg-white border-[#0B6B4F]" : "bg-transparent border-transparent hover:bg-white/60"
-                    }`}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div
-                        className={`shrink-0 w-9 h-9 rounded-full border-2 flex items-center justify-center transition-colors ${
-                          active ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-[#CCC]"
-                        }`}
-                      >
-                        <Icon className={`w-4 h-4 ${active ? "text-white" : "text-[#999]"}`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2.5">
-                          <span className={`text-[11px] font-bold tracking-widest ${active ? "text-[#0B6B4F]" : "text-[#AAA]"}`}>{num}</span>
-                          <h3 className={`font-heading font-bold text-[16px] ${active ? "text-[#111]" : "text-[#777]"}`}>{title}</h3>
-                        </div>
-                        {active && (
-                          <motion.p
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            transition={{ duration: 0.25 }}
-                            className="text-[14px] text-[#555] leading-relaxed mt-2 overflow-hidden"
-                          >
-                            {STEPS[i].body}
-                          </motion.p>
-                        )}
-                        {active && (
-                          <div className="inline-flex items-center gap-1.5 text-[12px] text-[#888] bg-[#F8F8F8] rounded-full px-3 py-1 mt-3">
-                            <Clock className="w-3 h-3" />
-                            {detail}
-                          </div>
-                        )}
-                      </div>
+          <div className="flex flex-col gap-16 lg:gap-20">
+            {STEPS.map(({ num, icon: Icon, title, body, detail, photo }, i) => {
+              const reversed = i % 2 === 1;
+              return (
+                <motion.div
+                  key={num}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5 }}
+                  className={`grid lg:grid-cols-2 gap-6 lg:gap-12 items-center ${reversed ? "lg:[&>*:first-child]:order-2" : ""}`}
+                >
+                  <div className="relative">
+                    <span
+                      className="absolute -top-10 -left-3 font-heading font-extrabold text-[110px] leading-none text-[#0B6B4F]/[0.07] select-none pointer-events-none"
+                      aria-hidden="true"
+                    >
+                      {num}
+                    </span>
+                    <div className="relative rounded-[28px] overflow-hidden aspect-[4/3] bg-[#EDEDED] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)]">
+                      <img src={photo} alt={title} className="w-full h-full object-cover" loading="lazy" />
                     </div>
-                  </button>
-                );
-              })}
-            </div>
+                  </div>
 
-            {/* Photo panel - crossfades with the selected step */}
-            <div className="order-1 lg:order-2 relative aspect-[4/3] rounded-[28px] overflow-hidden bg-[#EDEDED]">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeStep}
-                  src={STEPS[activeStep].photo}
-                  alt={STEPS[activeStep].title}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0" />
-              <div className="absolute bottom-5 left-5 right-5 flex items-center gap-2">
-                <span className="text-white/70 text-[11px] font-bold tracking-widest">{STEPS[activeStep].num}</span>
-                <span className="text-white font-heading font-semibold text-[15px]">{STEPS[activeStep].title}</span>
-              </div>
-            </div>
-          </motion.div>
+                  <div className={reversed ? "lg:pr-4" : "lg:pl-4"}>
+                    <div className="w-11 h-11 rounded-full border-2 border-[#0B6B4F] flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5 text-[#0B6B4F]" />
+                    </div>
+                    <h3 className="font-heading font-bold text-[22px] text-[#111]">{title}</h3>
+                    <p className="text-[15px] text-[#555] leading-relaxed mt-2.5">{body}</p>
+                    <div className="inline-flex items-center gap-1.5 text-[12px] text-[#888] bg-[#F8F8F8] rounded-full px-3 py-1 mt-4">
+                      <Clock className="w-3 h-3" />
+                      {detail}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
