@@ -11,16 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 
 const inputCls = "h-12 bg-[#F5F5F5] border border-transparent rounded-xl px-4 text-[15px] focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0B6B4F]/25 focus-visible:border-[#0B6B4F] transition-colors";
 
-// same £255/week assumption used elsewhere on the site (lib/pricing.js estimateOperatorAnnual)
+// same £255/week default used as the slider's starting point
 const AVG_WEEKLY_RATE = 255;
-const IDLE_BUCKETS = [
-  { key: "low", label: "1 to 2 cars", sub: "Light idle", count: 2 },
-  { key: "mid", label: "3 to 5 cars", sub: "Moderate idle", count: 4 },
-  { key: "high", label: "6+ cars", sub: "Heavy idle", count: 8 },
-];
 
 const STEPS = [
   { key: "company", q: "What's your company name?", sub: "So we know who we're speaking with.", fields: [{ label: "Company name", name: "company_name", placeholder: "e.g. London PHV Ltd", testid: "op-company" }], required: ["company_name"] },
@@ -44,9 +40,9 @@ export default function OperatorInterest() {
   });
   const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
 
-  const [idleKey, setIdleKey] = useState("mid");
-  const idleBucket = IDLE_BUCKETS.find((b) => b.key === idleKey);
-  const weeklyLoss = idleBucket.count * AVG_WEEKLY_RATE;
+  const [idleCount, setIdleCount] = useState(4);
+  const [weeklyRate, setWeeklyRate] = useState(AVG_WEEKLY_RATE);
+  const weeklyLoss = idleCount * weeklyRate;
   const monthlyLoss = Math.round(weeklyLoss * 4.33);
   const yearlyLoss = weeklyLoss * 52;
 
@@ -128,22 +124,30 @@ export default function OperatorInterest() {
               <span className="text-[#888888] text-lg pb-2">/ week</span>
             </div>
             <div className="mt-4 h-px bg-[#E8E8E8]/80" />
-            <div className="mt-4 grid grid-cols-3 gap-2">
-              {IDLE_BUCKETS.map((b) => (
-                <button key={b.key} onClick={() => setIdleKey(b.key)} data-testid={`operator-idle-${b.key}`}
-                  className={`rounded-2xl px-3 py-3 text-left ring-1 transition-all hover:-translate-y-[2px] ${idleKey === b.key ? "ring-2 ring-[#0B6B4F] bg-[#0B6B4F]/[0.06]" : "ring-[#E8E8E8] bg-white hover:bg-[#FAFAFA]"}`}>
-                  <div className="text-[13px] font-semibold text-[#0A0A0A]">{b.label}</div>
-                  <div className="text-[10.5px] text-[#888888] leading-tight mt-0.5">{b.sub}</div>
-                </button>
-              ))}
+
+            <div className="mt-5">
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-[13px] font-medium text-[#666666]">Cars sitting idle</span>
+                <span className="text-[15px] font-heading font-bold text-[#0A0A0A] tabular-nums">{idleCount} car{idleCount !== 1 ? "s" : ""}</span>
+              </div>
+              <Slider value={[idleCount]} onValueChange={([v]) => setIdleCount(v)} min={1} max={20} step={1} data-testid="operator-idle-slider" />
             </div>
+
+            <div className="mt-5">
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-[13px] font-medium text-[#666666]">Weekly rate per car</span>
+                <span className="text-[15px] font-heading font-bold text-[#0A0A0A] tabular-nums">£{weeklyRate}</span>
+              </div>
+              <Slider value={[weeklyRate]} onValueChange={([v]) => setWeeklyRate(v)} min={150} max={500} step={5} data-testid="operator-rate-slider" />
+            </div>
+
             <div className="mt-5 space-y-2 text-[13px]">
               <Line l="Per week" v={`£${weeklyLoss.toLocaleString()}`} strong />
               <Line l="Per month" v={`£${monthlyLoss.toLocaleString()}`} />
               <Line l="Per year" v={`£${yearlyLoss.toLocaleString()}`} />
             </div>
             <p className="text-[11px] text-[#999999] mt-4 leading-relaxed">
-              Based on a typical £{AVG_WEEKLY_RATE}/week PCO rental rate. An illustrative estimate, not a quote.
+              An illustrative estimate based on your inputs, not a quote. Actual figures depend on your contracts.
             </p>
           </motion.div>
 
