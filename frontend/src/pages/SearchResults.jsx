@@ -323,14 +323,22 @@ export default function SearchResults() {
             )}
           </div>
 
-          {/* Map: hidden by default at every width, toggled via the header button (desktop) or floating pill (mobile) */}
-          <div className={`${showMap ? "block" : "hidden"} flex-1 lg:flex-none lg:w-[42%] lg:sticky lg:top-4 lg:self-start`}>
-            <div className={showMap ? "fixed inset-0 z-40 lg:static lg:z-auto" : ""}>
-              <div className="h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)] rounded-none lg:rounded-2xl overflow-hidden border border-[#E8E8E8]">
-                <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} visibilityTrigger={showMap} />
+          {/* Map: only mounted once actually visible, toggled via the header button
+              (desktop) or floating pill (mobile). Leaflet measures its container's
+              size once at construction - mounting it behind a display:none wrapper
+              (as before) meant it always measured 0x0 and its tile layer never
+              recovered, even with a later invalidateSize() call: no tiles ever
+              loaded, just the bare price pins on a blank gray box. Only rendering
+              it once showMap is true guarantees it always sees its real size. */}
+          {showMap && (
+            <div className="flex-1 lg:flex-none lg:w-[42%] lg:sticky lg:top-4 lg:self-start">
+              <div className="fixed inset-0 z-40 lg:static lg:z-auto">
+                <div className="h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)] rounded-none lg:rounded-2xl overflow-hidden border border-[#E8E8E8]">
+                  <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} visibilityTrigger={showMap} />
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
