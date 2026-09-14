@@ -1,0 +1,7 @@
+We vibecoded a private hire rental marketplace. Then, before a single driver got near it, we made ourselves do the boring checklist everyone skips.
+
+Privacy policy: written, not templated. Terms of service: read, not skimmed. Cookie consent that actually blocks tracking until you say yes. A GDPR request flow that works, because "we'll sort it if someone asks" isn't a policy. Every image licensed. Meta tags and a sitemap so Google finds us. A 404 page with some personality. Accessibility checked, not just eyeballed. Rate limiting on every public endpoint. SPF and DKIM set up so our emails land in inboxes, not spam.
+
+None of it is glamorous. All of it is the difference between a demo and a platform drivers and operators can trust with their money and their licence. Ship fast. Just don't skip the paperwork that keeps you shipped.
+
+#vibecoding #buildinpublic #PCO #privatehire #startuplife

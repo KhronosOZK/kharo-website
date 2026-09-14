@@ -23,8 +23,8 @@ export const BRAND = {
   tagline: "Private hire car rental, made clear.",
   footerBlurb:
     "Rent or buy a licensed private hire vehicle from operators checked against Companies House and the licensing register. A rental price shown up front, with insurance quoted separately.",
-  supportEmail: "hello@kharo.uk",
-  privacyEmail: "privacy@kharo.uk",
+  supportEmail: "hello@kharo.co.uk",
+  privacyEmail: "privacy@kharo.co.uk",
   // Digits only, UK country code, no leading 0 or +: used to build wa.me links.
   whatsapp: "447392829759",
   copyright: "© 2026 Kharo. Serving drivers in London, Birmingham, Manchester and Leeds, with Sheffield coming soon.",
@@ -534,7 +534,7 @@ export const LEGAL = {
     { t: "Insurance", b: "Insurance is quoted separately from the rental price by default, through our specialist hire and reward insurance partners. Where an operator holds their own fleet cover and adds it to their listing, the weekly price shown may already include insurance. Standard personal motor policies exclude hire and reward, so any policy relied on must properly cover private hire use. Kharo facilitates quotes and payment, and the insurance contract is between you and the insurer." },
     { t: "Payments and deposits", b: "All rental payments are processed through Kharo. Deposits are held securely and released after return, subject to the agreed handover condition record. Paying an operator directly outside the platform may void your cover and the protections we offer." },
     { t: "Operator verification", b: "Rental companies are checked against the relevant licensing register and Companies House before listing. Operator identity is disclosed to a driver once their application is approved." },
-    { t: "Your rights under UK GDPR", b: "You can request access to, correction of, or deletion of your personal data at any time by contacting privacy@kharo.uk. Where processing is based on consent, you can withdraw it at any time in your account settings." },
+    { t: "Your rights under UK GDPR", b: "You can request access to, correction of, or deletion of your personal data at any time by contacting privacy@kharo.co.uk. Where processing is based on consent, you can withdraw it at any time in your account settings." },
     { t: "Cookies", b: "We use essential cookies to keep you signed in and remember your preferences, plus limited analytics to understand how the site is used. You can control non essential cookies in your browser." },
   ],
 };

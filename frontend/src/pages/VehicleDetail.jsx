@@ -386,7 +386,7 @@ export default function VehicleDetail() {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E8E8E8] p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <div className="text-[11px] text-[#888]">All-in from</div>
+            <div className="text-[11px] text-[#888]">Rental from</div>
             <div className="text-[20px] font-heading font-extrabold text-[#111]">
               £{total}
               <span className="text-[13px] font-normal text-[#888]"> / week</span>

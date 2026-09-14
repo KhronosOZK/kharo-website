@@ -332,8 +332,15 @@ export default function SearchResults() {
               it once showMap is true guarantees it always sees its real size. */}
           {showMap && (
             <div className="flex-1 lg:flex-none lg:w-[42%] lg:sticky lg:top-4 lg:self-start">
+              {/* Mobile: the outer fixed/inset-0 box already tracks the real visual
+                  viewport. Giving the inner box its own 100vh-based height fought that -
+                  100vh reflects the *largest* possible viewport (chrome hidden), so once
+                  the mobile browser's address bar collapsed after a tap, the two boxes
+                  disagreed and a blank gap opened up beneath the map. h-full instead of
+                  a second vh calc means the inner box just fills whatever the outer box
+                  actually is, so there's nothing left to disagree. */}
               <div className="fixed inset-0 z-40 lg:static lg:z-auto">
-                <div className="h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)] rounded-none lg:rounded-2xl overflow-hidden border border-[#E8E8E8]">
+                <div className="h-full lg:h-[calc(100vh-100px)] rounded-none lg:rounded-2xl overflow-hidden border border-[#E8E8E8]">
                   <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} visibilityTrigger={showMap} />
                 </div>
               </div>
