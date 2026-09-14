@@ -272,10 +272,10 @@ export default function Home() {
           className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {[
-            { src: "https://images.pexels.com/photos/6191762/pexels-photo-6191762.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Prius", sub: "From £225 / week · London" },
+            { src: "/images/listings/toyota-prius.jpg", label: "Toyota Prius", sub: "From £225 / week · London" },
             { src: "https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Kia Niro EV", sub: "From £270 / week · Manchester" },
             { src: "https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Camry", sub: "From £245 / week · Birmingham" },
-            { src: "https://images.pexels.com/photos/16062101/pexels-photo-16062101.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "VW Passat GTE", sub: "From £255 / week · Leeds" },
+            { src: "/images/listings/vw-passat-gte.jpg", label: "VW Passat GTE", sub: "From £255 / week · Leeds" },
             { src: "https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Mercedes E-Class", sub: "From £310 / week · London" },
             { src: "https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota RAV4", sub: "From £250 / week · Manchester" },
           ].map((tile) => (
@@ -305,9 +305,14 @@ export default function Home() {
               View all <ArrowRight size={14} />
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-9">
+          {/* Horizontal scroll on mobile instead of a 6-card vertical stack - the
+              fleet carousel above already covers "browse everything", this is
+              a shorter, swipeable "here's a few to start with" */}
+          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-5 sm:gap-y-9 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {listings.map((vehicle) => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} />
+              <div key={vehicle.id} className="shrink-0 w-[82vw] max-w-[320px] snap-start sm:w-auto sm:max-w-none sm:shrink">
+                <VehicleCard vehicle={vehicle} />
+              </div>
             ))}
           </div>
         </div>
@@ -456,7 +461,7 @@ export default function Home() {
           <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Drivers On Kharo</p>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">What renting direct actually feels like</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {[
             {
               name: "Amir R.",
@@ -491,7 +496,7 @@ export default function Home() {
               photo: "https://images.pexels.com/photos/4872060/pexels-photo-4872060.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
             },
           ].map((t) => (
-            <div key={t.name} className="bg-white border border-[#F5F5F5] rounded-2xl p-5 flex flex-col">
+            <div key={t.name} className="shrink-0 w-[80vw] max-w-[300px] snap-start sm:w-auto sm:max-w-none sm:shrink bg-white border border-[#F5F5F5] rounded-2xl p-5 flex flex-col">
               <div className="flex items-center gap-1 mb-3">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} size={13} className={i < Math.round(t.rating) ? "text-amber-400" : "text-[#E8E8E8]"} fill="currentColor" />
