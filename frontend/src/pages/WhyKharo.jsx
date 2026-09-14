@@ -95,7 +95,7 @@ const VETTING_STEPS = [
   },
 ];
 
-export default function WhyCaro() {
+export default function WhyKharo() {
   const navigate = useNavigate();
 
   useSeo({
@@ -477,18 +477,9 @@ export default function WhyCaro() {
       </section>
 
       {/* CTA - brand green, not another black block, so it doesn't visually
-          fuse with the black footer directly beneath it. A giant faded
-          wordmark bleeding off the edges gives it the same kind of editorial
-          weight as the rest of the page, instead of a plain centered banner. */}
-      <section className="relative bg-[#0B6B4F] py-14 px-4 overflow-hidden">
-        <p
-          aria-hidden="true"
-          className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap font-heading font-extrabold text-white/[0.06] leading-none select-none pointer-events-none"
-          style={{ fontSize: "clamp(80px, 22vw, 220px)" }}
-        >
-          KHARO
-        </p>
-        <div className="relative max-w-3xl mx-auto text-center">
+          fuse with the black footer directly beneath it */}
+      <section className="bg-[#0B6B4F] py-14 px-4">
+        <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
             Ready to see for yourself?
           </h2>
