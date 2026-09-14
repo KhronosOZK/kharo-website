@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   ClipboardList, Phone, BadgeCheck, Car, TrendingUp, Shield,
   Users, Zap, ChevronDown, ChevronRight, Check, Clock,
-  Lock, Activity,
+  Lock,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -99,19 +99,16 @@ const BENEFITS = [
 
 const VEHICLE_ELIGIBILITY = [
   {
-    icon: Car,
     label: "Vehicle age",
     value: "10 years or newer",
     body: "TfL requires private hire vehicles to be within 10 years of first registration at the point of first licensing.",
   },
   {
-    icon: Activity,
     label: "Emissions standard",
     value: "Euro 6, or ZEC",
     body: "Cars must meet Euro 6 emissions, or qualify as Zero Emission Capable (ZEC): under 50g/km CO2 with 10+ miles of zero-emission range.",
   },
   {
-    icon: BadgeCheck,
     label: "Licensing",
     value: "M1 category, TfL-recognised",
     body: "Every vehicle needs a valid TfL private hire vehicle licence before it can be listed or collect passengers.",
@@ -361,17 +358,16 @@ export default function OperatorGuide() {
               What makes a vehicle eligible
             </motion.h2>
           </div>
-          <div className="grid sm:grid-cols-3 gap-5">
-            {VEHICLE_ELIGIBILITY.map(({ icon: Icon, label, value, body }, i) => (
+          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
+            {VEHICLE_ELIGIBILITY.map(({ label, value, body }, i) => (
               <motion.div
                 key={label}
                 {...FADE_UP}
                 transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="bg-[#F5F5F5] rounded-2xl border border-[#E8E8E8] p-6"
+                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
               >
-                <Icon className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-                <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-1">{label}</p>
-                <p className="text-[18px] font-heading font-extrabold text-[#111] mb-2">{value}</p>
+                <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-1.5">{label}</p>
+                <p className="text-[19px] font-heading font-extrabold text-[#111] mb-2.5">{value}</p>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
             ))}

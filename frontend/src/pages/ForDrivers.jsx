@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  Check, ChevronRight, Wallet, ShieldCheck, Clock, Zap, Search, FileCheck, BadgeCheck,
-} from "lucide-react";
+import { Check, ChevronRight, Search, BadgeCheck } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
 const FADE_UP = {
@@ -22,22 +20,18 @@ const FADE_UP_HERO = {
 
 const BENEFITS = [
   {
-    icon: Wallet,
     title: "One clear weekly payment",
     body: "Rent, insurance and servicing rolled into a single figure. No surprise invoices mid-week.",
   },
   {
-    icon: ShieldCheck,
     title: "4-layer vetting: fair and fast",
     body: "DVLA, identity, Open Banking affordability, and trade record. Takes 48 hours; protects you and the operator.",
   },
   {
-    icon: Clock,
     title: "Drive within days",
     body: "Active PCO licence? Most approved drivers collect their car within 3 working days of applying.",
   },
   {
-    icon: Zap,
     title: "Flexible terms",
     body: "Start weekly, commit to longer for a lower rate. No punishing lock-ins.",
   },
@@ -172,17 +166,16 @@ export default function ForDrivers() {
             Every listing is from an operator we've checked. Every driver is vetted before they drive.
           </p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {BENEFITS.map(({ icon: Icon, title, body }, i) => (
+          <div className="grid sm:grid-cols-2 border-t border-l border-[#EBEBEB]">
+            {BENEFITS.map(({ title, body }, i) => (
               <motion.div
                 key={title}
                 {...FADE_UP}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="bg-white rounded-2xl border border-[#E8E8E8] p-5"
+                className="p-6 sm:p-8 border-r border-b border-[#EBEBEB]"
               >
-                <Icon className="w-7 h-7 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-                <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
-                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+                <h3 className="font-heading font-bold text-[16px] text-[#111] mb-1.5">{title}</h3>
+                <p className="text-[13.5px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
             ))}
           </div>
@@ -192,12 +185,21 @@ export default function ForDrivers() {
       {/* How it works */}
       <section className="bg-white border-y border-[#EBEBEB] py-14 px-4">
         <div className="max-w-4xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-10 text-center"
-          >
-            How it works
-          </motion.h2>
+          <div className="max-w-lg mx-auto text-center mb-12">
+            <motion.p
+              {...FADE_UP}
+              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+            >
+              How it works
+            </motion.p>
+            <motion.h2
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] leading-tight"
+            >
+              From browsing to behind the wheel in {HOW_STEPS.length} steps
+            </motion.h2>
+          </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {HOW_STEPS.map(({ num, title, body }, i) => (
               <motion.div

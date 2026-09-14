@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Search, ClipboardList, Phone, Car, Check, ChevronDown,
-  ShieldCheck, BadgeCheck, Wallet, Clock, ChevronRight,
+  BadgeCheck, Clock, ChevronRight,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -341,41 +341,30 @@ export default function DriverGuide() {
           <p className="text-[15px] text-[#888] text-center mb-10">
             No hidden extras. One weekly price covers everything listed below.
           </p>
-          <div className="grid sm:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
             {[
               {
-                icon: Car,
                 title: "Car rental",
                 body: "The cost of renting the TfL-eligible PCO vehicle, set by the operator.",
-                included: true,
               },
               {
-                icon: ShieldCheck,
                 title: "Motor insurance",
                 body: "PHV insurance for private hire driving is bundled into the weekly price.",
-                included: true,
               },
               {
-                icon: Wallet,
                 title: "Breakdown cover",
                 body: "Roadside assistance included if the car breaks down during your rental.",
-                included: true,
               },
-            ].map(({ icon: Icon, title, body, included }) => (
+            ].map(({ title, body }) => (
               <motion.div
                 key={title}
                 {...FADE_UP}
-                className="bg-white rounded-2xl border border-[#E8E8E8] p-5"
+                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <Icon className="w-7 h-7 text-[#0B6B4F]" strokeWidth={1.5} />
-                  {included && (
-                    <span className="text-[11px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2.5 py-0.5">
-                      Included
-                    </span>
-                  )}
-                </div>
-                <h3 className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{title}</h3>
+                <span className="text-[11px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2.5 py-0.5">
+                  Included
+                </span>
+                <h3 className="font-heading font-bold text-[15px] text-[#111] mt-3 mb-1.5">{title}</h3>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
             ))}
