@@ -119,7 +119,7 @@ export default function OperatorInterest() {
   if (sent) return <SuccessScreen navigate={navigate} />;
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5]">
+    <div className="min-h-screen bg-white">
       {/* Hero - fleet photography, matches the homepage's dark cinematic treatment */}
       <section className="relative text-white py-24 px-4 overflow-hidden" style={{ backgroundColor: "#0A0A0A" }}>
         <div
@@ -159,226 +159,233 @@ export default function OperatorInterest() {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* LEFT: calculator + benefits */}
-          <div>
-            {/* Void Calculator */}
-            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6 mb-6">
-              <h2 className="text-[18px] font-heading font-bold text-[#111] mb-1">
-                Revenue you're losing right now
-              </h2>
-              <p className="text-[13px] text-[#888] mb-6">
-                Adjust both sliders to see how much idle cars are costing your business.
-              </p>
-
-              <SliderTrack
-                label="Cars sitting idle"
-                min={1}
-                max={20}
-                value={idleCars}
-                onChange={setIdleCars}
-                formatVal={(v) => `${v} car${v !== 1 ? "s" : ""}`}
-              />
-
-              <SliderTrack
-                label="Weekly rate per car"
-                min={150}
-                max={500}
-                step={5}
-                value={weeklyRate}
-                onChange={setWeeklyRate}
-                formatVal={(v) => `£${v}`}
-              />
-
-              {/* Revenue lost tiles */}
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                <div className="bg-[#F8F8F8] rounded-xl p-3.5">
-                  <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">
-                    Per week
-                  </div>
-                  <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
-                    £{weeklyRevenueLost.toLocaleString()}
-                  </div>
-                </div>
-                <div className="bg-[#F8F8F8] rounded-xl p-3.5">
-                  <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">
-                    Per month
-                  </div>
-                  <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
-                    £{monthlyRevenueLost.toLocaleString()}
-                  </div>
-                </div>
-                <div className="bg-[#F8F8F8] rounded-xl p-3.5 border-2 border-[#DC2626]/20">
-                  <div className="text-[10px] font-semibold text-[#DC2626] uppercase tracking-wide mb-1.5">
-                    Per year
-                  </div>
-                  <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
-                    £{yearlyRevenueLost.toLocaleString()}
-                  </div>
+      {/* BENEFITS STRIP - clean icon + text, matches the Operator Guide page */}
+      <section className="bg-white border-b border-[#EBEBEB] py-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {BENEFITS.map(({ icon: Icon, title, body }) => (
+              <div key={title} className="flex items-start gap-3">
+                <Icon className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
+                <div>
+                  <p className="font-heading font-bold text-[14px] text-[#111] mb-0.5">{title}</p>
+                  <p className="text-[12.5px] text-[#666] leading-relaxed">{body}</p>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <p className="text-[12px] text-[#BBB] mt-3">
-                Based on your rate inputs. Actual figures depend on your specific contracts.
-              </p>
-            </div>
-
-            {/* Benefits */}
-            <div className="space-y-4">
-              {BENEFITS.map(({ icon: Icon, title, body }) => (
-                <div
-                  key={title}
-                  className="bg-white rounded-2xl border border-[#E8E8E8] p-5 flex items-start gap-4"
-                >
-                  <Icon className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
-                  <div>
-                    <h3 className="font-heading font-bold text-[15px] text-[#111] mb-0.5">
-                      {title}
-                    </h3>
-                    <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Social proof */}
-            <div className="mt-6 bg-[#0B6B4F] rounded-2xl p-5 text-white">
-              <div className="flex items-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[#5FD3A6] text-[#5FD3A6]" />
-                ))}
-              </div>
-              <p className="text-[14px] text-white/90 leading-relaxed mb-3">
-                "We had 4 cars sitting idle for weeks. Kharo filled them within 10 days.
-                The drivers were all properly vetted. No surprises."
-              </p>
-              <p className="text-[12px] text-white/60">Fleet operator, East London</p>
-            </div>
+      {/* REVENUE CALCULATOR - its own full-width, breathing section */}
+      <section className="bg-[#FAFAFA] border-b border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Idle Cars Cost You</p>
+            <h2 className="font-heading font-bold text-[#111] text-[26px] sm:text-[30px]" style={{ textWrap: "balance" }}>
+              See what idle cars are costing you
+            </h2>
+            <p className="text-[14px] text-[#888] mt-2">Adjust both sliders to estimate your lost revenue.</p>
           </div>
 
-          {/* RIGHT: lead form */}
-          <div id="form">
-            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6">
-              <h2 className="text-[20px] font-heading font-bold text-[#111] mb-1">
-                Tell us about your fleet
-              </h2>
-              <p className="text-[14px] text-[#888] mb-6">
-                A Kharo fleet specialist will call within 1 working day.
-              </p>
+          <div className="bg-white rounded-[26px] border border-[#E8E8E8] p-6 sm:p-8">
+            <SliderTrack
+              label="Cars sitting idle"
+              min={1}
+              max={20}
+              value={idleCars}
+              onChange={setIdleCars}
+              formatVal={(v) => `${v} car${v !== 1 ? "s" : ""}`}
+            />
 
-              <form onSubmit={submit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField label="Company name" required>
-                    <input
-                      className={INPUT}
-                      placeholder="e.g. London PHV Ltd"
-                      value={f.company_name}
-                      onChange={set("company_name")}
-                      required
-                    />
-                  </FormField>
-                  <FormField label="Your name">
-                    <input
-                      className={INPUT}
-                      placeholder="Your full name"
-                      value={f.contact_name}
-                      onChange={set("contact_name")}
-                    />
-                  </FormField>
+            <SliderTrack
+              label="Weekly rate per car"
+              min={150}
+              max={500}
+              step={5}
+              value={weeklyRate}
+              onChange={setWeeklyRate}
+              formatVal={(v) => `£${v}`}
+            />
+
+            <div className="grid grid-cols-3 gap-3 mt-6">
+              <div className="bg-[#FAFAFA] rounded-xl p-4 text-center">
+                <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">Per week</div>
+                <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
+                  £{weeklyRevenueLost.toLocaleString()}
                 </div>
-
-                <FormField label="Email address" required>
-                  <input
-                    className={INPUT}
-                    type="email"
-                    placeholder="you@company.com"
-                    value={f.email}
-                    onChange={set("email")}
-                    required
-                    autoComplete="email"
-                    inputMode="email"
-                  />
-                </FormField>
-
-                <FormField label="Phone number" required>
-                  <input
-                    className={INPUT}
-                    type="tel"
-                    placeholder="07700 900 000"
-                    value={f.phone}
-                    onChange={set("phone")}
-                    required
-                    autoComplete="tel"
-                    inputMode="tel"
-                  />
-                </FormField>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField label="Total fleet size">
-                    <select
-                      className={INPUT + " appearance-none cursor-pointer"}
-                      value={f.fleet_size}
-                      onChange={set("fleet_size")}
-                    >
-                      <option value="">Select...</option>
-                      <option value="1-5">1 to 5 vehicles</option>
-                      <option value="6-15">6 to 15 vehicles</option>
-                      <option value="16-30">16 to 30 vehicles</option>
-                      <option value="30+">30+ vehicles</option>
-                    </select>
-                  </FormField>
-                  <FormField label="Cars currently idle">
-                    <select
-                      className={INPUT + " appearance-none cursor-pointer"}
-                      value={f.current_idle}
-                      onChange={set("current_idle")}
-                    >
-                      <option value="">Select...</option>
-                      <option value="1">1 car</option>
-                      <option value="2-3">2 to 3 cars</option>
-                      <option value="4-5">4 to 5 cars</option>
-                      <option value="5+">5+ cars</option>
-                    </select>
-                  </FormField>
+              </div>
+              <div className="bg-[#FAFAFA] rounded-xl p-4 text-center">
+                <div className="text-[10px] font-semibold text-[#999] uppercase tracking-wide mb-1.5">Per month</div>
+                <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
+                  £{monthlyRevenueLost.toLocaleString()}
                 </div>
+              </div>
+              <div className="bg-[#FAFAFA] rounded-xl p-4 text-center ring-1 ring-[#DC2626]/15">
+                <div className="text-[10px] font-semibold text-[#DC2626] uppercase tracking-wide mb-1.5">Per year</div>
+                <div className="text-[22px] font-heading font-extrabold text-[#DC2626] leading-none tabular-nums">
+                  £{yearlyRevenueLost.toLocaleString()}
+                </div>
+              </div>
+            </div>
 
-                <FormField label="Anything else we should know?">
-                  <textarea
-                    className={INPUT + " h-24 py-3 resize-none"}
-                    placeholder="Vehicle makes, specific requirements, borough coverage..."
-                    value={f.message}
-                    onChange={set("message")}
-                  />
-                </FormField>
+            <p className="text-[12px] text-[#BBB] mt-4 text-center">
+              An illustrative estimate based on your inputs, not a quote. Actual figures depend on your contracts.
+            </p>
+          </div>
+        </div>
+      </section>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
-                >
-                  {loading ? "Sending..." : "Request a call back"}
-                </button>
-
-                <ul className="space-y-1.5 pt-1">
-                  {[
-                    "Free to list, no monthly fees",
-                    "Kharo calls you within 1 working day",
-                    "Your details are never sold",
-                  ].map((t) => (
-                    <li key={t} className="flex items-center gap-2 text-[12.5px] text-[#888]">
-                      <Check className="w-3.5 h-3.5 text-[#0B6B4F] shrink-0" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </form>
+      {/* TESTIMONIAL - matches the homepage testimonial card style */}
+      <section className="bg-[#F5F5F5] border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-lg mx-auto bg-white rounded-2xl border border-[#F0F0F0] p-6">
+          <div className="flex items-center gap-1 mb-3">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={13} className="text-amber-400" fill="currentColor" />
+            ))}
+          </div>
+          <p className="text-[#333] text-[15px] leading-relaxed mb-5">
+            &ldquo;We had 4 cars sitting idle for weeks. Kharo filled them within 10 days, and every driver was
+            properly vetted before I ever spoke to them. No surprises.&rdquo;
+          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src="https://images.pexels.com/photos/4872060/pexels-photo-4872060.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200"
+              alt="Fleet operator"
+              className="w-10 h-10 rounded-full object-cover"
+              loading="lazy"
+            />
+            <div>
+              <p className="text-sm font-semibold text-[#111]">Fleet operator</p>
+              <p className="text-xs text-[#AAA]">6 vehicles &middot; East London</p>
             </div>
           </div>
         </div>
-      </div>
-{/* RISK MANAGEMENT SECTION */}
-      <section className="max-w-6xl mx-auto px-4 pb-16">
+      </section>
+
+      {/* LEAD FORM - own centred section, single column */}
+      <section id="form" className="py-16 px-4">
+        <div className="max-w-lg mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Get Started</p>
+            <h2 className="font-heading font-bold text-[#111] text-[26px] sm:text-[30px]" style={{ textWrap: "balance" }}>
+              Tell us about your fleet
+            </h2>
+            <p className="text-[14px] text-[#888] mt-2">A Kharo fleet specialist will call within 1 working day.</p>
+          </div>
+
+          <div className="bg-white rounded-[26px] border border-[#E8E8E8] p-6 sm:p-8">
+            <form onSubmit={submit} className="space-y-4">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <FormField label="Company name" required>
+                  <input
+                    className={INPUT}
+                    placeholder="e.g. London PHV Ltd"
+                    value={f.company_name}
+                    onChange={set("company_name")}
+                    required
+                  />
+                </FormField>
+                <FormField label="Your name">
+                  <input
+                    className={INPUT}
+                    placeholder="Your full name"
+                    value={f.contact_name}
+                    onChange={set("contact_name")}
+                  />
+                </FormField>
+              </div>
+
+              <FormField label="Email address" required>
+                <input
+                  className={INPUT}
+                  type="email"
+                  placeholder="you@company.com"
+                  value={f.email}
+                  onChange={set("email")}
+                  required
+                  autoComplete="email"
+                  inputMode="email"
+                />
+              </FormField>
+
+              <FormField label="Phone number" required>
+                <input
+                  className={INPUT}
+                  type="tel"
+                  placeholder="07700 900 000"
+                  value={f.phone}
+                  onChange={set("phone")}
+                  required
+                  autoComplete="tel"
+                  inputMode="tel"
+                />
+              </FormField>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <FormField label="Total fleet size">
+                  <select
+                    className={INPUT + " appearance-none cursor-pointer"}
+                    value={f.fleet_size}
+                    onChange={set("fleet_size")}
+                  >
+                    <option value="">Select...</option>
+                    <option value="1-5">1 to 5 vehicles</option>
+                    <option value="6-15">6 to 15 vehicles</option>
+                    <option value="16-30">16 to 30 vehicles</option>
+                    <option value="30+">30+ vehicles</option>
+                  </select>
+                </FormField>
+                <FormField label="Cars currently idle">
+                  <select
+                    className={INPUT + " appearance-none cursor-pointer"}
+                    value={f.current_idle}
+                    onChange={set("current_idle")}
+                  >
+                    <option value="">Select...</option>
+                    <option value="1">1 car</option>
+                    <option value="2-3">2 to 3 cars</option>
+                    <option value="4-5">4 to 5 cars</option>
+                    <option value="5+">5+ cars</option>
+                  </select>
+                </FormField>
+              </div>
+
+              <FormField label="Anything else we should know?">
+                <textarea
+                  className={INPUT + " h-24 py-3 resize-none"}
+                  placeholder="Vehicle makes, specific requirements, borough coverage..."
+                  value={f.message}
+                  onChange={set("message")}
+                />
+              </FormField>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] disabled:opacity-60 text-white font-semibold text-[15px] transition-colors"
+              >
+                {loading ? "Sending..." : "Request a call back"}
+              </button>
+
+              <ul className="space-y-1.5 pt-1">
+                {[
+                  "Free to list, no monthly fees",
+                  "Kharo calls you within 1 working day",
+                  "Your details are never sold",
+                ].map((t) => (
+                  <li key={t} className="flex items-center gap-2 text-[12.5px] text-[#888]">
+                    <Check className="w-3.5 h-3.5 text-[#0B6B4F] shrink-0" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* RISK MANAGEMENT SECTION */}
+      <section className="max-w-6xl mx-auto px-4 py-16">
         <div className="text-center mb-10">
           <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-2">Built-in risk management</p>
           <h2 className="font-heading font-bold text-[#111] text-[26px] sm:text-[30px]">
