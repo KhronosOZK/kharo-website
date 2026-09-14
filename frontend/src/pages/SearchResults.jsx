@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown, X } from "lucide-react";
-import { MOCK_LISTINGS, MOCK_BOROUGHS, MOCK_MAKES } from "@/data/mockListings";
+import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 
 const BODY_TYPES = ["Saloon", "Estate", "SUV", "Crossover", "MPV", "Hatchback"];
@@ -63,8 +63,19 @@ export default function SearchResults() {
   const navigate = useNavigate();
 
   // Filter state from URL or defaults
+  const [city, setCityRaw] = useState(searchParams.get("city") || "");
   const [borough, setBorough] = useState(searchParams.get("borough") || "");
   const [make, setMake] = useState(searchParams.get("make") || "");
+
+  // Areas available depend on the selected city; with no city chosen, show every area across all cities
+  const areaOptions = city
+    ? AREAS_BY_CITY[city] || ["All Areas"]
+    : ["All Areas", ...Array.from(new Set(MOCK_CITIES.flatMap((c) => (AREAS_BY_CITY[c] || []).slice(1))))];
+
+  const setCity = (next) => {
+    setCityRaw(next);
+    setBorough(""); // area list changes with city, so reset the drill-down
+  };
   const [maxBudget, setMaxBudget] = useState(searchParams.get("budget") || "");
   const [fuelFilter, setFuelFilter] = useState(searchParams.get("engine") || "");
   const [bodyFilters, setBodyFilters] = useState(
@@ -78,6 +89,7 @@ export default function SearchResults() {
 
   const applyFilters = useCallback(() => {
     let data = [...MOCK_LISTINGS];
+    if (city) data = data.filter((v) => v.city === city);
     if (borough) data = data.filter((v) => v.borough === borough);
     if (make) data = data.filter((v) => v.make === make);
     if (fuelFilter) data = data.filter((v) => v.fuel === fuelFilter);
@@ -90,17 +102,17 @@ export default function SearchResults() {
     if (sortBy === "rating") data.sort((a, b) => (b.rating || 0) - (a.rating || 0));
 
     setResults(data);
-  }, [borough, make, fuelFilter, maxBudget, bodyFilters, transmission, sortBy]);
+  }, [city, borough, make, fuelFilter, maxBudget, bodyFilters, transmission, sortBy]);
 
   useEffect(() => { applyFilters(); }, [applyFilters]);
 
   const toggleBody = (bt) =>
     setBodyFilters((prev) => prev.includes(bt) ? prev.filter((b) => b !== bt) : [...prev, bt]);
 
-  const hasFilters = borough || make || fuelFilter || maxBudget || bodyFilters.length || transmission;
+  const hasFilters = city || borough || make || fuelFilter || maxBudget || bodyFilters.length || transmission;
 
   const clearAll = () => {
-    setBorough(""); setMake(""); setFuelFilter(""); setMaxBudget("");
+    setCityRaw(""); setBorough(""); setMake(""); setFuelFilter(""); setMaxBudget("");
     setBodyFilters([]); setTransmission("");
   };
 
@@ -116,6 +128,17 @@ export default function SearchResults() {
           )}
         </div>
 
+        <FilterSection title="City">
+          <select
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+          >
+            <option value="">All Cities</option>
+            {MOCK_CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </FilterSection>
+
         <FilterSection title="Borough / Area">
           <select
             value={borough}
@@ -123,7 +146,7 @@ export default function SearchResults() {
             className="w-full border border-gray-200 text-sm text-gray-700 px-3 py-2 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
           >
             <option value="">All Areas</option>
-            {MOCK_BOROUGHS.slice(1).map((b) => <option key={b} value={b}>{b}</option>)}
+            {areaOptions.slice(1).map((b) => <option key={b} value={b}>{b}</option>)}
           </select>
         </FilterSection>
 
@@ -210,7 +233,7 @@ export default function SearchResults() {
         >
           <SlidersHorizontal size={14} />
           Filters
-          {hasFilters && <span className="w-4 h-4 bg-[#0B6B4F] rounded-full text-white text-xs flex items-center justify-center leading-none">{[borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
+          {hasFilters && <span className="w-4 h-4 bg-[#0B6B4F] rounded-full text-white text-xs flex items-center justify-center leading-none">{[city, borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
         </button>
         <div className="flex gap-6">
           {/* Desktop sidebar */}
@@ -253,6 +276,7 @@ export default function SearchResults() {
             {/* Active filter chips */}
             {hasFilters && (
               <div className="flex flex-wrap gap-2 mb-4">
+                {city && <FilterChip label={city} onRemove={() => setCity("")} />}
                 {borough && <FilterChip label={borough} onRemove={() => setBorough("")} />}
                 {make && <FilterChip label={make} onRemove={() => setMake("")} />}
                 {fuelFilter && <FilterChip label={fuelFilter} onRemove={() => setFuelFilter("")} />}
@@ -263,7 +287,7 @@ export default function SearchResults() {
             )}
 
             {results.length === 0 ? (
-              <div className="text-center py-20 bg-white border border-gray-200 rounded-2xl">
+              <div className="text-center py-20 bg-white border border-gray-200 rounded-2xl px-6">
                 <p className="font-heading text-xl font-bold text-gray-900 mb-2">No vehicles match your filters</p>
                 <p className="text-gray-500 text-sm mb-5">Try adjusting your search criteria.</p>
                 <button onClick={clearAll} className="bg-[#0B6B4F] text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-[#095B43] transition-colors">

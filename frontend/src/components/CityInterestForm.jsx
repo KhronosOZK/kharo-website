@@ -1,64 +1,88 @@
 import { useState } from "react";
-import { MapPin, Check, Search } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
-import { api, trackEvent } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { api } from "@/lib/api";
 
-// mode: "waitlist" (no cars yet in city) | "request" (cars exist, capture demand)
-export default function CityInterestForm({ city, compact, mode = "waitlist" }) {
-  const [done, setDone] = useState(false);
+/**
+ * Expansion-demand capture. Distinct from the per-vehicle Register Interest
+ * flow in Apply.jsx: this is for a city or area where Kharo has no cars
+ * listed yet, so we can gauge where to bring operators and inventory next.
+ *
+ * If `city` is passed, the field is locked to that city (used on CityPage's
+ * empty state). Otherwise the visitor types the city or area themselves
+ * (used on the homepage, for anyone outside our current four cities).
+ */
+export default function CityInterestForm({ city: fixedCity, className = "" }) {
+  const [city, setCity] = useState(fixedCity || "");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [f, setF] = useState({ name: "", email: "", phone: "", vehicle_type: "", budget: "", note: "" });
-  const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
-  const isRequest = mode === "request";
+  const [done, setDone] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!f.email) { toast.error("Please add your email so we can reach you."); return; }
+    if (!city || !name || !email) {
+      toast.error("Please add your name, email and city so we can reach you.");
+      return;
+    }
     setLoading(true);
     try {
-      await api.post("/city-interest", { city, ...f });
-      trackEvent(isRequest ? "car_request" : "city_interest", { city, vehicle_type: f.vehicle_type });
+      await api.post("/city-interest", {
+        city,
+        name,
+        email,
+        phone: "",
+        vehicle_type: "General interest",
+        note: `Expansion interest: no Kharo vehicles listed in ${city} yet.`,
+      });
       setDone(true);
-    } catch { toast.error("Something went wrong. Please try again."); }
+    } catch {
+      toast.error("Couldn't send that. Please try again.");
+    }
     setLoading(false);
   };
 
-  if (done) return (
-    <div className="text-center py-8" data-testid="city-interest-success">
-      <Check className="w-11 h-11 text-[#0B6B4F] mx-auto" strokeWidth={1.75} />
-      <h3 className="text-xl font-heading font-bold text-[#0A0A0A] mt-4">{isRequest ? "Got it, we are on the hunt" : `You are on the list for ${city}`}</h3>
-      <p className="text-gray-600 mt-2 text-[15px]">{isRequest ? `We will let you know as soon as a matching car comes up in ${city}, and we will pass your request to our operators.` : `As soon as we have cars in ${city}, you will be the first to know.`}</p>
-    </div>
-  );
+  if (done) {
+    return (
+      <div className={`flex items-start gap-3 ${className}`}>
+        <Check className="w-5 h-5 mt-0.5 shrink-0" style={{ color: "#0B6B4F" }} strokeWidth={2} />
+        <p className="text-[15px] text-[#333]">
+          You're on the list. We'll email you the moment Kharo has cars in {city}.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className={compact ? "" : "bg-white rounded-[22px] p-7 ring-1 ring-gray-200/70 max-w-xl mx-auto"} data-testid="city-interest-form">
-      <div className="flex items-center gap-2 text-[#0B6B4F] font-semibold">
-        {isRequest ? <><Search className="w-5 h-5" /> Can't find the right car in {city}?</> : <><MapPin className="w-5 h-5" /> No cars in {city} just yet</>}
-      </div>
-      <p className="text-[15px] text-gray-600 mt-2 mb-5">
-        {isRequest
-          ? `Tell us exactly what you are after and we will match you when it comes up. Your request also tells our operators what drivers in ${city} actually want.`
-          : `Tell us you want one and we will prioritise ${city} based on demand. Leave your details and we will be in touch the moment cars go live there.`}
-      </p>
-      <form onSubmit={submit} className="space-y-3">
-        <div className="grid sm:grid-cols-2 gap-3">
-          <div><Label className="mb-1.5 block text-sm">Type of car you want</Label><Input value={f.vehicle_type} onChange={set("vehicle_type")} data-testid="city-vehicle" className="h-11" placeholder="Hybrid, electric, WAV…" /></div>
-          <div><Label className="mb-1.5 block text-sm">Weekly budget</Label><Input value={f.budget} onChange={set("budget")} data-testid="city-budget" className="h-11" placeholder="e.g. up to £260" /></div>
-        </div>
-        {isRequest && (
-          <div><Label className="mb-1.5 block text-sm">Anything specific? (area, make, seats)</Label><Input value={f.note} onChange={set("note")} data-testid="city-note" className="h-11" placeholder="Automatic, 5 seats, near Croydon…" /></div>
-        )}
-        <div className="grid sm:grid-cols-2 gap-3">
-          <div><Label className="mb-1.5 block text-sm">Your name</Label><Input value={f.name} onChange={set("name")} data-testid="city-name" className="h-11" /></div>
-          <div><Label className="mb-1.5 block text-sm">Phone</Label><Input value={f.phone} onChange={set("phone")} data-testid="city-phone" className="h-11" /></div>
-        </div>
-        <div><Label className="mb-1.5 block text-sm">Email</Label><Input type="email" value={f.email} onChange={set("email")} data-testid="city-email" className="h-11" required /></div>
-        <Button type="submit" disabled={loading} className="w-full h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white transition-colors" data-testid="city-submit">{loading ? "Sending" : (isRequest ? "Send my car request" : `Notify me about ${city}`)}</Button>
-      </form>
-    </div>
+    <form onSubmit={submit} className={`flex flex-col sm:flex-row gap-2.5 ${className}`}>
+      {!fixedCity && (
+        <input
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="Your city or area"
+          className="flex-1 min-w-0 border border-gray-200 text-sm text-gray-800 px-4 py-3 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+        />
+      )}
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Your name"
+        className="flex-1 min-w-0 border border-gray-200 text-sm text-gray-800 px-4 py-3 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Your email"
+        className="flex-1 min-w-0 border border-gray-200 text-sm text-gray-800 px-4 py-3 rounded-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+      />
+      <button
+        type="submit"
+        disabled={loading}
+        className="flex items-center justify-center gap-2 bg-[#0B6B4F] hover:bg-[#095B43] text-white text-sm font-semibold px-6 py-3 rounded-full transition-colors disabled:opacity-60 shrink-0"
+      >
+        {loading ? "Sending…" : "Register Interest"} {!loading && <ArrowRight size={14} />}
+      </button>
+    </form>
   );
 }

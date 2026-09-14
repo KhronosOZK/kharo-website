@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Car, Building2, PoundSterling, ChevronDown } from "lucide-react";
-import { api } from "@/lib/api";
 import { LIVE_CITIES, CITY_IMAGES } from "@/lib/cities";
+import { MOCK_LISTINGS } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 import { Button } from "@/components/ui/button";
 import PreviewNotice from "@/components/PreviewNotice";
+import CityInterestForm from "@/components/CityInterestForm";
 import { CITY_PAGE } from "@/content/site";
 import { useSeo, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
@@ -20,18 +20,15 @@ export default function CityPage() {
   const navigate = useNavigate();
   const city = LIVE_CITIES.find((c) => c.toLowerCase() === (name || "").toLowerCase()) || name;
   const isLive = LIVE_CITIES.includes(city);
-  const [items, setItems] = useState(null);
 
-  useEffect(() => {
-    api.get(`/listings?city=${encodeURIComponent(city)}`).then((r) => setItems(r.data)).catch(() => setItems([]));
-  }, [city]);
-
-  const list = items || [];
+  // Rental inventory is mock data (this is a pre-launch marketplace), same source as
+  // Home and Search, so every page agrees on what cars exist in which city.
+  const list = MOCK_LISTINGS.filter((v) => v.city === city);
   const count = list.length;
-  const operators = new Set(list.map((v) => v.operator_code)).size;
+  const operators = new Set(list.map((v) => v.designated_garage)).size;
   const boroughs = new Set(list.map((v) => v.borough)).size;
   const fromRent = count ? Math.min(...list.map((v) => v.weekly_rent)) : 0;
-  const greenCount = list.filter((v) => v.fuel === "electric" || v.fuel === "hybrid").length;
+  const greenCount = list.filter((v) => v.fuel === "Electric" || v.fuel === "Hybrid" || v.fuel === "Plug-in Hybrid").length;
 
   const stats = [
     { icon: Car, n: count, l: CITY_PAGE.stats.cars },
@@ -50,8 +47,6 @@ export default function CityPage() {
   });
 
   if (!isLive) return <Navigate to="/" replace />;
-  if (items === null)
-    return <main className="max-w-7xl mx-auto px-4 py-24 text-[#888]" data-testid="city-loading">Loading {city}…</main>;
 
   return (
     <main data-testid={`city-page-${city}`}>
@@ -108,8 +103,11 @@ export default function CityPage() {
           </p>
         </div>
         {count === 0 ? (
-          <div className="text-center py-20 text-[#888] bg-white rounded-2xl ring-1 ring-gray-200">
-            {t(CITY_PAGE.emptyNote, { city })}
+          <div className="text-center py-16 px-6 bg-white rounded-2xl ring-1 ring-gray-200">
+            <p className="text-[#888] mb-6 max-w-md mx-auto">{t(CITY_PAGE.emptyNote, { city })}</p>
+            <div className="max-w-xl mx-auto">
+              <CityInterestForm city={city} />
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

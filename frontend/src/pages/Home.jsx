@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, ChevronDown, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp } from "lucide-react";
-import { MOCK_LISTINGS, MOCK_BOROUGHS, MOCK_MAKES, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
+import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
+import CityInterestForm from "@/components/CityInterestForm";
 
 const INK = "#0A0A0A";
 const ACCENT = "#5FD3A6";
@@ -46,6 +47,7 @@ function FleetTile({ src, label, className }) {
 
 export default function Home() {
   const navigate = useNavigate();
+  const [city, setCity] = useState("London");
   const [borough, setBorough] = useState("All Areas");
   const [make, setMake] = useState("All Makes");
   const [budget, setBudget] = useState("");
@@ -55,8 +57,16 @@ export default function Home() {
   const [transmission, setTransmission] = useState("");
   const [listings] = useState(MOCK_LISTINGS.slice(0, 6));
 
+  const areaOptions = AREAS_BY_CITY[city] || ["All Areas"];
+
+  function handleCityChange(next) {
+    setCity(next);
+    setBorough("All Areas"); // areas are scoped to the chosen city
+  }
+
   function handleSearch() {
     const params = new URLSearchParams();
+    if (city) params.set("city", city);
     if (borough && borough !== "All Areas") params.set("borough", borough);
     if (make && make !== "All Makes") params.set("make", make);
     if (budget) params.set("budget", budget);
@@ -90,17 +100,22 @@ export default function Home() {
           </p>
 
           <h1 className="font-heading text-[42px] leading-[1.02] sm:text-6xl lg:text-7xl font-bold text-white max-w-4xl mb-5" style={{ textWrap: "balance", letterSpacing: "-0.02em" }}>
-            Drive London.<br />On Your Terms.
+            Your City.<br />Your Terms.
           </h1>
           <p className="text-white/55 text-base sm:text-lg max-w-xl mb-10">
-            Weekly PCO rentals direct from licensed operators, insurance and maintenance included.
+            Weekly PCO rentals direct from licensed operators in London, Manchester, Birmingham and Leeds. Insurance and maintenance included.
           </p>
 
           {/* SEARCH PANEL - pill fields, single accent CTA */}
           <div className="w-full max-w-3xl bg-white rounded-[28px] p-4 sm:p-5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <FilterSelect
-                options={MOCK_BOROUGHS.map((b) => ({ label: b, value: b === "All Areas" ? "" : b }))}
+                options={MOCK_CITIES.map((c) => ({ label: c, value: c }))}
+                value={city}
+                onChange={handleCityChange}
+              />
+              <FilterSelect
+                options={areaOptions.map((b) => ({ label: b, value: b === "All Areas" ? "All Areas" : b }))}
                 value={borough}
                 onChange={setBorough}
               />
@@ -175,7 +190,7 @@ export default function Home() {
         <div className="flex items-end justify-between mb-6">
           <div>
             <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1">The Fleet</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">Cars London Actually Drives</h2>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">Cars Drivers Actually Drive</h2>
           </div>
           <button
             onClick={() => navigate("/search")}
@@ -341,7 +356,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {[
-              { n: "01", title: "Search & Filter", body: "Browse vehicles by borough, make, budget and engine type. Every listing is from a verified London PCO operator." },
+              { n: "01", title: "Search & Filter", body: "Browse vehicles by city, area, make, budget and engine type. Every listing is from a verified, checked operator." },
               { n: "02", title: "Register Your Interest", body: "Found a vehicle you like? Submit your name and contact details in under a minute. The operator gets in touch to confirm availability, no commission, no middleman." },
               { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Insurance and maintenance included." },
             ].map((step) => (
