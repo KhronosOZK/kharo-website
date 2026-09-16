@@ -246,6 +246,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PRICING TRANSPARENCY - moved up front: the clearest "proof" visual on the
+          page, shown right after the driver/operator split instead of buried
+          two-thirds of the way down */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+          <div className="order-2 lg:order-1">
+            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">Rental Price, No Hidden Markup</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-5" style={{ textWrap: "balance" }}>
+              The price you see is the rental price
+            </h2>
+            <p className="text-[#888] text-sm leading-relaxed mb-6 max-w-md">
+              The weekly figure on every listing is the rental cost only, priced to beat
+              what other PCO platforms charge for the same car. Insurance is quoted
+              separately, based on your own profile, so you're never paying a markup
+              baked silently into someone else's "all-in" number.
+            </p>
+            <div className="space-y-3 max-w-md">
+              {[
+                "Rental price kept below the market rate for the same car",
+                "Insurance quoted transparently, based on your profile",
+                "Scheduled servicing and maintenance included",
+              ].map((line) => (
+                <div key={line} className="flex items-center gap-2.5">
+                  <Check size={14} style={{ color: "#0B6B4F" }} strokeWidth={2.5} />
+                  <span className="text-[#555] text-sm">{line}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="order-1 lg:order-2 flex justify-center">
+            <div
+              className="relative bg-white rounded-3xl p-6 w-full max-w-sm border border-[#F5F5F5]"
+              style={{ boxShadow: "0 32px 64px -20px rgba(0,0,0,0.22)", transform: "rotate(-2deg)" }}
+            >
+              <div className="flex items-center justify-between mb-5">
+                <span className="text-[#AAA] text-xs font-semibold uppercase tracking-wide">Toyota Prius &middot; Southwark</span>
+                <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#0B6B4F" }}>
+                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
+                  Live rate
+                </span>
+              </div>
+
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£165</span>
+                <span className="text-[#AAA] text-sm font-medium">/ week rental</span>
+              </div>
+              <p className="text-[#AAA] text-[12px] mb-5">All-in from £203/week with insurance quoted below</p>
+
+              <div className="space-y-0 border-t border-[#F5F5F5]">
+                {[
+                  { label: "Weekly rental", value: "£165" },
+                  { label: "Insurance (indicative)", value: "£38" },
+                  { label: "Maintenance", value: "Included" },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-center justify-between py-3 border-b border-[#F5F5F5]">
+                    <span className="text-[#888] text-sm">{row.label}</span>
+                    <span className="text-[#111] text-sm font-semibold">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 mt-5 bg-[#FAFAFA] rounded-xl px-3.5 py-3">
+                <TrendingUp size={15} className="text-[#AAA] flex-shrink-0" />
+                <span className="text-[#888] text-xs">Typical driver nets £480&ndash;£650/week after this rental</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
       {/* FLEET SHOWCASE - horizontal drag/scroll carousel, editorial, photography-led */}
       <section className="max-w-7xl mx-auto py-16">
         <div className="flex items-end justify-between mb-6 px-4 sm:px-6">
@@ -328,8 +400,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHY KHARO - the marketplace value prop, in plain English, hits the real pain point */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+      {/* WHY KHARO - merged what were two near-identical "row of short items"
+          sections (driver benefits + listing guarantees) into one condensed
+          set of four non-overlapping points, instead of two back-to-back
+          grids making the same kind of claim twice in different words. */}
+      <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
           <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">No More WhatsApp Hunting</p>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]" style={{ textWrap: "balance" }}>Why drivers use Kharo</h2>
@@ -339,131 +414,17 @@ export default function Home() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-[#EBEBEB]">
           {[
-            { title: "More choice", body: "Compare vehicles from different operators in one place." },
-            { title: "Clear pricing", body: "See the full weekly price before you get in touch." },
-            { title: "Search your area", body: "Find vehicles close to where you live or work." },
-            { title: "Less hassle", body: "No more chasing operators one by one to find a car." },
+            { title: "One clear price", body: "The weekly figure is the rental price only, insurance quoted separately, never folded in." },
+            { title: "Every operator checked", body: "Verified against Companies House and the licensing register before they're allowed to list." },
+            { title: "No middleman", body: "You speak directly to the operator. Your details go to them, and nowhere else." },
+            { title: "Everything in one place", body: "Compare vehicles from different operators near you, instead of chasing one by one." },
           ].map((f) => (
             <div key={f.title} className="p-6 sm:p-7 border-r border-b border-[#EBEBEB]">
+              <Check size={15} className="text-[#0B6B4F] mb-2.5" strokeWidth={2.5} />
               <p className="font-semibold text-[#111] text-[15px] mb-1.5">{f.title}</p>
               <p className="text-[#888] text-[13px] leading-relaxed">{f.body}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* TRUST - honest, no claims we can't back yet */}
-      <section className="bg-[#FAFAFA] border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Built For The Private Hire Community</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-8" style={{ textWrap: "balance" }}>
-            What every listing on Kharo means
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left max-w-5xl mx-auto">
-            {[
-              "Every operator is checked against Companies House and the licensing register",
-              "The weekly price shown is the rental price, no insurance quietly folded in",
-              "You speak directly to the operator, no middleman marking up the rate",
-              "Your details go to the operator, and nowhere else",
-            ].map((t) => (
-              <div key={t} className="flex items-start gap-3 bg-white rounded-2xl border border-[#E8E8E8] p-4">
-                <Check size={16} className="text-[#0B6B4F] mt-0.5 shrink-0" strokeWidth={2.5} />
-                <span className="text-[#333] text-[14px] leading-relaxed">{t}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING TRANSPARENCY - bespoke floating widget, reinforces the all-in weekly rate */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          <div className="order-2 lg:order-1">
-            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">Rental Price, No Hidden Markup</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-5" style={{ textWrap: "balance" }}>
-              The price you see is the rental price
-            </h2>
-            <p className="text-[#888] text-sm leading-relaxed mb-6 max-w-md">
-              The weekly figure on every listing is the rental cost only, priced to beat
-              what other PCO platforms charge for the same car. Insurance is quoted
-              separately, based on your own profile, so you're never paying a markup
-              baked silently into someone else's "all-in" number.
-            </p>
-            <div className="space-y-3 max-w-md">
-              {[
-                "Rental price kept below the market rate for the same car",
-                "Insurance quoted transparently, based on your profile",
-                "Scheduled servicing and maintenance included",
-              ].map((line) => (
-                <div key={line} className="flex items-center gap-2.5">
-                  <Check size={14} style={{ color: "#0B6B4F" }} strokeWidth={2.5} />
-                  <span className="text-[#555] text-sm">{line}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="order-1 lg:order-2 flex justify-center">
-            <div
-              className="relative bg-white rounded-3xl p-6 w-full max-w-sm border border-[#F5F5F5]"
-              style={{ boxShadow: "0 32px 64px -20px rgba(0,0,0,0.22)", transform: "rotate(-2deg)" }}
-            >
-              <div className="flex items-center justify-between mb-5">
-                <span className="text-[#AAA] text-xs font-semibold uppercase tracking-wide">Toyota Prius &middot; Southwark</span>
-                <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#0B6B4F" }}>
-                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
-                  Live rate
-                </span>
-              </div>
-
-              <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£165</span>
-                <span className="text-[#AAA] text-sm font-medium">/ week rental</span>
-              </div>
-              <p className="text-[#AAA] text-[12px] mb-5">All-in from £203/week with insurance quoted below</p>
-
-              <div className="space-y-0 border-t border-[#F5F5F5]">
-                {[
-                  { label: "Weekly rental", value: "£165" },
-                  { label: "Insurance (indicative)", value: "£38" },
-                  { label: "Maintenance", value: "Included" },
-                ].map((row) => (
-                  <div key={row.label} className="flex items-center justify-between py-3 border-b border-[#F5F5F5]">
-                    <span className="text-[#888] text-sm">{row.label}</span>
-                    <span className="text-[#111] text-sm font-semibold">{row.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2 mt-5 bg-[#FAFAFA] rounded-xl px-3.5 py-3">
-                <TrendingUp size={15} className="text-[#AAA] flex-shrink-0" />
-                <span className="text-[#888] text-xs">Typical driver nets £480&ndash;£650/week after this rental</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="bg-[#F5F5F5] border-t border-[#EBEBEB] py-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Simple Process</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">How Kharo Works</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {[
-              { n: "01", title: "Search & Filter", body: "Browse vehicles by city, area, make, budget and engine type. Every operator is checked against Companies House and the licensing register." },
-              { n: "02", title: "Register Your Interest", body: "Found a vehicle you like? Submit your name and contact details in under a minute. The operator gets in touch to confirm availability, no commission, no middleman." },
-              { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Maintenance included, insurance quoted separately." },
-            ].map((step) => (
-              <div key={step.n} className="flex flex-col">
-                <span className="font-heading text-4xl font-bold text-[#E0E0E0] mb-3 select-none">{step.n}</span>
-                <h3 className="font-heading font-semibold text-[#111] text-lg mb-2">{step.title}</h3>
-                <p className="text-[#666] text-sm leading-relaxed">{step.body}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -524,6 +485,29 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="bg-[#F5F5F5] border-t border-[#EBEBEB] py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Simple Process</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">How Kharo Works</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {[
+              { n: "01", title: "Search & Filter", body: "Browse vehicles by city, area, make, budget and engine type. Every operator is checked against Companies House and the licensing register." },
+              { n: "02", title: "Register Your Interest", body: "Found a vehicle you like? Submit your name and contact details in under a minute. The operator gets in touch to confirm availability, no commission, no middleman." },
+              { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Maintenance included, insurance quoted separately." },
+            ].map((step) => (
+              <div key={step.n} className="flex flex-col">
+                <span className="font-heading text-4xl font-bold text-[#E0E0E0] mb-3 select-none">{step.n}</span>
+                <h3 className="font-heading font-semibold text-[#111] text-lg mb-2">{step.title}</h3>
+                <p className="text-[#666] text-sm leading-relaxed">{step.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
