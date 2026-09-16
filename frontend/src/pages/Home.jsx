@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star, HelpCircle } from "lucide-react";
-import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
+import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star, HelpCircle, MapPin } from "lucide-react";
+import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
+import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const BRANDS = ["Toyota", "Kia", "Volkswagen", "Skoda", "Mercedes-Benz", "Hyundai", "Ford"];
 
@@ -56,6 +58,7 @@ export default function Home() {
   const [bodyType, setBodyType] = useState("");
   const [transmission, setTransmission] = useState("");
   const [listings] = useState(MOCK_LISTINGS.slice(0, 6));
+  const [showCityModal, setShowCityModal] = useState(false);
   const fleetScrollRef = useRef(null);
   const scrollFleet = (dir) => {
     const el = fleetScrollRef.current;
@@ -70,6 +73,13 @@ export default function Home() {
   }
 
   function handleSearch() {
+    // Kharo covers the whole UK, but only has live inventory in a handful of
+    // cities so far. Searching a city with no cars yet shouldn't dead-end on
+    // an empty results grid - it should capture the demand instead.
+    if (city && !LIVE_CITIES.includes(city)) {
+      setShowCityModal(true);
+      return;
+    }
     const params = new URLSearchParams();
     if (city) params.set("city", city);
     if (borough && borough !== "All Areas") params.set("borough", borough);
@@ -99,7 +109,7 @@ export default function Home() {
             Find your next PHV.
           </h1>
           <p className="text-[#666] text-base sm:text-lg max-w-xl mb-8">
-            Compare rental cars from operators in London, Manchester, Birmingham and Leeds. One clear weekly rental price, maintenance included, insurance quoted separately.
+            Compare rental cars from checked operators across the UK. One clear weekly rental price, maintenance included, insurance quoted separately.
           </p>
 
           <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full bg-white border border-[#E8E8E8]">
@@ -111,7 +121,7 @@ export default function Home() {
           <div className="w-full max-w-3xl bg-white rounded-[28px] p-4 sm:p-5 border border-[#E8E8E8] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <FilterSelect
-                options={MOCK_CITIES.map((c) => ({ label: c, value: c }))}
+                options={ALL_CITIES.map((c) => ({ label: LIVE_CITIES.includes(c) ? c : `${c} (coming soon)`, value: c }))}
                 value={city}
                 onChange={handleCityChange}
               />
@@ -517,16 +527,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* EXPANSION INTEREST - for anyone outside our current four cities */}
+      {/* EXPANSION INTEREST - for anyone outside our current live cities, or
+          any UK town/area not in the ALL_CITIES list above */}
       <section className="bg-[#F5F5F5] border-t border-[#EBEBEB] py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Expanding Beyond London</p>
+          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Kharo Is Nationwide</p>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-3" style={{ textWrap: "balance" }}>
-            Don&rsquo;t see your city yet?
+            Don&rsquo;t see cars in your city yet?
           </h2>
           <p className="text-[#666] text-sm sm:text-base max-w-lg mx-auto mb-7">
-            We&rsquo;re live in London, Manchester, Birmingham and Leeds, with more cities on the way.
-            Tell us where you are and we&rsquo;ll bring operators to your area next.
+            Kharo is built for the whole UK. We have live inventory in London, Manchester, Birmingham,
+            Leeds and Sheffield today, and we&rsquo;re bringing operators to every other city next.
+            Tell us where you are and we&rsquo;ll email you the moment your city goes live.
           </p>
           <CityInterestForm className="max-w-xl mx-auto" />
         </div>
@@ -578,6 +590,26 @@ export default function Home() {
           </button>
         </div>
       </section>
+
+      {/* City not live yet - captures demand instead of dead-ending on an
+          empty search. Triggered from handleSearch() above. */}
+      <Dialog open={showCityModal} onOpenChange={setShowCityModal}>
+        <DialogContent className="sm:max-w-md rounded-3xl">
+          <DialogHeader>
+            <div className="w-11 h-11 rounded-full bg-[#EAF5F1] flex items-center justify-center mb-2">
+              <MapPin className="w-5 h-5 text-[#0B6B4F]" />
+            </div>
+            <DialogTitle className="font-heading text-xl text-[#111]">
+              No cars in {city} just yet
+            </DialogTitle>
+            <DialogDescription className="text-[#666] text-[14px] leading-relaxed pt-1">
+              Kharo is nationwide, but we're still bringing operators to every city. Register your
+              interest and we'll email you the moment {city} has live listings.
+            </DialogDescription>
+          </DialogHeader>
+          <CityInterestForm city={city} compact />
+        </DialogContent>
+      </Dialog>
 
     </div>
   );

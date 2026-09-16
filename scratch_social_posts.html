@@ -1,0 +1,328 @@
+<title>Kharo Campaign Posters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0A; --card:#141414; --card-border:rgba(255,255,255,.08);
+  --ink:#FFFFFF; --muted:#9A9A9A; --muted-2:#6E6E6E;
+  --mint:#5FD3A6; --mint-dark:#0A0A0A;
+  --red:#E5605A;
+  --sand:#DCD9C4; --sand-ink:#20241E;
+  --font-display:'Space Grotesk',-apple-system,sans-serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --page-bg:#EDECE6;
+}
+*{box-sizing:border-box;}
+body{background:var(--page-bg);margin:0;padding:48px 24px;font-family:var(--font-body);}
+.rail{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:56px;}
+.label{font-family:var(--font-body);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8A8A82;margin-bottom:14px;text-align:center;}
+.frame{background:var(--bg);color:var(--ink);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 24px 60px -20px rgba(0,0,0,.35);}
+.frame-wrap{display:flex;flex-direction:column;align-items:center;}
+
+.wordmark{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;color:var(--ink);}
+.wordmark span{color:var(--mint);}
+.wordmark.on-light{color:var(--sand-ink);}
+.wordmark.on-light span{color:#0B6B4F;}
+.tag{font-family:var(--font-body);font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--mint);color:var(--mint-dark);font-family:var(--font-body);font-weight:700;border-radius:999px;text-decoration:none;}
+.divider{border:none;border-top:1px solid rgba(255,255,255,.1);margin:0;}
+.check{color:var(--mint);font-weight:700;}
+.cross{color:var(--red);font-weight:700;}
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;}
+
+.sq{width:1080px;height:1080px;padding:64px;display:flex;flex-direction:column;}
+.sq .wordmark{font-size:32px;}
+.sq .top{display:flex;justify-content:space-between;align-items:center;}
+.sq .bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;}
+.sq .bottom-left{font-size:13px;color:var(--muted);line-height:1.6;}
+.sq .bottom-left b{display:block;color:var(--ink);font-family:var(--font-display);font-weight:700;font-size:16px;}
+.sq .pill{padding:16px 28px;font-size:16px;}
+
+.photo-sq{width:1080px;height:1080px;position:relative;overflow:hidden;}
+.photo-sq img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.photo-sq .scrim{position:absolute;inset:0;}
+.photo-sq .content{position:relative;height:100%;display:flex;flex-direction:column;padding:56px 60px;}
+</style>
+
+<div class="rail">
+
+  <div class="frame-wrap">
+    <p class="label">Instagram / Facebook &middot; 1080 &times; 1080 &middot; hero</p>
+    <div class="frame photo-sq" id="poster-hero">
+      <img src="photos/driver1.jpg" alt="">
+      <div class="scrim" style="background:linear-gradient(180deg, rgba(10,10,10,.55) 0%, rgba(10,10,10,.15) 32%, rgba(10,10,10,.2) 55%, rgba(10,10,10,.94) 100%);"></div>
+      <div class="content">
+        <div class="top">
+          <div class="wordmark" style="font-size:30px;">kharo<span>.</span></div>
+          <div class="tag">PHV Marketplace</div>
+        </div>
+        <div style="flex:1;"></div>
+        <p class="tag" style="color:var(--mint);margin-bottom:16px;">Introducing Kharo</p>
+        <h1 style="font-family:var(--font-display);font-weight:800;font-size:64px;line-height:1.05;letter-spacing:-.02em;margin:0 0 22px;max-width:820px;">
+          The UK's first proper marketplace for PHV rental.
+        </h1>
+        <p style="font-size:19px;color:rgba(255,255,255,.8);line-height:1.6;max-width:640px;margin:0 0 34px;">
+          Licensed drivers meet checked fleet operators. A rental price shown up front, insurance quoted separately.
+        </p>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:13px;color:rgba(255,255,255,.6);">kharo.co.uk &middot; London &middot; Birmingham &middot; Manchester &middot; Leeds &middot; Sheffield</div>
+          <a class="pill" href="#" style="padding:16px 28px;font-size:16px;">Join the waitlist &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <p class="label">Instagram / Facebook &middot; 1080 &times; 1080 &middot; testimonial</p>
+    <div class="frame sq" id="poster-quote">
+      <div class="top">
+        <div class="wordmark">kharo<span>.</span></div>
+        <div class="tag">Driver story</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-family:var(--font-display);font-size:120px;line-height:.6;color:var(--mint);margin-bottom:12px;">&ldquo;</div>
+        <p style="font-family:var(--font-display);font-weight:500;font-size:42px;line-height:1.35;letter-spacing:-.01em;margin:0 0 40px;max-width:820px;color:var(--ink);">
+          Applied on a Sunday, was driving by Wednesday. The rental price I saw online is the rental price I pay, and my insurance quote came through just as clearly.
+        </p>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--mint);">AR</div>
+          <div>
+            <p style="margin:0;font-weight:700;font-size:16px;">Amir R.</p>
+            <p style="margin:2px 0 0;font-size:14px;color:var(--muted);">Toyota Prius &middot; London</p>
+          </div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="bottom">
+        <div class="bottom-left">PHV Marketplace<b>kharo.co.uk</b></div>
+        <a class="pill" href="#">Read more stories &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <p class="label">Instagram / Facebook &middot; 1080 &times; 1080 &middot; driver-led</p>
+    <div class="frame" id="poster-driver" style="width:1080px;height:1080px;display:flex;flex-direction:column;">
+      <div style="position:relative;flex:1;overflow:hidden;">
+        <img src="photos/driver2.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.15) contrast(1.05);">
+        <div style="position:absolute;top:40px;left:44px;right:44px;display:flex;justify-content:space-between;">
+          <div class="wordmark" style="font-size:26px;">kharo<span>.</span></div>
+          <div class="tag" style="color:rgba(255,255,255,.85);">For drivers</div>
+        </div>
+      </div>
+      <div style="background:var(--sand);color:var(--sand-ink);padding:48px 52px;">
+        <p style="font-family:var(--font-body);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#5A6152;margin:0 0 14px;">One driver, every week</p>
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:38px;line-height:1.15;letter-spacing:-.01em;margin:0 0 18px;max-width:640px;">
+          Vetted once. Paid weekly. No middlemen in between.
+        </h2>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <p style="font-size:15px;color:#4A5142;max-width:460px;line-height:1.6;margin:0;">
+            DVLA, identity, affordability and trade record, cleared in 48 hours. Most drivers collect a car within 3 working days.
+          </p>
+          <a class="pill" href="#" style="background:#0B6B4F;color:#fff;padding:15px 26px;font-size:15px;flex-shrink:0;margin-left:20px;">Register interest &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <p class="label">Instagram / Facebook / WhatsApp &middot; 1080 &times; 1080</p>
+    <div class="frame sq" id="poster-beforeafter">
+      <div class="top">
+        <div class="wordmark">kharo<span>.</span></div>
+        <div class="tag">Campaign // 01</div>
+      </div>
+      <hr class="divider" style="margin-top:24px;">
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+        <h1 style="font-family:var(--font-display);font-weight:800;font-size:56px;line-height:1.08;letter-spacing:-.01em;margin:0 0 40px;">
+          The old way is chaos. <span style="color:var(--mint);">This is proper.</span>
+        </h1>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="card" style="padding:28px 26px;">
+            <p style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 18px;"><span class="cross">&#10005;</span> Before Kharo</p>
+            <div style="display:flex;flex-direction:column;gap:14px;font-size:16px;">
+              <p style="margin:0;display:flex;gap:10px;"><span class="cross">&#10005;</span> Chasing operators across WhatsApp groups</p>
+              <p style="margin:0;display:flex;gap:10px;"><span class="cross">&#10005;</span> A price that moves once you show up</p>
+              <p style="margin:0;display:flex;gap:10px;"><span class="cross">&#10005;</span> No idea who actually owns the car</p>
+              <p style="margin:0;display:flex;gap:10px;"><span class="cross">&#10005;</span> Insurance quietly marked up and buried</p>
+            </div>
+          </div>
+          <div class="card" style="padding:28px 26px;background:rgba(95,211,166,.06);border-color:rgba(95,211,166,.25);">
+            <p style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mint);margin:0 0 18px;"><span class="check">&#10003;</span> With Kharo</p>
+            <div style="display:flex;flex-direction:column;gap:14px;font-size:16px;">
+              <p style="margin:0;display:flex;gap:10px;"><span class="check">&#10003;</span> One platform, every listing in one place</p>
+              <p style="margin:0;display:flex;gap:10px;"><span class="check">&#10003;</span> The price on the card is the price you pay</p>
+              <p style="margin:0;display:flex;gap:10px;"><span class="check">&#10003;</span> Every operator checked before they list</p>
+              <p style="margin:0;display:flex;gap:10px;"><span class="check">&#10003;</span> Insurance quoted separately, never hidden</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="bottom">
+        <div class="bottom-left">PHV Marketplace<b>kharo.co.uk</b></div>
+        <a class="pill" href="#">Compare the platform &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <p class="label">Instagram / Facebook / WhatsApp &middot; 1080 &times; 1080</p>
+    <div class="frame sq" id="poster-stats">
+      <div class="top">
+        <div class="wordmark">kharo<span>.</span></div>
+        <div class="tag">Campaign // 02</div>
+      </div>
+      <hr class="divider" style="margin-top:24px;">
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+        <p class="tag" style="color:var(--mint);margin-bottom:14px;">UK PHV market, London</p>
+        <h1 style="font-family:var(--font-display);font-weight:800;font-size:56px;line-height:1.08;letter-spacing:-.01em;margin:0 0 40px;max-width:760px;">
+          The gap Kharo exists to close.
+        </h1>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="card" style="padding:26px 30px;display:flex;align-items:center;gap:32px;">
+            <span style="font-family:var(--font-display);font-weight:800;font-size:52px;min-width:220px;">105,607</span>
+            <div>
+              <p style="margin:0;font-weight:700;font-size:18px;">Licensed private hire drivers in London</p>
+              <p style="margin:4px 0 0;color:var(--muted);font-size:14px;">Transport for London, week ending 3 May 2026</p>
+            </div>
+          </div>
+          <div class="card" style="padding:26px 30px;display:flex;align-items:center;gap:32px;">
+            <span style="font-family:var(--font-display);font-weight:800;font-size:52px;min-width:220px;">92,895</span>
+            <div>
+              <p style="margin:0;font-weight:700;font-size:18px;">Licensed private hire vehicles in London</p>
+              <p style="margin:4px 0 0;color:var(--muted);font-size:14px;">Transport for London, week ending 3 May 2026</p>
+            </div>
+          </div>
+          <div class="card" style="padding:26px 30px;display:flex;align-items:center;gap:32px;background:rgba(95,211,166,.06);border-color:rgba(95,211,166,.25);">
+            <span style="font-family:var(--font-display);font-weight:800;font-size:52px;min-width:220px;color:var(--mint);">12,712</span>
+            <div>
+              <p style="margin:0;font-weight:700;font-size:18px;">More drivers than there are vehicles to rent</p>
+              <p style="margin:4px 0 0;color:var(--muted);font-size:14px;">That gap is why a car is often harder to find than the work</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="bottom">
+        <div class="bottom-left">PHV Marketplace<b>kharo.co.uk</b></div>
+        <a class="pill" href="#">See the listings &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <p class="label">Instagram / Facebook / WhatsApp &middot; 1080 &times; 1080 &middot; operators</p>
+    <div class="frame photo-sq" id="poster-operators">
+      <img src="photos/fleet.jpg" alt="">
+      <div class="scrim" style="background:linear-gradient(180deg, rgba(10,10,10,.7) 0%, rgba(10,10,10,.35) 40%, rgba(10,10,10,.96) 100%);"></div>
+      <div class="content">
+        <div class="top">
+          <div class="wordmark" style="font-size:30px;">kharo<span>.</span></div>
+          <div class="tag">For fleet operators</div>
+        </div>
+        <div style="flex:1;"></div>
+        <p class="tag" style="color:var(--mint);margin-bottom:16px;">Have vehicles sitting idle?</p>
+        <h1 style="font-family:var(--font-display);font-weight:800;font-size:58px;line-height:1.08;letter-spacing:-.02em;margin:0 0 24px;max-width:800px;">
+          Every empty week is revenue you already lost.
+        </h1>
+        <p style="font-size:18px;color:rgba(255,255,255,.75);line-height:1.6;max-width:600px;margin:0 0 32px;">
+          List your fleet, get matched with pre-vetted drivers, and get paid on a fixed schedule. £0 listing fees.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+          <div style="background:rgba(20,20,20,.7);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;backdrop-filter:blur(4px);">
+            <p style="margin:0;font-family:var(--font-display);font-weight:800;font-size:24px;color:var(--mint);">£0</p>
+            <p style="margin:4px 0 0;font-size:12.5px;color:rgba(255,255,255,.65);">Listing fees</p>
+          </div>
+          <div style="background:rgba(20,20,20,.7);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;backdrop-filter:blur(4px);">
+            <p style="margin:0;font-family:var(--font-display);font-weight:800;font-size:24px;color:var(--mint);">48 hrs</p>
+            <p style="margin:4px 0 0;font-size:12.5px;color:rgba(255,255,255,.65);">Vetting turnaround</p>
+          </div>
+          <div style="background:rgba(20,20,20,.7);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;backdrop-filter:blur(4px);">
+            <p style="margin:0;font-family:var(--font-display);font-weight:800;font-size:24px;color:var(--mint);">Checked</p>
+            <p style="margin:4px 0 0;font-size:12.5px;color:rgba(255,255,255,.65);">Licence &amp; identity</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <p class="label">LinkedIn &middot; 1200 &times; 627</p>
+    <div class="frame" id="poster-linkedin" style="width:1200px;height:627px;padding:52px 56px;display:flex;flex-direction:column;">
+      <div class="top">
+        <div class="wordmark" style="font-size:26px;">kharo<span>.</span></div>
+        <div class="tag">Private Hire Marketplace</div>
+      </div>
+      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-top:20px;">
+        <div>
+          <h1 style="font-family:var(--font-display);font-weight:800;font-size:38px;line-height:1.1;letter-spacing:-.01em;margin:0 0 18px;">
+            The UK's private hire industry deserves better.
+          </h1>
+          <p style="font-size:16px;color:var(--muted);line-height:1.65;margin:0 0 24px;max-width:420px;">
+            Kharo connects licensed drivers with verified fleet operators. Transparent pricing, no middlemen, no hidden fees. The marketplace built for the trade.
+          </p>
+          <a class="pill" href="#" style="padding:13px 24px;font-size:14px;">Learn more &rarr;</a>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="background:#1A1A1A;padding:9px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--card-border);">
+            <span style="width:8px;height:8px;border-radius:50%;background:#4A4A4A;"></span>
+            <span style="width:8px;height:8px;border-radius:50%;background:#4A4A4A;"></span>
+            <span style="width:8px;height:8px;border-radius:50%;background:#4A4A4A;"></span>
+            <span style="margin-left:8px;font-size:11px;color:var(--muted-2);">kharo.co.uk/search</span>
+          </div>
+          <div style="background:#F7F6F2;padding:18px;">
+            <p style="margin:0 0 12px;font-family:var(--font-body);font-weight:700;font-size:13px;color:#111;">Cars in London</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+              <div>
+                <div style="background:#D8D6CC;border-radius:6px;height:52px;"></div>
+                <p style="margin:6px 0 0;font-size:10px;color:#333;font-weight:600;">Toyota Prius</p>
+                <p style="margin:1px 0 0;font-size:10px;color:#0B6B4F;font-weight:700;">£165/wk</p>
+              </div>
+              <div>
+                <div style="background:#D8D6CC;border-radius:6px;height:52px;"></div>
+                <p style="margin:6px 0 0;font-size:10px;color:#333;font-weight:600;">Skoda Octavia</p>
+                <p style="margin:1px 0 0;font-size:10px;color:#0B6B4F;font-weight:700;">£150/wk</p>
+              </div>
+              <div>
+                <div style="background:#D8D6CC;border-radius:6px;height:52px;"></div>
+                <p style="margin:6px 0 0;font-size:10px;color:#333;font-weight:600;">Ford Focus</p>
+                <p style="margin:1px 0 0;font-size:10px;color:#0B6B4F;font-weight:700;">£140/wk</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="bottom" style="padding-top:16px;">
+        <div class="bottom-left" style="font-size:12px;"><b style="font-size:14px;">kharo.co.uk</b></div>
+        <div style="font-size:12px;color:var(--muted-2);">Nationwide &middot; live in London, Birmingham, Manchester, Leeds, Sheffield</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <p class="label">Instagram / Facebook Story &middot; 1080 &times; 1920</p>
+    <div class="frame" id="poster-story" style="width:1080px;height:1920px;position:relative;overflow:hidden;">
+      <img src="photos/driver1.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,.75) 0%, rgba(10,10,10,.1) 20%, rgba(10,10,10,.15) 60%, rgba(10,10,10,.95) 100%);"></div>
+      <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:64px 56px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:#0A0A0A;font-size:18px;">k</div>
+          <div class="wordmark" style="font-size:22px;">kharo<span>.</span></div>
+        </div>
+        <div style="flex:1;"></div>
+        <p class="tag" style="color:var(--mint);margin-bottom:20px;font-size:14px;">Register interest today</p>
+        <h1 style="font-family:var(--font-display);font-weight:800;font-size:64px;line-height:1.08;letter-spacing:-.02em;margin:0 0 28px;">
+          Your next PHV is one form away.
+        </h1>
+        <p style="font-size:20px;color:rgba(255,255,255,.8);line-height:1.6;margin:0 0 48px;max-width:820px;">
+          Browse checked listings, register your interest, and most drivers collect a car within 3 working days.
+        </p>
+        <a class="pill" href="#" style="padding:20px 0;font-size:19px;justify-content:center;width:100%;">Swipe up to browse cars &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+</div>

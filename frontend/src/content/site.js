@@ -27,7 +27,7 @@ export const BRAND = {
   privacyEmail: "privacy@kharo.co.uk",
   // Digits only, UK country code, no leading 0 or +: used to build wa.me links.
   whatsapp: "447392829759",
-  copyright: "© 2026 Kharo. Serving drivers in London, Birmingham, Manchester and Leeds, with Sheffield coming soon.",
+  copyright: "© 2026 Kharo. Live in London, Birmingham, Manchester, Leeds and Sheffield, expanding UK-wide.",
   // Add your real profile URLs to switch these on. Icons stay hidden while the
   // values are empty, because a link that leaves the site and lands on a
   // generic homepage costs a visitor and returns nothing.

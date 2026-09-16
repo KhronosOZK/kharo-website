@@ -1,7 +1,7 @@
-import { useParams, useNavigate, Link, Navigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Car, Building2, PoundSterling, ChevronDown } from "lucide-react";
-import { LIVE_CITIES, CITY_IMAGES } from "@/lib/cities";
+import { ALL_CITIES, LIVE_CITIES, CITY_IMAGES } from "@/lib/cities";
 import { MOCK_LISTINGS } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,7 @@ const t = (str, vars) => String(str).replace(/\{(\w+)\}/g, (_, k) => vars[k]);
 export default function CityPage() {
   const { name } = useParams();
   const navigate = useNavigate();
-  const city = LIVE_CITIES.find((c) => c.toLowerCase() === (name || "").toLowerCase()) || name;
+  const city = ALL_CITIES.find((c) => c.toLowerCase() === (name || "").toLowerCase()) || name;
   const isLive = LIVE_CITIES.includes(city);
 
   // Rental inventory is mock data (this is a pre-launch marketplace), same source as
@@ -46,7 +46,36 @@ export default function CityPage() {
       : undefined,
   });
 
-  if (!isLive) return <Navigate to="/" replace />;
+  if (!isLive) {
+    return (
+      <main data-testid={`city-page-${city}-coming-soon`}>
+        <section className="relative overflow-hidden bg-[#FAFAFA] border-b border-[#EEEEEE]">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-16 sm:pt-20 sm:pb-20 text-center">
+            <p className="text-[#0B6B4F] text-xs font-bold uppercase tracking-[0.16em] mb-5">Kharo in {city}</p>
+            <h1 className="font-heading text-[36px] sm:text-5xl font-extrabold text-[#111] mb-5" style={{ textWrap: "balance" }}>
+              We're not live in {city} yet.
+            </h1>
+            <p className="text-[#666] text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+              Kharo is built for the whole UK, and we're bringing checked operators to every city.
+              Register your interest and we'll email you the moment {city} has live listings.
+            </p>
+            <CityInterestForm city={city} className="max-w-xl mx-auto" />
+          </div>
+        </section>
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+          <h3 className="font-heading font-bold text-[#111] text-lg mb-4">Already live</h3>
+          <div className="flex flex-wrap gap-2.5">
+            {LIVE_CITIES.map((c) => (
+              <Link key={c} to={`/city/${c}`} data-testid={`city-link-${c}`}
+                className="px-4 py-2 rounded-full bg-white ring-1 ring-[#E8E8E8] text-[#111] text-sm font-medium hover:ring-[#0B6B4F] hover:text-[#0B6B4F] transition-colors">
+                {c}
+              </Link>
+            ))}
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main data-testid={`city-page-${city}`}>

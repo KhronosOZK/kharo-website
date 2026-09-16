@@ -1,9 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown, X, Map as MapIcon, List as ListIcon } from "lucide-react";
-import { MOCK_LISTINGS, MOCK_MAKES, MOCK_CITIES, AREAS_BY_CITY } from "@/data/mockListings";
+import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY } from "@/data/mockListings";
+import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import VehicleCard from "@/components/VehicleCard";
 import SearchMap from "@/components/SearchMap";
+import CityInterestForm from "@/components/CityInterestForm";
+import { MapPin } from "lucide-react";
 
 const BODY_TYPES = ["Saloon", "Estate", "SUV", "Crossover", "MPV", "Hatchback"];
 const FUEL_TYPES = ["Electric", "Plug-in Hybrid", "Hybrid", "Petrol", "Diesel"];
@@ -71,7 +74,7 @@ export default function SearchResults() {
   // Areas available depend on the selected city; with no city chosen, show every area across all cities
   const areaOptions = city
     ? AREAS_BY_CITY[city] || ["All Areas"]
-    : ["All Areas", ...Array.from(new Set(MOCK_CITIES.flatMap((c) => (AREAS_BY_CITY[c] || []).slice(1))))];
+    : ["All Areas", ...Array.from(new Set(LIVE_CITIES.flatMap((c) => (AREAS_BY_CITY[c] || []).slice(1))))];
 
   const setCity = (next) => {
     setCityRaw(next);
@@ -137,7 +140,9 @@ export default function SearchResults() {
             className="w-full border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
           >
             <option value="">All Cities</option>
-            {MOCK_CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            {ALL_CITIES.map((c) => (
+              <option key={c} value={c}>{LIVE_CITIES.includes(c) ? c : `${c} (coming soon)`}</option>
+            ))}
           </select>
         </FilterSection>
 
@@ -308,7 +313,19 @@ export default function SearchResults() {
               </div>
             )}
 
-            {results.length === 0 ? (
+            {results.length === 0 && city && !LIVE_CITIES.includes(city) ? (
+              <div className="text-center py-16 bg-white border border-[#E8E8E8] rounded-2xl px-6">
+                <div className="w-11 h-11 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-5 h-5 text-[#0B6B4F]" />
+                </div>
+                <p className="font-heading text-xl font-bold text-[#111] mb-2">No cars in {city} just yet</p>
+                <p className="text-[#888] text-sm mb-6 max-w-sm mx-auto">
+                  Kharo is nationwide, but we're still bringing operators to every city. Register your
+                  interest and we'll email you the moment {city} has live listings.
+                </p>
+                <CityInterestForm city={city} compact className="max-w-xs mx-auto" />
+              </div>
+            ) : results.length === 0 ? (
               <div className="text-center py-20 bg-white border border-[#E8E8E8] rounded-2xl px-6">
                 <p className="font-heading text-xl font-bold text-[#111] mb-2">No vehicles match your filters</p>
                 <p className="text-[#888] text-sm mb-5">Try adjusting your search criteria.</p>
