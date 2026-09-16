@@ -164,7 +164,7 @@ export default function WhyKharo() {
 
       {/* The problem */}
       <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <motion.h2
             {...FADE_UP}
             className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
@@ -203,7 +203,7 @@ export default function WhyKharo() {
           grid of identical icon cards, matching the site's photo-and-number
           language elsewhere rather than the generic SaaS "feature card" look */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
           <motion.p
             {...FADE_UP}
             className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
@@ -273,7 +273,7 @@ export default function WhyKharo() {
 
       {/* Comparison table */}
       <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl 2xl:max-w-4xl mx-auto">
           <motion.h2
             {...FADE_UP}
             className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
@@ -332,7 +332,7 @@ export default function WhyKharo() {
 
       {/* 4-Layer Vetting */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <motion.p
@@ -415,7 +415,7 @@ export default function WhyKharo() {
           restrained, numbered treatment as the section above instead of boxed
           icon cards */}
       <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <motion.p
             {...FADE_UP}
             className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3 text-center"

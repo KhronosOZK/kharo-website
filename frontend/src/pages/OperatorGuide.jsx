@@ -292,7 +292,7 @@ export default function OperatorGuide() {
 
       {/* Step by step - alternating photo/text rows, all visible, reveal on scroll */}
       <section className="py-16 px-4 overflow-hidden">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <div className="max-w-lg mx-auto text-center mb-16">
             <motion.p
               {...FADE_UP}
@@ -361,7 +361,7 @@ export default function OperatorGuide() {
 
       {/* Vehicle eligibility */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
           <div className="text-center mb-10">
             <motion.p
               {...FADE_UP}
@@ -399,7 +399,7 @@ export default function OperatorGuide() {
 
       {/* Driver vetting */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <motion.h2
@@ -449,7 +449,7 @@ export default function OperatorGuide() {
 
       {/* Pricing note */}
       <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl 2xl:max-w-4xl mx-auto">
           <motion.h2
             {...FADE_UP}
             className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
@@ -493,7 +493,7 @@ export default function OperatorGuide() {
 
       {/* Dashboard showcase */}
       <section className="py-16 px-4 overflow-hidden">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
           <div className="max-w-xl mx-auto text-center mb-12">
             <motion.p
               {...FADE_UP}
@@ -651,7 +651,7 @@ export default function OperatorGuide() {
 
       {/* FAQ */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl 2xl:max-w-4xl mx-auto">
           <motion.h2
             {...FADE_UP}
             className="text-[28px] font-heading font-extrabold text-[#111] mb-10 text-center"

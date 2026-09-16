@@ -184,7 +184,7 @@ export default function ForDrivers() {
 
       {/* How it works */}
       <section className="bg-white border-y border-[#EBEBEB] py-14 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <div className="max-w-lg mx-auto text-center mb-12">
             <motion.p
               {...FADE_UP}
@@ -221,7 +221,7 @@ export default function ForDrivers() {
 
       {/* Requirements */}
       <section className="py-14 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <motion.h2
