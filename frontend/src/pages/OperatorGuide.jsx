@@ -359,138 +359,6 @@ export default function OperatorGuide() {
         </div>
       </section>
 
-      {/* Vehicle eligibility */}
-      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
-          <div className="text-center mb-10">
-            <motion.p
-              {...FADE_UP}
-              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
-            >
-              Only TfL-eligible cars get listed
-            </motion.p>
-            <motion.h2
-              {...FADE_UP}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-[28px] font-heading font-extrabold text-[#111]"
-            >
-              What makes a vehicle eligible
-            </motion.h2>
-          </div>
-          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
-            {VEHICLE_ELIGIBILITY.map(({ label, value, body }, i) => (
-              <motion.div
-                key={label}
-                {...FADE_UP}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
-              >
-                <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-1.5">{label}</p>
-                <p className="text-[19px] font-heading font-extrabold text-[#111] mb-2.5">{value}</p>
-                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
-              </motion.div>
-            ))}
-          </div>
-          <p className="text-[13px] text-[#AAA] text-center mt-6">
-            We check every listing against current TfL private hire vehicle requirements before it goes live.
-          </p>
-        </div>
-      </section>
-
-      {/* Driver vetting */}
-      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <motion.h2
-                {...FADE_UP}
-                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
-              >
-                Every driver vetted before you speak to them
-              </motion.h2>
-              <p className="text-[15px] text-[#666] leading-relaxed mb-6">
-                You'll only receive leads from drivers who have passed Kharo's 4-layer check.
-                You still retain full control over who you rent to.
-              </p>
-              <ul className="space-y-2.5">
-                {WHAT_WE_CHECK.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[14px] text-[#444]">
-                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
-              <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-3">What the check covers</h3>
-              <div>
-                {[
-                  { step: "01", label: "DVLA eligibility", desc: "Licence confirmed, points verified against operator threshold" },
-                  { step: "02", label: "Liveness identity", desc: "AI-assisted check against government-issued photo ID" },
-                  { step: "03", label: "Open Banking affordability", desc: "Read-only review, no credit impact on the driver" },
-                  { step: "04", label: "PHV trade record", desc: "History reviewed with previous operators and platforms" },
-                ].map(({ step, label, desc }, i) => (
-                  <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
-                    <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
-                    <p className="font-semibold text-[14px] text-[#111] mt-0.5">{label}</p>
-                    <p className="text-[#888] text-[12px]">{desc}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 pt-4 border-t border-[#EEEEEE] text-[13px] text-[#888]">
-                Vetting runs within 48 hours of the driver registering interest. You are notified when a driver is approved.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing note */}
-      <section className="py-16 px-4">
-        <div className="max-w-3xl 2xl:max-w-4xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
-          >
-            Pricing that's aligned with yours
-          </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-10">
-            No monthly fees. No listing charges. Kharo earns only when you do.
-          </p>
-          <div className="grid sm:grid-cols-3 gap-5">
-            {[
-              {
-                label: "Listing fee",
-                value: "£0",
-                sub: "Adding your cars to Kharo is free. No monthly subscription.",
-              },
-              {
-                label: "Kharo charges",
-                value: "Completion only",
-                sub: "We earn a fee when a rental completes. No charge for leads that don't convert.",
-              },
-              {
-                label: "Your rate",
-                value: "You set it",
-                sub: "You decide the weekly rate, deposit, and terms. Kharo lists what you tell us.",
-              },
-            ].map(({ label, value, sub }) => (
-              <motion.div
-                key={label}
-                {...FADE_UP}
-                className="bg-white rounded-2xl border border-[#E8E8E8] p-5 text-center"
-              >
-                <p className="text-[12px] font-bold text-[#888] uppercase tracking-wider mb-1">{label}</p>
-                <p className="text-[22px] font-heading font-extrabold text-[#0B6B4F] mb-2">{value}</p>
-                <p className="text-[13px] text-[#666] leading-relaxed">{sub}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Dashboard showcase */}
       <section className="py-16 px-4 overflow-hidden">
         <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
@@ -646,6 +514,132 @@ export default function OperatorGuide() {
               while the toggle is on.
             </p>
           </div>
+        </div>
+      </section>
+
+
+      {/* Driver vetting */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <motion.h2
+                {...FADE_UP}
+                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
+              >
+                Every driver vetted before you speak to them
+              </motion.h2>
+              <p className="text-[15px] text-[#666] leading-relaxed mb-6">
+                You'll only receive leads from drivers who have passed Kharo's 4-layer check.
+                You still retain full control over who you rent to.
+              </p>
+              <ul className="space-y-2.5">
+                {WHAT_WE_CHECK.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[14px] text-[#444]">
+                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
+              <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
+              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-3">What the check covers</h3>
+              <div>
+                {[
+                  { step: "01", label: "DVLA eligibility", desc: "Licence confirmed, points verified against operator threshold" },
+                  { step: "02", label: "Liveness identity", desc: "AI-assisted check against government-issued photo ID" },
+                  { step: "03", label: "Open Banking affordability", desc: "Read-only review, no credit impact on the driver" },
+                  { step: "04", label: "PHV trade record", desc: "History reviewed with previous operators and platforms" },
+                ].map(({ step, label, desc }, i) => (
+                  <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
+                    <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
+                    <p className="font-semibold text-[14px] text-[#111] mt-0.5">{label}</p>
+                    <p className="text-[#888] text-[12px]">{desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-[#EEEEEE] text-[13px] text-[#888]">
+                Vetting runs within 48 hours of the driver registering interest. You are notified when a driver is approved.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What you need to know - merged "Vehicle eligibility" and "Pricing note",
+          which were two separate sections using the same 3-column quick-facts
+          format on the same page. One heading now covers both vehicle
+          requirements and commercial terms instead of repeating the pattern. */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <motion.p
+              {...FADE_UP}
+              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+            >
+              Before you list
+            </motion.p>
+            <motion.h2
+              {...FADE_UP}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="text-[28px] font-heading font-extrabold text-[#111]"
+            >
+              What you need to know
+            </motion.h2>
+          </div>
+
+          <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-4">Vehicle requirements</p>
+          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB] pb-10 mb-10 border-b border-[#EBEBEB]">
+            {VEHICLE_ELIGIBILITY.map(({ label, value, body }, i) => (
+              <motion.div
+                key={label}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
+              >
+                <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-1.5">{label}</p>
+                <p className="text-[19px] font-heading font-extrabold text-[#111] mb-2.5">{value}</p>
+                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-4">Commercial terms</p>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              {
+                label: "Listing fee",
+                value: "£0",
+                sub: "Adding your cars to Kharo is free. No monthly subscription.",
+              },
+              {
+                label: "Kharo charges",
+                value: "Completion only",
+                sub: "We earn a fee when a rental completes. No charge for leads that don't convert.",
+              },
+              {
+                label: "Your rate",
+                value: "You set it",
+                sub: "You decide the weekly rate, deposit, and terms. Kharo lists what you tell us.",
+              },
+            ].map(({ label, value, sub }) => (
+              <motion.div
+                key={label}
+                {...FADE_UP}
+                className="bg-[#FAFAFA] rounded-2xl border border-[#E8E8E8] p-5"
+              >
+                <p className="text-[12px] font-bold text-[#888] uppercase tracking-wider mb-1">{label}</p>
+                <p className="text-[22px] font-heading font-extrabold text-[#0B6B4F] mb-2">{value}</p>
+                <p className="text-[13px] text-[#666] leading-relaxed">{sub}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <p className="text-[13px] text-[#AAA] text-center mt-8">
+            We check every listing against current TfL private hire vehicle requirements before it goes live.
+          </p>
         </div>
       </section>
 
