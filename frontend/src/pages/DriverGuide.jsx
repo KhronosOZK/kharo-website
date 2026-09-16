@@ -284,116 +284,6 @@ export default function DriverGuide() {
         </div>
       </section>
 
-      {/* Requirements */}
-      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
-            <div>
-              <motion.h2
-                {...FADE_UP}
-                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
-              >
-                What you need to qualify
-              </motion.h2>
-              <p className="text-[15px] text-[#666] leading-relaxed mb-7">
-                Our 4-layer vetting is thorough but fair. If you meet the basics below,
-                you're in a strong position to apply.
-              </p>
-              <ul className="space-y-3">
-                {REQUIREMENTS.map((r) => (
-                  <li key={r} className="flex items-start gap-3 text-[14px] text-[#444]">
-                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
-                    {r}
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() => navigate("/search")}
-                className="mt-8 px-6 py-3 rounded-full bg-[#0B6B4F] text-white font-semibold text-[14px] hover:bg-[#095B43] transition-colors"
-              >
-                Browse available cars
-              </button>
-            </div>
-
-            {/* Vetting card - clean and light, matching the numbered-index
-                language used elsewhere instead of a dark photo card */}
-            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
-              <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-1">4-Layer Vetting</h3>
-              <p className="text-[#888] text-[13px] mb-5">
-                Done on your phone. Takes 48 hours. No credit impact.
-              </p>
-              <div>
-                {[
-                  { step: "01", label: "DVLA eligibility check", desc: "Licence confirmed, points verified" },
-                  { step: "02", label: "Liveness identity check", desc: "AI check against your photo ID" },
-                  { step: "03", label: "Open Banking affordability", desc: "Read-only account review, no credit impact" },
-                  { step: "04", label: "PHV trade record review", desc: "Your history with operators and platforms" },
-                ].map(({ step, label, desc }, i) => (
-                  <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
-                    <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
-                    <p className="font-semibold text-[14px] text-[#111] mt-0.5">{label}</p>
-                    <p className="text-[#888] text-[12px]">{desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Cost explainer */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
-          >
-            What you pay and what's included
-          </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-10">
-            The weekly price is the rental price, kept below the market rate. Insurance is
-            quoted separately, not folded in and marked up.
-          </p>
-          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
-            {[
-              {
-                title: "Car rental",
-                body: "The cost of renting the TfL-eligible PCO vehicle, priced below what other PCO platforms charge for the same car.",
-                included: true,
-              },
-              {
-                title: "Maintenance & servicing",
-                body: "Scheduled servicing at the operator's designated garage, included in the weekly price.",
-                included: true,
-              },
-              {
-                title: "Breakdown cover",
-                body: "Roadside assistance included if the car breaks down during your rental.",
-                included: true,
-              },
-            ].map(({ title, body, included }) => (
-              <motion.div
-                key={title}
-                {...FADE_UP}
-                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
-              >
-                <span className="text-[11px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2.5 py-0.5">
-                  {included ? "Included" : "Quoted separately"}
-                </span>
-                <h3 className="font-heading font-bold text-[15px] text-[#111] mt-3 mb-1.5">{title}</h3>
-                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
-              </motion.div>
-            ))}
-          </div>
-          <p className="text-[13px] text-[#AAA] text-center mt-5">
-            Insurance is quoted separately based on your profile, unless the operator's own
-            fleet cover is already built into the price shown, in which case the listing says so.
-            Fuel is not included - that is your own cost. Deposit is agreed with the operator.
-          </p>
-        </div>
-      </section>
-
       {/* Dashboard showcase */}
       <section className="py-16 px-4 overflow-hidden">
         <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
@@ -546,6 +436,117 @@ export default function DriverGuide() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+
+      {/* Requirements */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 items-start">
+            <div>
+              <motion.h2
+                {...FADE_UP}
+                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
+              >
+                What you need to qualify
+              </motion.h2>
+              <p className="text-[15px] text-[#666] leading-relaxed mb-7">
+                Our 4-layer vetting is thorough but fair. If you meet the basics below,
+                you're in a strong position to apply.
+              </p>
+              <ul className="space-y-3">
+                {REQUIREMENTS.map((r) => (
+                  <li key={r} className="flex items-start gap-3 text-[14px] text-[#444]">
+                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
+                    {r}
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={() => navigate("/search")}
+                className="mt-8 px-6 py-3 rounded-full bg-[#0B6B4F] text-white font-semibold text-[14px] hover:bg-[#095B43] transition-colors"
+              >
+                Browse available cars
+              </button>
+            </div>
+
+            {/* Vetting card - clean and light, matching the numbered-index
+                language used elsewhere instead of a dark photo card */}
+            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
+              <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
+              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-1">4-Layer Vetting</h3>
+              <p className="text-[#888] text-[13px] mb-5">
+                Done on your phone. Takes 48 hours. No credit impact.
+              </p>
+              <div>
+                {[
+                  { step: "01", label: "DVLA eligibility check", desc: "Licence confirmed, points verified" },
+                  { step: "02", label: "Liveness identity check", desc: "AI check against your photo ID" },
+                  { step: "03", label: "Open Banking affordability", desc: "Read-only account review, no credit impact" },
+                  { step: "04", label: "PHV trade record review", desc: "Your history with operators and platforms" },
+                ].map(({ step, label, desc }, i) => (
+                  <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
+                    <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
+                    <p className="font-semibold text-[14px] text-[#111] mt-0.5">{label}</p>
+                    <p className="text-[#888] text-[12px]">{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cost explainer */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            What you pay and what's included
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-10">
+            The weekly price is the rental price, kept below the market rate. Insurance is
+            quoted separately, not folded in and marked up.
+          </p>
+          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
+            {[
+              {
+                title: "Car rental",
+                body: "The cost of renting the TfL-eligible PCO vehicle, priced below what other PCO platforms charge for the same car.",
+                included: true,
+              },
+              {
+                title: "Maintenance & servicing",
+                body: "Scheduled servicing at the operator's designated garage, included in the weekly price.",
+                included: true,
+              },
+              {
+                title: "Breakdown cover",
+                body: "Roadside assistance included if the car breaks down during your rental.",
+                included: true,
+              },
+            ].map(({ title, body, included }) => (
+              <motion.div
+                key={title}
+                {...FADE_UP}
+                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
+              >
+                <span className="text-[11px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2.5 py-0.5">
+                  {included ? "Included" : "Quoted separately"}
+                </span>
+                <h3 className="font-heading font-bold text-[15px] text-[#111] mt-3 mb-1.5">{title}</h3>
+                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-[13px] text-[#AAA] text-center mt-5">
+            Insurance is quoted separately based on your profile, unless the operator's own
+            fleet cover is already built into the price shown, in which case the listing says so.
+            Fuel is not included - that is your own cost. Deposit is agreed with the operator.
+          </p>
         </div>
       </section>
 

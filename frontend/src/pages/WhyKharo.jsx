@@ -37,6 +37,11 @@ const PROBLEMS = [
   },
 ];
 
+// Trimmed from 6 to 4: the original also had "4-layer driver vetting" and
+// "Faster to the wheel" as one-line teasers, but both are covered in full two
+// sections below (VETTING_STEPS and its stats card) - repeating them here as
+// a one-liner first added nothing but another near-identical list to scroll
+// past.
 const PILLARS = [
   {
     num: "01",
@@ -50,34 +55,14 @@ const PILLARS = [
   },
   {
     num: "03",
-    title: "4-layer driver vetting",
-    body: "DVLA check, liveness identity verification, Open Banking affordability (no credit impact), and PHV trade record review.",
-  },
-  {
-    num: "04",
     title: "Direct operator contact",
     body: "After you register interest, the operator calls you. No middleman between you and the fleet manager.",
   },
   {
-    num: "05",
-    title: "Faster to the wheel",
-    body: "Our vetting means most approved drivers collect their car within 3 working days, not 3 weeks.",
-  },
-  {
-    num: "06",
+    num: "04",
     title: "Flexible terms",
     body: "Start weekly. Commit to longer for a lower rate. No lock-ins, no penalty clauses for genuine circumstances.",
   },
-];
-
-const COMPARE = [
-  { label: "All-in weekly price (no hidden extras)", kharo: true, them: false },
-  { label: "Operator checked against Companies House & licensing register", kharo: true, them: false },
-  { label: "Driver vetting within 48 hours", kharo: true, them: false },
-  { label: "Direct operator contact, no middleman", kharo: true, them: false },
-  { label: "TfL-eligible cars only", kharo: true, them: null },
-  { label: "Thatcham S5 tracking standard", kharo: true, them: null },
-  { label: "Flexible weekly terms", kharo: true, them: null },
 ];
 
 const VETTING_STEPS = [
@@ -271,66 +256,12 @@ export default function WhyKharo() {
         </div>
       </section>
 
-      {/* Comparison table */}
-      <section className="py-16 px-4">
-        <div className="max-w-3xl 2xl:max-w-4xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
-          >
-            Kharo vs. the rest
-          </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-8">
-            How Kharo compares to unverified listings and traditional PCO brokers.
-          </p>
-          <motion.div
-            {...FADE_UP}
-            className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden"
-          >
-            {/* Header row - label column keeps most of the width so feature text never has to
-                fight two icon columns for room on a phone screen */}
-            <div className="grid grid-cols-[1fr_64px_64px] sm:grid-cols-[1fr_88px_88px] bg-[#F8F8F8] border-b border-[#E8E8E8]">
-              <div className="px-4 sm:px-5 py-3" />
-              <div className="px-2 py-3 text-center">
-                <span className="text-[12px] sm:text-[13px] font-extrabold text-[#0B6B4F]">Kharo</span>
-              </div>
-              <div className="px-2 py-3 text-center">
-                <span className="text-[12px] sm:text-[13px] font-semibold text-[#888]">Others</span>
-              </div>
-            </div>
-
-            {/* Feature rows */}
-            {COMPARE.map(({ label, kharo, them }, i) => (
-              <div
-                key={label}
-                className={`grid grid-cols-[1fr_64px_64px] sm:grid-cols-[1fr_88px_88px] items-center ${i < COMPARE.length - 1 ? "border-b border-[#F0F0F0]" : ""}`}
-              >
-                <div className="px-4 sm:px-5 py-4">
-                  <span className="text-[13px] text-[#444] leading-snug">{label}</span>
-                </div>
-                <div className="px-2 py-4 flex justify-center items-center">
-                  {kharo ? (
-                    <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
-                  ) : (
-                    <X className="w-4 h-4 text-[#CCC]" strokeWidth={2.5} />
-                  )}
-                </div>
-                <div className="px-2 py-4 flex justify-center items-center">
-                  {them === true ? (
-                    <Check className="w-4 h-4 text-[#0B6B4F]" strokeWidth={2.5} />
-                  ) : them === false ? (
-                    <X className="w-4 h-4 text-[#CCC]" strokeWidth={2.5} />
-                  ) : (
-                    <span className="text-[11px] sm:text-[13px] text-[#CCC]">Varies</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 4-Layer Vetting */}
+      {/* 4-Layer Vetting - the "Kharo vs. the rest" comparison table that used
+          to live here was cut: it repeated the same claims already made,
+          more readably, in the "What PCO drivers deal with every day" section
+          above (hidden fees, operator checks, 48hr vetting, direct contact) -
+          two comparison sections back to back was the exact kind of
+          duplicate-pattern section the page didn't need. */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
         <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
