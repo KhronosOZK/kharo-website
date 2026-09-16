@@ -24,8 +24,8 @@ const BENEFITS = [
     body: "One clear weekly rental figure, kept cheaper than other PCO platforms. Insurance is quoted separately, never silently marked up.",
   },
   {
-    title: "4-layer vetting: fair and fast",
-    body: "DVLA, identity, Open Banking affordability, and trade record. Takes 48 hours; protects you and the operator.",
+    title: "3-layer vetting: fair and fast",
+    body: "DVLA, identity, and Open Banking affordability. Takes 48 hours; protects you and the operator.",
   },
   {
     title: "Drive within days",
@@ -64,7 +64,6 @@ const REQUIREMENTS = [
   "Valid TfL PCO private hire driver licence",
   "UK driving licence (minimum 1 year)",
   "Right to work in the UK",
-  "No more than 6 penalty points on your DVLA licence",
   "Clean Access NI or DBS check (some operators require this)",
   "Bank account for affordability check (Open Banking, no credit impact)",
 ];
@@ -231,7 +230,7 @@ export default function ForDrivers() {
                 What you need to qualify
               </motion.h2>
               <p className="text-[15px] text-[#666] leading-relaxed mb-6">
-                Kharo's 4-layer vetting is thorough but fair. If you meet these basics,
+                Kharo's 3-layer vetting is thorough but fair. If you meet these basics,
                 you're good to apply.
               </p>
               <ul className="space-y-3">
@@ -245,13 +244,12 @@ export default function ForDrivers() {
             </div>
             <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
               <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-3">4-Layer Vetting</h3>
+              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-3">3-Layer Vetting</h3>
               <div>
                 {[
-                  { step: "01", label: "DVLA eligibility check", desc: "Licence confirmed, points verified" },
+                  { step: "01", label: "DVLA eligibility check", desc: "Licence confirmed, points shared with the operator" },
                   { step: "02", label: "Identity verification", desc: "Liveness check against your photo ID" },
                   { step: "03", label: "Open Banking affordability", desc: "No credit impact, read-only check" },
-                  { step: "04", label: "Trade record review", desc: "PHV history with operators and platforms" },
                 ].map(({ step, label, desc }, i) => (
                   <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
                     <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>

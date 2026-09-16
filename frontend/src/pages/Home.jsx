@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Zap, ShieldCheck, FileCheck, Wrench, Check, TrendingUp, Star, HelpCircle, MapPin } from "lucide-react";
+import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Check, TrendingUp, MapPin } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import VehicleCard from "@/components/VehicleCard";
@@ -246,78 +246,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING TRANSPARENCY - moved up front: the clearest "proof" visual on the
-          page, shown right after the driver/operator split instead of buried
-          two-thirds of the way down */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          <div className="order-2 lg:order-1">
-            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">Rental Price, No Hidden Markup</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-5" style={{ textWrap: "balance" }}>
-              The price you see is the rental price
-            </h2>
-            <p className="text-[#888] text-sm leading-relaxed mb-6 max-w-md">
-              The weekly figure on every listing is the rental cost only, priced to beat
-              what other PCO platforms charge for the same car. Insurance is quoted
-              separately, based on your own profile, so you're never paying a markup
-              baked silently into someone else's "all-in" number.
-            </p>
-            <div className="space-y-3 max-w-md">
-              {[
-                "Rental price kept below the market rate for the same car",
-                "Insurance quoted transparently, based on your profile",
-                "Scheduled servicing and maintenance included",
-              ].map((line) => (
-                <div key={line} className="flex items-center gap-2.5">
-                  <Check size={14} style={{ color: "#0B6B4F" }} strokeWidth={2.5} />
-                  <span className="text-[#555] text-sm">{line}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="order-1 lg:order-2 flex justify-center">
-            <div
-              className="relative bg-white rounded-3xl p-6 w-full max-w-sm border border-[#F5F5F5]"
-              style={{ boxShadow: "0 32px 64px -20px rgba(0,0,0,0.22)", transform: "rotate(-2deg)" }}
-            >
-              <div className="flex items-center justify-between mb-5">
-                <span className="text-[#AAA] text-xs font-semibold uppercase tracking-wide">Toyota Prius &middot; Southwark</span>
-                <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#0B6B4F" }}>
-                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
-                  Live rate
-                </span>
-              </div>
-
-              <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£165</span>
-                <span className="text-[#AAA] text-sm font-medium">/ week rental</span>
-              </div>
-              <p className="text-[#AAA] text-[12px] mb-5">All-in from £203/week with insurance quoted below</p>
-
-              <div className="space-y-0 border-t border-[#F5F5F5]">
-                {[
-                  { label: "Weekly rental", value: "£165" },
-                  { label: "Insurance (indicative)", value: "£38" },
-                  { label: "Maintenance", value: "Included" },
-                ].map((row) => (
-                  <div key={row.label} className="flex items-center justify-between py-3 border-b border-[#F5F5F5]">
-                    <span className="text-[#888] text-sm">{row.label}</span>
-                    <span className="text-[#111] text-sm font-semibold">{row.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2 mt-5 bg-[#FAFAFA] rounded-xl px-3.5 py-3">
-                <TrendingUp size={15} className="text-[#AAA] flex-shrink-0" />
-                <span className="text-[#888] text-xs">Typical driver nets £480&ndash;£650/week after this rental</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
       {/* FLEET SHOWCASE - horizontal drag/scroll carousel, editorial, photography-led */}
       <section className="max-w-7xl mx-auto py-16">
         <div className="flex items-end justify-between mb-6 px-4 sm:px-6">
@@ -400,6 +328,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PRICING TRANSPARENCY - the breakdown, shown after the driver has
+          already seen the actual fleet and a few live listings, so the price
+          proof lands once they're interested in a specific kind of car
+          instead of upfront before they know what they're pricing */}
+      <section className="bg-[#FAFAFA] border-y border-[#F0F0F0] max-w-none px-0 py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+          <div className="order-2 lg:order-1">
+            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">Rental Price, No Hidden Markup</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-5" style={{ textWrap: "balance" }}>
+              The price you see is the rental price
+            </h2>
+            <p className="text-[#888] text-sm leading-relaxed mb-6 max-w-md">
+              The weekly figure on every listing is the rental cost only, priced to beat
+              what other PCO platforms charge for the same car. Insurance is quoted
+              separately, based on your own profile, so you're never paying a markup
+              baked silently into someone else's "all-in" number.
+            </p>
+            <div className="space-y-3 max-w-md">
+              {[
+                "Rental price kept below the market rate for the same car",
+                "Insurance quoted transparently, based on your profile",
+                "Scheduled servicing and maintenance included",
+              ].map((line) => (
+                <div key={line} className="flex items-center gap-2.5">
+                  <Check size={14} style={{ color: "#0B6B4F" }} strokeWidth={2.5} />
+                  <span className="text-[#555] text-sm">{line}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="order-1 lg:order-2 flex justify-center">
+            <div
+              className="relative bg-white rounded-3xl p-6 w-full max-w-sm border border-[#F5F5F5]"
+              style={{ boxShadow: "0 32px 64px -20px rgba(0,0,0,0.22)", transform: "rotate(-2deg)" }}
+            >
+              <div className="flex items-center justify-between mb-5">
+                <span className="text-[#AAA] text-xs font-semibold uppercase tracking-wide">Toyota Prius &middot; Southwark</span>
+                <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#0B6B4F" }}>
+                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
+                  Live rate
+                </span>
+              </div>
+
+              <div className="flex items-baseline gap-1 mb-1">
+                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£165</span>
+                <span className="text-[#AAA] text-sm font-medium">/ week rental</span>
+              </div>
+              <p className="text-[#AAA] text-[12px] mb-5">All-in from £203/week with insurance quoted below</p>
+
+              <div className="space-y-0 border-t border-[#F5F5F5]">
+                {[
+                  { label: "Weekly rental", value: "£165" },
+                  { label: "Insurance (indicative)", value: "£38" },
+                  { label: "Maintenance", value: "Included" },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-center justify-between py-3 border-b border-[#F5F5F5]">
+                    <span className="text-[#888] text-sm">{row.label}</span>
+                    <span className="text-[#111] text-sm font-semibold">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 mt-5 bg-[#FAFAFA] rounded-xl px-3.5 py-3">
+                <TrendingUp size={15} className="text-[#AAA] flex-shrink-0" />
+                <span className="text-[#888] text-xs">Typical driver nets £480&ndash;£650/week after this rental</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHY KHARO - merged what were two near-identical "row of short items"
           sections (driver benefits + listing guarantees) into one condensed
           set of four non-overlapping points, instead of two back-to-back
@@ -428,85 +428,51 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS - photo strip, star ratings, real-feeling voice */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Drivers On Kharo</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">What renting direct actually feels like</h2>
+      {/* HOW KHARO WORKS - dark band breaks the run of white/light sections
+          above and below it. Replaces the old inline "How It Works" steps and
+          testimonials with a direct fork to the two full guides, since the
+          steps were already a shorter, less useful duplicate of DriverGuide
+          and OperatorGuide, and there are no real customers yet to quote. */}
+      <section className="bg-[#0A0A0A] py-16 px-4">
+        <div className="max-w-5xl mx-auto text-center mb-10">
+          <p className="text-xs uppercase tracking-widest text-[#5FD3A6] font-semibold mb-1">See The Full Process</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white" style={{ textWrap: "balance" }}>
+            How Kharo works, step by step
+          </h2>
         </div>
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {[
-            {
-              name: "Amir R.",
-              city: "London",
-              vehicle: "Toyota Prius",
-              rating: 5,
-              quote: "Applied on a Sunday, was driving by Wednesday. The rental price I saw online is the rental price I pay, and my insurance quote came through just as clearly.",
-              photo: "https://images.pexels.com/photos/5834947/pexels-photo-5834947.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
-            },
-            {
-              name: "Kelly M.",
-              city: "Manchester",
-              vehicle: "Kia Niro EV",
-              rating: 5,
-              quote: "Switched to electric and my running costs dropped straight away. The operator called within a few hours of me registering interest.",
-              photo: "https://images.pexels.com/photos/5262276/pexels-photo-5262276.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
-            },
-            {
-              name: "Faisal H.",
-              city: "Birmingham",
-              vehicle: "Skoda Octavia",
-              rating: 4.8,
-              quote: "First time renting instead of buying outright. Having maintenance included took one big worry off my plate completely.",
-              photo: "https://images.pexels.com/photos/5835346/pexels-photo-5835346.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
-            },
-            {
-              name: "Grace O.",
-              city: "Leeds",
-              vehicle: "Toyota Corolla",
-              rating: 4.9,
-              quote: "Kharo was the only place showing me the full weekly cost upfront, not a headline price with extras added later.",
-              photo: "https://images.pexels.com/photos/4872060/pexels-photo-4872060.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=200&h=200",
-            },
-          ].map((t) => (
-            <div key={t.name} className="shrink-0 w-[80vw] max-w-[300px] snap-start sm:w-auto sm:max-w-none sm:shrink bg-white border border-[#F5F5F5] rounded-2xl p-5 flex flex-col">
-              <div className="flex items-center gap-1 mb-3">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={13} className={i < Math.round(t.rating) ? "text-amber-400" : "text-[#E8E8E8]"} fill="currentColor" />
-                ))}
-              </div>
-              <p className="text-[#333] text-sm leading-relaxed mb-5 flex-1">&ldquo;{t.quote}&rdquo;</p>
-              <div className="flex items-center gap-3">
-                <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover" loading="lazy" />
-                <div>
-                  <p className="text-sm font-semibold text-[#111]">{t.name}</p>
-                  <p className="text-xs text-[#AAA]">{t.vehicle} &middot; {t.city}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="bg-[#F5F5F5] border-t border-[#EBEBEB] py-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Simple Process</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">How Kharo Works</h2>
+        <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-5">
+          <div
+            onClick={() => navigate("/driver-guide")}
+            className="group cursor-pointer bg-[#161616] border border-white/10 hover:border-white/25 rounded-[28px] p-8 sm:p-9 transition-colors"
+          >
+            <p className="text-[#5FD3A6] text-xs font-semibold uppercase tracking-wide mb-3">For Drivers</p>
+            <h3 className="font-heading text-xl sm:text-2xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
+              From browsing to behind the wheel
+            </h3>
+            <p className="text-white/60 text-sm leading-relaxed mb-7">
+              What you need to qualify, how vetting works, what you pay, and what happens once you're approved.
+            </p>
+            <span className="inline-flex items-center gap-1.5 text-white font-semibold text-sm">
+              Read the driver guide
+              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            </span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {[
-              { n: "01", title: "Search & Filter", body: "Browse vehicles by city, area, make, budget and engine type. Every operator is checked against Companies House and the licensing register." },
-              { n: "02", title: "Register Your Interest", body: "Found a vehicle you like? Submit your name and contact details in under a minute. The operator gets in touch to confirm availability, no commission, no middleman." },
-              { n: "03", title: "Pick Up & Drive", body: "Sign the rental agreement directly with the operator, collect your keys, and start earning. Maintenance included, insurance quoted separately." },
-            ].map((step) => (
-              <div key={step.n} className="flex flex-col">
-                <span className="font-heading text-4xl font-bold text-[#E0E0E0] mb-3 select-none">{step.n}</span>
-                <h3 className="font-heading font-semibold text-[#111] text-lg mb-2">{step.title}</h3>
-                <p className="text-[#666] text-sm leading-relaxed">{step.body}</p>
-              </div>
-            ))}
+
+          <div
+            onClick={() => navigate("/operator-guide")}
+            className="group cursor-pointer bg-[#161616] border border-white/10 hover:border-white/25 rounded-[28px] p-8 sm:p-9 transition-colors"
+          >
+            <p className="text-[#5FD3A6] text-xs font-semibold uppercase tracking-wide mb-3">For Operators</p>
+            <h3 className="font-heading text-xl sm:text-2xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
+              From listing to your first booking
+            </h3>
+            <p className="text-white/60 text-sm leading-relaxed mb-7">
+              Vehicle requirements, driver vetting, commercial terms, and how you get paid.
+            </p>
+            <span className="inline-flex items-center gap-1.5 text-white font-semibold text-sm">
+              Read the operator guide
+              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            </span>
           </div>
         </div>
       </section>

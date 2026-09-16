@@ -18,23 +18,14 @@ const FADE_UP_HERO = {
   transition: { duration: 0.5 },
 };
 
+// Short problem statements only - the "what's different" section right above
+// this one already spells out the solution to each of these in full, so this
+// list stays a quick callback instead of restating the same claims again.
 const PROBLEMS = [
-  {
-    problem: "Hidden fees discovered after you commit",
-    solution: "Rental price listed upfront, kept below the market rate. Insurance quoted separately, never hidden inside the number.",
-  },
-  {
-    problem: "Operators with no checks, no accountability",
-    solution: "Every operator verified against Companies House and the PHV licensing register before listing.",
-  },
-  {
-    problem: "Weeks of back-and-forth before you're behind the wheel",
-    solution: "4-layer vetting takes 48 hours. Active PCO licence? Most drivers collect within 3 working days.",
-  },
-  {
-    problem: "Brokers who take a cut and disappear",
-    solution: "Kharo connects you directly to the operator. You agree terms with them, not a middleman.",
-  },
+  "Hidden fees discovered after you commit",
+  "Operators with no checks, no accountability",
+  "Weeks of back-and-forth before you're behind the wheel",
+  "Brokers who take a cut and disappear",
 ];
 
 // Trimmed from 6 to 4: the original also had "4-layer driver vetting" and
@@ -69,7 +60,7 @@ const VETTING_STEPS = [
   {
     num: "01",
     title: "DVLA eligibility check",
-    body: "Licence confirmed against DVLA records. Points verified. Any endorsements reviewed against operator thresholds.",
+    body: "Licence confirmed against DVLA records. Points verified and shared with operators, who decide what's acceptable for their fleet.",
   },
   {
     num: "02",
@@ -80,11 +71,6 @@ const VETTING_STEPS = [
     num: "03",
     title: "Open Banking affordability",
     body: "Read-only review of your account activity. No credit impact. Confirms you can cover the weekly rental.",
-  },
-  {
-    num: "04",
-    title: "PHV trade record review",
-    body: "Your history with other operators and platforms reviewed. Rewards reliable drivers with better placement.",
   },
 ];
 
@@ -147,46 +133,11 @@ export default function WhyKharo() {
         </div>
       </section>
 
-      {/* The problem */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
-          >
-            What PCO drivers deal with every day
-          </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-10">
-            And how Kharo addresses each one.
-          </p>
-
-          <div className="space-y-4">
-            {PROBLEMS.map(({ problem, solution }, i) => (
-              <motion.div
-                key={i}
-                {...FADE_UP}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="bg-white rounded-2xl border border-[#E8E8E8] overflow-hidden"
-              >
-                <div className="grid sm:grid-cols-2">
-                  <div className="p-5 sm:border-r border-b sm:border-b-0 border-[#F0F0F0] flex items-start gap-3">
-                    <X className="w-4 h-4 text-[#AAA] shrink-0 mt-0.5" />
-                    <p className="text-[14px] text-[#666] leading-relaxed">{problem}</p>
-                  </div>
-                  <div className="p-5 bg-[#FAFFFE] flex items-start gap-3">
-                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" />
-                    <p className="text-[14px] text-[#444] leading-relaxed font-medium">{solution}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* What Kharo does differently - an editorial numbered index instead of a
           grid of identical icon cards, matching the site's photo-and-number
-          language elsewhere rather than the generic SaaS "feature card" look */}
+          language elsewhere rather than the generic SaaS "feature card" look.
+          Sits first, right after the hero, so the page opens with what Kharo
+          actually does rather than a list of industry complaints. */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
         <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
           <motion.p
@@ -216,6 +167,44 @@ export default function WhyKharo() {
                   <h3 className="font-heading font-bold text-[17px] text-[#111] mb-1.5">{title}</h3>
                   <p className="text-[14px] text-[#666] leading-relaxed max-w-lg">{body}</p>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The problem - short callback list, not a second explanation. "What's
+          different" above already states the solution to each of these in
+          full, so this stays a quick punch list of the pain points that
+          motivate it instead of a duplicate problem/solution grid. */}
+      <section className="py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
+          >
+            What PCO drivers deal with every day
+          </motion.h2>
+          <p className="text-[15px] text-[#888] text-center mb-10">
+            None of it happens on Kharo.
+          </p>
+
+          <div className="divide-y divide-[#E8E8E8] rounded-2xl border border-[#E8E8E8] bg-white overflow-hidden">
+            {PROBLEMS.map((problem, i) => (
+              <motion.div
+                key={problem}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="flex items-center justify-between gap-4 px-5 py-4"
+              >
+                <div className="flex items-start gap-3">
+                  <X className="w-4 h-4 text-[#CCC] shrink-0 mt-0.5" />
+                  <p className="text-[14px] text-[#555] leading-relaxed">{problem}</p>
+                </div>
+                <span className="hidden sm:inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#0B6B4F] shrink-0">
+                  <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  Solved on Kharo
+                </span>
               </motion.div>
             ))}
           </div>
@@ -256,10 +245,10 @@ export default function WhyKharo() {
         </div>
       </section>
 
-      {/* 4-Layer Vetting - the "Kharo vs. the rest" comparison table that used
-          to live here was cut: it repeated the same claims already made,
-          more readably, in the "What PCO drivers deal with every day" section
-          above (hidden fees, operator checks, 48hr vetting, direct contact) -
+      {/* Vetting - the "Kharo vs. the rest" comparison table that used to live
+          here was cut: it repeated the same claims already made, more
+          readably, in the "What PCO drivers deal with every day" section
+          above (hidden fees, operator checks, fast vetting, direct contact) -
           two comparison sections back to back was the exact kind of
           duplicate-pattern section the page didn't need. */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
@@ -277,7 +266,7 @@ export default function WhyKharo() {
                 transition={{ duration: 0.5, delay: 0.05 }}
                 className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4"
               >
-                4-layer vetting in 48 hours
+                3-layer vetting in 48 hours
               </motion.h2>
               <p className="text-[15px] text-[#666] leading-relaxed mb-8">
                 Thorough enough to protect operators. Fast enough not to cost you the week.
