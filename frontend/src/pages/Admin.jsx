@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Download, Lock, TrendingUp, Users, Building2, MapPin, Search, Tag, ShoppingCart } from "lucide-react";
+import { Download, Lock, TrendingUp, Users, Building2, MapPin, Search } from "lucide-react";
 import { toast } from "sonner";
 import { api, API } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 
-const TABS = ["leads", "applications", "interests", "marketplace_interests", "city_requests", "users", "events"];
+const TABS = ["leads", "applications", "interests", "city_requests", "users", "events"];
 
 export default function Admin() {
   const { user, login } = useAuth();
@@ -111,47 +111,6 @@ export default function Admin() {
           </div>
         ))}
       </div>
-
-      {/* Marketplace demand, buy versus sell */}
-      {analytics?.marketplace && (
-        <div className="bg-white border border-[#E8E8E8] rounded-2xl p-5 sm:p-6 mt-4" data-testid="admin-marketplace">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <h3 className="font-heading font-bold text-[#0A0A0A] text-lg">Marketplace demand</h3>
-              <p className="text-[13px] text-[#666666] mt-0.5">Who wants to buy a vehicle and who wants to sell one</p>
-            </div>
-            <span className="text-[12.5px] text-[#999999]">{analytics.marketplace.views} listing views</span>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-5">
-            {[
-              { l: "Want to buy", v: analytics.marketplace.buyers, i: ShoppingCart, hint: "registered buyer alerts" },
-              { l: "Want to sell", v: analytics.marketplace.sellers, i: Tag, hint: "vehicles offered to us" },
-              { l: "Vehicles listed", v: analytics.marketplace.listings, i: Building2, hint: "live sale inventory" },
-              { l: "Listing views", v: analytics.marketplace.views, i: TrendingUp, hint: "sale detail page opens" },
-            ].map((c) => (
-              <div key={c.l} className="rounded-2xl bg-[#F5F5F5] ring-1 ring-[#E8E8E8]/70 p-5" data-testid={`mp-stat-${c.l}`}>
-                <c.i className="w-5 h-5 text-[#0B6B4F]" />
-                <AnimatedNumber value={c.v} className="text-[30px] font-heading font-extrabold text-[#0A0A0A] mt-3 block leading-none" />
-                <div className="text-[13px] font-medium text-[#0A0A0A] mt-2">{c.l}</div>
-                <div className="text-[11.5px] text-[#999999] mt-0.5">{c.hint}</div>
-              </div>
-            ))}
-          </div>
-          {analytics.marketplace.by_city?.length > 0 && (
-            <div className="mt-5 pt-5 border-t border-[#F0F0F0]">
-              <div className="text-[13px] font-semibold text-[#0A0A0A] mb-3">Marketplace interest by city</div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
-                {analytics.marketplace.by_city.map((c) => (
-                  <div key={c.label} className="flex justify-between text-[14px] bg-[#F5F5F5] rounded-xl px-3 py-2">
-                    <span className="text-[#666666]">{c.label}</span>
-                    <span className="font-semibold text-[#0A0A0A]">{c.count}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
 
       {/* Trend chart */}
       {analytics?.trend && (

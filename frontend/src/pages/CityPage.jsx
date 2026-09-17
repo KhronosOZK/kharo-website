@@ -167,21 +167,6 @@ export default function CityPage() {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12" data-testid="city-marketplace">
-        <div className="bg-[#F5F5F5] rounded-[26px] p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <h2 className="text-[28px] sm:text-3xl font-heading font-bold text-[#111] text-balance">
-              {t(CITY_PAGE.marketplaceHeading, { city })}
-            </h2>
-            <p className="text-[#555] mt-2 text-[15px] max-w-xl">{CITY_PAGE.marketplaceSub}</p>
-          </div>
-          <Button onClick={() => navigate(`/marketplace?city=${encodeURIComponent(city)}`)} data-testid="city-marketplace-cta"
-            className="rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold shrink-0">
-            {CITY_PAGE.marketplaceCta} <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
-      </section>
-
       <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
         <h3 className="font-heading font-bold text-[#111] text-lg mb-4">{CITY_PAGE.otherCitiesHeading}</h3>
         <div className="flex flex-wrap gap-2.5">

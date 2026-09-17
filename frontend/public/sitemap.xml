@@ -9,8 +9,6 @@
   <url><loc>https://kharo.co.uk/list-your-fleet</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kharo.co.uk/register</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kharo.co.uk/request-a-car</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://kharo.co.uk/marketplace</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://kharo.co.uk/sell-your-car</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://kharo.co.uk/help</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://kharo.co.uk/legal</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://kharo.co.uk/city/London</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>

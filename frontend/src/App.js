@@ -36,9 +36,6 @@ const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
 const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
 const DriverPortal = lazy(() => import("@/pages/DriverPortal"));
 const OperatorDashboard = lazy(() => import("@/pages/OperatorDashboard"));
-const Marketplace = lazy(() => import("@/pages/Marketplace"));
-const MarketplaceDetail = lazy(() => import("@/pages/MarketplaceDetail"));
-const SellYourCar = lazy(() => import("@/pages/SellYourCar"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
 function RouteTracker() {
@@ -79,10 +76,6 @@ function App() {
               <Route path="/compare" element={<Compare />} />
               <Route path="/request-a-car" element={<RequestCar />} />
               <Route path="/city/:name" element={<CityPage />} />
-              <Route path="/marketplace" element={<Marketplace />} />
-              <Route path="/marketplace/:id" element={<MarketplaceDetail />} />
-              <Route path="/sell-your-car" element={<SellYourCar />} />
-              <Route path="/buy-a-car" element={<Navigate to="/marketplace" replace />} />
               {/* Account routes. These pages were built and linked from within
                   the app but had no route, so every link fell through to the
                   catch-all and bounced to the homepage. Password reset was
