@@ -59,6 +59,7 @@ export default function Home() {
   const [transmission, setTransmission] = useState("");
   const [listings] = useState(MOCK_LISTINGS.slice(0, 6));
   const [showCityModal, setShowCityModal] = useState(false);
+  const [hoveredSide, setHoveredSide] = useState(null);
   const fleetScrollRef = useRef(null);
   const scrollFleet = (dir) => {
     const el = fleetScrollRef.current;
@@ -428,69 +429,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HOW KHARO WORKS - dark band breaks the run of white/light sections
-          above and below it. Replaces the old inline "How It Works" steps and
-          testimonials with a direct fork to the two full guides, since the
-          steps were already a shorter, less useful duplicate of DriverGuide
-          and OperatorGuide, and there are no real customers yet to quote. */}
-      <section className="bg-[#0A0A0A] py-16 px-4">
-        <div className="max-w-5xl mx-auto text-center mb-10">
-          <p className="text-xs uppercase tracking-widest text-[#5FD3A6] font-semibold mb-1">See The Full Process</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white" style={{ textWrap: "balance" }}>
-            How Kharo works, step by step
+      {/* HOW IT WORKS - a simple two-way fork instead of a dark card pair:
+          same light tone as the rest of the page, just two buttons, hover
+          state dims the other choice so picking one feels deliberate. This
+          exists purely to help a first-time visitor understand which side
+          of the marketplace they're on, not to duplicate either guide. */}
+      <section className="bg-[#FAFAFA] border-y border-[#EEEEEE] py-16 px-4">
+        <div className="max-w-md mx-auto text-center mb-9">
+          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">How It Works</p>
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]" style={{ textWrap: "balance" }}>
+            Which side are you on?
           </h2>
         </div>
-        <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-5">
-          <div
+        <div className="max-w-xl mx-auto grid sm:grid-cols-2 gap-4">
+          <button
             onClick={() => navigate("/driver-guide")}
-            className="group cursor-pointer bg-[#161616] border border-white/10 hover:border-white/25 rounded-[28px] p-8 sm:p-9 transition-colors"
+            onMouseEnter={() => setHoveredSide("driver")}
+            onMouseLeave={() => setHoveredSide(null)}
+            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-6 text-left transition-all"
+            style={{ opacity: hoveredSide === "operator" ? 0.55 : 1 }}
           >
-            <p className="text-[#5FD3A6] text-xs font-semibold uppercase tracking-wide mb-3">For Drivers</p>
-            <h3 className="font-heading text-xl sm:text-2xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
-              From browsing to behind the wheel
-            </h3>
-            <p className="text-white/60 text-sm leading-relaxed mb-7">
-              What you need to qualify, how vetting works, what you pay, and what happens once you're approved.
-            </p>
-            <span className="inline-flex items-center gap-1.5 text-white font-semibold text-sm">
-              Read the driver guide
-              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            <p className="font-heading font-bold text-[#111] text-lg mb-1">I&rsquo;m a driver</p>
+            <p className="text-[#888] text-sm">See how renting a car works</p>
+            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-5">
+              Get started
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </span>
-          </div>
+          </button>
 
-          <div
+          <button
             onClick={() => navigate("/operator-guide")}
-            className="group cursor-pointer bg-[#161616] border border-white/10 hover:border-white/25 rounded-[28px] p-8 sm:p-9 transition-colors"
+            onMouseEnter={() => setHoveredSide("operator")}
+            onMouseLeave={() => setHoveredSide(null)}
+            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-6 text-left transition-all"
+            style={{ opacity: hoveredSide === "driver" ? 0.55 : 1 }}
           >
-            <p className="text-[#5FD3A6] text-xs font-semibold uppercase tracking-wide mb-3">For Operators</p>
-            <h3 className="font-heading text-xl sm:text-2xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
-              From listing to your first booking
-            </h3>
-            <p className="text-white/60 text-sm leading-relaxed mb-7">
-              Vehicle requirements, driver vetting, commercial terms, and how you get paid.
-            </p>
-            <span className="inline-flex items-center gap-1.5 text-white font-semibold text-sm">
-              Read the operator guide
-              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            <p className="font-heading font-bold text-[#111] text-lg mb-1">I&rsquo;m an operator</p>
+            <p className="text-[#888] text-sm">See how listing a car works</p>
+            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-5">
+              Get started
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </span>
-          </div>
-        </div>
-      </section>
-
-      {/* EXPANSION INTEREST - for anyone outside our current live cities, or
-          any UK town/area not in the ALL_CITIES list above */}
-      <section className="bg-[#F5F5F5] border-t border-[#EBEBEB] py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Kharo Is Nationwide</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-3" style={{ textWrap: "balance" }}>
-            Don&rsquo;t see cars in your city yet?
-          </h2>
-          <p className="text-[#666] text-sm sm:text-base max-w-lg mx-auto mb-7">
-            Kharo is built for the whole UK. We have live inventory in London, Manchester, Birmingham,
-            Leeds and Sheffield today, and we&rsquo;re bringing operators to every other city next.
-            Tell us where you are and we&rsquo;ll email you the moment your city goes live.
-          </p>
-          <CityInterestForm className="max-w-xl mx-auto" />
+          </button>
         </div>
       </section>
 

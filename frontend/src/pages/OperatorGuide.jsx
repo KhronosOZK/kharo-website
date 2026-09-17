@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  ClipboardList, Phone, BadgeCheck, Car, TrendingUp, Shield,
-  Users, Zap, ChevronDown, ChevronRight, Check, Clock,
-  Lock, LayoutDashboard, Wallet, FileCheck2, ShieldPlus,
-  UploadCloud, Wrench, LifeBuoy,
+  Car, ChevronDown, ChevronRight, Check, Clock,
+  LayoutDashboard, Wallet, FileCheck2, ShieldPlus,
+  UploadCloud, Wrench, LifeBuoy, ArrowRight, BadgeCheck,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -27,7 +26,6 @@ const FADE_UP_HERO = {
 const STEPS = [
   {
     num: "01",
-    icon: ClipboardList,
     title: "Submit your fleet details",
     body: "Fill in the operator interest form with your company name, fleet size, and how many cars are currently idle. A Kharo fleet specialist will call you within 1 working day.",
     detail: "Takes 3 minutes. No commitment at this stage.",
@@ -35,7 +33,6 @@ const STEPS = [
   },
   {
     num: "02",
-    icon: Phone,
     title: "Kharo reviews and onboards you",
     body: "We verify your operator licence and Companies House registration, then set up your operator profile. You tell us your rates, deposit requirements, borough coverage, and any vehicle restrictions.",
     detail: "Operator verification typically completes within 2 working days.",
@@ -43,7 +40,6 @@ const STEPS = [
   },
   {
     num: "03",
-    icon: Car,
     title: "Your cars go live on Kharo",
     body: "Add listings for each available vehicle: make, model, fuel type, weekly price (all-in), photos, and mileage allowance. Only TfL-eligible cars are listed. Listings are reviewed before going live.",
     detail: "First listings are usually live within 24 hours of onboarding.",
@@ -51,15 +47,13 @@ const STEPS = [
   },
   {
     num: "04",
-    icon: BadgeCheck,
     title: "Drivers register interest: you get the lead",
-    body: "A driver sees your car and registers interest. Kharo runs the 4-layer vetting check: DVLA, identity, Open Banking affordability, and PHV trade record. You receive the approved driver's details and you make contact.",
+    body: "A driver sees your car and registers interest. Kharo runs its vetting check: DVLA, identity, and Open Banking affordability. You receive the approved driver's details and you make contact.",
     detail: "Vetting takes 48 hours. You only speak to approved drivers.",
     photo: IMG.phoneInCar,
   },
   {
     num: "05",
-    icon: TrendingUp,
     title: "Agree terms and start earning",
     body: "You call the driver, confirm availability and deposit, and agree terms. The rental is between you and the driver directly. Kharo earns a fee when the rental completes, not before.",
     detail: "No monthly listing fee. Kharo earns on completions only.",
@@ -67,7 +61,6 @@ const STEPS = [
   },
   {
     num: "06",
-    icon: Lock,
     title: "Risk management protects your fleet",
     body: "Every Kharo rental includes our built-in risk management framework. GPS trackers must be fitted to all vehicles before handover. If a driver misses a payment, we contact their rideshare platform directly (Uber, Bolt, etc.) so they cannot accept new trips until the rent is cleared. Your fleet is trackable live from the Kharo Operator Dashboard.",
     detail: "Uber enforcement, GPS tracking, and live dashboard are included for all operators.",
@@ -75,52 +68,19 @@ const STEPS = [
   },
 ];
 
-const BENEFITS = [
-  {
-    icon: Zap,
-    title: "Fill idle cars faster",
-    body: "Every week a PCO car sits empty is revenue gone. Kharo puts it in front of vetted drivers who are actively looking.",
-  },
-  {
-    icon: Shield,
-    title: "Pre-screened drivers only",
-    body: "4-layer vetting: DVLA eligibility, liveness identity check, Open Banking affordability, and PHV trade record. Your fleet, protected.",
-  },
-  {
-    icon: Users,
-    title: "You control the terms",
-    body: "Set your weekly rate, deposit, mileage allowance and vehicle restrictions. Kharo handles the lead; you close the deal.",
-  },
-  {
-    icon: TrendingUp,
-    title: "No upfront cost",
-    body: "Listing is free. Kharo earns only when a rental completes; we are incentivised to find you quality drivers.",
-  },
-];
-
-const VEHICLE_ELIGIBILITY = [
-  {
-    label: "Vehicle age",
-    value: "10 years or newer",
-    body: "TfL requires private hire vehicles to be within 10 years of first registration at the point of first licensing.",
-  },
-  {
-    label: "Emissions standard",
-    value: "Euro 6, or ZEC",
-    body: "Cars must meet Euro 6 emissions, or qualify as Zero Emission Capable (ZEC): under 50g/km CO2 with 10+ miles of zero-emission range.",
-  },
-  {
-    label: "Licensing",
-    value: "M1 category, TfL-recognised",
-    body: "Every vehicle needs a valid TfL private hire vehicle licence before it can be listed or collect passengers.",
-  },
+// What Kharo actually needs from an operator to list a car - not vehicle
+// spec thresholds an operator already knows, but the documents and media
+// Kharo needs submitted before a listing can go live.
+const WHAT_TO_SUBMIT = [
+  { label: "Vehicle documents", body: "V5C logbook and MOT certificate for each car you want to list." },
+  { label: "Licensing documents", body: "Your PHV operator licence and each vehicle's TfL private hire licence." },
+  { label: "Photos and video", body: "Clear exterior and interior shots, plus a short walk-around video of the car." },
 ];
 
 const WHAT_WE_CHECK = [
   "DVLA licence confirmed and points verified",
   "Liveness identity check against photo ID",
   "Open Banking affordability review (no credit impact)",
-  "PHV trade record with previous operators",
   "TfL private hire driver licence validity",
   "Right to work in the UK",
 ];
@@ -132,7 +92,7 @@ const FAQS = [
   },
   {
     q: "Who does the vetting: Kharo or me?",
-    a: "Kharo runs the 4-layer vetting check (DVLA, identity, Open Banking, trade record). You receive only approved drivers. You still do your own final checks and agree terms directly with the driver.",
+    a: "Kharo runs its vetting check (DVLA, identity, Open Banking). You receive only approved drivers. You still do your own final checks and agree terms directly with the driver.",
   },
   {
     q: "How long does operator verification take?",
@@ -209,6 +169,45 @@ function Faq({ q, a }) {
   );
 }
 
+// A pill that follows the reader down the page instead of sitting static in
+// one section - visible once they've scrolled past the hero, hidden again
+// near the footer CTA so it doesn't stack with it.
+function FloatingCTA({ label, onClick }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const pastHero = window.scrollY > 500;
+      const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 700;
+      setVisible(pastHero && !nearBottom);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <motion.button
+      onClick={onClick}
+      animate={
+        visible
+          ? { opacity: 1, y: [0, -6, 0], pointerEvents: "auto" }
+          : { opacity: 0, y: 20, pointerEvents: "none" }
+      }
+      transition={
+        visible
+          ? { y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" }, opacity: { duration: 0.3 } }
+          : { duration: 0.3 }
+      }
+      className="fixed bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2 bg-[#0B6B4F] text-white pl-5 pr-4 py-3.5 rounded-full hover:bg-[#095B43] transition-colors"
+      style={{ boxShadow: "0 20px 40px -12px rgba(11,107,79,0.5)" }}
+    >
+      <span className="text-[13px] font-semibold whitespace-nowrap">{label}</span>
+      <ArrowRight className="w-4 h-4 shrink-0" />
+    </motion.button>
+  );
+}
+
 export default function OperatorGuide() {
   const navigate = useNavigate();
 
@@ -268,31 +267,11 @@ export default function OperatorGuide() {
         </div>
       </section>
 
-      {/* Benefits strip */}
-      <section className="bg-white border-b border-[#EBEBEB] py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {BENEFITS.map(({ icon: Icon, title, body }, i) => (
-              <motion.div
-                key={title}
-                {...FADE_UP}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="flex items-start gap-3"
-              >
-                <Icon className="w-7 h-7 text-[#0B6B4F] shrink-0" strokeWidth={1.5} />
-                <div>
-                  <p className="font-heading font-bold text-[14px] text-[#111] mb-0.5">{title}</p>
-                  <p className="text-[12.5px] text-[#666] leading-relaxed">{body}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Step by step - alternating photo/text rows, all visible, reveal on scroll */}
+      {/* Step by step - widened from max-w-4xl/5xl to 6xl/7xl so it fills
+          the page like the driver guide's version; icon-in-a-circle badge
+          per step dropped for a plain "Step N" label. */}
       <section className="py-16 px-4 overflow-hidden">
-        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
+        <div className="max-w-6xl 2xl:max-w-7xl mx-auto">
           <div className="max-w-lg mx-auto text-center mb-16">
             <motion.p
               {...FADE_UP}
@@ -317,8 +296,8 @@ export default function OperatorGuide() {
             </motion.p>
           </div>
 
-          <div className="flex flex-col gap-16 lg:gap-20">
-            {STEPS.map(({ num, icon: Icon, title, body, detail, photo }, i) => {
+          <div className="flex flex-col gap-16 lg:gap-24">
+            {STEPS.map(({ num, title, body, detail, photo }, i) => {
               const reversed = i % 2 === 1;
               return (
                 <motion.div
@@ -327,7 +306,7 @@ export default function OperatorGuide() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.5 }}
-                  className={`grid lg:grid-cols-2 gap-6 lg:gap-12 items-center ${reversed ? "lg:[&>*:first-child]:order-2" : ""}`}
+                  className={`grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-16 items-center ${reversed ? "lg:[&>*:first-child]:order-2" : ""}`}
                 >
                   <div className="relative">
                     <span
@@ -336,16 +315,16 @@ export default function OperatorGuide() {
                     >
                       {num}
                     </span>
-                    <div className="relative rounded-[28px] overflow-hidden aspect-[4/3] bg-[#EDEDED] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)]">
+                    <div className="relative rounded-[28px] overflow-hidden aspect-[16/11] bg-[#EDEDED] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)]">
                       <img src={photo} alt={title} className="w-full h-full object-cover" loading="lazy" />
                     </div>
                   </div>
 
                   <div className={reversed ? "lg:pr-4" : "lg:pl-4"}>
-                    <div className="w-11 h-11 rounded-full border-2 border-[#0B6B4F] flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5 text-[#0B6B4F]" />
-                    </div>
-                    <h3 className="font-heading font-bold text-[22px] text-[#111]">{title}</h3>
+                    <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">
+                      Step {num}
+                    </p>
+                    <h3 className="font-heading font-bold text-[24px] sm:text-[26px] text-[#111]">{title}</h3>
                     <p className="text-[15px] text-[#555] leading-relaxed mt-2.5">{body}</p>
                     <div className="inline-flex items-center gap-1.5 text-[12px] text-[#888] bg-[#F8F8F8] rounded-full px-3 py-1 mt-4">
                       <Clock className="w-3 h-3" />
@@ -501,80 +480,20 @@ export default function OperatorGuide() {
               </div>
             </div>
           </motion.div>
-
-          <div className="max-w-2xl mx-auto mt-8 flex items-start gap-3 bg-white border border-[#E8E8E8] rounded-2xl p-5">
-            <FileCheck2 className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" />
-            <p className="text-[13px] text-[#666] leading-relaxed">
-              <span className="font-semibold text-[#111]">Already carry your own fleet cover?</span> Add
-              the policy details and certificate to your operator account. Once it's on file, switch the
-              toggle on and your listings show one weekly price with insurance already built in, no
-              separate quote for the driver to see. Switch it off at any time and we go back to quoting
-              insurance separately, based on the driver's own profile. Cover details are self-declared by
-              you and not verified by Kharo - you're responsible for keeping the policy valid and adequate
-              while the toggle is on.
-            </p>
-          </div>
         </div>
       </section>
 
-
-      {/* Driver vetting */}
+      {/* What you need to know - one consolidated section instead of three
+          separate ones (the old "vehicle eligibility"/"commercial terms"
+          split, a standalone driver-vetting section, and a note tacked onto
+          the bottom of the dashboard). Vehicle eligibility content is
+          dropped - operators already know their own vehicle specs; what
+          they actually need is what to submit. Commercial terms is dropped
+          entirely. PHV trade record is removed from vetting - Kharo doesn't
+          check it. */}
       <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
         <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <motion.h2
-                {...FADE_UP}
-                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
-              >
-                Every driver vetted before you speak to them
-              </motion.h2>
-              <p className="text-[15px] text-[#666] leading-relaxed mb-6">
-                You'll only receive leads from drivers who have passed Kharo's 4-layer check.
-                You still retain full control over who you rent to.
-              </p>
-              <ul className="space-y-2.5">
-                {WHAT_WE_CHECK.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[14px] text-[#444]">
-                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
-              <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-3">What the check covers</h3>
-              <div>
-                {[
-                  { step: "01", label: "DVLA eligibility", desc: "Licence confirmed, points verified against operator threshold" },
-                  { step: "02", label: "Liveness identity", desc: "AI-assisted check against government-issued photo ID" },
-                  { step: "03", label: "Open Banking affordability", desc: "Read-only review, no credit impact on the driver" },
-                  { step: "04", label: "PHV trade record", desc: "History reviewed with previous operators and platforms" },
-                ].map(({ step, label, desc }, i) => (
-                  <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
-                    <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
-                    <p className="font-semibold text-[14px] text-[#111] mt-0.5">{label}</p>
-                    <p className="text-[#888] text-[12px]">{desc}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 pt-4 border-t border-[#EEEEEE] text-[13px] text-[#888]">
-                Vetting runs within 48 hours of the driver registering interest. You are notified when a driver is approved.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What you need to know - merged "Vehicle eligibility" and "Pricing note",
-          which were two separate sections using the same 3-column quick-facts
-          format on the same page. One heading now covers both vehicle
-          requirements and commercial terms instead of repeating the pattern. */}
-      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
-          <div className="text-center mb-10">
+          <div className="text-center mb-12">
             <motion.p
               {...FADE_UP}
               className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
@@ -590,56 +509,71 @@ export default function OperatorGuide() {
             </motion.h2>
           </div>
 
-          <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-4">Vehicle requirements</p>
+          <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-4">What to submit</p>
           <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB] pb-10 mb-10 border-b border-[#EBEBEB]">
-            {VEHICLE_ELIGIBILITY.map(({ label, value, body }, i) => (
+            {WHAT_TO_SUBMIT.map(({ label, body }, i) => (
               <motion.div
                 key={label}
                 {...FADE_UP}
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
               >
-                <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-1.5">{label}</p>
-                <p className="text-[19px] font-heading font-extrabold text-[#111] mb-2.5">{value}</p>
+                <p className="font-heading font-bold text-[15px] text-[#111] mb-1.5">{label}</p>
                 <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
               </motion.div>
             ))}
           </div>
 
-          <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-4">Commercial terms</p>
-          <div className="grid sm:grid-cols-3 gap-5">
-            {[
-              {
-                label: "Listing fee",
-                value: "£0",
-                sub: "Adding your cars to Kharo is free. No monthly subscription.",
-              },
-              {
-                label: "Kharo charges",
-                value: "Completion only",
-                sub: "We earn a fee when a rental completes. No charge for leads that don't convert.",
-              },
-              {
-                label: "Your rate",
-                value: "You set it",
-                sub: "You decide the weekly rate, deposit, and terms. Kharo lists what you tell us.",
-              },
-            ].map(({ label, value, sub }) => (
-              <motion.div
-                key={label}
-                {...FADE_UP}
-                className="bg-[#FAFAFA] rounded-2xl border border-[#E8E8E8] p-5"
-              >
-                <p className="text-[12px] font-bold text-[#888] uppercase tracking-wider mb-1">{label}</p>
-                <p className="text-[22px] font-heading font-extrabold text-[#0B6B4F] mb-2">{value}</p>
-                <p className="text-[13px] text-[#666] leading-relaxed">{sub}</p>
-              </motion.div>
-            ))}
+          <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-4">How driver vetting works</p>
+          <div className="grid lg:grid-cols-2 gap-10 items-start pb-10 mb-10 border-b border-[#EBEBEB]">
+            <div>
+              <p className="text-[15px] text-[#666] leading-relaxed mb-5">
+                You'll only receive leads from drivers who have passed Kharo's check.
+                You still retain full control over who you rent to.
+              </p>
+              <ul className="space-y-2.5">
+                {WHAT_WE_CHECK.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[14px] text-[#444]">
+                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" strokeWidth={2.5} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-[#FAFAFA] rounded-2xl border border-[#E8E8E8] p-6">
+              <h3 className="font-heading font-bold text-[16px] text-[#111] mb-4">What the check covers</h3>
+              <div>
+                {[
+                  { step: "01", label: "DVLA eligibility", desc: "Licence confirmed, points verified" },
+                  { step: "02", label: "Liveness identity", desc: "AI-assisted check against photo ID" },
+                  { step: "03", label: "Open Banking affordability", desc: "Read-only review, no credit impact" },
+                ].map(({ step, label, desc }, i) => (
+                  <div key={step} className={`py-3 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
+                    <span className="text-[11px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
+                    <p className="font-semibold text-[13px] text-[#111] mt-0.5">{label}</p>
+                    <p className="text-[#888] text-[11px]">{desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3 pt-3 border-t border-[#EEEEEE] text-[12px] text-[#888]">
+                Runs within 48 hours of the driver registering interest. You're notified once approved.
+              </div>
+            </div>
           </div>
 
-          <p className="text-[13px] text-[#AAA] text-center mt-8">
-            We check every listing against current TfL private hire vehicle requirements before it goes live.
-          </p>
+          <div className="max-w-2xl mx-auto flex items-start gap-3 bg-[#FAFAFA] border border-[#E8E8E8] rounded-2xl p-5">
+            <FileCheck2 className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" />
+            <p className="text-[13px] text-[#666] leading-relaxed">
+              <span className="font-semibold text-[#111]">Already carry your own fleet cover?</span> Add
+              the policy details and certificate to your operator account. Once it's on file, switch the
+              toggle on and your listings show one weekly price with insurance already built in, no
+              separate quote for the driver to see. Switch it off at any time and we go back to quoting
+              insurance separately, based on the driver's own profile. Cover details are self-declared by
+              you and not verified by Kharo - you're responsible for keeping the policy valid and adequate
+              while the toggle is on.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -696,6 +630,8 @@ export default function OperatorGuide() {
           </div>
         </div>
       </section>
+
+      <FloatingCTA label="See how much you could earn" onClick={() => navigate("/list-your-fleet")} />
     </div>
   );
 }

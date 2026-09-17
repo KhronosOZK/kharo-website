@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Car, ChevronDown, BadgeCheck, Clock, ChevronRight, LayoutDashboard,
+  Car, ChevronDown, Clock, ChevronRight, LayoutDashboard,
   ShieldCheck, CreditCard, FileText, ArrowUpRight, Wrench, LifeBuoy,
+  Phone, Check, ArrowRight,
 } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
@@ -220,6 +221,45 @@ function InsurancePicker() {
   );
 }
 
+// A pill that follows the reader down the page instead of sitting static in
+// one section - visible once they've scrolled past the hero, hidden again
+// near the footer CTA so it doesn't stack with it.
+function FloatingCTA({ label, onClick }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const pastHero = window.scrollY > 500;
+      const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 700;
+      setVisible(pastHero && !nearBottom);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <motion.button
+      onClick={onClick}
+      animate={
+        visible
+          ? { opacity: 1, y: [0, -6, 0], pointerEvents: "auto" }
+          : { opacity: 0, y: 20, pointerEvents: "none" }
+      }
+      transition={
+        visible
+          ? { y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" }, opacity: { duration: 0.3 } }
+          : { duration: 0.3 }
+      }
+      className="fixed bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2 bg-[#0B6B4F] text-white pl-5 pr-4 py-3.5 rounded-full hover:bg-[#095B43] transition-colors"
+      style={{ boxShadow: "0 20px 40px -12px rgba(11,107,79,0.5)" }}
+    >
+      <span className="text-[13px] font-semibold whitespace-nowrap">{label}</span>
+      <ArrowRight className="w-4 h-4 shrink-0" />
+    </motion.button>
+  );
+}
+
 export default function DriverGuide() {
   const navigate = useNavigate();
 
@@ -398,93 +438,129 @@ export default function DriverGuide() {
         </div>
       </section>
 
-      {/* Aftercare - a light green band (not the solid CTA green, not another
-          dark band) so it reads as its own distinct moment on the page
-          instead of another card grid. */}
-      <section className="bg-[#EAF5F1] py-16 px-4">
+      {/* Aftercare - an "incoming call" mock instead of another stat card:
+          the site already leans on big-number-in-a-white-card everywhere
+          (pricing, vetting stats, driver gap), so a second one here just
+          reads as the same template again. This ties directly to the "a
+          call away" promise and gives the page a moment nothing else on it
+          looks like. No explicit background: it sits on the page's own grey
+          straight after the white "what you pay" band, so the two don't
+          merge into one undifferentiated white block. */}
+      <section className="py-16 px-4 overflow-hidden">
         <div className="max-w-4xl mx-auto grid sm:grid-cols-[1fr_auto] gap-10 items-center">
           <div>
             <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">Aftercare</p>
             <h2 className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4" style={{ textWrap: "balance" }}>
               A real team, on call for as long as you're driving
             </h2>
-            <p className="text-[#555] text-[15px] leading-relaxed max-w-lg">
+            <p className="text-[#666] text-[15px] leading-relaxed max-w-lg">
               Issues don't stick to office hours, so neither do we. If something goes wrong
               with the car, or you're involved in an accident, Kharo's support team is a call
               away to help get it sorted with the operator, rather than leaving you to handle
               it alone.
             </p>
           </div>
-          <div className="bg-white rounded-3xl border border-[#D5EAE2] px-8 py-7 text-center shrink-0">
-            <div className="text-[44px] font-heading font-extrabold text-[#0B6B4F] leading-none">24/7</div>
-            <p className="text-[#0B6B4F]/80 text-[13px] mt-2 max-w-[170px] mx-auto">
-              Support for issues and accidents, whenever you need us
+          <motion.div
+            {...FADE_UP}
+            className="relative shrink-0 w-[190px] bg-white border border-[#E8E8E8] rounded-[28px] p-6 text-center mx-auto"
+            style={{ boxShadow: "0 20px 50px -20px rgba(0,0,0,0.15)" }}
+          >
+            <div className="relative w-14 h-14 mx-auto mb-4">
+              <motion.span
+                className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
+                animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+              />
+              <motion.span
+                className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
+                animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.6 }}
+              />
+              <div className="relative w-14 h-14 rounded-full bg-[#0B6B4F] flex items-center justify-center">
+                <Phone className="w-5 h-5 text-white" />
+              </div>
+            </div>
+            <p className="text-[#111] text-[13px] font-semibold">Kharo Support</p>
+            <p className="text-[#0B6B4F] text-[11px] mt-1 font-medium flex items-center justify-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0B6B4F] animate-pulse" />
+              Available 24/7
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Requirements - short divided list instead of a green-checkmark
-          checklist (the checkmark-per-line pattern is the same generic
-          template look the icon-circle badges above had), paired with a
-          trimmed 3-layer vetting card. */}
+      {/* What you need to qualify - one mock "eligibility check" screen
+          instead of a bulleted list next to a separate numbered card (the
+          list-plus-card layout used above and on several other pages).
+          Requirements as check-off rows, vetting as a connected-dot tracker
+          underneath, so it reads as one real product moment. */}
       <section className="py-16 px-4">
-        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
-            <div>
-              <motion.h2
-                {...FADE_UP}
-                className="text-[28px] font-heading font-extrabold text-[#111] mb-4"
-              >
-                What you need to qualify
-              </motion.h2>
-              <p className="text-[15px] text-[#666] leading-relaxed mb-8">
-                Our vetting is thorough but fair. If you meet the basics below,
-                you're in a strong position to apply.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
-                {REQUIREMENTS.map((r, i) => (
-                  <motion.p
-                    key={r}
-                    {...FADE_UP}
-                    transition={{ duration: 0.4, delay: i * 0.06 }}
-                    className="text-[14px] text-[#333] font-medium leading-snug pb-4 border-b border-[#EEEEEE]"
-                  >
-                    {r}
-                  </motion.p>
-                ))}
-              </div>
-              <button
-                onClick={() => navigate("/search")}
-                className="mt-8 px-6 py-3 rounded-full bg-[#0B6B4F] text-white font-semibold text-[14px] hover:bg-[#095B43] transition-colors"
-              >
-                Browse available cars
-              </button>
+        <div className="max-w-3xl mx-auto text-center mb-12">
+          <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">What you need to qualify</p>
+          <motion.h2
+            {...FADE_UP}
+            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111]"
+            style={{ textWrap: "balance" }}
+          >
+            Meet the basics. We'll handle the rest.
+          </motion.h2>
+        </div>
+
+        <motion.div
+          {...FADE_UP}
+          className="max-w-lg mx-auto bg-white rounded-[28px] border border-[#E8E8E8] overflow-hidden"
+          style={{ boxShadow: "0 30px 70px -30px rgba(0,0,0,0.15)" }}
+        >
+          <div className="flex items-center gap-2 px-5 py-3 bg-[#FAFAFA] border-b border-[#E8E8E8]">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+            <span className="ml-3 text-[11px] text-[#999]">Your eligibility check</span>
+          </div>
+
+          <div className="p-6 sm:p-8">
+            <div className="space-y-3.5 mb-8">
+              {REQUIREMENTS.map((r, i) => (
+                <motion.div
+                  key={r}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className="flex items-center gap-3"
+                >
+                  <div className="w-5 h-5 rounded-md bg-[#0B6B4F] flex items-center justify-center shrink-0">
+                    <Check className="w-3 h-3 text-white" strokeWidth={3} />
+                  </div>
+                  <p className="text-[14px] text-[#333]">{r}</p>
+                </motion.div>
+              ))}
             </div>
 
-            {/* Vetting card - clean and light, matching the numbered-index
-                language used elsewhere instead of a dark photo card */}
-            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
-              <BadgeCheck className="w-8 h-8 text-[#0B6B4F] mb-4" strokeWidth={1.5} />
-              <h3 className="font-heading font-bold text-[20px] text-[#111] mb-1">3-Layer Vetting</h3>
-              <p className="text-[#888] text-[13px] mb-5">
-                Done on your phone. Takes 48 hours. No credit impact.
+            <div className="border-t border-[#EEEEEE] pt-6">
+              <p className="text-[11px] font-semibold text-[#888] uppercase tracking-wide mb-5">
+                Then, 3-layer vetting in 48 hours
               </p>
-              <div>
-                {[
-                  { step: "01", label: "DVLA eligibility check", desc: "Licence confirmed, points shared with the operator" },
-                  { step: "02", label: "Liveness identity check", desc: "AI check against your photo ID" },
-                  { step: "03", label: "Open Banking affordability", desc: "Read-only account review, no credit impact" },
-                ].map(({ step, label, desc }, i) => (
-                  <div key={step} className={`py-3.5 ${i > 0 ? "border-t border-[#EEEEEE]" : ""}`}>
-                    <span className="text-[12px] font-heading font-extrabold text-[#0B6B4F]">{step}</span>
-                    <p className="font-semibold text-[14px] text-[#111] mt-0.5">{label}</p>
-                    <p className="text-[#888] text-[12px]">{desc}</p>
+              <div className="relative flex justify-between max-w-xs mx-auto">
+                <div className="absolute top-[5px] left-[16%] right-[16%] h-px bg-[#0B6B4F]/25" />
+                {["DVLA eligibility", "Liveness identity", "Open Banking"].map((label) => (
+                  <div key={label} className="relative flex flex-col items-center text-center w-1/3 px-1">
+                    <div className="w-[11px] h-[11px] rounded-full bg-[#0B6B4F] ring-4 ring-white" />
+                    <p className="text-[11px] text-[#666] mt-2.5 leading-tight">{label}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
+        </motion.div>
+
+        <div className="text-center mt-8">
+          <button
+            onClick={() => navigate("/search")}
+            className="px-6 py-3 rounded-full bg-[#0B6B4F] text-white font-semibold text-[14px] hover:bg-[#095B43] transition-colors"
+          >
+            Browse available cars
+          </button>
         </div>
       </section>
 
@@ -697,6 +773,8 @@ export default function DriverGuide() {
           </div>
         </div>
       </section>
+
+      <FloatingCTA label="See what you could earn" onClick={() => navigate("/search")} />
     </div>
   );
 }
