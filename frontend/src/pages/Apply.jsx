@@ -7,6 +7,7 @@ import { getMockById } from "@/data/mockListings";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSeo } from "@/lib/seo";
 
 const ACCENT_TEXT = "#0B6B4F";
 
@@ -19,6 +20,12 @@ const START_OPTIONS = [
 export default function Apply() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  useSeo({
+    title: "Register Interest · Kharo",
+    description: "Register your interest in a PCO rental car on Kharo. The operator gets your details directly, no payment at this stage.",
+  });
+
   const [v, setV] = useState(null);
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);

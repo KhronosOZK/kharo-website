@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   ChevronLeft, ChevronRight, Heart, Share2, MapPin, Check,
   RotateCw, Shield, Zap, Clock, Star,
@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { PRICING_TIERS, weeklyForWeeks } from "@/lib/pricing";
 import PreviewNotice from "@/components/PreviewNotice";
 import ApproxAreaMap from "@/components/ApproxAreaMap";
-import { useSeo } from "@/lib/seo";
+import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
 import { getMockById } from "@/data/mockListings";
 import { areaCoords } from "@/lib/geo";
 
@@ -52,6 +52,14 @@ export default function VehicleDetail() {
     title: v ? `${v.make} ${v.model} ${v.year} for Rent · Kharo` : "Loading · Kharo",
     description: v
       ? `Rent a ${v.year} ${v.make} ${v.model} in ${v.borough} from £${v.weekly_rent}/week. PCO-licensed, ULEZ exempt, verified operator.`
+      : undefined,
+    jsonLd: v
+      ? breadcrumbJsonLd([
+          { name: "Home", to: "/" },
+          { name: "Search", to: "/search" },
+          { name: v.city, to: `/search?city=${encodeURIComponent(v.city)}` },
+          { name: `${v.make} ${v.model}`, to: `/vehicle/${v.id}` },
+        ])
       : undefined,
   });
 
@@ -112,6 +120,19 @@ export default function VehicleDetail() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="mb-3">
+          <ol className="flex items-center gap-1.5 text-[13px] text-[#888] flex-wrap">
+            <li><Link to="/" className="hover:text-[#0B6B4F]">Home</Link></li>
+            <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+            <li><Link to="/search" className="hover:text-[#0B6B4F]">Search</Link></li>
+            <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+            <li><Link to={`/search?city=${encodeURIComponent(v.city)}`} className="hover:text-[#0B6B4F]">{v.city}</Link></li>
+            <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+            <li className="text-[#111] font-medium truncate">{v.make} {v.model}</li>
+          </ol>
+        </nav>
+
         {/* Top nav */}
         <div className="flex items-center justify-between mb-5">
           <button

@@ -5,10 +5,15 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import CompareTable from "@/components/CompareTable";
 import { Button } from "@/components/ui/button";
+import { useSeo } from "@/lib/seo";
 
 export default function Compare() {
   const { compare, toggleCompare, clearCompare } = useAuth();
   const navigate = useNavigate();
+
+  // Personalised to the visitor's own in-progress comparison list, so it has
+  // no unique crawlable content of its own - same treatment as /saved.
+  useSeo({ title: "Compare Vehicles · Kharo" });
   const [all, setAll] = useState([]);
   useEffect(() => { api.get("/listings").then((r) => setAll(r.data)); }, []);
   const items = all.filter((v) => compare.includes(v.id));

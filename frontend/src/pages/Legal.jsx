@@ -1,8 +1,15 @@
 import { LEGAL, BRAND } from "@/content/site";
+import { useSeo } from "@/lib/seo";
 
 const sections = LEGAL.sections;
 
 export default function Legal() {
+  useSeo({
+    title: "Terms, Privacy & Legal · Kharo",
+    description: "Kharo's terms of service, privacy policy, and other legal notices.",
+    canonical: "https://kharo.co.uk/legal",
+  });
+
   return (
     <main className="max-w-3xl mx-auto px-4 sm:px-6 py-14">
       <h1 className="text-4xl sm:text-5xl font-heading font-extrabold text-[#0A0A0A]">{LEGAL.heading}</h1>

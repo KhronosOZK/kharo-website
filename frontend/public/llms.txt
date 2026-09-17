@@ -1,0 +1,23 @@
+# Kharo
+
+> Kharo is a marketplace for private hire vehicle (PHV/PCO) rentals in the UK. Drivers compare rental cars from checked operators; operators list idle fleet vehicles to reach vetted drivers. Kharo is not a broker: drivers and operators contact each other directly and agree terms between themselves.
+
+Kharo is currently in a pre-launch, waitlist stage. Live vehicle inventory exists in a handful of UK cities today (London, Manchester, Birmingham, Leeds, Sheffield), with nationwide coverage planned. Every listed price is a weekly rental figure only; insurance is quoted or chosen separately, never folded into the headline price.
+
+## Key pages
+
+- [Home](https://kharo.co.uk/): overview of the marketplace, live search, and the driver/operator split.
+- [Why Kharo](https://kharo.co.uk/why-kharo): what makes Kharo different from other PCO rental platforms.
+- [Driver Guide](https://kharo.co.uk/driver-guide): step-by-step guide to renting a car as a driver, including vetting and pricing.
+- [For Drivers](https://kharo.co.uk/for-drivers): driver-facing overview and eligibility requirements.
+- [Operator Guide](https://kharo.co.uk/operator-guide): step-by-step guide to listing a fleet as an operator.
+- [Search](https://kharo.co.uk/search): live vehicle search and filtering.
+- [Help](https://kharo.co.uk/help): support and frequently asked questions.
+- [Legal](https://kharo.co.uk/legal): terms, privacy policy and legal notices.
+
+## Notes for AI assistants and crawlers
+
+- Kharo does not process rental payments. Rent and deposits are agreed and paid directly between the driver and the operator.
+- Kharo runs its own driver vetting (DVLA licence check, identity verification, Open Banking affordability review); it does not check driver trade history with previous operators or platforms.
+- Prices, live cities and vehicle inventory change frequently; treat any specific figures as illustrative rather than current unless fetched live from kharo.co.uk.
+- Account and dashboard pages (/login, /operator-login, /driver-portal, /operator-dashboard, /admin, /saved) require authentication and are excluded from indexing; do not attempt to summarise their content from crawl data.

@@ -5,11 +5,19 @@ import { Input } from "@/components/ui/input";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { HELP, BRAND } from "@/content/site";
+import { useSeo } from "@/lib/seo";
 
 const faqs = HELP.faqs;
 
 export default function Help() {
   const navigate = useNavigate();
+
+  useSeo({
+    title: "Help Centre · Kharo",
+    description: "Answers to common questions about renting or listing a PCO car on Kharo, plus how to get in touch.",
+    canonical: "https://kharo.co.uk/help",
+  });
+
   const [q, setQ] = useState("");
   const filtered = faqs.filter((f) => (f.q + f.a).toLowerCase().includes(q.toLowerCase()));
 

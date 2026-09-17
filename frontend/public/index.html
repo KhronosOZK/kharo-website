@@ -11,17 +11,53 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://api.fontshare.com" />
+
+    <!-- Icons: SVG for browsers that support it, PNG/ICO fallbacks for those
+         that don't (iOS Safari's home-screen icon in particular never reads
+         an SVG apple-touch-icon, it just silently shows nothing). -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href="https://kharo.co.uk/" />
+
     <meta property="og:site_name" content="Kharo" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kharo.co.uk/" />
     <meta property="og:title" content="Kharo, PHV Rental Marketplace" />
     <meta
       property="og:description"
       content="Kharo, the UK's trusted marketplace for private hire vehicle rentals. Find and compare PHVs for Uber, Bolt and more, and register your interest today."
     />
+    <meta property="og:image" content="https://kharo.co.uk/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kharo, PHV Rental Marketplace" />
+    <meta
+      name="twitter:description"
+      content="Kharo, the UK's trusted marketplace for private hire vehicle rentals. Find and compare PHVs for Uber, Bolt and more, and register your interest today."
+    />
+    <meta name="twitter:image" content="https://kharo.co.uk/og-image.png" />
+
     <title>Kharo, PHV Rental Marketplace</title>
+
+    <!-- Organization schema: describes Kharo itself, applies site-wide so it
+         lives here rather than being injected per page. No street address is
+         included since Kharo doesn't have a public-facing premises to list -
+         a fabricated one would be inaccurate structured data. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Kharo",
+        "url": "https://kharo.co.uk/",
+        "logo": "https://kharo.co.uk/icon-512.png",
+        "description": "Kharo is a marketplace for private hire vehicle (PHV/PCO) rentals in the UK, connecting drivers with checked fleet operators.",
+        "areaServed": { "@type": "Country", "name": "United Kingdom" }
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

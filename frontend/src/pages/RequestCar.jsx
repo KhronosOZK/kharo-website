@@ -3,11 +3,17 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Search } from "lucide-react";
 import CityInterestForm from "@/components/CityInterestForm";
 import { IMG } from "@/lib/images";
+import { useSeo } from "@/lib/seo";
 
 export default function RequestCar() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const city = params.get("city") || "London";
+
+  useSeo({
+    title: `Request a PCO Car in ${city} · Kharo`,
+    description: `Tell us you're looking for a PCO car in ${city} and we'll email you the moment matching listings go live there.`,
+  });
 
   return (
     <main className="relative min-h-[calc(100vh-68px)] bg-[#0A0A0A] overflow-hidden">

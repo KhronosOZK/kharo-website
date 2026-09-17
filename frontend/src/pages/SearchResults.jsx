@@ -7,6 +7,7 @@ import VehicleCard from "@/components/VehicleCard";
 import SearchMap from "@/components/SearchMap";
 import CityInterestForm from "@/components/CityInterestForm";
 import { MapPin } from "lucide-react";
+import { useSeo } from "@/lib/seo";
 
 const BODY_TYPES = ["Saloon", "Estate", "SUV", "Crossover", "MPV", "Hatchback"];
 const FUEL_TYPES = ["Electric", "Plug-in Hybrid", "Hybrid", "Petrol", "Diesel"];
@@ -65,6 +66,16 @@ function PillGroup({ options, value, onChange }) {
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  // Canonical points at the bare /search path regardless of filters applied,
+  // since every filter combination is the same underlying listing set and
+  // shouldn't be indexed as separate duplicate-content pages.
+  useSeo({
+    title: "Search PCO & PHV Cars for Rent · Kharo",
+    description:
+      "Browse and filter PHV and PCO rental cars from checked operators across the UK by city, budget, make and fuel type.",
+    canonical: "https://kharo.co.uk/search",
+  });
 
   // Filter state from URL or defaults
   const [city, setCityRaw] = useState(searchParams.get("city") || "");

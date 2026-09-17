@@ -6,6 +6,7 @@ import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useSeo } from "@/lib/seo";
 
 const BRANDS = ["Toyota", "Kia", "Volkswagen", "Skoda", "Mercedes-Benz", "Hyundai", "Ford"];
 
@@ -49,6 +50,14 @@ function FleetTile({ src, label, sub, className }) {
 
 export default function Home() {
   const navigate = useNavigate();
+
+  useSeo({
+    title: "Kharo, PHV Rental Marketplace",
+    description:
+      "Compare PHV and PCO rental cars from checked operators across the UK. One clear weekly rental price, maintenance included, insurance quoted separately.",
+    canonical: "https://kharo.co.uk/",
+  });
+
   const [city, setCity] = useState("London");
   const [borough, setBorough] = useState("All Areas");
   const [make, setMake] = useState("All Makes");

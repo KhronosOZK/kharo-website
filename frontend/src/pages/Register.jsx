@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useSeo } from "@/lib/seo";
 
 const inputCls = "h-12 bg-[#F5F5F5] border border-transparent rounded-xl px-4 text-[15px] focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#0B6B4F]/25 focus-visible:border-[#0B6B4F] transition-colors";
 
@@ -26,6 +27,14 @@ const STEPS = [
 
 export default function Register() {
   const navigate = useNavigate();
+
+  useSeo({
+    title: "Register Your Interest as a Driver · Kharo",
+    description:
+      "Join the Kharo waitlist as a PCO driver. Tell us your city and what car you're after, and we'll email you the moment matching cars go live.",
+    canonical: "https://kharo.co.uk/register",
+  });
+
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);

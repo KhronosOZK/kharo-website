@@ -8,5 +8,6 @@ Disallow: /operator-login
 Disallow: /forgot-password
 Disallow: /reset-password
 Disallow: /saved
+Disallow: /compare
 
 Sitemap: https://kharo.co.uk/sitemap.xml

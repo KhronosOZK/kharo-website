@@ -1,7 +1,17 @@
 import axios from "axios";
 
+// REACT_APP_BACKEND_URL is set in Vercel's project env vars, but that value
+// has drifted to a localhost URL left over from local development. When the
+// app itself isn't running on localhost, a localhost backend can never be
+// reachable, so treat that combination as unset and fall back to the real
+// backend instead of firing requests at a dead address on every page view.
+const envBackend = process.env.REACT_APP_BACKEND_URL;
+const envIsLocalhost = envBackend && /^https?:\/\/(localhost|127\.0\.0\.1)/i.test(envBackend);
+const appIsLocalhost = typeof window !== "undefined" && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
 const BASE =
-  process.env.REACT_APP_BACKEND_URL || "https://kharo-backend.onrender.com";
+  envBackend && !(envIsLocalhost && !appIsLocalhost)
+    ? envBackend
+    : "https://kharo-backend.onrender.com";
 export const API = `${BASE}/api`;
 
 export const api = axios.create({ baseURL: API, withCredentials: true });
