@@ -1,14 +1,12 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Check, TrendingUp, MapPin } from "lucide-react";
+import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Check, MapPin } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useSeo } from "@/lib/seo";
-
-const BRANDS = ["Toyota", "Kia", "Volkswagen", "Skoda", "Mercedes-Benz", "Hyundai", "Ford"];
 
 function FilterSelect({ options, value, onChange }) {
   return (
@@ -196,17 +194,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* BRAND STRIP - the makes actually on the platform */}
-      <section className="border-b border-[#F5F5F5] py-7">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-          {BRANDS.map((b) => (
-            <span key={b} className="text-[#AAA] hover:text-[#111] font-heading font-semibold text-sm tracking-wide transition-colors cursor-default">
-              {b}
-            </span>
-          ))}
-        </div>
-      </section>
-
       {/* TWO-SIDED MARKETPLACE - the two journeys, stated plainly, right under the fold.
           Light cards with a small inset photo instead of a full-bleed dark banner,
           so they don't repeat the heavy dark-photo treatment dropped elsewhere. */}
@@ -338,129 +325,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING TRANSPARENCY - the breakdown, shown after the driver has
-          already seen the actual fleet and a few live listings, so the price
-          proof lands once they're interested in a specific kind of car
-          instead of upfront before they know what they're pricing */}
-      <section className="bg-[#FAFAFA] border-y border-[#F0F0F0] max-w-none px-0 py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          <div className="order-2 lg:order-1">
-            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-2">Rental Price, No Hidden Markup</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111] mb-5" style={{ textWrap: "balance" }}>
-              The price you see is the rental price
-            </h2>
-            <p className="text-[#888] text-sm leading-relaxed mb-6 max-w-md">
-              The weekly figure on every listing is the rental cost only, priced to beat
-              what other PCO platforms charge for the same car. Insurance is quoted
-              separately, based on your own profile, so you're never paying a markup
-              baked silently into someone else's "all-in" number.
-            </p>
-            <div className="space-y-3 max-w-md">
-              {[
-                "Rental price kept below the market rate for the same car",
-                "Insurance quoted transparently, based on your profile",
-                "Scheduled servicing and maintenance included",
-              ].map((line) => (
-                <div key={line} className="flex items-center gap-2.5">
-                  <Check size={14} style={{ color: "#0B6B4F" }} strokeWidth={2.5} />
-                  <span className="text-[#555] text-sm">{line}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="order-1 lg:order-2 flex justify-center">
-            <div
-              className="relative bg-white rounded-3xl p-6 w-full max-w-sm border border-[#F5F5F5]"
-              style={{ boxShadow: "0 32px 64px -20px rgba(0,0,0,0.22)", transform: "rotate(-2deg)" }}
-            >
-              <div className="flex items-center justify-between mb-5">
-                <span className="text-[#AAA] text-xs font-semibold uppercase tracking-wide">Toyota Prius &middot; Southwark</span>
-                <span className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#0B6B4F" }}>
-                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#5FD3A6" }} />
-                  Live rate
-                </span>
-              </div>
-
-              <div className="flex items-baseline gap-1 mb-1">
-                <span className="font-heading font-bold text-[#111] text-5xl tracking-tight">£165</span>
-                <span className="text-[#AAA] text-sm font-medium">/ week rental</span>
-              </div>
-              <p className="text-[#AAA] text-[12px] mb-5">All-in from £203/week with insurance quoted below</p>
-
-              <div className="space-y-0 border-t border-[#F5F5F5]">
-                {[
-                  { label: "Weekly rental", value: "£165" },
-                  { label: "Insurance (indicative)", value: "£38" },
-                  { label: "Maintenance", value: "Included" },
-                ].map((row) => (
-                  <div key={row.label} className="flex items-center justify-between py-3 border-b border-[#F5F5F5]">
-                    <span className="text-[#888] text-sm">{row.label}</span>
-                    <span className="text-[#111] text-sm font-semibold">{row.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2 mt-5 bg-[#FAFAFA] rounded-xl px-3.5 py-3">
-                <TrendingUp size={15} className="text-[#AAA] flex-shrink-0" />
-                <span className="text-[#888] text-xs">Typical driver nets £480&ndash;£650/week after this rental</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WHY KHARO - merged what were two near-identical "row of short items"
-          sections (driver benefits + listing guarantees) into one condensed
-          set of four non-overlapping points, instead of two back-to-back
-          grids making the same kind of claim twice in different words. */}
-      <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">No More WhatsApp Hunting</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]" style={{ textWrap: "balance" }}>Why drivers use Kharo</h2>
-          <p className="text-[#888] text-sm mt-2 max-w-lg mx-auto">
-            Stop messaging dozens of operators on WhatsApp and Facebook to find a car. Every vehicle is in one place.
-          </p>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-[#EBEBEB]">
-          {[
-            { title: "One clear price", body: "The weekly figure is the rental price only, insurance quoted separately, never folded in." },
-            { title: "Every operator checked", body: "Verified against Companies House and the licensing register before they're allowed to list." },
-            { title: "No middleman", body: "You speak directly to the operator. Your details go to them, and nowhere else." },
-            { title: "Everything in one place", body: "Compare vehicles from different operators near you, instead of chasing one by one." },
-          ].map((f) => (
-            <div key={f.title} className="p-6 sm:p-7 border-r border-b border-[#EBEBEB]">
-              <Check size={15} className="text-[#0B6B4F] mb-2.5" strokeWidth={2.5} />
-              <p className="font-semibold text-[#111] text-[15px] mb-1.5">{f.title}</p>
-              <p className="text-[#888] text-[13px] leading-relaxed">{f.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* HOW IT WORKS - a simple two-way fork instead of a dark card pair:
-          same light tone as the rest of the page, just two buttons, hover
-          state dims the other choice so picking one feels deliberate. This
-          exists purely to help a first-time visitor understand which side
-          of the marketplace they're on, not to duplicate either guide. */}
+      {/* WHICH SIDE ARE YOU ON - replaces two separate sections (a boxed
+          "why drivers use Kharo" grid, and a plain driver/operator picker)
+          with one interactive component. The old grid's four points are
+          repurposed as short, direct bullets inside each side instead of
+          sitting in their own boxed section saying the same thing twice. */}
       <section className="bg-[#FAFAFA] border-y border-[#EEEEEE] py-16 px-4">
-        <div className="max-w-md mx-auto text-center mb-9">
-          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">How It Works</p>
+        <div className="max-w-md mx-auto text-center mb-10">
+          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Why Kharo</p>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]" style={{ textWrap: "balance" }}>
             Which side are you on?
           </h2>
         </div>
-        <div className="max-w-xl mx-auto grid sm:grid-cols-2 gap-4">
+        <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-4">
           <button
             onClick={() => navigate("/driver-guide")}
             onMouseEnter={() => setHoveredSide("driver")}
             onMouseLeave={() => setHoveredSide(null)}
-            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-6 text-left transition-all"
+            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-7 text-left transition-all"
             style={{ opacity: hoveredSide === "operator" ? 0.55 : 1 }}
           >
             <p className="font-heading font-bold text-[#111] text-lg mb-1">I&rsquo;m a driver</p>
-            <p className="text-[#888] text-sm">See how renting a car works</p>
-            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-5">
+            <p className="text-[#888] text-sm mb-5">See how renting a car works</p>
+            <div className="space-y-2 border-t border-[#F0F0F0] pt-4">
+              {[
+                "One clear price. No hidden markup.",
+                "Every operator checked first.",
+                "You deal with them directly.",
+                "Every vehicle, one place.",
+              ].map((line) => (
+                <div key={line} className="flex items-center gap-2">
+                  <Check size={13} className="text-[#0B6B4F] shrink-0" strokeWidth={2.5} />
+                  <span className="text-[#555] text-[13px]">{line}</span>
+                </div>
+              ))}
+            </div>
+            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-6">
               Get started
               <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </span>
@@ -470,12 +370,25 @@ export default function Home() {
             onClick={() => navigate("/operator-guide")}
             onMouseEnter={() => setHoveredSide("operator")}
             onMouseLeave={() => setHoveredSide(null)}
-            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-6 text-left transition-all"
+            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-7 text-left transition-all"
             style={{ opacity: hoveredSide === "driver" ? 0.55 : 1 }}
           >
             <p className="font-heading font-bold text-[#111] text-lg mb-1">I&rsquo;m an operator</p>
-            <p className="text-[#888] text-sm">See how listing a car works</p>
-            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-5">
+            <p className="text-[#888] text-sm mb-5">See how listing a car works</p>
+            <div className="space-y-2 border-t border-[#F0F0F0] pt-4">
+              {[
+                "No listing fee. Ever.",
+                "Only vetted drivers reach you.",
+                "You set your own rate.",
+                "We earn only when you do.",
+              ].map((line) => (
+                <div key={line} className="flex items-center gap-2">
+                  <Check size={13} className="text-[#0B6B4F] shrink-0" strokeWidth={2.5} />
+                  <span className="text-[#555] text-[13px]">{line}</span>
+                </div>
+              ))}
+            </div>
+            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-6">
               Get started
               <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </span>

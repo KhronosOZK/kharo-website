@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Car, ChevronDown, Clock, ChevronRight, LayoutDashboard,
+  Car, ChevronDown, ChevronRight, LayoutDashboard,
   ShieldCheck, CreditCard, FileText, ArrowUpRight, Wrench, LifeBuoy,
   Phone, Check, ArrowRight,
 } from "lucide-react";
@@ -29,35 +29,30 @@ const STEPS = [
     num: "01",
     title: "Browse and find your car",
     body: "Use filters to narrow by budget, fuel type, car make and borough. Every car on Kharo is TfL-eligible. The weekly rental price you see is set by the operator and shown upfront, kept below what other PCO platforms charge for the same car.",
-    detail: "Takes about 5 minutes. No account needed to browse.",
     photo: IMG.phoneInCar,
   },
   {
     num: "02",
     title: "Register your interest",
     body: "Found a car you like? Hit 'Register interest'. Fill in a short form: your name, contact details and when you want to start. No licence numbers, no documents, no payment at this stage.",
-    detail: "Takes 60 seconds. You'll receive an email confirmation.",
     photo: IMG.signingLaptop,
   },
   {
     num: "03",
     title: "The operator calls you",
     body: "A fleet manager from the operator reviews your interest and gets in touch, usually within 1 working day. They'll confirm the car is available, explain the deposit, and answer any questions.",
-    detail: "Kharo isn't in this call. You deal directly with the operator.",
     photo: IMG.handshakeDesk,
   },
   {
     num: "04",
     title: "Vetting in 48 hours",
     body: "Once you and the operator agree to move forward, Kharo's vetting runs: DVLA eligibility, liveness identity, and Open Banking affordability (no credit impact). Most checks complete in 48 hours.",
-    detail: "All done on your phone. No in-person appointments.",
     photo: IMG.signingCouple,
   },
   {
     num: "05",
     title: "Collect your car",
     body: "Approved? Agree the rental terms, hand over the deposit, and pick up your car. Active PCO licence holders typically collect within 3 working days of first applying.",
-    detail: "Start earning on Uber, Bolt or your platform of choice.",
     photo: IMG.keysHandover,
   },
 ];
@@ -276,26 +271,20 @@ export default function DriverGuide() {
           the section instead of a dark banner */}
       <section className="relative pt-16 pb-14 sm:pt-20 sm:pb-16 px-4 overflow-hidden border-b border-[#EEEEEE]" style={{ backgroundColor: "#FAFAFA" }}>
         <div className="relative max-w-3xl mx-auto text-center">
-          <motion.p
-            {...FADE_UP_HERO}
-            className="text-[11px] font-bold tracking-[0.14em] uppercase mb-5 text-[#0B6B4F]"
-          >
-            Driver Guide
-          </motion.p>
           <motion.h1
             {...FADE_UP_HERO}
-            transition={{ duration: 0.5, delay: 0.05 }}
             className="text-[40px] sm:text-6xl font-heading font-extrabold leading-[1.02] tracking-tight text-[#111] text-balance"
           >
-            How renting works: from browse to keys.
+            Driver Guide.
           </motion.h1>
           <motion.p
             {...FADE_UP_HERO}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-[#666] text-[17px] mt-6 max-w-xl mx-auto leading-relaxed"
           >
-            Five steps, 48-hour vetting, and most drivers are in their car within 3 working days.
-            No payment until you've met the operator and agreed terms.
+            This is exactly how you go from browsing to behind the wheel. Five steps,
+            48-hour vetting, most drivers driving within three days. No payment until
+            you've met the operator and agreed terms.
           </motion.p>
           <motion.div
             {...FADE_UP_HERO}
@@ -353,7 +342,7 @@ export default function DriverGuide() {
           </div>
 
           <div className="flex flex-col gap-16 lg:gap-24">
-            {STEPS.map(({ num, title, body, detail, photo }, i) => {
+            {STEPS.map(({ num, title, body, photo }, i) => {
               const reversed = i % 2 === 1;
               return (
                 <motion.div
@@ -382,10 +371,6 @@ export default function DriverGuide() {
                     </p>
                     <h3 className="font-heading font-bold text-[24px] sm:text-[26px] text-[#111]">{title}</h3>
                     <p className="text-[15px] text-[#555] leading-relaxed mt-2.5">{body}</p>
-                    <div className="inline-flex items-center gap-1.5 text-[12px] text-[#888] bg-[#F8F8F8] rounded-full px-3 py-1 mt-4">
-                      <Clock className="w-3 h-3" />
-                      {detail}
-                    </div>
                   </div>
                 </motion.div>
               );
@@ -438,129 +423,121 @@ export default function DriverGuide() {
         </div>
       </section>
 
-      {/* Aftercare - an "incoming call" mock instead of another stat card:
-          the site already leans on big-number-in-a-white-card everywhere
-          (pricing, vetting stats, driver gap), so a second one here just
-          reads as the same template again. This ties directly to the "a
-          call away" promise and gives the page a moment nothing else on it
-          looks like. No explicit background: it sits on the page's own grey
-          straight after the white "what you pay" band, so the two don't
-          merge into one undifferentiated white block. */}
-      <section className="py-16 px-4 overflow-hidden">
-        <div className="max-w-4xl mx-auto grid sm:grid-cols-[1fr_auto] gap-10 items-center">
+      {/* What you need to qualify (left) + Aftercare (right) - one slide,
+          two halves, instead of two separate full-width sections stacked
+          vertically saying two unrelated things one after another. */}
+      <section className="py-16 px-4">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_0.85fr] gap-14 lg:gap-16 items-start">
+          {/* LEFT: eligibility check mock */}
           <div>
+            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">What you need to qualify</p>
+            <motion.h2
+              {...FADE_UP}
+              className="text-[26px] sm:text-[30px] font-heading font-extrabold text-[#111] mb-8"
+              style={{ textWrap: "balance" }}
+            >
+              Meet the basics. We'll handle the rest.
+            </motion.h2>
+
+            <motion.div
+              {...FADE_UP}
+              className="bg-white rounded-[28px] border border-[#E8E8E8] overflow-hidden"
+              style={{ boxShadow: "0 30px 70px -30px rgba(0,0,0,0.15)" }}
+            >
+              <div className="flex items-center gap-2 px-5 py-3 bg-[#FAFAFA] border-b border-[#E8E8E8]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+                <span className="ml-3 text-[11px] text-[#999]">Your eligibility check</span>
+              </div>
+
+              <div className="p-6 sm:p-8">
+                <div className="space-y-3.5 mb-8">
+                  {REQUIREMENTS.map((r, i) => (
+                    <motion.div
+                      key={r}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.08 }}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="w-5 h-5 rounded-md bg-[#0B6B4F] flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3 text-white" strokeWidth={3} />
+                      </div>
+                      <p className="text-[14px] text-[#333]">{r}</p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="border-t border-[#EEEEEE] pt-6">
+                  <p className="text-[11px] font-semibold text-[#888] uppercase tracking-wide mb-5">
+                    Then, 3-layer vetting in 48 hours
+                  </p>
+                  <div className="relative flex justify-between max-w-xs mx-auto">
+                    <div className="absolute top-[5px] left-[16%] right-[16%] h-px bg-[#0B6B4F]/25" />
+                    {["DVLA eligibility", "Liveness identity", "Open Banking"].map((label) => (
+                      <div key={label} className="relative flex flex-col items-center text-center w-1/3 px-1">
+                        <div className="w-[11px] h-[11px] rounded-full bg-[#0B6B4F] ring-4 ring-white" />
+                        <p className="text-[11px] text-[#666] mt-2.5 leading-tight">{label}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <button
+              onClick={() => navigate("/search")}
+              className="mt-8 px-6 py-3 rounded-full bg-[#0B6B4F] text-white font-semibold text-[14px] hover:bg-[#095B43] transition-colors"
+            >
+              Browse available cars
+            </button>
+          </div>
+
+          {/* RIGHT: aftercare - an "incoming call" mock instead of another
+              stat card, since the site already leans on big-number-in-a-
+              white-card everywhere else. Ties directly to the "a call away"
+              promise. */}
+          <div className="lg:pt-[52px]">
             <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">Aftercare</p>
-            <h2 className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4" style={{ textWrap: "balance" }}>
+            <h2 className="text-[26px] sm:text-[30px] font-heading font-extrabold text-[#111] mb-4" style={{ textWrap: "balance" }}>
               A real team, on call for as long as you're driving
             </h2>
-            <p className="text-[#666] text-[15px] leading-relaxed max-w-lg">
+            <p className="text-[#666] text-[15px] leading-relaxed mb-8">
               Issues don't stick to office hours, so neither do we. If something goes wrong
               with the car, or you're involved in an accident, Kharo's support team is a call
               away to help get it sorted with the operator, rather than leaving you to handle
               it alone.
             </p>
-          </div>
-          <motion.div
-            {...FADE_UP}
-            className="relative shrink-0 w-[190px] bg-white border border-[#E8E8E8] rounded-[28px] p-6 text-center mx-auto"
-            style={{ boxShadow: "0 20px 50px -20px rgba(0,0,0,0.15)" }}
-          >
-            <div className="relative w-14 h-14 mx-auto mb-4">
-              <motion.span
-                className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
-                animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
-              />
-              <motion.span
-                className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
-                animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.6 }}
-              />
-              <div className="relative w-14 h-14 rounded-full bg-[#0B6B4F] flex items-center justify-center">
-                <Phone className="w-5 h-5 text-white" />
+
+            <motion.div
+              {...FADE_UP}
+              className="relative w-[190px] bg-white border border-[#E8E8E8] rounded-[28px] p-6 text-center"
+              style={{ boxShadow: "0 20px 50px -20px rgba(0,0,0,0.15)" }}
+            >
+              <div className="relative w-14 h-14 mx-auto mb-4">
+                <motion.span
+                  className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
+                  animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                />
+                <motion.span
+                  className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
+                  animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.6 }}
+                />
+                <div className="relative w-14 h-14 rounded-full bg-[#0B6B4F] flex items-center justify-center">
+                  <Phone className="w-5 h-5 text-white" />
+                </div>
               </div>
-            </div>
-            <p className="text-[#111] text-[13px] font-semibold">Kharo Support</p>
-            <p className="text-[#0B6B4F] text-[11px] mt-1 font-medium flex items-center justify-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0B6B4F] animate-pulse" />
-              Available 24/7
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* What you need to qualify - one mock "eligibility check" screen
-          instead of a bulleted list next to a separate numbered card (the
-          list-plus-card layout used above and on several other pages).
-          Requirements as check-off rows, vetting as a connected-dot tracker
-          underneath, so it reads as one real product moment. */}
-      <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">What you need to qualify</p>
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111]"
-            style={{ textWrap: "balance" }}
-          >
-            Meet the basics. We'll handle the rest.
-          </motion.h2>
-        </div>
-
-        <motion.div
-          {...FADE_UP}
-          className="max-w-lg mx-auto bg-white rounded-[28px] border border-[#E8E8E8] overflow-hidden"
-          style={{ boxShadow: "0 30px 70px -30px rgba(0,0,0,0.15)" }}
-        >
-          <div className="flex items-center gap-2 px-5 py-3 bg-[#FAFAFA] border-b border-[#E8E8E8]">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-            <span className="ml-3 text-[11px] text-[#999]">Your eligibility check</span>
-          </div>
-
-          <div className="p-6 sm:p-8">
-            <div className="space-y-3.5 mb-8">
-              {REQUIREMENTS.map((r, i) => (
-                <motion.div
-                  key={r}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className="flex items-center gap-3"
-                >
-                  <div className="w-5 h-5 rounded-md bg-[#0B6B4F] flex items-center justify-center shrink-0">
-                    <Check className="w-3 h-3 text-white" strokeWidth={3} />
-                  </div>
-                  <p className="text-[14px] text-[#333]">{r}</p>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="border-t border-[#EEEEEE] pt-6">
-              <p className="text-[11px] font-semibold text-[#888] uppercase tracking-wide mb-5">
-                Then, 3-layer vetting in 48 hours
+              <p className="text-[#111] text-[13px] font-semibold">Kharo Support</p>
+              <p className="text-[#0B6B4F] text-[11px] mt-1 font-medium flex items-center justify-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#0B6B4F] animate-pulse" />
+                Available 24/7
               </p>
-              <div className="relative flex justify-between max-w-xs mx-auto">
-                <div className="absolute top-[5px] left-[16%] right-[16%] h-px bg-[#0B6B4F]/25" />
-                {["DVLA eligibility", "Liveness identity", "Open Banking"].map((label) => (
-                  <div key={label} className="relative flex flex-col items-center text-center w-1/3 px-1">
-                    <div className="w-[11px] h-[11px] rounded-full bg-[#0B6B4F] ring-4 ring-white" />
-                    <p className="text-[11px] text-[#666] mt-2.5 leading-tight">{label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </motion.div>
           </div>
-        </motion.div>
-
-        <div className="text-center mt-8">
-          <button
-            onClick={() => navigate("/search")}
-            className="px-6 py-3 rounded-full bg-[#0B6B4F] text-white font-semibold text-[14px] hover:bg-[#095B43] transition-colors"
-          >
-            Browse available cars
-          </button>
         </div>
       </section>
 

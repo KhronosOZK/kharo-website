@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, X, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useSeo } from "@/lib/seo";
 
 const FADE_UP = {
@@ -21,11 +21,14 @@ const FADE_UP_HERO = {
 // Short problem statements only - the "what's different" section right above
 // this one already spells out the solution to each of these in full, so this
 // list stays a quick callback instead of restating the same claims again.
+// Same numbered-index shape as PILLARS below, so the two sections read as
+// one consistent idiom instead of two different component styles back to
+// back - a light number here instead of a green one is the only difference.
 const PROBLEMS = [
-  "Hidden fees discovered after you commit",
-  "Operators with no checks, no accountability",
-  "Weeks of back-and-forth before you're behind the wheel",
-  "Brokers who take a cut and disappear",
+  { num: "01", title: "Hidden fees discovered after you commit" },
+  { num: "02", title: "Operators with no checks, no accountability" },
+  { num: "03", title: "Weeks of back-and-forth before you're behind the wheel" },
+  { num: "04", title: "Brokers who take a cut and disappear" },
 ];
 
 // Trimmed from 6 to 4: the original also had "4-layer driver vetting" and
@@ -90,18 +93,11 @@ export default function WhyKharo() {
           the section instead of a dark banner */}
       <section className="relative pt-16 pb-14 sm:pt-20 sm:pb-16 px-4 overflow-hidden border-b border-[#EEEEEE]" style={{ backgroundColor: "#FAFAFA" }}>
         <div className="relative max-w-3xl mx-auto text-center">
-          <motion.p
-            {...FADE_UP_HERO}
-            className="text-[11px] font-bold tracking-[0.14em] uppercase mb-5 text-[#0B6B4F]"
-          >
-            Why Kharo
-          </motion.p>
           <motion.h1
             {...FADE_UP_HERO}
-            transition={{ duration: 0.5, delay: 0.05 }}
             className="text-[40px] sm:text-6xl font-heading font-extrabold leading-[1.02] tracking-tight text-[#111] text-balance"
           >
-            PCO car rental that's actually clear.
+            Why Kharo.
           </motion.h1>
           <motion.p
             {...FADE_UP_HERO}
@@ -173,38 +169,39 @@ export default function WhyKharo() {
         </div>
       </section>
 
-      {/* The problem - short callback list, not a second explanation. "What's
-          different" above already states the solution to each of these in
-          full, so this stays a quick punch list of the pain points that
-          motivate it instead of a duplicate problem/solution grid. */}
+      {/* The problem - same numbered-index shape as "What's different" above,
+          just with a light grey number instead of green, so the two
+          sections read as one consistent idiom instead of two different
+          component styles stacked back to back. "What's different" already
+          states the solution in full, so this stays a quick punch list. No
+          explicit background here (unlike the white section above) so the
+          two don't visually merge into one undifferentiated white block. */}
       <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
+          <motion.p
+            {...FADE_UP}
+            className="text-[11px] font-bold text-[#AAA] tracking-[0.14em] uppercase mb-3"
+          >
+            What PCO drivers deal with
+          </motion.p>
           <motion.h2
             {...FADE_UP}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-[26px] sm:text-[30px] font-heading font-bold text-[#333] leading-snug mb-14 max-w-2xl"
           >
-            What PCO drivers deal with every day
+            None of this happens on Kharo.
           </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-10">
-            None of it happens on Kharo.
-          </p>
 
-          <div className="divide-y divide-[#E8E8E8] rounded-2xl border border-[#E8E8E8] bg-white overflow-hidden">
-            {PROBLEMS.map((problem, i) => (
+          <div className="grid lg:grid-cols-2 lg:gap-x-16">
+            {PROBLEMS.map(({ num, title }, i) => (
               <motion.div
-                key={problem}
+                key={num}
                 {...FADE_UP}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="flex items-center justify-between gap-4 px-5 py-4"
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className={`grid sm:grid-cols-[64px_1fr] gap-x-6 gap-y-1 py-6 ${i > 0 ? "border-t border-[#EEEEEE]" : ""} ${i === 1 ? "lg:border-t-0" : ""}`}
               >
-                <div className="flex items-start gap-3">
-                  <X className="w-4 h-4 text-[#CCC] shrink-0 mt-0.5" />
-                  <p className="text-[14px] text-[#555] leading-relaxed">{problem}</p>
-                </div>
-                <span className="hidden sm:inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#0B6B4F] shrink-0">
-                  <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
-                  Solved on Kharo
-                </span>
+                <span className="font-heading font-extrabold text-[15px] text-[#CCC]">{num}</span>
+                <p className="font-heading font-bold text-[17px] text-[#111]">{title}</p>
               </motion.div>
             ))}
           </div>
@@ -327,60 +324,6 @@ export default function WhyKharo() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Operator trust section - three columns divided by thin rules, the same
-          restrained, numbered treatment as the section above instead of boxed
-          icon cards */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
-          <motion.p
-            {...FADE_UP}
-            className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3 text-center"
-          >
-            Before a listing goes live
-          </motion.p>
-          <motion.h2
-            {...FADE_UP}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-2 text-center"
-          >
-            Every operator checked before they list
-          </motion.h2>
-          <p className="text-[15px] text-[#888] text-center mb-14 max-w-xl mx-auto">
-            Drivers deserve to know who they're renting from.
-          </p>
-          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#EBEBEB]">
-            {[
-              {
-                num: "01",
-                title: "Companies House verified",
-                body: "We confirm the operator is a registered UK entity in good standing before they list.",
-              },
-              {
-                num: "02",
-                title: "PHV licensing register",
-                body: "Every operator's PHV licence is checked against the relevant local authority register.",
-              },
-              {
-                num: "03",
-                title: "TfL-eligible vehicles only",
-                body: "Only TfL-licensed vehicles appear on Kharo. No non-compliant cars, no exceptions.",
-              },
-            ].map(({ num, title, body }, i) => (
-              <motion.div
-                key={title}
-                {...FADE_UP}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
-              >
-                <span className="font-heading font-extrabold text-[13px] text-[#BBB]">{num}</span>
-                <h3 className="font-heading font-bold text-[15px] text-[#111] mt-2 mb-1.5">{title}</h3>
-                <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>
