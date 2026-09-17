@@ -35,8 +35,7 @@ export default function OperatorLogin() {
             Your fleet,<br /><span className="text-[#0B6B4F]">in command.</span>
           </h1>
           <div className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-[#EBEBEB] p-6 sm:p-7">
-            <p className="text-[18px] font-heading font-semibold text-[#0A0A0A] leading-snug">"Our cars stopped sitting idle. Applications come in already vetted and the rent turns up on time."</p>
-            <p className="text-[#888888] mt-3 text-sm">Sam, fleet operator in East London</p>
+            <p className="text-[18px] font-heading font-semibold text-[#0A0A0A] leading-snug">Every driver vetted before you speak to them. No listing fee, no cut on completed rentals.</p>
             <div className="mt-4 flex items-center gap-2 text-[13px] text-[#0B6B4F] font-medium"><MapPin className="w-4 h-4" /> Live vehicle tracking on every rented car</div>
           </div>
         </motion.div>

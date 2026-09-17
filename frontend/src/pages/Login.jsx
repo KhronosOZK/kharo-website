@@ -35,8 +35,8 @@ export default function Login() {
             Back to the<br /><span className="text-[#0B6B4F]">driver's seat.</span>
           </h1>
           <div className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-[#EBEBEB] p-6 sm:p-7">
-            <p className="text-[18px] font-heading font-semibold text-[#0A0A0A] leading-snug">"I knew exactly what I was paying before I turned up. First time that has happened."</p>
-            <p className="text-[#888888] mt-3 text-sm">Amara, private hire driver in Croydon</p>
+            <p className="text-[18px] font-heading font-semibold text-[#0A0A0A] leading-snug">One clear weekly rental price. No hidden fees, no markup on insurance.</p>
+            <p className="text-[#888888] mt-3 text-sm">Every operator checked before they're allowed to list.</p>
           </div>
         </motion.div>
 
