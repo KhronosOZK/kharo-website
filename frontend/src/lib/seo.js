@@ -31,8 +31,12 @@ function upsertLink(rel, href) {
  * jsonLd is an object or array of objects. It is injected as a script tag and
  * removed when the component unmounts, so listing pages do not leak schema
  * from one vehicle onto the next.
+ *
+ * noindex marks pages that have no unique crawlable content of their own
+ * (a 404, a visitor's personal compare list) so they don't get indexed even
+ * though they're technically reachable.
  */
-export function useSeo({ title, description, image, canonical, jsonLd } = {}) {
+export function useSeo({ title, description, image, canonical, jsonLd, noindex } = {}) {
   // Serialised once so the effect has a stable, statically checkable dependency
   // rather than an object identity that changes on every render.
   const jsonLdKey = jsonLd ? JSON.stringify(jsonLd) : null;
@@ -60,6 +64,11 @@ export function useSeo({ title, description, image, canonical, jsonLd } = {}) {
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: url });
     upsertMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
 
+    let robotsMeta;
+    if (noindex) {
+      robotsMeta = upsertMeta('meta[name="robots"]', { name: "robots", content: "noindex, follow" });
+    }
+
     let script;
     if (jsonLdKey) {
       script = document.createElement("script");
@@ -71,8 +80,9 @@ export function useSeo({ title, description, image, canonical, jsonLd } = {}) {
     return () => {
       document.title = previousTitle;
       if (script && script.parentNode) script.parentNode.removeChild(script);
+      if (robotsMeta && robotsMeta.parentNode) robotsMeta.parentNode.removeChild(robotsMeta);
     };
-  }, [title, description, image, canonical, jsonLdKey]);
+  }, [title, description, image, canonical, jsonLdKey, noindex]);
 }
 
 /** Schema.org Vehicle offer for a sale listing. */

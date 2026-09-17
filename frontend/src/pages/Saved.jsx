@@ -14,7 +14,7 @@ export default function Saved() {
   const [all, setAll] = useState([]);
   const [compare, setCompare] = useState(false);
 
-  useSeo({ title: "Saved vehicles · Kharo" });
+  useSeo({ title: "Saved vehicles · Kharo", noindex: true });
 
   useEffect(() => { api.get("/listings").then((r) => setAll(r.data)).catch(() => {}); }, []);
 

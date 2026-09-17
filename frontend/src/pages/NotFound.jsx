@@ -8,6 +8,7 @@ export default function NotFound() {
   useSeo({
     title: "Page not found · Kharo",
     description: "That page doesn't exist. Browse PCO cars or head back to the Kharo homepage.",
+    noindex: true,
   });
 
   return (

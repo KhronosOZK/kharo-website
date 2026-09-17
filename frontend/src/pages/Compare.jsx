@@ -13,7 +13,7 @@ export default function Compare() {
 
   // Personalised to the visitor's own in-progress comparison list, so it has
   // no unique crawlable content of its own - same treatment as /saved.
-  useSeo({ title: "Compare Vehicles · Kharo" });
+  useSeo({ title: "Compare Vehicles · Kharo", noindex: true });
   const [all, setAll] = useState([]);
   useEffect(() => { api.get("/listings").then((r) => setAll(r.data)); }, []);
   const items = all.filter((v) => compare.includes(v.id));
