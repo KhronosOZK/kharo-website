@@ -1,12 +1,25 @@
 import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { SPRING, useMotionPrefs } from "@/lib/motion";
 
-export function AnimatedNumber({ value, prefix = "", suffix = "", className = "", ...rest }) {
-  const mv = useMotionValue(0);
-  const text = useTransform(mv, (v) => `${prefix}${Math.round(v).toLocaleString()}${suffix}`);
+/**
+ * A number that morphs to its new value instead of restarting from zero.
+ * Pass `from` for a deliberate one-time count-up (e.g. when a card enters view).
+ */
+export function AnimatedNumber({
+  value, from, prefix = "", suffix = "", decimals = 0, transition = SPRING.ui, className, ...rest
+}) {
+  const { reduce } = useMotionPrefs();
+  const mv = useMotionValue(from ?? value);
+  const text = useTransform(mv, (v) =>
+    `${prefix}${Number(v).toLocaleString("en-GB", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${suffix}`
+  );
   useEffect(() => {
-    const controls = animate(mv, value, { duration: 0.65, ease: "easeOut" });
-    return () => controls.stop();
-  }, [value, mv]);
-  return <motion.span className={className} {...rest}>{text}</motion.span>;
+    if (reduce) { mv.set(value); return undefined; }
+    const c = animate(mv, value, transition);
+    return () => c.stop();
+  }, [value, mv, reduce, transition]);
+  return <motion.span className={`tabular ${className || ""}`} {...rest}>{text}</motion.span>;
 }
+
+export default AnimatedNumber;

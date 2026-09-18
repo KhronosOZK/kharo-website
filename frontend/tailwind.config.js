@@ -1,82 +1,112 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: ["class"],
-    content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html"
-  ],
+  darkMode: ["class"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  future: {
+    // hover: and group-hover: compile to @media (hover: hover) and (pointer: fine),
+    // so a tap on a phone never leaves a hover state stuck on.
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
-      },
+      screens: { xs: "400px" },
       colors: {
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))'
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))'
-        },
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))'
-        },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        // Brand tokens. Static hex here (mirroring index.css :root) so Tailwind
+        // opacity modifiers like bg-night/40 and ring-green/20 keep working.
+        ink: "#0A130F",
+        "ink-2": "#3C4A43",
+        "ink-3": "#5C6862",
+        bone: "#F7F7F4",
+        surface: "#FFFFFF",
+        "surface-2": "#F0F0EB",
+        line: "rgba(10, 19, 15, 0.10)",
+        "line-strong": "rgba(10, 19, 15, 0.20)",
+        green: { DEFAULT: "#0B6B4F", hover: "#095B43", soft: "#E6F2ED" },
+        mint: "#5FD3A6",
+        gold: { DEFAULT: "#C08A2D", soft: "#FDF6E7", ink: "#6E4A10" },
+        night: "#0A130F",
+        danger: { DEFAULT: "#B42318", soft: "#FCEEEC" },
+        // shadcn semantic tokens
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
+        popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
+        primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
+        secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
+        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+        accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
+        destructive: { DEFAULT: "hsl(var(--destructive))", foreground: "hsl(var(--destructive-foreground))" },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))'
-        }
+          1: "hsl(var(--chart-1))", 2: "hsl(var(--chart-2))", 3: "hsl(var(--chart-3))",
+          4: "hsl(var(--chart-4))", 5: "hsl(var(--chart-5))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+        hero: "28px",
+      },
+      fontFamily: {
+        heading: ["'Cabinet Grotesk'", "'Satoshi'", "-apple-system", "sans-serif"],
+        sans: ["'Satoshi'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+      },
+      // Fluid type scale. Values live in index.css so CSS and Tailwind agree.
+      fontSize: {
+        display: ["var(--fs-display)", { lineHeight: "1.0", letterSpacing: "-0.03em" }],
+        h1: ["var(--fs-h1)", { lineHeight: "1.04", letterSpacing: "-0.025em" }],
+        h2: ["var(--fs-h2)", { lineHeight: "1.12", letterSpacing: "-0.02em" }],
+        h3: ["var(--fs-h3)", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
+        stat: ["var(--fs-stat)", { lineHeight: "1", letterSpacing: "-0.03em" }],
+        lead: ["var(--fs-lead)", { lineHeight: "1.55" }],
+      },
+      spacing: {
+        gutter: "var(--gutter)",
+        section: "var(--space-section)",
+        block: "var(--space-block)",
+        card: "var(--space-card)",
+        header: "var(--header-h)",
+        "safe-b": "env(safe-area-inset-bottom, 0px)",
+        "safe-t": "env(safe-area-inset-top, 0px)",
+      },
+      maxWidth: { wrap: "var(--container)" },
+      boxShadow: {
+        1: "var(--shadow-1)",
+        2: "var(--shadow-2)",
+        glass: "var(--shadow-glass)",
+      },
+      transitionTimingFunction: {
+        out: "var(--ease-out)",
+        "in-out": "var(--ease-in-out)",
+        drawer: "var(--ease-drawer)",
+      },
+      transitionDuration: {
+        press: "var(--dur-press)",
+        hover: "var(--dur-hover)",
+        fast: "var(--dur-fast)",
+        ui: "var(--dur-ui)",
+        modal: "var(--dur-modal)",
+        drawer: "var(--dur-drawer)",
+        reveal: "var(--dur-reveal)",
       },
       keyframes: {
-        'accordion-down': {
-          from: {
-            height: '0'
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)'
-          }
+        "accordion-down": {
+          from: { height: "0", opacity: "0" },
+          to: { height: "var(--radix-accordion-content-height)", opacity: "1" },
         },
-        'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)'
-          },
-          to: {
-            height: '0'
-          }
-        }
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)", opacity: "1" },
+          to: { height: "0", opacity: "0" },
+        },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
-      }
-    }
+        "accordion-down": "accordion-down var(--dur-ui) var(--ease-out)",
+        "accordion-up": "accordion-up var(--dur-ui) var(--ease-out)",
+      },
+    },
   },
   plugins: [require("tailwindcss-animate")],
 };

@@ -3,78 +3,250 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────────────
+   KHARO DESIGN TOKENS
+   One place for colour, type, space, shape and motion. Tailwind reads these
+   through tailwind.config.js, so utilities and hand-written CSS agree.
+   ───────────────────────────────────────────────────────────────────────── */
 @layer base {
   :root {
-    --background: 40 14% 97%;
-    --foreground: 0 0% 11%;
+    /* Colour: a near-white ground with a faint warm cast, a green-tinted
+       near-black for ink, one accent. Mint appears only on dark surfaces. */
+    --bg:            #F7F7F4;
+    --surface:       #FFFFFF;
+    --surface-2:     #F0F0EB;
+    --ink:           #0A130F;
+    --ink-2:         #3C4A43;   /* secondary text, 9.6:1 on --bg */
+    --ink-3:         #5C6862;   /* muted text, 5.3:1 on --bg */
+    --line:          rgba(10, 19, 15, 0.10);
+    --line-strong:   rgba(10, 19, 15, 0.20);
+    --green:         #0B6B4F;
+    --green-hover:   #095B43;
+    --green-soft:    #E6F2ED;
+    --mint:          #5FD3A6;
+    --gold:          #C08A2D;
+    --gold-soft:     #FDF6E7;
+    --gold-ink:      #6E4A10;
+    --night:         #0A130F;
+    --danger:        #B42318;
+    --danger-soft:   #FCEEEC;
+
+    /* Shadows carry the ink hue, never pure black. Two elevations only. */
+    --shadow-1: 0 1px 2px rgba(10, 19, 15, 0.05), 0 10px 30px -14px rgba(10, 19, 15, 0.14);
+    --shadow-2: 0 2px 6px -2px rgba(10, 19, 15, 0.06), 0 28px 70px -28px rgba(10, 19, 15, 0.26);
+    --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 18px 50px -20px rgba(10, 19, 15, 0.22);
+
+    /* Layout */
+    --header-h:  68px;
+    --container: 80rem;
+    --gutter:    clamp(1rem, 4vw, 1.5rem);
+    --radius:    0.75rem;   /* inputs and small controls; cards use 1rem */
+
+    /* Fluid type scale: min at 320px, max at ~1280px */
+    --fs-display: clamp(2.5rem,   1.4rem + 5.2vw,  4.75rem);  /* 40 -> 76 */
+    --fs-h1:      clamp(2.125rem, 1.35rem + 3.8vw, 3.5rem);   /* 34 -> 56 */
+    --fs-h2:      clamp(1.625rem, 1.2rem + 2vw,    2.25rem);  /* 26 -> 36 */
+    --fs-h3:      clamp(1.2rem,   1.05rem + 0.8vw, 1.5rem);   /* 19 -> 24 */
+    --fs-stat:    clamp(2.75rem,  2rem + 5vw,      4.5rem);   /* 44 -> 72 */
+    --fs-lead:    clamp(1.0625rem, 1rem + 0.35vw,  1.1875rem);/* 17 -> 19 */
+
+    /* Fluid space */
+    --space-section: clamp(3.5rem, 2.25rem + 5.5vw, 6rem);   /* 56 -> 96 */
+    --space-block:   clamp(1.5rem, 1rem + 2vw, 2.5rem);      /* 24 -> 40 */
+    --space-card:    clamp(1.25rem, 0.8rem + 2.2vw, 2rem);   /* 20 -> 32 */
+
+    /* Motion: crisp and quiet. Strong ease-out everywhere something arrives. */
+    --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+    --dur-press:   120ms;
+    --dur-hover:   150ms;
+    --dur-fast:    180ms;
+    --dur-ui:      220ms;
+    --dur-modal:   260ms;
+    --dur-drawer:  400ms;
+    --dur-reveal:  450ms;
+    --reveal-y:    12px;
+    --press-scale: 0.97;
+
+    /* shadcn semantic tokens, mapped onto the brand */
+    --background: 60 12% 96%;
+    --foreground: 150 31% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 11%;
+    --card-foreground: 150 31% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 11%;
-    --primary: 163 94% 24%;
+    --popover-foreground: 150 31% 6%;
+    --primary: 163 81% 23%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 43 14% 90%;
-    --secondary-foreground: 0 0% 11%;
-    --muted: 43 14% 92%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 43 14% 90%;
-    --accent-foreground: 0 0% 11%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary: 60 11% 93%;
+    --secondary-foreground: 150 31% 6%;
+    --muted: 60 11% 93%;
+    --muted-foreground: 150 6% 38%;
+    --accent: 60 11% 93%;
+    --accent-foreground: 150 31% 6%;
+    --destructive: 4 68% 42%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 163 94% 24%;
-    --radius: 0.75rem;
+    --border: 150 31% 6% / 0.1;
+    --input: 150 31% 6% / 0.14;
+    --ring: 163 81% 23%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --reveal-y: 0px;
+      --press-scale: 1;
+      --dur-reveal: 200ms;
+      --dur-drawer: 200ms;
+    }
+  }
+
+  * { border-color: var(--line); }
+
+  /* Overflow policy: clip, never hidden. clip creates no scroll container,
+     so position: sticky keeps working and nothing is silently cropped. */
+  html { overflow-x: clip; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+
+  /* iOS zooms into any field under 16px and never zooms back out. */
+  @media (pointer: coarse) {
+    input, select, textarea { font-size: max(16px, 1em); }
+  }
+
+  /* Controls respond at once and never select their label on long-press.
+     Content stays selectable. */
+  button, [role="button"], summary, a[href] { touch-action: manipulation; }
+  button, [role="button"], summary {
+    -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  img, svg, video, canvas { max-width: 100%; }
+
+  /* Browser surfaces are part of the design */
+  ::selection { background: var(--green); color: #fff; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+  a, button { color: inherit; }
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse, .animate-ping, .animate-spin, .animate-bounce { animation: none !important; }
+    .animate-in, .animate-out {
+      --tw-enter-translate-x: 0 !important; --tw-enter-translate-y: 0 !important; --tw-enter-scale: 1 !important;
+      --tw-exit-translate-x: 0 !important;  --tw-exit-translate-y: 0 !important;  --tw-exit-scale: 1 !important;
+      animation-duration: 150ms !important;
+    }
   }
 }
 
-@layer base {
-  * { @apply border-border; }
-  html {
-  /* No page should ever scroll sideways on a phone. `clip` rather than
-     `hidden` so it does not create a scroll container and break `sticky`. */
-  overflow-x: clip;
+@layer components {
+  /* Container + gutter. Replaces `max-w-7xl mx-auto px-4 sm:px-6`. */
+  .wrap { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+  .wrap-narrow { --container: 44rem; }
+  .wrap-mid    { --container: 62rem; }
+  .wrap-wide   { --container: 90rem; }
+
+  /* Full-bleed horizontal scroll track that keeps and snaps to the gutter. */
+  .track {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter));
+    overscroll-behavior-x: contain; scrollbar-width: none; touch-action: pan-x pan-y;
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .track > * { scroll-snap-align: start; flex-shrink: 0; }
+
+  .min-h-page { min-height: calc(100svh - var(--header-h)); }
+
+  .pb-safe { padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px)); }
+  .bottom-safe { bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)); }
+  .top-below-header { top: calc(var(--header-h) + 1rem); }
+
+  /* Surfaces */
+  .surface { background: var(--surface); border: 1px solid var(--line); border-radius: 1rem; }
+  .surface-raised { background: var(--surface); border: 1px solid var(--line); border-radius: 1rem; box-shadow: var(--shadow-1); }
+  .hairline { border-top: 1px solid var(--line); }
+
+  /* Frosted glass, web approximation. Use ONLY over photography or over
+     scrolling content, where the blur shows what is behind it. */
+  .glass {
+    background: rgba(255, 255, 255, 0.74);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: var(--shadow-glass);
+  }
+  .glass-dark {
+    background: rgba(10, 19, 15, 0.58);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 18px 50px -20px rgba(0, 0, 0, 0.45);
+    color: #fff;
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .glass { background: rgba(255, 255, 255, 0.97); -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .glass-dark { background: rgba(10, 19, 15, 0.94); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
+
+  /* Press feedback for everything you can press. */
+  .pressable {
+    transition:
+      transform var(--dur-press) var(--ease-out),
+      background-color var(--dur-hover) ease,
+      border-color var(--dur-hover) ease,
+      color var(--dur-hover) ease,
+      box-shadow var(--dur-hover) ease,
+      opacity var(--dur-hover) ease;
+  }
+  .pressable:active { transform: scale(var(--press-scale)); }
+  .pressable:disabled { transform: none; }
+  .pressable-card:active { transform: scale(0.985); }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zoom-media:hover img, .zoom-media:hover [data-zoom] { transform: scale(1.03); }
+  }
+  .zoom-media img, .zoom-media [data-zoom] { transition: transform 400ms var(--ease-out); }
+
+  .field {
+    transition: border-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease, background-color var(--dur-hover) ease;
+  }
+
+  /* Native select styled as a Kharo field */
+  .select-field {
+    appearance: none; -webkit-appearance: none;
+    background-color: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    height: 3rem; padding: 0 2.5rem 0 1rem;
+    font-size: 1rem; font-weight: 500; color: var(--ink);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235C6862' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+    background-repeat: no-repeat; background-position: right 0.9rem center;
+    transition: border-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease;
+  }
+  .select-field:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(11, 107, 79, 0.18); }
+
+  /* Editorial rules */
+  .measure { max-width: 65ch; }
+  .measure-narrow { max-width: 44ch; }
+  .eyebrow { font-size: 0.8125rem; font-weight: 600; color: var(--green); letter-spacing: 0.01em; }
 }
 
-body { @apply bg-background text-foreground; }
-}
-
-:root {
-  /* ── Brand tokens ──────────────────────────────────────────────── */
-  --caro-bg:            #F9F8F6;
-  --caro-cream:         #F1EFE9;
-  --caro-surface:       #FFFFFF;
-  --caro-elevated:      #F3F1EC;
-
-  --caro-night:         #0A130F;
-  --caro-ink:           #1A2E25;
-  --caro-muted:         #4A564F;
-
-  --caro-green:         #0B6B4F;   /* primary action */
-  --caro-green-hover:   #095B43;
-  --caro-mint:          #5FD3A6;   /* accent / highlight */
-  --caro-mint-glow:     rgba(95, 211, 166, 0.35);
-  --caro-gold:          #C08A2D;   /* operator / earnings accent */
-  --caro-gold-dark:     #7a5218;   /* text on gold bg */
-}
-
-html { scroll-behavior: smooth; }
-
-html, body { overflow-x: hidden; max-width: 100%; }
-
-body {
-  margin: 0;
-  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2, h3, h4, .font-heading {
-  font-family: 'Cabinet Grotesk', 'Satoshi', sans-serif;
-}
-
-::selection { background: #0B6B4F; color: #fff; }
-
+/* ── Brand pieces kept from the previous build ─────────────────────────── */
 .caro-wordmark {
   font-family: 'Cabinet Grotesk', sans-serif;
   font-weight: 800;
@@ -82,22 +254,10 @@ h1, h2, h3, h4, .font-heading {
   text-transform: lowercase;
 }
 
-/* Ensure floating layers are always solid & above content */
 [data-radix-popper-content-wrapper] { z-index: 60 !important; }
 
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-up { animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
-
-@keyframes floatIn {
-  from { opacity: 0; transform: translateY(40px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
 
 .grain {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
@@ -105,12 +265,6 @@ h1, h2, h3, h4, .font-heading {
 
 .text-balance { text-wrap: balance; }
 
-/* search map: desaturate default OSM tiles so the map matches the site's
-   monochrome palette instead of the raw colourful OSM style */
-.grayscale-map-tiles {
-  filter: grayscale(0.8) contrast(1.05) brightness(1.02);
-}
-.leaflet-container {
-  font-family: inherit;
-  background: #F5F5F5;
-}
+/* Search map: desaturated OSM tiles so the map obeys the palette */
+.grayscale-map-tiles { filter: grayscale(0.85) contrast(1.05) brightness(1.02); }
+.leaflet-container { font-family: inherit; background: var(--surface-2); }

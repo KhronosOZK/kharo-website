@@ -31,68 +31,54 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0A0A0A] text-white">
-      {/* Main columns */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-10">
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-8 lg:gap-12">
-
+    <footer className="bg-night text-white">
+      <div className="wrap pt-14 pb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-[1.6fr_repeat(3,1fr)] gap-x-6 gap-y-10 lg:gap-x-12">
           {/* Brand column */}
-          <div className="col-span-2 md:col-span-4 lg:col-span-4">
-            <Link to="/" className="caro-wordmark text-[28px] text-white inline-block">
-              kharo<span className="text-[#5FD3A6]">.</span>
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
+            <Link to="/" className="caro-wordmark text-[28px] text-white inline-block leading-none">
+              kharo<span className="text-mint">.</span>
             </Link>
-            <p className="text-[13.5px] text-white/55 mt-3 leading-relaxed max-w-[260px]">
+            <p className="text-[14px] text-white/60 mt-4 leading-relaxed max-w-[30ch]">
               {BRAND.footerBlurb}
             </p>
 
-            {/* Newsletter */}
             <div className="mt-7">
-              <p className="text-[12px] font-semibold uppercase tracking-widest text-white/40 mb-2">
-                Stay updated
-              </p>
+              <p className="text-[13px] font-semibold text-white/70 mb-2.5">{NAV.newsletter.heading}</p>
               {sent ? (
-                <p className="text-[13px] text-[#5FD3A6]">
-                  You're on the list. We'll be in touch.
-                </p>
+                <p className="text-[13.5px] text-mint">{NAV.newsletter.success}</p>
               ) : (
-                <form onSubmit={subscribe} className="flex items-center gap-2 max-w-[240px]">
+                <form onSubmit={subscribe} className="flex items-center gap-2 max-w-[19rem]">
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
+                    placeholder={NAV.newsletter.placeholder}
+                    autoComplete="email"
+                    inputMode="email"
                     data-testid="footer-newsletter-input"
-                    className="flex-1 h-10 rounded-full bg-white/8 border border-white/10 px-4 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-[#5FD3A6]/50 transition-colors"
+                    className="field flex-1 h-11 rounded-full bg-white/[0.08] border border-white/15 px-4 text-base sm:text-[14px] text-white placeholder:text-white/40 focus:outline-none focus:border-mint/60 focus:ring-[3px] focus:ring-mint/15"
                   />
                   <button
                     type="submit"
                     data-testid="footer-newsletter-submit"
                     aria-label="Subscribe"
-                    className="h-10 w-10 shrink-0 rounded-full bg-[#5FD3A6] hover:bg-white flex items-center justify-center transition-colors"
+                    className="pressable h-11 w-11 shrink-0 rounded-full bg-mint hover:bg-white grid place-items-center"
                   >
-                    <ArrowRight className="w-4 h-4 text-[#0A0A0A]" />
+                    <ArrowRight className="w-4 h-4 text-night" strokeWidth={2} />
                   </button>
                 </form>
               )}
             </div>
           </div>
 
-          {/* Spacer on large screens */}
-          <div className="hidden lg:block lg:col-span-1" />
-
-          {/* Nav columns */}
           {NAV.footerColumns.map((col) => (
-            <div key={col.heading} className="col-span-1 md:col-span-2 lg:col-span-2">
-              <h4 className="text-[11px] font-bold uppercase tracking-widest text-white/40 mb-4">
-                {col.heading}
-              </h4>
+            <div key={col.heading}>
+              <h4 className="text-[13px] font-semibold text-white/50 mb-4">{col.heading}</h4>
               <ul className="space-y-2.5">
                 {col.links.map(([label, to]) => (
                   <li key={label}>
-                    <Link
-                      to={to}
-                      className="text-[13.5px] text-white/60 hover:text-white transition-colors"
-                    >
+                    <Link to={to} className="text-[14px] text-white/75 hover:text-white transition-colors duration-hover">
                       {label}
                     </Link>
                   </li>
@@ -103,47 +89,29 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span className="text-[12px] text-white/35">
-            {BRAND.copyright}
-          </span>
+      <div className="border-t border-white/10">
+        <div className="wrap py-5 flex flex-col sm:flex-row items-center justify-between gap-3 pb-safe">
+          <span className="text-[12.5px] text-white/40 text-center sm:text-left">{BRAND.copyright}</span>
 
-          <div className="flex items-center flex-wrap justify-center gap-5">
-            {/* Legal links */}
-            <div className="flex items-center gap-4">
-              <Link to="/legal" className="text-[12px] text-white/35 hover:text-white/60 transition-colors">
-                Privacy
-              </Link>
-              <Link to="/legal" className="text-[12px] text-white/35 hover:text-white/60 transition-colors">
-                Terms
-              </Link>
-              <Link to="/legal" className="text-[12px] text-white/35 hover:text-white/60 transition-colors">
-                Cookies
-              </Link>
+          <div className="flex items-center flex-wrap justify-center gap-x-5 gap-y-2">
+            <div className="flex items-center flex-wrap justify-center gap-x-4 gap-y-2">
+              <Link to="/legal" className="text-[12.5px] text-white/40 hover:text-white/70 transition-colors">Privacy</Link>
+              <Link to="/legal" className="text-[12.5px] text-white/40 hover:text-white/70 transition-colors">Terms</Link>
               <button
                 onClick={() => window.dispatchEvent(new Event("kharo:open-cookie-preferences"))}
-                className="text-[12px] text-white/35 hover:text-white/60 transition-colors"
+                className="text-[12.5px] text-white/40 hover:text-white/70 transition-colors"
               >
                 Cookie preferences
               </button>
             </div>
 
-            {/* Social icons */}
             {socials.length > 0 && (
               <div className="flex items-center gap-2" data-testid="footer-social">
                 {socials.map(({ key, href, Icon }) => (
-                  <a
-                    key={key}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={key}
+                  <a key={key} href={href} target="_blank" rel="noopener noreferrer" aria-label={key}
                     data-testid={`social-${key.toLowerCase()}`}
-                    className="w-11 h-11 rounded-full bg-white/6 hover:bg-[#5FD3A6] group flex items-center justify-center transition-colors"
-                  >
-                    <Icon className="w-4 h-4 text-white/50 group-hover:text-[#0A0A0A] transition-colors" />
+                    className="pressable w-11 h-11 rounded-full bg-white/[0.06] hover:bg-mint group grid place-items-center">
+                    <Icon className="w-4 h-4 text-white/60 group-hover:text-night transition-colors" strokeWidth={1.75} />
                   </a>
                 ))}
               </div>

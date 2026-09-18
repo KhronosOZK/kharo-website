@@ -1,97 +1,81 @@
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, ArrowUpRight, Check, MapPin } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight, MapPin, Check } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
+import PreviewNotice from "@/components/PreviewNotice";
+import DashboardSnapshot from "@/components/DashboardSnapshot";
+import Faq from "@/components/Faq";
+import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useSeo } from "@/lib/seo";
+import { EASE } from "@/lib/motion";
+import { HOME } from "@/content/site";
 
-function FilterSelect({ options, value, onChange }) {
+function FilterSelect({ options, value, onChange, label }) {
   return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="appearance-none w-full bg-white border border-[#E8E8E8] text-[#333] text-sm font-medium px-4 py-3 pr-9 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA] cursor-pointer"
-      >
+    <label className="block">
+      <span className="sr-only">{label}</span>
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="select-field w-full field" aria-label={label}>
         {options.map((o) => (
-          <option key={o.value ?? o} value={o.value ?? o}>
-            {o.label ?? o}
-          </option>
+          <option key={o.value ?? o} value={o.value ?? o}>{o.label ?? o}</option>
         ))}
       </select>
-      <ChevronDown size={15} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#AAA] pointer-events-none" />
-    </div>
-  );
-}
-
-// Fleet showcase - horizontal carousel tile, photography-led, no chrome
-function FleetTile({ src, label, sub, className }) {
-  return (
-    <div className={`relative rounded-2xl overflow-hidden group ${className}`}>
-      <img
-        src={src}
-        alt={label}
-        className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
-        loading="lazy"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/0" />
-      <div className="absolute bottom-4 left-4 right-4">
-        <span className="block text-white font-heading font-semibold text-base">{label}</span>
-        {sub && <span className="block text-white/70 text-xs mt-0.5">{sub}</span>}
-      </div>
-    </div>
+    </label>
   );
 }
 
 export default function Home() {
   const navigate = useNavigate();
-
-  useSeo({
-    title: "Kharo, PHV Rental Marketplace",
-    description:
-      "Compare PHV and PCO rental cars from checked operators across the UK. One clear weekly rental price, maintenance included, insurance quoted separately.",
-    canonical: "https://kharo.co.uk/",
-  });
+  useSeo({ title: HOME.seo.title, description: HOME.seo.description, canonical: "https://kharo.co.uk/" });
 
   const [city, setCity] = useState("London");
   const [borough, setBorough] = useState("All Areas");
-  const [make, setMake] = useState("All Makes");
+  const [make, setMake] = useState("");
   const [budget, setBudget] = useState("");
   const [engine, setEngine] = useState("");
-  const [showMore, setShowMore] = useState(false);
   const [bodyType, setBodyType] = useState("");
   const [transmission, setTransmission] = useState("");
-  const [listings] = useState(MOCK_LISTINGS.slice(0, 6));
+  const [showMore, setShowMore] = useState(false);
   const [showCityModal, setShowCityModal] = useState(false);
-  const [hoveredSide, setHoveredSide] = useState(null);
-  const fleetScrollRef = useRef(null);
-  const scrollFleet = (dir) => {
-    const el = fleetScrollRef.current;
-    if (el) el.scrollBy({ left: dir * (el.clientWidth * 0.8), behavior: "smooth" });
-  };
+  const fleetRef = useRef(null);
 
   const areaOptions = AREAS_BY_CITY[city] || ["All Areas"];
+  const listings = useMemo(() => MOCK_LISTINGS.slice(0, 6), []);
 
-  function handleCityChange(next) {
-    setCity(next);
-    setBorough("All Areas"); // areas are scoped to the chosen city
-  }
+  // One tile per model, at its lowest listed weekly rent, straight from the
+  // inventory so the carousel never shows a price the data does not contain.
+  const fleetTiles = useMemo(() => {
+    const seen = new Map();
+    for (const v of MOCK_LISTINGS) {
+      const key = `${v.make} ${v.model}`;
+      const photo = Array.isArray(v.photos) ? v.photos[0] : v.photos;
+      if (!photo) continue;
+      const cur = seen.get(key);
+      if (!cur || v.weekly_rent < cur.rent) seen.set(key, { id: v.id, label: key, rent: v.weekly_rent, city: v.city, src: photo });
+    }
+    return [...seen.values()].slice(0, 8);
+  }, []);
+
+  const scrollFleet = (dir) => {
+    const el = fleetRef.current;
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
+
+  function handleCityChange(next) { setCity(next); setBorough("All Areas"); }
 
   function handleSearch() {
-    // Kharo covers the whole UK, but only has live inventory in a handful of
-    // cities so far. Searching a city with no cars yet shouldn't dead-end on
-    // an empty results grid - it should capture the demand instead.
-    if (city && !LIVE_CITIES.includes(city)) {
-      setShowCityModal(true);
-      return;
-    }
+    // Kharo covers the whole UK but only has inventory in a few cities. A city
+    // with no cars should capture the demand rather than dead-end on an empty grid.
+    if (city && !LIVE_CITIES.includes(city)) { setShowCityModal(true); return; }
     const params = new URLSearchParams();
     if (city) params.set("city", city);
     if (borough && borough !== "All Areas") params.set("borough", borough);
-    if (make && make !== "All Makes") params.set("make", make);
+    if (make) params.set("make", make);
     if (budget) params.set("budget", budget);
     if (engine) params.set("engine", engine);
     if (bodyType) params.set("bodyType", bodyType);
@@ -99,370 +83,249 @@ export default function Home() {
     navigate(`/search?${params.toString()}`);
   }
 
+  const { hero, work, fleet, featured, dashboard, paths, faq, closer } = HOME;
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-bone">
+      {/* ── HERO: photography, glass search panel, one floating card ─────── */}
+      <section className="relative isolate overflow-hidden text-white">
+        <img src={hero.img} alt={hero.imgAlt} className="absolute inset-0 h-full w-full object-cover object-[60%_center]" fetchPriority="high" />
+        <div className="absolute inset-0 bg-gradient-to-t from-night/70 via-night/25 to-night/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-night/45 via-night/10 to-transparent" />
 
-      {/* HERO - light ground matching the rest of the page; bold type carries
-          the section instead of a dark banner or photo behind the text */}
-      <section
-        className="relative flex flex-col items-center justify-center text-center px-4 pt-16 pb-14 sm:pt-20 sm:pb-16 overflow-hidden border-b border-[#EEEEEE]"
-        style={{ backgroundColor: "#FAFAFA" }}
-      >
-        <div className="relative z-10 flex flex-col items-center w-full">
-          <p className="text-[#0B6B4F] text-xs font-bold uppercase tracking-[0.16em] mb-6">
-            The Private Hire Marketplace
-          </p>
+        <div className="wrap relative flex flex-col justify-end min-h-[86svh] lg:min-h-[88svh] pt-[clamp(4rem,10vh,7rem)] pb-[clamp(1.5rem,5vh,3.5rem)]">
+          <Enter as="h1" className="text-display font-heading font-extrabold max-w-[22ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
+            {hero.heading}
+          </Enter>
+          <Enter as="p" delay={0.06} className="mt-4 text-lead text-white/85 max-w-[46ch] drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
+            {hero.sub}
+          </Enter>
 
-          <h1 className="font-heading text-[44px] leading-[1.02] sm:text-6xl lg:text-7xl font-extrabold text-[#111] max-w-4xl mb-5" style={{ textWrap: "balance", letterSpacing: "-0.02em" }}>
-            Find your next PHV.
-          </h1>
-          <p className="text-[#666] text-base sm:text-lg max-w-xl mb-8">
-            Compare rental cars from checked operators across the UK. One clear weekly rental price, maintenance included, insurance quoted separately.
-          </p>
+          {/* Compact platform strip on small screens; the full card floats on desktop */}
+          <Enter delay={0.1} className="mt-5 flex flex-wrap items-center gap-2 lg:hidden">
+            {hero.card.rows.map(([name]) => (
+              <span key={name} className="glass-dark inline-flex items-center gap-1.5 rounded-full px-3 h-8 text-[13px] font-medium">
+                <Check className="w-3.5 h-3.5 text-mint" strokeWidth={2.5} /> {name} live before you collect
+              </span>
+            ))}
+          </Enter>
 
-          <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full bg-white border border-[#E8E8E8]">
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#0B6B4F" }} />
-            <span className="text-[#111] text-xs font-semibold">120 vehicles live now</span>
-          </div>
+          <div className="mt-6 grid lg:grid-cols-12 gap-6 lg:gap-10 items-end">
+            <Enter delay={0.14} className="lg:col-span-8 glass rounded-hero p-3 sm:p-4 text-ink" data-testid="hero-search">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <FilterSelect label="City" value={city} onChange={handleCityChange}
+                    options={ALL_CITIES.map((c) => ({ label: LIVE_CITIES.includes(c) ? c : `${c} (coming soon)`, value: c }))} />
+                  <div className="hidden sm:block">
+                    <FilterSelect label="Area" value={borough} onChange={setBorough} options={areaOptions.map((b) => ({ label: b, value: b }))} />
+                  </div>
+                  <div className="hidden sm:block">
+                    <FilterSelect label="Make" value={make} onChange={setMake} options={MOCK_MAKES.map((m) => ({ label: m, value: m === "All Makes" ? "" : m }))} />
+                  </div>
+                  <div className="hidden sm:block">
+                    <FilterSelect label="Weekly budget" value={budget} onChange={setBudget} options={BUDGET_OPTIONS} />
+                  </div>
+                </div>
 
-          {/* SEARCH PANEL - pill fields, single accent CTA */}
-          <div className="w-full max-w-3xl bg-white rounded-[28px] p-4 sm:p-5 border border-[#E8E8E8] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-              <FilterSelect
-                options={ALL_CITIES.map((c) => ({ label: LIVE_CITIES.includes(c) ? c : `${c} (coming soon)`, value: c }))}
-                value={city}
-                onChange={handleCityChange}
-              />
-              <FilterSelect
-                options={areaOptions.map((b) => ({ label: b, value: b === "All Areas" ? "All Areas" : b }))}
-                value={borough}
-                onChange={setBorough}
-              />
-              <FilterSelect
-                options={MOCK_MAKES.map((m) => ({ label: m, value: m === "All Makes" ? "" : m }))}
-                value={make}
-                onChange={setMake}
-              />
-              <FilterSelect options={BUDGET_OPTIONS} value={budget} onChange={setBudget} />
-              <div className="sm:col-span-2">
-                <FilterSelect options={ENGINE_OPTIONS} value={engine} onChange={setEngine} />
+                <AnimatePresence initial={false}>
+                  {showMore && (
+                    <motion.div
+                      key="more"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.22, ease: EASE.out }}
+                      className="overflow-hidden"
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2.5">
+                        <div className="sm:hidden"><FilterSelect label="Area" value={borough} onChange={setBorough} options={areaOptions.map((b) => ({ label: b, value: b }))} /></div>
+                        <div className="sm:hidden"><FilterSelect label="Make" value={make} onChange={setMake} options={MOCK_MAKES.map((m) => ({ label: m, value: m === "All Makes" ? "" : m }))} /></div>
+                        <div className="sm:hidden"><FilterSelect label="Weekly budget" value={budget} onChange={setBudget} options={BUDGET_OPTIONS} /></div>
+                        <FilterSelect label="Fuel" value={engine} onChange={setEngine} options={ENGINE_OPTIONS} />
+                        <FilterSelect label="Body type" value={bodyType} onChange={setBodyType} options={[
+                          { label: "Any body type", value: "" }, { label: "Saloon", value: "Saloon" }, { label: "Estate", value: "Estate" },
+                          { label: "SUV or crossover", value: "SUV" }, { label: "MPV", value: "MPV" },
+                        ]} />
+                        <FilterSelect label="Transmission" value={transmission} onChange={setTransmission} options={[
+                          { label: "Any transmission", value: "" }, { label: "Automatic", value: "Automatic" }, { label: "Manual", value: "Manual" },
+                        ]} />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2.5">
+                  <button type="button" onClick={() => setShowMore((s) => !s)} aria-expanded={showMore}
+                    className="pressable inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-[14px] font-medium text-ink-2 hover:bg-white/60">
+                    <ChevronDown size={16} strokeWidth={1.75} className={`transition-transform duration-ui ease-out ${showMore ? "rotate-180" : ""}`} />
+                    {showMore ? hero.fewerFilters : hero.moreFilters}
+                  </button>
+                  <Button onClick={handleSearch} size="lg" className="ml-auto w-full xs:w-auto" data-testid="hero-search-btn">
+                    <Search size={16} strokeWidth={2} /> {hero.searchCta}
+                  </Button>
+                </div>
+            </Enter>
+
+            <Enter delay={0.2} className="hidden lg:block lg:col-span-4 justify-self-end w-full max-w-[19rem]">
+              <div className="glass-dark rounded-2xl p-5" data-testid="hero-platform-card">
+                <p className="font-heading font-bold text-[17px] leading-tight">{hero.card.heading}</p>
+                <ul className="mt-3 divide-y divide-white/10">
+                  {hero.card.rows.map(([name, status]) => (
+                    <li key={name} className="flex items-center justify-between py-2.5 text-[14px]">
+                      <span className="font-medium">{name}</span>
+                      <span className="inline-flex items-center gap-1.5 text-mint font-semibold"><Check className="w-3.5 h-3.5" strokeWidth={2.5} />{status}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-[12.5px] text-white/70 leading-relaxed">{hero.card.note}</p>
               </div>
-            </div>
-
-            {showMore && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                <FilterSelect
-                  options={[
-                    { label: "Any Body Type", value: "" },
-                    { label: "Saloon", value: "Saloon" },
-                    { label: "Estate", value: "Estate" },
-                    { label: "SUV / Crossover", value: "SUV" },
-                    { label: "MPV", value: "MPV" },
-                  ]}
-                  value={bodyType}
-                  onChange={setBodyType}
-                />
-                <FilterSelect
-                  options={[
-                    { label: "Any Transmission", value: "" },
-                    { label: "Automatic", value: "Automatic" },
-                    { label: "Manual", value: "Manual" },
-                  ]}
-                  value={transmission}
-                  onChange={setTransmission}
-                />
-              </div>
-            )}
-
-            <div className="flex items-center justify-between gap-3 px-1">
-              <button
-                onClick={() => setShowMore(!showMore)}
-                className="text-sm text-[#888] hover:text-[#555] flex items-center gap-1 transition-colors"
-              >
-                <ChevronDown size={14} className={`transition-transform ${showMore ? "rotate-180" : ""}`} />
-                {showMore ? "Fewer filters" : "More filters"}
-              </button>
-              <button
-                onClick={handleSearch}
-                className="flex items-center gap-2 font-bold text-sm px-6 py-3 rounded-full text-white bg-[#0B6B4F] hover:bg-[#095B43] transition-colors"
-              >
-                <Search size={16} />
-                Search Vehicles
-              </button>
-            </div>
+            </Enter>
           </div>
         </div>
       </section>
 
-      {/* TWO-SIDED MARKETPLACE - the two journeys, stated plainly, right under the fold.
-          Light cards with a small inset photo instead of a full-bleed dark banner,
-          so they don't repeat the heavy dark-photo treatment dropped elsewhere. */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div
-            onClick={() => navigate("/search")}
-            className="group bg-white border border-[#E8E8E8] rounded-[28px] overflow-hidden cursor-pointer"
-          >
-            <div className="aspect-[16/9] overflow-hidden">
-              <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                style={{ backgroundImage: "url('https://images.pexels.com/photos/5834947/pexels-photo-5834947.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=560')" }}
-              />
-            </div>
-            <div className="p-6 sm:p-7">
-              <p className="text-[#0B6B4F] text-xs font-semibold uppercase tracking-wide mb-2">Need a car to drive?</p>
-              <h3 className="font-heading text-xl sm:text-[22px] font-bold text-[#111] mb-3" style={{ textWrap: "balance" }}>
-                Find a vehicle that fits your budget.
-              </h3>
-              <span className="inline-flex items-center gap-1.5 text-[#111] font-semibold text-sm">
-                Find a vehicle <ArrowRight size={15} />
-              </span>
-            </div>
-          </div>
-
-          <div
-            onClick={() => navigate("/list-your-fleet")}
-            className="group bg-white border border-[#E8E8E8] rounded-[28px] overflow-hidden cursor-pointer"
-          >
-            <div className="aspect-[16/9] overflow-hidden">
-              <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                style={{ backgroundImage: "url('https://images.pexels.com/photos/29566898/pexels-photo-29566898.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=560')" }}
-              />
-            </div>
-            <div className="p-6 sm:p-7">
-              <p className="text-[#0B6B4F] text-xs font-semibold uppercase tracking-wide mb-2">Have a car sitting idle?</p>
-              <h3 className="font-heading text-xl sm:text-[22px] font-bold text-[#111] mb-3" style={{ textWrap: "balance" }}>
-                List it and reach drivers looking to rent.
-              </h3>
-              <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm">
-                List your vehicle <ArrowRight size={15} />
-              </span>
-            </div>
-          </div>
+      {/* ── THE WORK AROUND THE CAR: statement + hairline list ─────────── */}
+      <RevealGroup as="section" className="wrap py-section">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-14">
+          <RevealItem className="lg:col-span-5">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{work.heading}</h2>
+            <p className="mt-4 text-lead text-ink-2 measure-narrow">{work.sub}</p>
+          </RevealItem>
+          <RevealItem as="ul" className="lg:col-span-7 divide-y divide-line border-y border-line">
+            {work.items.map((it) => (
+              <li key={it.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-6">
+                <h3 className="text-h3 font-heading font-bold text-ink">{it.t}</h3>
+                <p className="text-[15.5px] text-ink-2 leading-relaxed">{it.d}</p>
+              </li>
+            ))}
+          </RevealItem>
         </div>
-      </section>
+      </RevealGroup>
 
-      {/* FLEET SHOWCASE - horizontal drag/scroll carousel, editorial, photography-led */}
-      <section className="max-w-7xl mx-auto py-16">
-        <div className="flex items-end justify-between mb-6 px-4 sm:px-6">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">The Fleet</p>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Cars Drivers Actually Drive</h2>
-          </div>
+      {/* ── FLEET: photography-led horizontal track ───────────────────── */}
+      <RevealGroup as="section" className="wrap pb-section">
+        <RevealItem className="flex items-end justify-between gap-4 mb-6">
+          <h2 className="text-h2 font-heading font-extrabold text-ink">{fleet.heading}</h2>
           <div className="hidden sm:flex items-center gap-2">
-            <button
-              onClick={() => scrollFleet(-1)}
-              aria-label="Scroll fleet left"
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#E8E8E8] hover:border-[#AAA] text-[#555] transition-colors"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              onClick={() => scrollFleet(1)}
-              aria-label="Scroll fleet right"
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-[#E8E8E8] hover:border-[#AAA] text-[#555] transition-colors"
-            >
-              <ChevronRight size={16} />
-            </button>
-            <button
-              onClick={() => navigate("/search")}
-              className="ml-2 flex items-center gap-2 border border-[#E8E8E8] hover:border-[#AAA] text-[#111] text-sm font-semibold px-5 py-2.5 rounded-full transition-colors"
-            >
-              Show all vehicles <ArrowUpRight size={14} />
-            </button>
+            <button onClick={() => scrollFleet(-1)} aria-label="Scroll left" className="pressable grid place-items-center w-11 h-11 rounded-full border border-line-strong bg-surface text-ink-2 hover:bg-surface-2"><ChevronLeft size={18} strokeWidth={1.75} /></button>
+            <button onClick={() => scrollFleet(1)} aria-label="Scroll right" className="pressable grid place-items-center w-11 h-11 rounded-full border border-line-strong bg-surface text-ink-2 hover:bg-surface-2"><ChevronRight size={18} strokeWidth={1.75} /></button>
+            <Button variant="outline" onClick={() => navigate("/search")} className="ml-2">{fleet.cta} <ArrowRight size={16} /></Button>
           </div>
-        </div>
-
-        <div
-          ref={fleetScrollRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {[
-            { src: "/images/listings/toyota-prius.jpg", label: "Toyota Prius", sub: "From £165 / week · London" },
-            { src: "https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Kia Niro EV", sub: "From £190 / week · Manchester" },
-            { src: "https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota Camry", sub: "From £175 / week · Birmingham" },
-            { src: "/images/listings/vw-passat-gte.jpg", label: "VW Passat GTE", sub: "From £180 / week · Leeds" },
-            { src: "https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Mercedes E-Class", sub: "From £255 / week · London" },
-            { src: "https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1000&h=1250", label: "Toyota RAV4", sub: "From £185 / week · Manchester" },
-          ].map((tile) => (
-            <FleetTile key={tile.label} {...tile} className="snap-start shrink-0 w-[68vw] sm:w-[280px] h-[380px]" />
-          ))}
-        </div>
-        <button
-          onClick={() => navigate("/search")}
-          className="sm:hidden mt-4 mx-4 flex items-center justify-center gap-2 border border-[#E8E8E8] text-[#111] text-sm font-semibold px-5 py-3 rounded-full"
-        >
-          Show all vehicles <ArrowUpRight size={14} />
-        </button>
-      </section>
-
-      {/* FEATURED LISTINGS - real cards, explicit interest-capture CTA on each */}
-      <section className="bg-[#FAFAFA] border-t border-[#F5F5F5] py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Available Now</p>
-              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Featured Rentals</h2>
-            </div>
-            <button
-              onClick={() => navigate("/search")}
-              className="flex items-center gap-1 text-sm font-medium text-[#111] hover:text-[#666] transition-colors"
-            >
-              View all <ArrowRight size={14} />
-            </button>
-          </div>
-          {/* Horizontal scroll on mobile instead of a 6-card vertical stack - the
-              fleet carousel above already covers "browse everything", this is
-              a shorter, swipeable "here's a few to start with" */}
-          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-5 sm:gap-y-9 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {listings.map((vehicle) => (
-              <div key={vehicle.id} className="shrink-0 w-[82vw] max-w-[320px] snap-start sm:w-auto sm:max-w-none sm:shrink">
-                <VehicleCard vehicle={vehicle} />
-              </div>
+        </RevealItem>
+        <RevealItem>
+          <div ref={fleetRef} className="track gap-3 pb-2">
+            {fleetTiles.map((tile) => (
+              <Link key={tile.id} to={`/search?make=${encodeURIComponent(tile.label.split(" ")[0])}`}
+                className="pressable-card zoom-media relative block w-[clamp(13rem,68vw,17.5rem)] aspect-[4/5] rounded-2xl overflow-hidden bg-surface-2 group">
+                <img src={tile.src} alt={tile.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/10 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <span className="block font-heading font-bold text-[17px] leading-tight">{tile.label}</span>
+                  <span className="block text-[13px] text-white/80 mt-1 tabular">From £{tile.rent} a week · {tile.city}</span>
+                </div>
+              </Link>
             ))}
           </div>
-        </div>
-      </section>
+          <Button variant="outline" onClick={() => navigate("/search")} className="sm:hidden mt-4 w-full">{fleet.cta} <ArrowRight size={16} /></Button>
+        </RevealItem>
+      </RevealGroup>
 
-      {/* WHICH SIDE ARE YOU ON - replaces two separate sections (a boxed
-          "why drivers use Kharo" grid, and a plain driver/operator picker)
-          with one interactive component. The old grid's four points are
-          repurposed as short, direct bullets inside each side instead of
-          sitting in their own boxed section saying the same thing twice. */}
-      <section className="bg-[#FAFAFA] border-y border-[#EEEEEE] py-16 px-4">
-        <div className="max-w-md mx-auto text-center mb-10">
-          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-2">Why Kharo</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]" style={{ textWrap: "balance" }}>
-            Which side are you on?
-          </h2>
-        </div>
-        <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-4">
-          <button
-            onClick={() => navigate("/driver-guide")}
-            onMouseEnter={() => setHoveredSide("driver")}
-            onMouseLeave={() => setHoveredSide(null)}
-            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-7 text-left transition-all"
-            style={{ opacity: hoveredSide === "operator" ? 0.55 : 1 }}
-          >
-            <p className="font-heading font-bold text-[#111] text-lg mb-1">I&rsquo;m a driver</p>
-            <p className="text-[#888] text-sm mb-5">See how renting a car works</p>
-            <div className="space-y-2 border-t border-[#F0F0F0] pt-4">
-              {[
-                "One clear price. No hidden markup.",
-                "Every operator checked first.",
-                "You deal with them directly.",
-                "Every vehicle, one place.",
-              ].map((line) => (
-                <div key={line} className="flex items-center gap-2">
-                  <Check size={13} className="text-[#0B6B4F] shrink-0" strokeWidth={2.5} />
-                  <span className="text-[#555] text-[13px]">{line}</span>
+      {/* ── FEATURED LISTINGS: honest preview, real cards ─────────────── */}
+      <section className="bg-surface border-y border-line">
+        <RevealGroup className="wrap py-section">
+          <RevealItem className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{featured.heading}</h2>
+            <Link to="/search" className="inline-flex items-center gap-1.5 text-[14.5px] font-semibold text-green hover:underline underline-offset-4">{featured.cta} <ArrowRight size={16} strokeWidth={1.75} /></Link>
+          </RevealItem>
+          <RevealItem>
+            <PreviewNotice variant="inline" className="mb-6 max-w-3xl" />
+            <div className="track gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-5 sm:gap-y-9 sm:mx-0 sm:px-0 sm:overflow-visible">
+              {listings.map((vehicle) => (
+                <div key={vehicle.id} className="w-[min(82vw,20rem)] sm:w-auto">
+                  <VehicleCard vehicle={vehicle} />
                 </div>
               ))}
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-6">
-              Get started
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-            </span>
-          </button>
-
-          <button
-            onClick={() => navigate("/operator-guide")}
-            onMouseEnter={() => setHoveredSide("operator")}
-            onMouseLeave={() => setHoveredSide(null)}
-            className="group bg-white border border-[#E8E8E8] hover:border-[#0B6B4F] rounded-2xl p-7 text-left transition-all"
-            style={{ opacity: hoveredSide === "driver" ? 0.55 : 1 }}
-          >
-            <p className="font-heading font-bold text-[#111] text-lg mb-1">I&rsquo;m an operator</p>
-            <p className="text-[#888] text-sm mb-5">See how listing a car works</p>
-            <div className="space-y-2 border-t border-[#F0F0F0] pt-4">
-              {[
-                "No listing fee. Ever.",
-                "Only vetted drivers reach you.",
-                "You set your own rate.",
-                "We earn only when you do.",
-              ].map((line) => (
-                <div key={line} className="flex items-center gap-2">
-                  <Check size={13} className="text-[#0B6B4F] shrink-0" strokeWidth={2.5} />
-                  <span className="text-[#555] text-[13px]">{line}</span>
-                </div>
-              ))}
-            </div>
-            <span className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold text-sm mt-6">
-              Get started
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-            </span>
-          </button>
-        </div>
+          </RevealItem>
+        </RevealGroup>
       </section>
 
-      {/* FAQ - short, genuinely useful, driver-focused */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
-        <div className="text-center mb-8">
-          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Questions</p>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Frequently asked</h2>
-        </div>
-        <div className="divide-y divide-[#E8E8E8] rounded-2xl ring-1 ring-[#E8E8E8] bg-white">
-          {[
-            { q: "What is a PHV?", a: "A private hire vehicle: a car licensed to carry fare-paying passengers booked in advance, for services like Uber, Bolt and local minicab firms. It is different to a black cab." },
-            { q: "Do I need a licence to rent a car on Kharo?", a: "Yes. You need a valid private hire driver licence for the city you plan to drive in (a TfL licence for London, or the equivalent local council licence elsewhere)." },
-            { q: "Is insurance included in the price?", a: "No. The weekly price shown is the rental price only, kept below what other PCO platforms charge for the same car. Maintenance is included; insurance is quoted separately based on your profile, so you always see it broken out rather than marked up and hidden inside someone else's \"all-in\" figure." },
-            { q: "Is a deposit required?", a: "Most operators ask for a deposit, shown on the vehicle's listing page. It's held by the operator and is separate from the weekly rent." },
-            { q: "What happens if the vehicle breaks down?", a: "Most listings include breakdown cover, shown on the vehicle page. If anything goes wrong, you contact the operator directly, since the rental agreement is between you and them." },
-            { q: "How do I contact the operator?", a: "Register your interest on a listing and the operator gets your details directly. There's no messaging system yet, most operators call or message within a few hours." },
-            { q: "How much does it cost to list a vehicle?", a: "Listing is free for operators. Kharo doesn't charge a monthly fee to appear on the marketplace." },
-            { q: "Who handles payments?", a: "Kharo doesn't process rental payments. Rent, deposit and any other terms are agreed and paid directly between the driver and the operator." },
-          ].map((item) => (
-            <details key={item.q} className="group p-5">
-              <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-heading font-semibold text-[#111]">
-                {item.q}
-                <ChevronDown className="w-5 h-5 text-[#0B6B4F] shrink-0 transition-transform duration-300 group-open:rotate-180" />
-              </summary>
-              <p className="text-[15px] text-[#555] mt-3 leading-relaxed">{item.a}</p>
-            </details>
+      {/* ── THE ACCOUNT: the console, live ────────────────────────────── */}
+      <RevealGroup as="section" className="wrap py-section">
+        <RevealItem className="max-w-2xl">
+          <h2 className="text-h2 font-heading font-extrabold text-ink">{dashboard.heading}</h2>
+          <p className="mt-4 text-lead text-ink-2">{dashboard.sub}</p>
+        </RevealItem>
+        <RevealItem className="mt-8">
+          <DashboardSnapshot variant="driver" />
+        </RevealItem>
+        <RevealItem className="mt-6">
+          <Link to="/for-drivers" className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-green hover:underline underline-offset-4">{dashboard.cta} <ArrowRight size={16} strokeWidth={1.75} /></Link>
+        </RevealItem>
+      </RevealGroup>
+
+      {/* ── TWO PATHS: photography panels ─────────────────────────────── */}
+      <RevealGroup as="section" className="wrap pb-section">
+        <RevealItem><h2 className="text-h2 font-heading font-extrabold text-ink mb-6">{paths.heading}</h2></RevealItem>
+        <RevealItem className="grid md:grid-cols-2 gap-4">
+          {[paths.driver, paths.operator].map((p) => (
+            <Link key={p.to} to={p.to} className="pressable-card zoom-media group relative block aspect-[4/5] xs:aspect-[5/4] md:aspect-[4/5] lg:aspect-[5/4] rounded-2xl overflow-hidden bg-surface-2">
+              <img src={p.img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-night/70 via-night/10 to-transparent" />
+              <div className="absolute inset-x-4 bottom-4 sm:inset-x-5 sm:bottom-5">
+                <div className="glass rounded-2xl p-5 text-ink">
+                  <p className="eyebrow">{p.kicker}</p>
+                  <p className="mt-1.5 font-heading font-bold text-[19px] sm:text-[21px] leading-snug text-balance">{p.heading}</p>
+                  <span className="mt-3 inline-flex items-center gap-1.5 text-[14.5px] font-semibold text-green">
+                    {p.cta} <ArrowRight size={16} strokeWidth={1.75} className="transition-transform duration-ui ease-out group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </div>
+            </Link>
           ))}
-        </div>
+        </RevealItem>
+      </RevealGroup>
+
+      {/* ── FAQ ───────────────────────────────────────────────────────── */}
+      <section className="bg-surface border-y border-line">
+        <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14">
+          <RevealItem className="lg:col-span-4">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{faq.heading}</h2>
+            <p className="mt-4 text-[15.5px] text-ink-2 measure-narrow">More answers on the <Link to="/help" className="text-green font-semibold hover:underline underline-offset-4">help page</Link>.</p>
+          </RevealItem>
+          <RevealItem className="lg:col-span-8">
+            <Faq items={faq.items} testId="home-faq" />
+          </RevealItem>
+        </RevealGroup>
       </section>
 
-      {/* OPERATOR CTA - solid brand green, matching the CTA band used on every
-          other page instead of a dark full-bleed photo panel */}
-      <section className="bg-[#0B6B4F] py-14 px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-heading text-2xl sm:text-4xl font-bold text-white mb-3" style={{ textWrap: "balance" }}>
-            Got vehicles sitting idle?
-          </h2>
-          <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto mb-8">
-            List your PCO fleet on Kharo and start generating weekly income. No commission on agreed rates.
-          </p>
-          <button
-            onClick={() => navigate("/list-your-fleet")}
-            className="inline-flex items-center gap-2 font-semibold text-sm px-7 py-3.5 rounded-full bg-white text-[#0B6B4F] hover:bg-[#EAF5F1] transition-colors"
-          >
-            List Your Fleet <ArrowRight size={15} />
-          </button>
-        </div>
-      </section>
-
-      {/* City not live yet - captures demand instead of dead-ending on an
-          empty search. Triggered from handleSearch() above. */}
-      <Dialog open={showCityModal} onOpenChange={setShowCityModal}>
-        <DialogContent className="sm:max-w-md rounded-3xl">
-          <DialogHeader>
-            <div className="w-11 h-11 rounded-full bg-[#EAF5F1] flex items-center justify-center mb-2">
-              <MapPin className="w-5 h-5 text-[#0B6B4F]" />
+      {/* ── CLOSER: operators, over photography ───────────────────────── */}
+      <section className="relative isolate overflow-hidden">
+        <img src={closer.img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-night/45" />
+        <RevealGroup className="wrap relative py-section">
+          <RevealItem className="glass-dark rounded-hero p-6 sm:p-9 max-w-xl">
+            <h2 className="text-h2 font-heading font-extrabold">{closer.heading}</h2>
+            <p className="mt-3 text-[15.5px] text-white/80 leading-relaxed">{closer.sub}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button variant="onDark" onClick={() => navigate("/list-your-fleet")}>{closer.cta} <ArrowRight size={16} /></Button>
+              <Button variant="onDarkOutline" onClick={() => navigate("/operator-guide")}>{closer.secondary}</Button>
             </div>
-            <DialogTitle className="font-heading text-xl text-[#111]">
-              No cars in {city} just yet
-            </DialogTitle>
-            <DialogDescription className="text-[#666] text-[14px] leading-relaxed pt-1">
-              Kharo is nationwide, but we're still bringing operators to every city. Register your
-              interest and we'll email you the moment {city} has live listings.
+          </RevealItem>
+        </RevealGroup>
+      </section>
+
+      <Dialog open={showCityModal} onOpenChange={setShowCityModal}>
+        <DialogContent>
+          <DialogHeader>
+            <MapPin className="w-6 h-6 text-green mb-1" strokeWidth={1.75} />
+            <DialogTitle className="font-heading text-h3 text-ink">No cars in {city} just yet</DialogTitle>
+            <DialogDescription className="text-ink-2 text-[14.5px] leading-relaxed pt-1">
+              Kharo is built for the whole UK and we are bringing operators to every city. Join the waitlist and we will email you the moment {city} has cars.
             </DialogDescription>
           </DialogHeader>
           <CityInterestForm city={city} compact />
         </DialogContent>
       </Dialog>
-
     </div>
   );
 }

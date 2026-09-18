@@ -1,8 +1,7 @@
 /* Kharo app styles */
-.App { min-height: 100vh; }
+.App { min-height: 100svh; }
 
-/* Subtle film-grain texture for dark hero sections, so they read as
-   photographic and considered rather than a flat black fill. Absolutely
+/* Subtle film-grain texture for dark photographic sections. Absolutely
    positioned by the caller; this only supplies the noise pattern. */
 .grain-overlay {
   position: absolute;
