@@ -247,7 +247,7 @@ export default function Home() {
       <section className="max-w-7xl mx-auto py-16">
         <div className="flex items-end justify-between mb-6 px-4 sm:px-6">
           <div>
-            <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">The Fleet</p>
+            <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">The Fleet</p>
             <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Cars Drivers Actually Drive</h2>
           </div>
           <div className="hidden sm:flex items-center gap-2">
@@ -302,7 +302,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Available Now</p>
+              <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Available Now</p>
               <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Featured Rentals</h2>
             </div>
             <button
