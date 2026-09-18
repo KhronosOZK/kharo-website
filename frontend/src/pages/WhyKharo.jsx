@@ -1,367 +1,360 @@
-import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  BadgeCheck,
-  CarFront,
-  Check,
-  ChevronRight,
-  CircleDollarSign,
-  Handshake,
-  MapPin,
-  Search,
-  ShieldCheck,
-  Users,
-} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 import { useSeo } from "@/lib/seo";
-import { IMG } from "@/lib/images";
 
-const FADE = {
-  initial: { opacity: 0, y: 22 },
+const FADE_UP = {
+  initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.55 },
+  viewport: { once: true },
+  transition: { duration: 0.5 },
 };
 
-const MARKETPLACE_CARDS = [
+// hero content is already in view on load: animate on mount, not on scroll-into-view,
+// since whileInView's IntersectionObserver can miss content that's visible at paint time
+const FADE_UP_HERO = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
+// Short problem statements only - the "what's different" section right above
+// this one already spells out the solution to each of these in full, so this
+// list stays a quick callback instead of restating the same claims again.
+// Same numbered-index shape as PILLARS below, so the two sections read as
+// one consistent idiom instead of two different component styles back to
+// back - a light number here instead of a green one is the only difference.
+const PROBLEMS = [
+  { num: "01", title: "Hidden fees discovered after you commit" },
+  { num: "02", title: "Operators with no checks, no accountability" },
+  { num: "03", title: "Weeks of back-and-forth before you're behind the wheel" },
+  { num: "04", title: "Brokers who take a cut and disappear" },
+];
+
+// Trimmed from 6 to 4: the original also had "4-layer driver vetting" and
+// "Faster to the wheel" as one-line teasers, but both are covered in full two
+// sections below (VETTING_STEPS and its stats card) - repeating them here as
+// a one-liner first added nothing but another near-identical list to scroll
+// past.
+const PILLARS = [
   {
-    image: "/images/listings/toyota-prius.jpg",
-    name: "Toyota Prius",
-    place: "Southwark, London",
-    price: "£175 / week",
-    tag: "Hybrid",
+    num: "01",
+    title: "Transparent listings",
+    body: "Every listing shows the rental price up front, priced below the market rate for the same car. Insurance is quoted separately, not bundled and marked up.",
   },
   {
-    image: "/images/listings/skoda-octavia.jpg",
-    name: "Skoda Octavia",
-    place: "Leeds",
-    price: "£165 / week",
-    tag: "Diesel",
+    num: "02",
+    title: "Verified operators",
+    body: "We cross-check every fleet operator against the PHV licensing register and Companies House before their cars go live.",
   },
   {
-    image: "/images/listings/toyota-corolla.jpg",
-    name: "Toyota Corolla",
-    place: "Birmingham",
-    price: "£180 / week",
-    tag: "Hybrid",
+    num: "03",
+    title: "Direct operator contact",
+    body: "After you register interest, the operator calls you. No middleman between you and the fleet manager.",
+  },
+  {
+    num: "04",
+    title: "Flexible terms",
+    body: "Start weekly. Commit to longer for a lower rate. No lock-ins, no penalty clauses for genuine circumstances.",
   },
 ];
 
-const DRIVER_BENEFITS = [
-  "Search cars in one place",
-  "Compare by location, vehicle and budget",
-  "See the important rental details before enquiring",
-  "Register interest without chasing adverts around",
-];
-
-const OPERATOR_BENEFITS = [
-  "Put available cars in front of drivers who are looking",
-  "Show each vehicle with clear photos and details",
-  "Receive enquiries without relying only on word of mouth",
-  "Build a stronger online presence for your fleet",
-];
-
-const TRUST_POINTS = [
+const VETTING_STEPS = [
   {
-    icon: BadgeCheck,
-    title: "Operators are checked",
-    body: "We check the operator information and relevant licensing details before vehicles are listed.",
+    num: "01",
+    title: "DVLA eligibility check",
+    body: "Licence confirmed against DVLA records. Points verified and shared with operators, who decide what's acceptable for their fleet.",
   },
   {
-    icon: CircleDollarSign,
-    title: "Prices are easier to compare",
-    body: "The weekly rental is shown on the vehicle listing, alongside the information you need to ask the right questions.",
+    num: "02",
+    title: "Liveness identity check",
+    body: "AI-assisted check against photo ID. Confirms you are who you say you are. No in-person visit needed.",
   },
   {
-    icon: Handshake,
-    title: "The two sides can speak",
-    body: "Kharo brings the driver and operator together. The final rental terms are discussed before anyone commits.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "The process is explained",
-    body: "Drivers can see what happens next instead of having to work it out through a chain of messages.",
+    num: "03",
+    title: "Open Banking affordability",
+    body: "Read-only review of your account activity. No credit impact. Confirms you can cover the weekly rental.",
   },
 ];
-
-const AREAS = ["London", "Birmingham", "Manchester", "Leeds", "Sheffield", "More cities to come"];
-
-function Label({ children, light = false }) {
-  return (
-    <p
-      className={`text-[11px] font-bold uppercase tracking-[0.17em] mb-3 ${
-        light ? "text-[#6DE0B1]" : "text-[#0B6B4F]"
-      }`}
-    >
-      {children}
-    </p>
-  );
-}
-
-function ListingCard({ image, name, place, price, tag }) {
-  return (
-    <div className="rounded-[22px] overflow-hidden bg-white border border-[#E5E3DC] shadow-[0_16px_45px_-25px_rgba(0,0,0,.28)]">
-      <div className="relative aspect-[1.35/1] bg-[#ECE9E1]">
-        <img src={image} alt={name} className="w-full h-full object-cover" loading="lazy" />
-        <span className="absolute top-3 left-3 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-semibold text-[#1E2A24]">
-          {tag}
-        </span>
-      </div>
-      <div className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="font-heading font-bold text-[17px] text-[#111]">{name}</h3>
-            <p className="text-[12px] text-[#777D78] mt-0.5">{place}</p>
-          </div>
-          <p className="font-heading font-extrabold text-[15px] text-[#111] whitespace-nowrap">{price}</p>
-        </div>
-        <div className="mt-4 pt-3 border-t border-[#ECEAE4] flex items-center justify-between text-[11px] text-[#818681]">
-          <span>Weekly rental</span>
-          <span className="text-[#0B6B4F] font-semibold">View car</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BulletList({ items, dark = false }) {
-  return (
-    <ul className="space-y-3">
-      {items.map((item) => (
-        <li key={item} className={`flex items-start gap-3 text-[14px] sm:text-[15px] leading-relaxed ${dark ? "text-white/72" : "text-[#555D57]"}`}>
-          <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dark ? "bg-[#64D5A7]" : "bg-[#0B6B4F]"}`} />
-          {item}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export default function WhyKharo() {
   const navigate = useNavigate();
 
   useSeo({
-    title: "Why Kharo | UK Private Hire Vehicle Marketplace",
+    title: "Why Kharo · Verified PCO Rentals in London",
     description:
-      "Kharo is a marketplace for private hire vehicles, helping drivers find cars and operators reach drivers looking to rent.",
+      "Kharo is a PCO car rental marketplace where every listing is all-in and every operator is verified. No hidden fees, no unaccountable landlords.",
   });
 
   return (
-    <main className="min-h-screen bg-[#F7F6F2] text-[#111]">
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-[#E5E2DA]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 lg:py-20">
-          <motion.div {...FADE} className="grid lg:grid-cols-[1.02fr_.98fr] gap-10 lg:gap-16 items-center">
-            <div>
-              <Label>The private hire marketplace</Label>
-              <h1 className="font-heading font-extrabold text-[45px] sm:text-[62px] lg:text-[76px] leading-[0.95] tracking-[-0.05em] max-w-3xl">
-                Find the car.
-                <br />
-                Find the driver.
-                <br />
-                <span className="text-[#0B6B4F]">Find each other.</span>
-              </h1>
-              <p className="mt-7 text-[17px] sm:text-[19px] text-[#5D655F] leading-relaxed max-w-xl">
-                Private hire cars are spread across rental companies, Facebook groups, WhatsApp chats and individual websites. Kharo brings the market into one place.
-              </p>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <button
-                  onClick={() => navigate("/search")}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#0B6B4F] text-white px-6 py-3.5 font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
-                >
-                  Browse vehicles
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => navigate("/list-your-fleet")}
-                  className="inline-flex items-center gap-2 rounded-full bg-white border border-[#D7D4CC] px-6 py-3.5 font-semibold text-[15px] hover:bg-[#F0EEE8] transition-colors"
-                >
-                  List your fleet
-                </button>
-              </div>
-              <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-[12px] text-[#7A807B]">
-                {AREAS.map((area) => (
-                  <span key={area} className="inline-flex items-center gap-1.5">
-                    <MapPin className="w-3 h-3 text-[#0B6B4F]" />
-                    {area}
-                  </span>
-                ))}
-              </div>
-            </div>
+    <div className="min-h-screen bg-[#F5F5F5]">
 
-            <div className="relative lg:pl-4">
-              <div className="absolute -top-5 -right-3 sm:right-0 w-36 h-36 rounded-full bg-[#CFEFE0] blur-3xl opacity-60" />
-              <div className="relative rounded-[30px] bg-[#E8E5DD] p-3 sm:p-4 shadow-[0_35px_100px_-45px_rgba(0,0,0,.4)]">
-                <div className="rounded-[24px] overflow-hidden aspect-[1.02/1]">
-                  <img src={IMG.rowCars} alt="A row of private hire vehicles" className="w-full h-full object-cover" />
-                </div>
-              </div>
-
-              <div className="hidden sm:block absolute -left-7 bottom-10 w-[290px] rounded-[22px] bg-white border border-[#E4E1D9] shadow-[0_28px_55px_-30px_rgba(0,0,0,.32)] p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <p className="text-[11px] uppercase tracking-[0.12em] text-[#0B6B4F] font-bold">Kharo marketplace</p>
-                    <p className="font-heading font-bold text-[17px] mt-0.5">Cars drivers can actually compare</p>
-                  </div>
-                  <Search className="w-5 h-5 text-[#0B6B4F]" />
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {MARKETPLACE_CARDS.map((card) => (
-                    <img key={card.name} src={card.image} alt="" className="w-full aspect-square object-cover rounded-xl" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* The market problem */}
-      <section className="bg-white border-b border-[#E7E4DD] py-16 sm:py-22">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="grid lg:grid-cols-[.72fr_1.28fr] gap-10 lg:gap-20 items-start">
-            <div>
-              <Label>Why build this?</Label>
-              <h2 className="font-heading font-extrabold text-[34px] sm:text-[46px] leading-[1.03] tracking-[-0.035em]">
-                The cars are there. The drivers are there. Finding the right match is the problem.
-              </h2>
-            </div>
-            <div>
-              <p className="text-[16px] sm:text-[18px] text-[#606762] leading-relaxed max-w-2xl">
-                A driver can spend hours asking around for a suitable rental. At the same time, an operator can have perfectly usable vehicles sitting still while waiting for the next driver.
-              </p>
-              <p className="mt-5 text-[16px] sm:text-[18px] text-[#606762] leading-relaxed max-w-2xl">
-                Kharo is built to make that search more organised. Drivers get a place to look. Operators get a place to list. Both sides get a clearer route from first enquiry to a rental.
-              </p>
-              <div className="mt-8 grid sm:grid-cols-3 gap-3">
-                {[
-                  ["01", "Search", "Drivers start with the vehicle they need."],
-                  ["02", "Compare", "The useful details sit together."],
-                  ["03", "Connect", "The two sides can then speak directly."],
-                ].map(([n, title, body]) => (
-                  <div key={n} className="rounded-2xl bg-[#F7F6F2] border border-[#E5E2DA] p-5">
-                    <span className="text-[11px] font-heading font-extrabold text-[#0B6B4F]">{n}</span>
-                    <h3 className="font-heading font-bold text-[19px] mt-4">{title}</h3>
-                    <p className="text-[13px] text-[#69706A] leading-relaxed mt-1.5">{body}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Marketplace visual */}
-      <section className="py-16 sm:py-24 bg-[#F7F6F2] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="flex items-end justify-between gap-6 mb-10">
-            <div>
-              <Label>What the marketplace feels like</Label>
-              <h2 className="font-heading font-extrabold text-[34px] sm:text-[48px] leading-tight tracking-[-0.035em]">
-                Search less. See more.
-              </h2>
-              <p className="mt-3 text-[15px] sm:text-[17px] text-[#666E68] max-w-2xl leading-relaxed">
-                Instead of starting with a phone number and a conversation, start with the car you actually want.
-              </p>
-            </div>
-            <button onClick={() => navigate("/search")} className="hidden sm:inline-flex items-center gap-2 text-[#0B6B4F] font-semibold text-[14px] shrink-0">
-              Browse the marketplace <ArrowRight className="w-4 h-4" />
+      {/* Hero - light ground matching the rest of the page; bold type carries
+          the section instead of a dark banner */}
+      <section className="relative pt-16 pb-14 sm:pt-20 sm:pb-16 px-4 overflow-hidden border-b border-[#EEEEEE]" style={{ backgroundColor: "#FAFAFA" }}>
+        <div className="relative max-w-3xl mx-auto text-center">
+          <motion.h1
+            {...FADE_UP_HERO}
+            className="text-[40px] sm:text-6xl font-heading font-extrabold leading-[1.02] tracking-tight text-[#111] text-balance"
+          >
+            Why Kharo.
+          </motion.h1>
+          <motion.p
+            {...FADE_UP_HERO}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-[#666] text-[17px] mt-6 max-w-xl mx-auto leading-relaxed"
+          >
+            Every listing on Kharo shows one real price. Every operator is checked before they list.
+            Every driver is vetted before they drive.
+          </motion.p>
+          <motion.div
+            {...FADE_UP_HERO}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-9 flex flex-wrap gap-3 justify-center"
+          >
+            <button
+              onClick={() => navigate("/search")}
+              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
+            >
+              Browse PCO cars
+            </button>
+            <button
+              onClick={() => navigate("/driver-guide")}
+              className="px-7 py-3.5 rounded-full border border-[#D8D8D8] text-[#111] font-medium text-[15px] hover:bg-white transition-colors flex items-center gap-2"
+            >
+              How it works
+              <ChevronRight className="w-4 h-4" />
             </button>
           </motion.div>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {MARKETPLACE_CARDS.map((card, i) => (
-              <motion.div key={card.name} {...FADE} transition={{ duration: 0.45, delay: i * 0.07 }}>
-                <ListingCard {...card} />
+      {/* What Kharo does differently - an editorial numbered index instead of a
+          grid of identical icon cards, matching the site's photo-and-number
+          language elsewhere rather than the generic SaaS "feature card" look.
+          Sits first, right after the hero, so the page opens with what Kharo
+          actually does rather than a list of industry complaints. */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
+          <motion.p
+            {...FADE_UP}
+            className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+          >
+            What's different
+          </motion.p>
+          <motion.h2
+            {...FADE_UP}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-[26px] sm:text-[30px] font-heading font-bold text-[#333] leading-snug mb-14 max-w-2xl"
+          >
+            Kharo isn't a listings board. <span className="text-[#111] font-extrabold">Every price is real, every operator is checked, and every driver is vetted</span> before a single call happens.
+          </motion.h2>
+
+          <div className="grid lg:grid-cols-2 lg:gap-x-16">
+            {PILLARS.map(({ num, title, body }, i) => (
+              <motion.div
+                key={title}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className={`grid sm:grid-cols-[64px_1fr] gap-x-6 gap-y-1 py-6 ${i > 0 ? "border-t border-[#EEEEEE]" : ""} ${i === 1 ? "lg:border-t-0" : ""}`}
+              >
+                <span className="font-heading font-extrabold text-[15px] text-[#0B6B4F]">{num}</span>
+                <div>
+                  <h3 className="font-heading font-bold text-[17px] text-[#111] mb-1.5">{title}</h3>
+                  <p className="text-[14px] text-[#666] leading-relaxed max-w-lg">{body}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Two-sided marketplace */}
-      <section className="bg-[#10231B] text-white py-16 sm:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="max-w-3xl">
-            <Label light>One marketplace. Two sides.</Label>
-            <h2 className="font-heading font-extrabold text-[36px] sm:text-[54px] leading-[1] tracking-[-0.04em]">
-              Kharo only works when it works for both sides.
-            </h2>
-            <p className="mt-5 text-white/65 text-[16px] sm:text-[18px] leading-relaxed">
-              The aim is simple. Give drivers more choice and give operators a better way to reach them.
-            </p>
-          </motion.div>
+      {/* The problem - same numbered-index shape as "What's different" above,
+          just with a light grey number instead of green, so the two
+          sections read as one consistent idiom instead of two different
+          component styles stacked back to back. "What's different" already
+          states the solution in full, so this stays a quick punch list. No
+          explicit background here (unlike the white section above) so the
+          two don't visually merge into one undifferentiated white block. */}
+      <section className="py-16 px-4">
+        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
+          <motion.p
+            {...FADE_UP}
+            className="text-[11px] font-bold text-[#AAA] tracking-[0.14em] uppercase mb-3"
+          >
+            What PCO drivers deal with
+          </motion.p>
+          <motion.h2
+            {...FADE_UP}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-[26px] sm:text-[30px] font-heading font-bold text-[#333] leading-snug mb-14 max-w-2xl"
+          >
+            None of this happens on Kharo.
+          </motion.h2>
 
-          <div className="grid lg:grid-cols-2 gap-5 mt-10">
-            <motion.div {...FADE} className="rounded-[28px] overflow-hidden bg-[#172E24] border border-white/10">
-              <div className="aspect-[1.7/1] overflow-hidden">
-                <img src={IMG.happyDriver} alt="Private hire driver inside a car" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-7 sm:p-8">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center"><Users className="w-5 h-5 text-[#6DE0B1]" /></div>
-                  <div><p className="text-[11px] uppercase tracking-[0.14em] text-[#6DE0B1] font-bold">For drivers</p><h3 className="font-heading font-bold text-[25px]">Find your next car</h3></div>
-                </div>
-                <p className="text-white/65 text-[15px] leading-relaxed mt-5 max-w-xl">A simpler way to find a private hire vehicle that fits where you work and what you can afford.</p>
-                <div className="mt-6"><BulletList items={DRIVER_BENEFITS} dark /></div>
-                <button onClick={() => navigate("/driver-guide")} className="mt-8 inline-flex items-center gap-2 text-[#73DDB0] font-semibold text-[14px]">Read the driver guide <ChevronRight className="w-4 h-4" /></button>
-              </div>
-            </motion.div>
-
-            <motion.div {...FADE} transition={{ delay: 0.08 }} className="rounded-[28px] overflow-hidden bg-[#172E24] border border-white/10">
-              <div className="aspect-[1.7/1] overflow-hidden">
-                <img src={IMG.fleetLot} alt="Private hire fleet waiting for drivers" className="w-full h-full object-cover" />
-              </div>
-              <div className="p-7 sm:p-8">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center"><CarFront className="w-5 h-5 text-[#6DE0B1]" /></div>
-                  <div><p className="text-[11px] uppercase tracking-[0.14em] text-[#6DE0B1] font-bold">For operators</p><h3 className="font-heading font-bold text-[25px]">Put your cars to work</h3></div>
-                </div>
-                <p className="text-white/65 text-[15px] leading-relaxed mt-5 max-w-xl">A clearer online home for vehicles that are available to rent and a way to reach drivers beyond the usual channels.</p>
-                <div className="mt-6"><BulletList items={OPERATOR_BENEFITS} dark /></div>
-                <button onClick={() => navigate("/operator-guide")} className="mt-8 inline-flex items-center gap-2 text-[#73DDB0] font-semibold text-[14px]">Read the operator guide <ChevronRight className="w-4 h-4" /></button>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust */}
-      <section className="bg-white border-y border-[#E7E4DD] py-16 sm:py-22">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="max-w-2xl mb-11">
-            <Label>What makes it useful</Label>
-            <h2 className="font-heading font-extrabold text-[34px] sm:text-[46px] leading-[1.03] tracking-[-0.03em]">A marketplace has to earn trust.</h2>
-            <p className="mt-4 text-[16px] text-[#666E68] leading-relaxed">Not by making big promises, but by making the important parts of the process clear.</p>
-          </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {TRUST_POINTS.map(({ icon: Icon, title, body }, i) => (
-              <motion.article key={title} {...FADE} transition={{ duration: 0.45, delay: i * 0.05 }} className="rounded-[22px] border border-[#E3E0D8] bg-[#FBFAF7] p-6">
-                <div className="w-11 h-11 rounded-2xl bg-[#E7F3ED] text-[#0B6B4F] flex items-center justify-center"><Icon className="w-5 h-5" /></div>
-                <h3 className="font-heading font-bold text-[18px] mt-6">{title}</h3>
-                <p className="text-[14px] text-[#656D67] leading-relaxed mt-2">{body}</p>
-              </motion.article>
+          <div className="grid lg:grid-cols-2 lg:gap-x-16">
+            {PROBLEMS.map(({ num, title }, i) => (
+              <motion.div
+                key={num}
+                {...FADE_UP}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                className={`grid sm:grid-cols-[64px_1fr] gap-x-6 gap-y-1 py-6 ${i > 0 ? "border-t border-[#EEEEEE]" : ""} ${i === 1 ? "lg:border-t-0" : ""}`}
+              >
+                <span className="font-heading font-extrabold text-[15px] text-[#CCC]">{num}</span>
+                <p className="font-heading font-bold text-[17px] text-[#111]">{title}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Closing */}
-      <section className="py-16 sm:py-20 bg-[#F7F6F2]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="rounded-[30px] bg-[#0B6B4F] text-white px-6 py-12 sm:px-12 sm:py-14 text-center overflow-hidden relative">
-            <div className="absolute -top-28 -right-28 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-            <div className="relative">
-              <p className="text-[11px] uppercase tracking-[0.17em] font-bold text-[#A7E8CF]">The idea in one sentence</p>
-              <h2 className="font-heading font-extrabold text-[34px] sm:text-[48px] leading-[1.02] tracking-[-0.035em] max-w-3xl mx-auto mt-4">Kharo is where private hire drivers find cars and operators find drivers.</h2>
-              <div className="mt-8 flex justify-center flex-wrap gap-3">
-                <button onClick={() => navigate("/search")} className="rounded-full bg-white text-[#0B6B4F] px-7 py-3.5 font-semibold hover:bg-[#E9F6F1] transition-colors">Browse vehicles</button>
-                <button onClick={() => navigate("/list-your-fleet")} className="rounded-full border border-white/30 px-7 py-3.5 font-semibold hover:bg-white/10 transition-colors">List your fleet</button>
-              </div>
+      {/* Accountability, kept live for both sides of the marketplace */}
+      <section className="py-16 px-4">
+        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+          <motion.div {...FADE_UP} className="relative rounded-2xl overflow-hidden aspect-[16/10] lg:aspect-[4/5] lg:order-2">
+            <img
+              src="https://images.pexels.com/photos/18969850/pexels-photo-18969850.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=1125"
+              alt="Verified driver checking their account on a phone"
+              className="w-full h-full object-cover grayscale contrast-[1.05]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 text-white">
+              <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-[#5FD3A6] mb-1">Every account, checked</p>
+              <p className="text-[14px] text-white/80 leading-relaxed">Vetted once, monitored for as long as they're driving on Kharo.</p>
             </div>
           </motion.div>
+          <div className="lg:order-1">
+            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">Built-in accountability</p>
+            <h2 className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4">
+              The same rules protect both sides
+            </h2>
+            <p className="text-[15px] text-[#666] leading-relaxed mb-6">
+              A marketplace only works if both sides can trust it. Every car on Kharo carries a certified GPS tracker as a condition of listing, and if a driver misses a rental payment, Kharo flags their account directly with Uber and Bolt: they can't accept new trips until it's cleared.
+            </p>
+            <button
+              onClick={() => navigate("/list-your-fleet")}
+              className="inline-flex items-center gap-2 text-[14px] font-semibold text-[#0B6B4F] hover:text-[#095B43] transition-colors"
+            >
+              See exactly how enforcement works
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </section>
-    </main>
+
+      {/* Vetting - the "Kharo vs. the rest" comparison table that used to live
+          here was cut: it repeated the same claims already made, more
+          readably, in the "What PCO drivers deal with every day" section
+          above (hidden fees, operator checks, fast vetting, direct contact) -
+          two comparison sections back to back was the exact kind of
+          duplicate-pattern section the page didn't need. */}
+      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
+        <div className="max-w-4xl 2xl:max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <motion.p
+                {...FADE_UP}
+                className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
+              >
+                How vetting works
+              </motion.p>
+              <motion.h2
+                {...FADE_UP}
+                transition={{ duration: 0.5, delay: 0.05 }}
+                className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4"
+              >
+                3-layer vetting in 48 hours
+              </motion.h2>
+              <p className="text-[15px] text-[#666] leading-relaxed mb-8">
+                Thorough enough to protect operators. Fast enough not to cost you the week.
+                No in-person appointments. Complete it from your phone.
+              </p>
+              <div className="space-y-5">
+                {VETTING_STEPS.map(({ num, title, body }, i) => (
+                  <motion.div
+                    key={num}
+                    {...FADE_UP}
+                    transition={{ duration: 0.4, delay: i * 0.07 }}
+                    className="flex items-start gap-4"
+                  >
+                    <span className="text-[32px] font-heading font-extrabold text-[#EBEBEB] leading-none shrink-0 w-10">
+                      {num}
+                    </span>
+                    <div>
+                      <p className="font-heading font-bold text-[15px] text-[#111] mb-1">{title}</p>
+                      <p className="text-[13px] text-[#666] leading-relaxed">{body}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Stats card - clean and light, matching the numbered-index
+                language used elsewhere on this page instead of a dark photo card */}
+            <div className="bg-white rounded-2xl border border-[#E8E8E8] p-7">
+              <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#0B6B4F] mb-6">
+                The London PCO market
+              </p>
+              <div>
+                <div>
+                  <div className="text-[54px] font-heading font-extrabold text-[#111] leading-none">
+                    12,712
+                  </div>
+                  <p className="text-[#666] text-[14px] mt-1">
+                    More licensed PHV drivers than available vehicles in London
+                    <br />
+                    <span className="text-[#AAA] text-[12px]">TfL May 2026</span>
+                  </p>
+                </div>
+                <div className="border-t border-[#EEEEEE] pt-6 mt-7">
+                  <div className="text-[36px] font-heading font-extrabold text-[#111] leading-none">
+                    48 hrs
+                  </div>
+                  <p className="text-[#666] text-[14px] mt-1">
+                    Typical vetting turnaround from application to approval
+                  </p>
+                </div>
+                <div className="border-t border-[#EEEEEE] pt-6 mt-7">
+                  <div className="text-[36px] font-heading font-extrabold text-[#111] leading-none">
+                    3 days
+                  </div>
+                  <p className="text-[#666] text-[14px] mt-1">
+                    Most approved drivers collect their car within 3 working days
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA - brand green, not another black block, so it doesn't visually
+          fuse with the black footer directly beneath it */}
+      <section className="bg-[#0B6B4F] py-14 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
+            Ready to see for yourself?
+          </h2>
+          <p className="text-white/70 text-[15px] mb-8 max-w-md mx-auto">
+            Browse verified PCO cars across London. One weekly price, no surprises.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <button
+              onClick={() => navigate("/search")}
+              className="px-7 py-3.5 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#EAF5F1] transition-colors"
+            >
+              Browse PCO cars
+            </button>
+            <button
+              onClick={() => navigate("/list-your-fleet")}
+              className="px-7 py-3.5 rounded-full border border-white/30 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
+            >
+              List your fleet
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
