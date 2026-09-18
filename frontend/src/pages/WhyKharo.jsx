@@ -3,9 +3,11 @@ import {
   ArrowRight,
   BadgeCheck,
   CarFront,
+  Check,
   ChevronRight,
   CircleDollarSign,
   Handshake,
+  MapPin,
   Search,
   ShieldCheck,
   Users,
@@ -15,61 +17,80 @@ import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
 
 const FADE = {
-  initial: { opacity: 0, y: 18 },
+  initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.5 },
+  transition: { duration: 0.55 },
 };
 
-const MARKETPLACE_BENEFITS = [
+const MARKETPLACE_CARDS = [
   {
-    icon: Search,
-    title: "Search in one place",
-    body: "Drivers can look by area, vehicle type, fuel type and weekly budget instead of jumping between adverts and group chats.",
+    image: "/images/listings/toyota-prius.jpg",
+    name: "Toyota Prius",
+    place: "Southwark, London",
+    price: "£175 / week",
+    tag: "Hybrid",
   },
   {
-    icon: CircleDollarSign,
-    title: "See the important numbers",
-    body: "Each listing gives drivers a clearer view of the weekly rental, vehicle details, mileage allowance and other terms before they register interest.",
+    image: "/images/listings/skoda-octavia.jpg",
+    name: "Skoda Octavia",
+    place: "Leeds",
+    price: "£165 / week",
+    tag: "Diesel",
   },
   {
-    icon: BadgeCheck,
-    title: "Know who you are dealing with",
-    body: "Kharo checks rental operators and the relevant licensing information before vehicles are listed on the marketplace.",
-  },
-  {
-    icon: Handshake,
-    title: "Connect directly",
-    body: "Kharo introduces the two sides. The driver and operator then discuss availability and the final rental terms directly.",
+    image: "/images/listings/toyota-corolla.jpg",
+    name: "Toyota Corolla",
+    place: "Birmingham",
+    price: "£180 / week",
+    tag: "Hybrid",
   },
 ];
 
-const DRIVER_POINTS = [
-  "More vehicles to compare",
-  "Less time searching through informal adverts",
-  "Clearer information before you make an enquiry",
-  "One place to register interest in the cars you want",
+const DRIVER_BENEFITS = [
+  "Search cars in one place",
+  "Compare by location, vehicle and budget",
+  "See the important rental details before enquiring",
+  "Register interest without chasing adverts around",
 ];
 
-const OPERATOR_POINTS = [
-  "Put available vehicles in front of drivers who are looking",
-  "Show your cars with consistent photos and information",
+const OPERATOR_BENEFITS = [
+  "Put available cars in front of drivers who are looking",
+  "Show each vehicle with clear photos and details",
   "Receive enquiries without relying only on word of mouth",
-  "Give your fleet a proper online shop window",
+  "Build a stronger online presence for your fleet",
 ];
 
 const TRUST_POINTS = [
-  "Operator and vehicle information checked before listing",
-  "Clear listing information instead of vague adverts",
-  "A simple enquiry process with no payment just to register interest",
-  "Final rental terms are agreed before the driver commits",
+  {
+    icon: BadgeCheck,
+    title: "Operators are checked",
+    body: "We check the operator information and relevant licensing details before vehicles are listed.",
+  },
+  {
+    icon: CircleDollarSign,
+    title: "Prices are easier to compare",
+    body: "The weekly rental is shown on the vehicle listing, alongside the information you need to ask the right questions.",
+  },
+  {
+    icon: Handshake,
+    title: "The two sides can speak",
+    body: "Kharo brings the driver and operator together. The final rental terms are discussed before anyone commits.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "The process is explained",
+    body: "Drivers can see what happens next instead of having to work it out through a chain of messages.",
+  },
 ];
+
+const AREAS = ["London", "Birmingham", "Manchester", "Leeds", "Sheffield", "More cities to come"];
 
 function Label({ children, light = false }) {
   return (
     <p
-      className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
-        light ? "text-[#72D7B0]" : "text-[#0B6B4F]"
+      className={`text-[11px] font-bold uppercase tracking-[0.17em] mb-3 ${
+        light ? "text-[#6DE0B1]" : "text-[#0B6B4F]"
       }`}
     >
       {children}
@@ -77,35 +98,38 @@ function Label({ children, light = false }) {
   );
 }
 
-function BenefitCard({ icon: Icon, title, body }) {
+function ListingCard({ image, name, place, price, tag }) {
   return (
-    <article className="rounded-[22px] border border-[#E4E2DB] bg-[#FCFBF8] p-6 sm:p-7">
-      <div className="w-11 h-11 rounded-2xl bg-[#E6F2ED] text-[#0B6B4F] flex items-center justify-center mb-5">
-        <Icon className="w-5 h-5" strokeWidth={2} />
+    <div className="rounded-[22px] overflow-hidden bg-white border border-[#E5E3DC] shadow-[0_16px_45px_-25px_rgba(0,0,0,.28)]">
+      <div className="relative aspect-[1.35/1] bg-[#ECE9E1]">
+        <img src={image} alt={name} className="w-full h-full object-cover" loading="lazy" />
+        <span className="absolute top-3 left-3 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-semibold text-[#1E2A24]">
+          {tag}
+        </span>
       </div>
-      <h3 className="font-heading font-bold text-[19px] text-[#111]">{title}</h3>
-      <p className="mt-2.5 text-[14px] sm:text-[15px] leading-relaxed text-[#626963]">
-        {body}
-      </p>
-    </article>
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h3 className="font-heading font-bold text-[17px] text-[#111]">{name}</h3>
+            <p className="text-[12px] text-[#777D78] mt-0.5">{place}</p>
+          </div>
+          <p className="font-heading font-extrabold text-[15px] text-[#111] whitespace-nowrap">{price}</p>
+        </div>
+        <div className="mt-4 pt-3 border-t border-[#ECEAE4] flex items-center justify-between text-[11px] text-[#818681]">
+          <span>Weekly rental</span>
+          <span className="text-[#0B6B4F] font-semibold">View car</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
-function BulletList({ items, light = false }) {
+function BulletList({ items, dark = false }) {
   return (
-    <ul className="space-y-3.5">
+    <ul className="space-y-3">
       {items.map((item) => (
-        <li
-          key={item}
-          className={`flex items-start gap-3 text-[14px] sm:text-[15px] leading-relaxed ${
-            light ? "text-white/72" : "text-[#5E6661]"
-          }`}
-        >
-          <span
-            className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${
-              light ? "bg-[#65D2A4]" : "bg-[#0B6B4F]"
-            }`}
-          />
+        <li key={item} className={`flex items-start gap-3 text-[14px] sm:text-[15px] leading-relaxed ${dark ? "text-white/72" : "text-[#555D57]"}`}>
+          <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dark ? "bg-[#64D5A7]" : "bg-[#0B6B4F]"}`} />
           {item}
         </li>
       ))}
@@ -117,217 +141,108 @@ export default function WhyKharo() {
   const navigate = useNavigate();
 
   useSeo({
-    title: "Why Kharo | Private Hire Vehicle Marketplace",
+    title: "Why Kharo | UK Private Hire Vehicle Marketplace",
     description:
-      "Kharo is building a marketplace for private hire vehicles, bringing drivers and rental operators together in one place.",
+      "Kharo is a marketplace for private hire vehicles, helping drivers find cars and operators reach drivers looking to rent.",
   });
 
   return (
     <main className="min-h-screen bg-[#F7F6F2] text-[#111]">
-      <section className="border-b border-[#E5E3DC] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 lg:py-24 grid lg:grid-cols-[1.02fr_.98fr] gap-10 lg:gap-16 items-center">
-          <motion.div {...FADE}>
-            <Label>The private hire marketplace</Label>
-            <h1 className="font-heading font-extrabold text-[44px] sm:text-[62px] lg:text-[70px] leading-[0.97] tracking-[-0.045em] text-balance max-w-3xl">
-              Finding a private hire car should be easier.
-            </h1>
-            <p className="mt-6 text-[17px] sm:text-[19px] leading-relaxed text-[#5C655F] max-w-xl">
-              Kharo brings private hire drivers and vehicle operators together
-              in one marketplace. Search for a car, compare the details and
-              register your interest without chasing adverts across the internet.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                onClick={() => navigate("/search")}
-                className="inline-flex items-center gap-2 rounded-full bg-[#0B6B4F] px-6 py-3.5 text-white font-semibold hover:bg-[#095B43] transition-colors"
-              >
-                Browse vehicles
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => navigate("/list-your-fleet")}
-                className="inline-flex items-center gap-2 rounded-full border border-[#D7D5CE] bg-white px-6 py-3.5 text-[#151515] font-semibold hover:bg-[#F0EEE8] transition-colors"
-              >
-                List your fleet
-              </button>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[12px] text-[#7B817D]">
-              <span>For private hire drivers</span>
-              <span>For rental operators</span>
-              <span>Built for the UK market</span>
-            </div>
-          </motion.div>
-
-          <motion.div {...FADE} className="relative">
-            <div className="rounded-[30px] overflow-hidden aspect-[4/3] bg-[#E6E2D9] shadow-[0_35px_80px_-35px_rgba(0,0,0,.32)]">
-              <img
-                src={IMG.fleetLot}
-                alt="Private hire vehicles in a fleet"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="absolute left-5 right-5 sm:left-7 sm:right-auto -bottom-5 sm:max-w-[320px] rounded-2xl border border-[#E5E3DC] bg-white shadow-[0_18px_40px_-20px_rgba(0,0,0,.28)] px-5 py-4">
-              <div className="flex items-center gap-2 text-[#0B6B4F]">
-                <Users className="w-4 h-4" />
-                <span className="text-[11px] uppercase tracking-[0.14em] font-bold">
-                  Two sides, one marketplace
-                </span>
-              </div>
-              <p className="mt-1.5 font-heading font-bold text-[17px] leading-snug">
-                Drivers find cars. Operators find drivers.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="bg-white py-16 sm:py-20 border-b border-[#E6E4DE]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="max-w-2xl mb-12">
-            <Label>What Kharo changes</Label>
-            <h2 className="font-heading font-extrabold text-[32px] sm:text-[44px] leading-tight tracking-[-0.03em]">
-              A fragmented market needs one proper place to search.
-            </h2>
-            <p className="mt-4 text-[16px] leading-relaxed text-[#646B66]">
-              Private hire cars are often advertised through Facebook groups,
-              WhatsApp, word of mouth and individual rental websites. Kharo brings
-              the listings together so drivers can compare their options and
-              operators can reach people already looking for a car.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {MARKETPLACE_BENEFITS.map((item, i) => (
-              <motion.div
-                key={item.title}
-                {...FADE}
-                transition={{ duration: 0.45, delay: i * 0.06 }}
-              >
-                <BenefitCard {...item} />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#10231B] text-white py-16 sm:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="max-w-2xl mb-12">
-            <Label light>One marketplace, two sides</Label>
-            <h2 className="font-heading font-extrabold text-[34px] sm:text-[48px] leading-[1.02] tracking-[-0.035em]">
-              Give both sides a better way to find each other.
-            </h2>
-            <p className="mt-5 text-white/65 text-[16px] leading-relaxed">
-              Kharo is not just another place to post an advert. The point is to
-              make the search easier for drivers and the supply side easier for
-              operators.
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-5">
-            <motion.div
-              {...FADE}
-              className="rounded-[26px] border border-white/10 bg-white/[0.045] p-7 sm:p-8"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-6">
-                <CarFront className="w-6 h-6 text-[#65D2A4]" />
-              </div>
-              <h3 className="font-heading font-bold text-[23px]">For drivers</h3>
-              <p className="mt-2.5 text-white/60 text-[15px] leading-relaxed max-w-lg">
-                Search for the vehicle that fits your work, your area and your
-                budget without contacting ten different people first.
-              </p>
-              <div className="mt-6">
-                <BulletList items={DRIVER_POINTS} light />
-              </div>
-              <button
-                onClick={() => navigate("/driver-guide")}
-                className="mt-8 inline-flex items-center gap-2 text-[#72D7B0] font-semibold text-[14px]"
-              >
-                See how it works
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </motion.div>
-
-            <motion.div
-              {...FADE}
-              transition={{ delay: 0.08 }}
-              className="rounded-[26px] border border-white/10 bg-white/[0.045] p-7 sm:p-8"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-6">
-                <Handshake className="w-6 h-6 text-[#65D2A4]" />
-              </div>
-              <h3 className="font-heading font-bold text-[23px]">For operators</h3>
-              <p className="mt-2.5 text-white/60 text-[15px] leading-relaxed max-w-lg">
-                Put your available private hire vehicles in front of drivers who
-                are actively looking, rather than waiting for the next referral.
-              </p>
-              <div className="mt-6">
-                <BulletList items={OPERATOR_POINTS} light />
-              </div>
-              <button
-                onClick={() => navigate("/operator-guide")}
-                className="mt-8 inline-flex items-center gap-2 text-[#72D7B0] font-semibold text-[14px]"
-              >
-                See the operator guide
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 sm:py-20 bg-[#F7F6F2]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="grid lg:grid-cols-[.8fr_1.2fr] gap-10 lg:gap-16 items-center">
-            <div className="relative">
-              <div className="rounded-[28px] overflow-hidden aspect-[4/5] bg-[#E5E2D9]">
-                <img
-                  src={IMG.phoneInCar}
-                  alt="Driver looking at their phone inside a car"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-3 sm:right-5 rounded-2xl bg-white border border-[#E4E2DB] shadow-lg px-5 py-4 max-w-[235px]">
-                <p className="text-[11px] uppercase tracking-[0.14em] text-[#0B6B4F] font-bold">
-                  The simple idea
-                </p>
-                <p className="font-heading font-bold text-[17px] leading-snug mt-1">
-                  Less searching. More useful enquiries.
-                </p>
-              </div>
-            </div>
-
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-[#E5E2DA]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 lg:py-20">
+          <motion.div {...FADE} className="grid lg:grid-cols-[1.02fr_.98fr] gap-10 lg:gap-16 items-center">
             <div>
-              <Label>How Kharo works</Label>
-              <h2 className="font-heading font-extrabold text-[34px] sm:text-[46px] leading-[1.03] tracking-[-0.03em]">
-                Browse, register, connect.
-              </h2>
-              <p className="mt-5 text-[16px] leading-relaxed text-[#646B66] max-w-xl">
-                The marketplace is deliberately simple. Kharo helps the two sides
-                find each other. The final vehicle, price, deposit, mileage and
-                rental terms are understood before the driver agrees to proceed.
+              <Label>The private hire marketplace</Label>
+              <h1 className="font-heading font-extrabold text-[45px] sm:text-[62px] lg:text-[76px] leading-[0.95] tracking-[-0.05em] max-w-3xl">
+                Find the car.
+                <br />
+                Find the driver.
+                <br />
+                <span className="text-[#0B6B4F]">Find each other.</span>
+              </h1>
+              <p className="mt-7 text-[17px] sm:text-[19px] text-[#5D655F] leading-relaxed max-w-xl">
+                Private hire cars are spread across rental companies, Facebook groups, WhatsApp chats and individual websites. Kharo brings the market into one place.
               </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <button
+                  onClick={() => navigate("/search")}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#0B6B4F] text-white px-6 py-3.5 font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
+                >
+                  Browse vehicles
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => navigate("/list-your-fleet")}
+                  className="inline-flex items-center gap-2 rounded-full bg-white border border-[#D7D4CC] px-6 py-3.5 font-semibold text-[15px] hover:bg-[#F0EEE8] transition-colors"
+                >
+                  List your fleet
+                </button>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-[12px] text-[#7A807B]">
+                {AREAS.map((area) => (
+                  <span key={area} className="inline-flex items-center gap-1.5">
+                    <MapPin className="w-3 h-3 text-[#0B6B4F]" />
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-              <div className="mt-8 space-y-4">
+            <div className="relative lg:pl-4">
+              <div className="absolute -top-5 -right-3 sm:right-0 w-36 h-36 rounded-full bg-[#CFEFE0] blur-3xl opacity-60" />
+              <div className="relative rounded-[30px] bg-[#E8E5DD] p-3 sm:p-4 shadow-[0_35px_100px_-45px_rgba(0,0,0,.4)]">
+                <div className="rounded-[24px] overflow-hidden aspect-[1.02/1]">
+                  <img src={IMG.rowCars} alt="A row of private hire vehicles" className="w-full h-full object-cover" />
+                </div>
+              </div>
+
+              <div className="hidden sm:block absolute -left-7 bottom-10 w-[290px] rounded-[22px] bg-white border border-[#E4E1D9] shadow-[0_28px_55px_-30px_rgba(0,0,0,.32)] p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.12em] text-[#0B6B4F] font-bold">Kharo marketplace</p>
+                    <p className="font-heading font-bold text-[17px] mt-0.5">Cars drivers can actually compare</p>
+                  </div>
+                  <Search className="w-5 h-5 text-[#0B6B4F]" />
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {MARKETPLACE_CARDS.map((card) => (
+                    <img key={card.name} src={card.image} alt="" className="w-full aspect-square object-cover rounded-xl" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* The market problem */}
+      <section className="bg-white border-b border-[#E7E4DD] py-16 sm:py-22">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="grid lg:grid-cols-[.72fr_1.28fr] gap-10 lg:gap-20 items-start">
+            <div>
+              <Label>Why build this?</Label>
+              <h2 className="font-heading font-extrabold text-[34px] sm:text-[46px] leading-[1.03] tracking-[-0.035em]">
+                The cars are there. The drivers are there. Finding the right match is the problem.
+              </h2>
+            </div>
+            <div>
+              <p className="text-[16px] sm:text-[18px] text-[#606762] leading-relaxed max-w-2xl">
+                A driver can spend hours asking around for a suitable rental. At the same time, an operator can have perfectly usable vehicles sitting still while waiting for the next driver.
+              </p>
+              <p className="mt-5 text-[16px] sm:text-[18px] text-[#606762] leading-relaxed max-w-2xl">
+                Kharo is built to make that search more organised. Drivers get a place to look. Operators get a place to list. Both sides get a clearer route from first enquiry to a rental.
+              </p>
+              <div className="mt-8 grid sm:grid-cols-3 gap-3">
                 {[
-                  ["01", "Browse", "Search vehicles by city, area, vehicle type, fuel and budget."],
-                  ["02", "Register interest", "Tell us which vehicle you want and when you are looking to start."],
-                  ["03", "Connect", "The operator reviews the enquiry, confirms the details and speaks with you directly."],
-                ].map(([num, title, body]) => (
-                  <div key={num} className="flex gap-4 rounded-2xl border border-[#E2E0D9] bg-white p-5">
-                    <span className="font-heading font-extrabold text-[13px] text-[#0B6B4F] mt-0.5">
-                      {num}
-                    </span>
-                    <div>
-                      <h3 className="font-heading font-bold text-[17px]">{title}</h3>
-                      <p className="mt-1.5 text-[14px] text-[#666D68] leading-relaxed">
-                        {body}
-                      </p>
-                    </div>
+                  ["01", "Search", "Drivers start with the vehicle they need."],
+                  ["02", "Compare", "The useful details sit together."],
+                  ["03", "Connect", "The two sides can then speak directly."],
+                ].map(([n, title, body]) => (
+                  <div key={n} className="rounded-2xl bg-[#F7F6F2] border border-[#E5E2DA] p-5">
+                    <span className="text-[11px] font-heading font-extrabold text-[#0B6B4F]">{n}</span>
+                    <h3 className="font-heading font-bold text-[19px] mt-4">{title}</h3>
+                    <p className="text-[13px] text-[#69706A] leading-relaxed mt-1.5">{body}</p>
                   </div>
                 ))}
               </div>
@@ -336,58 +251,113 @@ export default function WhyKharo() {
         </div>
       </section>
 
-      <section className="bg-white border-y border-[#E6E4DE] py-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <motion.div {...FADE} className="text-center max-w-2xl mx-auto">
-            <Label>Built around trust</Label>
-            <h2 className="font-heading font-extrabold text-[32px] sm:text-[42px] tracking-[-0.025em]">
-              Clearer listings. Clearer conversations.
-            </h2>
-            <p className="mt-4 text-[16px] leading-relaxed text-[#666D68]">
-              Trust on a marketplace comes from making the important information
-              easy to see. Kharo is designed around that principle.
-            </p>
+      {/* Marketplace visual */}
+      <section className="py-16 sm:py-24 bg-[#F7F6F2] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="flex items-end justify-between gap-6 mb-10">
+            <div>
+              <Label>What the marketplace feels like</Label>
+              <h2 className="font-heading font-extrabold text-[34px] sm:text-[48px] leading-tight tracking-[-0.035em]">
+                Search less. See more.
+              </h2>
+              <p className="mt-3 text-[15px] sm:text-[17px] text-[#666E68] max-w-2xl leading-relaxed">
+                Instead of starting with a phone number and a conversation, start with the car you actually want.
+              </p>
+            </div>
+            <button onClick={() => navigate("/search")} className="hidden sm:inline-flex items-center gap-2 text-[#0B6B4F] font-semibold text-[14px] shrink-0">
+              Browse the marketplace <ArrowRight className="w-4 h-4" />
+            </button>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 gap-4 mt-10">
-            {TRUST_POINTS.map((item) => (
-              <div
-                key={item}
-                className="flex items-start gap-3 rounded-2xl border border-[#E3E1DA] bg-[#FBFAF7] p-5"
-              >
-                <ShieldCheck className="w-5 h-5 text-[#0B6B4F] shrink-0 mt-0.5" />
-                <p className="text-[14px] sm:text-[15px] text-[#505852] leading-relaxed">
-                  {item}
-                </p>
-              </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {MARKETPLACE_CARDS.map((card, i) => (
+              <motion.div key={card.name} {...FADE} transition={{ duration: 0.45, delay: i * 0.07 }}>
+                <ListingCard {...card} />
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-[#0B6B4F] text-white py-14 sm:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div {...FADE}>
-            <h2 className="font-heading font-extrabold text-[33px] sm:text-[46px] leading-tight tracking-[-0.03em]">
-              Looking for a car or ready to list one?
+      {/* Two-sided marketplace */}
+      <section className="bg-[#10231B] text-white py-16 sm:py-24">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="max-w-3xl">
+            <Label light>One marketplace. Two sides.</Label>
+            <h2 className="font-heading font-extrabold text-[36px] sm:text-[54px] leading-[1] tracking-[-0.04em]">
+              Kharo only works when it works for both sides.
             </h2>
-            <p className="mt-4 text-white/70 text-[15px] sm:text-[16px] max-w-2xl mx-auto">
-              Browse the marketplace as a driver or put your private hire fleet in
-              front of people looking for a vehicle.
+            <p className="mt-5 text-white/65 text-[16px] sm:text-[18px] leading-relaxed">
+              The aim is simple. Give drivers more choice and give operators a better way to reach them.
             </p>
-            <div className="mt-8 flex justify-center flex-wrap gap-3">
-              <button
-                onClick={() => navigate("/search")}
-                className="rounded-full bg-white text-[#0B6B4F] px-7 py-3.5 font-semibold hover:bg-[#EAF5F1] transition-colors"
-              >
-                Browse vehicles
-              </button>
-              <button
-                onClick={() => navigate("/list-your-fleet")}
-                className="rounded-full border border-white/30 px-7 py-3.5 font-semibold hover:bg-white/10 transition-colors"
-              >
-                List your fleet
-              </button>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-5 mt-10">
+            <motion.div {...FADE} className="rounded-[28px] overflow-hidden bg-[#172E24] border border-white/10">
+              <div className="aspect-[1.7/1] overflow-hidden">
+                <img src={IMG.happyDriver} alt="Private hire driver inside a car" className="w-full h-full object-cover" />
+              </div>
+              <div className="p-7 sm:p-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center"><Users className="w-5 h-5 text-[#6DE0B1]" /></div>
+                  <div><p className="text-[11px] uppercase tracking-[0.14em] text-[#6DE0B1] font-bold">For drivers</p><h3 className="font-heading font-bold text-[25px]">Find your next car</h3></div>
+                </div>
+                <p className="text-white/65 text-[15px] leading-relaxed mt-5 max-w-xl">A simpler way to find a private hire vehicle that fits where you work and what you can afford.</p>
+                <div className="mt-6"><BulletList items={DRIVER_BENEFITS} dark /></div>
+                <button onClick={() => navigate("/driver-guide")} className="mt-8 inline-flex items-center gap-2 text-[#73DDB0] font-semibold text-[14px]">Read the driver guide <ChevronRight className="w-4 h-4" /></button>
+              </div>
+            </motion.div>
+
+            <motion.div {...FADE} transition={{ delay: 0.08 }} className="rounded-[28px] overflow-hidden bg-[#172E24] border border-white/10">
+              <div className="aspect-[1.7/1] overflow-hidden">
+                <img src={IMG.fleetLot} alt="Private hire fleet waiting for drivers" className="w-full h-full object-cover" />
+              </div>
+              <div className="p-7 sm:p-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center"><CarFront className="w-5 h-5 text-[#6DE0B1]" /></div>
+                  <div><p className="text-[11px] uppercase tracking-[0.14em] text-[#6DE0B1] font-bold">For operators</p><h3 className="font-heading font-bold text-[25px]">Put your cars to work</h3></div>
+                </div>
+                <p className="text-white/65 text-[15px] leading-relaxed mt-5 max-w-xl">A clearer online home for vehicles that are available to rent and a way to reach drivers beyond the usual channels.</p>
+                <div className="mt-6"><BulletList items={OPERATOR_BENEFITS} dark /></div>
+                <button onClick={() => navigate("/operator-guide")} className="mt-8 inline-flex items-center gap-2 text-[#73DDB0] font-semibold text-[14px]">Read the operator guide <ChevronRight className="w-4 h-4" /></button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust */}
+      <section className="bg-white border-y border-[#E7E4DD] py-16 sm:py-22">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="max-w-2xl mb-11">
+            <Label>What makes it useful</Label>
+            <h2 className="font-heading font-extrabold text-[34px] sm:text-[46px] leading-[1.03] tracking-[-0.03em]">A marketplace has to earn trust.</h2>
+            <p className="mt-4 text-[16px] text-[#666E68] leading-relaxed">Not by making big promises, but by making the important parts of the process clear.</p>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {TRUST_POINTS.map(({ icon: Icon, title, body }, i) => (
+              <motion.article key={title} {...FADE} transition={{ duration: 0.45, delay: i * 0.05 }} className="rounded-[22px] border border-[#E3E0D8] bg-[#FBFAF7] p-6">
+                <div className="w-11 h-11 rounded-2xl bg-[#E7F3ED] text-[#0B6B4F] flex items-center justify-center"><Icon className="w-5 h-5" /></div>
+                <h3 className="font-heading font-bold text-[18px] mt-6">{title}</h3>
+                <p className="text-[14px] text-[#656D67] leading-relaxed mt-2">{body}</p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Closing */}
+      <section className="py-16 sm:py-20 bg-[#F7F6F2]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="rounded-[30px] bg-[#0B6B4F] text-white px-6 py-12 sm:px-12 sm:py-14 text-center overflow-hidden relative">
+            <div className="absolute -top-28 -right-28 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+            <div className="relative">
+              <p className="text-[11px] uppercase tracking-[0.17em] font-bold text-[#A7E8CF]">The idea in one sentence</p>
+              <h2 className="font-heading font-extrabold text-[34px] sm:text-[48px] leading-[1.02] tracking-[-0.035em] max-w-3xl mx-auto mt-4">Kharo is where private hire drivers find cars and operators find drivers.</h2>
+              <div className="mt-8 flex justify-center flex-wrap gap-3">
+                <button onClick={() => navigate("/search")} className="rounded-full bg-white text-[#0B6B4F] px-7 py-3.5 font-semibold hover:bg-[#E9F6F1] transition-colors">Browse vehicles</button>
+                <button onClick={() => navigate("/list-your-fleet")} className="rounded-full border border-white/30 px-7 py-3.5 font-semibold hover:bg-white/10 transition-colors">List your fleet</button>
+              </div>
             </div>
           </motion.div>
         </div>
