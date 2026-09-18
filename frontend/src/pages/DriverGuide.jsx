@@ -1,257 +1,168 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Car, ChevronDown, ChevronRight, LayoutDashboard,
-  ShieldCheck, CreditCard, FileText, ArrowUpRight, Wrench, LifeBuoy,
-  Phone, Check, ArrowRight,
+  ArrowRight,
+  BadgeCheck,
+  Car,
+  ChevronDown,
+  Check,
+  CircleHelp,
+  FileCheck2,
+  MapPin,
+  PoundSterling,
+  ShieldCheck,
+  UserCheck,
+  Wallet,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useSeo } from "@/lib/seo";
 import { IMG } from "@/lib/images";
 
-const FADE_UP = {
-  initial: { opacity: 0, y: 20 },
+const FADE = {
+  initial: { opacity: 0, y: 18 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5 },
-};
-
-// hero content is already in view on load: animate on mount, not on scroll-into-view,
-// since whileInView's IntersectionObserver can miss content that's visible at paint time
-const FADE_UP_HERO = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" },
   transition: { duration: 0.5 },
 };
 
 const STEPS = [
   {
     num: "01",
-    title: "Browse and find your car",
-    body: "Use filters to narrow by budget, fuel type, car make and borough. Every car on Kharo is TfL-eligible. The weekly rental price you see is set by the operator and shown upfront, kept below what other PCO platforms charge for the same car.",
-    photo: IMG.phoneInCar,
+    title: "Find a car",
+    body: "Search by city, area, vehicle type, fuel type and weekly budget. Open the listing and check the details before you register interest.",
+    photo: IMG.driverMirror,
   },
   {
     num: "02",
-    title: "Register your interest",
-    body: "Found a car you like? Hit 'Register interest'. Fill in a short form: your name, contact details and when you want to start. No licence numbers, no documents, no payment at this stage.",
-    photo: IMG.signingLaptop,
+    title: "Compare the details",
+    body: "Look at the weekly rental, mileage allowance, deposit, vehicle information and any other terms the operator has provided.",
+    photo: IMG.phoneInCar,
   },
   {
     num: "03",
-    title: "The operator calls you",
-    body: "A fleet manager from the operator reviews your interest and gets in touch, usually within 1 working day. They'll confirm the car is available, explain the deposit, and answer any questions.",
-    photo: IMG.handshakeDesk,
+    title: "Register your interest",
+    body: "Found a car you like? Tell Kharo which vehicle you are interested in and when you want to start. Registering interest does not commit you to a rental.",
+    photo: IMG.signingLaptop,
   },
   {
     num: "04",
-    title: "Vetting in 48 hours",
-    body: "Once you and the operator agree to move forward, Kharo's vetting runs: DVLA eligibility, liveness identity, and Open Banking affordability (no credit impact). Most checks complete in 48 hours.",
-    photo: IMG.signingCouple,
+    title: "Speak to the operator",
+    body: "The operator reviews your enquiry and can confirm availability, answer questions and explain the rental terms before you decide whether to proceed.",
+    photo: IMG.handshakeDesk,
   },
   {
     num: "05",
-    title: "Collect your car",
-    body: "Approved? Agree the rental terms, hand over the deposit, and pick up your car. Active PCO licence holders typically collect within 3 working days of first applying.",
+    title: "Complete the checks",
+    body: "Once you decide to move forward, the required driver and vehicle checks are completed. The exact checks can depend on the operator and the rental.",
+    photo: IMG.signingCouple,
+  },
+  {
+    num: "06",
+    title: "Agree the rental and collect the car",
+    body: "Once the terms are agreed and everything is ready, arrange the handover with the operator and get on the road.",
     photo: IMG.keysHandover,
   },
 ];
 
-const REQUIREMENTS = [
-  "Valid TfL PCO private hire driver licence",
-  "UK driving licence (minimum 1 year held)",
-  "Right to work in the UK",
-  "Clean Access NI or DBS check (some operators require this)",
-  "Bank account for Open Banking affordability check (no credit impact)",
+const WHAT_TO_CHECK = [
+  {
+    icon: PoundSterling,
+    title: "Weekly rental",
+    body: "Make sure the weekly amount is clear and that you understand what is included.",
+  },
+  {
+    icon: Wallet,
+    title: "Deposit",
+    body: "Ask how much the deposit is, when it is paid and when it is returned.",
+  },
+  {
+    icon: Car,
+    title: "Mileage",
+    body: "Check the weekly or monthly mileage allowance and any charge for going over it.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Insurance and cover",
+    body: "Check whether insurance is separate or included and what breakdown or roadside cover applies.",
+  },
+  {
+    icon: FileCheck2,
+    title: "Rental terms",
+    body: "Understand the minimum period, notice period, payment dates and what happens when you return the car.",
+  },
+  {
+    icon: MapPin,
+    title: "Collection",
+    body: "Confirm where the car is collected, what documents you need and what condition the vehicle will be handed over in.",
+  },
 ];
 
-const INSURANCE_POLICIES = [
-  { name: "Essential Cover", price: "£32/wk", tag: "Most affordable" },
-  { name: "Standard Cover", price: "£38/wk", tag: "Most popular" },
-  { name: "Comprehensive Cover", price: "£45/wk", tag: "Full protection" },
+const REQUIREMENTS = [
+  "A valid private hire driver licence for the area where you intend to work",
+  "A driving licence that meets the operator and insurer requirements",
+  "The right to work in the UK where required for your private hire work",
+  "Any identification, driving or insurance information needed for the checks",
 ];
 
 const FAQS = [
   {
-    q: "Does Kharo take any payment from drivers?",
-    a: "No. Kharo is free for drivers to use. You pay the operator directly: weekly rental, deposit, and nothing else. Kharo earns from operators when a rental completes.",
+    q: "Does registering interest mean I have rented the car?",
+    a: "No. Registering interest simply tells Kharo and the operator that you want to discuss the vehicle. You only proceed once you have understood and agreed the rental terms.",
   },
   {
-    q: "What is the deposit and how much will it be?",
-    a: "Deposits are set by each operator and vary by vehicle and driver profile. Typical deposits are 2–4 weeks' rent. The operator confirms this when they call you, before you commit to anything.",
+    q: "Do I pay Kharo to search for a car?",
+    a: "No. Browsing and registering interest are free.",
   },
   {
-    q: "Does the Open Banking check affect my credit score?",
-    a: "No. The Open Banking check is a read-only review of your account activity to confirm you can cover the weekly rental. It does not appear on your credit file and does not count as a credit application.",
+    q: "Who sets the rental price?",
+    a: "The vehicle operator sets the rental price and the other rental terms. Kharo displays the information provided for the listing.",
   },
   {
-    q: "Can I rent if I have points on my licence?",
-    a: "There's no fixed cut-off from Kharo. Your DVLA check confirms your points as part of vetting, and that information is passed to the operator, who decides what's acceptable for their fleet.",
+    q: "Can I contact the operator before deciding?",
+    a: "Yes. The operator can confirm availability and explain the deposit, mileage, insurance and other terms before you decide whether to proceed.",
   },
   {
-    q: "How quickly can I be driving?",
-    a: "Most drivers with an active PCO licence collect within 3 working days of registering interest. Vetting takes around 48 hours once both sides agree to proceed.",
+    q: "What checks will I need to complete?",
+    a: "The checks depend on the rental and operator. They can include driver licence, identity, right-to-work and insurance-related information.",
   },
   {
-    q: "What is included in the weekly price?",
-    a: "Every Kharo listing shows the rental price only, set by the operator and kept below what other PCO platforms charge for the same car. Scheduled maintenance is included. Insurance is picked separately from a shortlist of competitive policies, and fuel is your own cost.",
+    q: "What happens if I cannot find the right car?",
+    a: "Register your interest and tell us what you are looking for. The more information you give us, the easier it is to understand what vehicles drivers want as Kharo opens more of the UK.",
   },
-  {
-    q: "Can I switch car or operator later?",
-    a: "Yes. Kharo's weekly rental model means you're not locked in long-term. Operators set their own minimum periods, typically 1 to 4 weeks, after which you can give notice and move on.",
-  },
-  {
-    q: "What happens if the car breaks down?",
-    a: "Contact Kharo's support team or the operator directly and we'll help you sort it quickly. Some of the insurance policies available at checkout include roadside assistance as standard - worth checking when you pick your cover.",
-  },
-];
-
-const DASHBOARD_NAV = [
-  { icon: LayoutDashboard, label: "Overview", active: true },
-  { icon: Car, label: "My rental" },
-  { icon: ShieldCheck, label: "Insurance" },
-  { icon: Wrench, label: "Maintenance" },
-  { icon: LifeBuoy, label: "Claims" },
-  { icon: CreditCard, label: "Payments" },
-  { icon: FileText, label: "Documents" },
-];
-
-const DASHBOARD_PAYMENTS = [
-  { label: "Weekly rental", value: "£165.00", date: "Paid 3 Sep" },
-  { label: "Weekly insurance", value: "£38.00", date: "Paid 3 Sep" },
-];
-
-const DASHBOARD_DOCUMENTS = [
-  { label: "PCO driver licence", status: "Valid", detail: "Expires Mar 2027" },
-  { label: "Insurance certificate", status: "Valid", detail: "Renews 14 Sep" },
-  { label: "Rental agreement", status: "Signed", detail: "12-week term" },
 ];
 
 function Faq({ q, a }) {
   const [open, setOpen] = useState(false);
+
   return (
-    <div className="border-b border-[#F0F0F0] last:border-0">
+    <div className="border-b border-[#ECEAE4] last:border-0">
       <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-4 text-left gap-4"
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        className="w-full flex items-center justify-between gap-4 py-5 text-left"
         aria-expanded={open}
       >
-        <span className="text-[15px] font-semibold text-[#111]">{q}</span>
+        <span className="font-semibold text-[15px] sm:text-[16px] text-[#151515]">{q}</span>
         <ChevronDown
-          className={`w-5 h-5 text-[#999] shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`w-5 h-5 text-[#898E89] shrink-0 transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
         />
       </button>
       {open && (
-        <div className="pb-4">
-          <p className="text-[14px] text-[#555] leading-relaxed">{a}</p>
+        <div className="pb-5 pr-8">
+          <p className="text-[14px] sm:text-[15px] text-[#606761] leading-relaxed">{a}</p>
         </div>
       )}
     </div>
   );
 }
 
-// Small self-contained "product demo": pick a car, then pick an insurance
-// policy from a shortlist. Auto-cycles the selected policy every few seconds
-// so the flow reads as alive without needing any user interaction.
-function InsurancePicker() {
-  const [selected, setSelected] = useState(1);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setSelected((s) => (s + 1) % INSURANCE_POLICIES.length);
-    }, 2600);
-    return () => clearInterval(id);
-  }, []);
-
+function Label({ children }) {
   return (
-    <motion.div
-      {...FADE_UP}
-      className="rounded-[28px] border border-[#E8E8E8] bg-white p-6 sm:p-8"
-      style={{ boxShadow: "0 30px 70px -30px rgba(0,0,0,0.2)" }}
-    >
-      <div className="flex items-center gap-2.5 mb-6">
-        <div className="w-7 h-7 rounded-full bg-[#0B6B4F] text-white flex items-center justify-center text-[11px] font-bold shrink-0">1</div>
-        <p className="text-[13px] font-semibold text-[#111]">Pick your car</p>
-        <div className="flex-1 h-px bg-[#EEEEEE]" />
-        <div className="w-7 h-7 rounded-full bg-[#0B6B4F] text-white flex items-center justify-center text-[11px] font-bold shrink-0">2</div>
-        <p className="text-[13px] font-semibold text-[#111]">Pick your insurance</p>
-      </div>
-
-      <div className="rounded-2xl bg-[#FAFAFA] p-3.5 mb-5 flex items-center gap-3">
-        <img src={IMG.phoneInCar} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0" />
-        <div>
-          <p className="text-[13px] font-semibold text-[#111]">Toyota Prius &middot; Southwark</p>
-          <p className="text-[12px] text-[#888]">£165 / week rental</p>
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        {INSURANCE_POLICIES.map((p, i) => {
-          const active = i === selected;
-          return (
-            <motion.div
-              key={p.name}
-              animate={{
-                borderColor: active ? "#0B6B4F" : "#EEEEEE",
-                backgroundColor: active ? "#FAFFFE" : "#FFFFFF",
-              }}
-              transition={{ duration: 0.4 }}
-              className="flex items-center justify-between rounded-xl border p-3.5"
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${active ? "border-[#0B6B4F]" : "border-[#DDD]"}`}>
-                  {active && <div className="w-2 h-2 rounded-full bg-[#0B6B4F]" />}
-                </div>
-                <div>
-                  <p className="text-[13px] font-semibold text-[#111]">{p.name}</p>
-                  <p className="text-[11px] text-[#999]">{p.tag}</p>
-                </div>
-              </div>
-              <span className="text-[13px] font-bold text-[#111] shrink-0">{p.price}</span>
-            </motion.div>
-          );
-        })}
-      </div>
-    </motion.div>
-  );
-}
-
-// A pill that follows the reader down the page instead of sitting static in
-// one section - visible once they've scrolled past the hero, hidden again
-// near the footer CTA so it doesn't stack with it.
-function FloatingCTA({ label, onClick }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const pastHero = window.scrollY > 500;
-      const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 700;
-      setVisible(pastHero && !nearBottom);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <motion.button
-      onClick={onClick}
-      animate={
-        visible
-          ? { opacity: 1, y: [0, -6, 0], pointerEvents: "auto" }
-          : { opacity: 0, y: 20, pointerEvents: "none" }
-      }
-      transition={
-        visible
-          ? { y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" }, opacity: { duration: 0.3 } }
-          : { duration: 0.3 }
-      }
-      className="fixed bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2 bg-[#0B6B4F] text-white pl-5 pr-4 py-3.5 rounded-full hover:bg-[#095B43] transition-colors"
-      style={{ boxShadow: "0 20px 40px -12px rgba(11,107,79,0.5)" }}
-    >
-      <span className="text-[13px] font-semibold whitespace-nowrap">{label}</span>
-      <ArrowRight className="w-4 h-4 shrink-0" />
-    </motion.button>
+    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0B6B4F] mb-3">
+      {children}
+    </p>
   );
 }
 
@@ -259,499 +170,259 @@ export default function DriverGuide() {
   const navigate = useNavigate();
 
   useSeo({
-    title: "Driver Guide · How to Rent a PCO Car on Kharo",
+    title: "Drivers Guide | How Kharo Works",
     description:
-      "A step-by-step guide to renting a PCO car through Kharo. Browse, check availability, get vetted, and be behind the wheel in days.",
+      "See how drivers can find, compare and register interest in private hire vehicles through the Kharo marketplace.",
   });
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5]">
-
-      {/* Hero - light ground matching the rest of the page; bold type carries
-          the section instead of a dark banner */}
-      <section className="relative pt-16 pb-14 sm:pt-20 sm:pb-16 px-4 overflow-hidden border-b border-[#EEEEEE]" style={{ backgroundColor: "#FAFAFA" }}>
-        <div className="relative max-w-3xl mx-auto text-center">
-          <motion.h1
-            {...FADE_UP_HERO}
-            className="text-[40px] sm:text-6xl font-heading font-extrabold leading-[1.02] tracking-tight text-[#111] text-balance"
-          >
-            Driver Guide.
-          </motion.h1>
-          <motion.p
-            {...FADE_UP_HERO}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-[#666] text-[17px] mt-6 max-w-xl mx-auto leading-relaxed"
-          >
-            This is exactly how you go from browsing to behind the wheel. Five steps,
-            48-hour vetting, most drivers driving within three days. No payment until
-            you've met the operator and agreed terms.
-          </motion.p>
-          <motion.div
-            {...FADE_UP_HERO}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="mt-9 flex flex-wrap gap-3 justify-center"
-          >
-            <button
-              onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
-            >
-              Browse PCO cars
-            </button>
-            <button
-              onClick={() => navigate("/for-drivers")}
-              className="px-7 py-3.5 rounded-full border border-[#D8D8D8] text-[#111] font-medium text-[15px] hover:bg-white transition-colors flex items-center gap-2"
-            >
-              For drivers overview
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Step-by-step - alternating photo/text rows, all visible, reveal on
-          scroll. Widened from max-w-4xl/5xl to max-w-6xl/7xl so each row
-          actually fills the page at desktop widths instead of running two
-          narrow columns down the page's centre; the icon-in-a-circle badge
-          per step (the generic template look) is dropped in favour of a
-          plain "Step N" label, matching the numbered-index language used
-          elsewhere on the site. */}
-      <section className="py-16 px-4 overflow-hidden">
-        <div className="max-w-6xl 2xl:max-w-7xl mx-auto">
-          <div className="max-w-lg mx-auto text-center mb-16">
-            <motion.p
-              {...FADE_UP}
-              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
-            >
-              How it works
-            </motion.p>
-            <motion.h2
-              {...FADE_UP}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] leading-tight"
-            >
-              From register interest to keys in {STEPS.length} steps
-            </motion.h2>
-            <motion.p
-              {...FADE_UP}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-[15px] text-[#666] leading-relaxed mt-4"
-            >
-              No hidden stages, no chasing for updates. Here's exactly what happens from
-              the moment you find a car to the moment it's yours.
-            </motion.p>
-          </div>
-
-          <div className="flex flex-col gap-16 lg:gap-24">
-            {STEPS.map(({ num, title, body, photo }, i) => {
-              const reversed = i % 2 === 1;
-              return (
-                <motion.div
-                  key={num}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.5 }}
-                  className={`grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-16 items-center ${reversed ? "lg:[&>*:first-child]:order-2" : ""}`}
-                >
-                  <div className="relative">
-                    <span
-                      className="absolute -top-10 -left-3 font-heading font-extrabold text-[110px] leading-none text-[#0B6B4F]/[0.07] select-none pointer-events-none"
-                      aria-hidden="true"
-                    >
-                      {num}
-                    </span>
-                    <div className="relative rounded-[28px] overflow-hidden aspect-[16/11] bg-[#EDEDED] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)]">
-                      <img src={photo} alt={title} className="w-full h-full object-cover" loading="lazy" />
-                    </div>
-                  </div>
-
-                  <div className={reversed ? "lg:pr-4" : "lg:pl-4"}>
-                    <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">
-                      Step {num}
-                    </p>
-                    <h3 className="font-heading font-bold text-[24px] sm:text-[26px] text-[#111]">{title}</h3>
-                    <p className="text-[15px] text-[#555] leading-relaxed mt-2.5">{body}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* What you pay - rebuilt as a pick-your-car-then-pick-your-insurance
-          flow instead of a static price breakdown, since the rental price is
-          set by the operator (not a fixed Kharo figure) and insurance is a
-          real choice between several policies, not one quoted number.
-          Breakdown cover is dropped from here entirely: it's replaced by the
-          aftercare/support promise below and, where relevant, by whichever
-          insurance policy a driver picks. */}
-      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4 overflow-hidden">
-        <div className="max-w-6xl 2xl:max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div>
-            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">What you pay</p>
-            <motion.h2
-              {...FADE_UP}
-              className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4"
-            >
-              Rental set by the operator, insurance set by you
-            </motion.h2>
-            <p className="text-[15px] text-[#666] leading-relaxed mb-8 max-w-md">
-              Each operator prices their own fleet, so the weekly rental figure on a listing
-              is what they charge, kept below what other PCO platforms charge for the same
-              car. Once you're matched with a car, you pick your own cover from a shortlist
-              of specialist private hire insurers at competitive rates, rather than having
-              one policy picked for you.
+    <main className="min-h-screen bg-[#F7F6F2] text-[#111]">
+      <section className="border-b border-[#E5E3DC] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 lg:py-24 grid lg:grid-cols-[1fr_.92fr] gap-10 lg:gap-16 items-center">
+          <motion.div {...FADE}>
+            <Label>Drivers guide</Label>
+            <h1 className="font-heading font-extrabold text-[44px] sm:text-[62px] lg:text-[68px] leading-[0.97] tracking-[-0.045em] max-w-3xl">
+              Looking for a private hire car? Start here.
+            </h1>
+            <p className="mt-6 text-[17px] sm:text-[19px] text-[#5D655F] leading-relaxed max-w-xl">
+              Kharo is a marketplace for private hire vehicles. Search for a car,
+              compare the details, register your interest and speak directly with
+              the operator before you decide.
             </p>
-            <div className="space-y-5 max-w-md">
-              <div className="border-t border-[#EEEEEE] pt-4">
-                <p className="font-semibold text-[14px] text-[#111]">Weekly rental</p>
-                <p className="text-[13px] text-[#888] mt-0.5">Set by the operator, shown upfront on every listing.</p>
-              </div>
-              <div className="border-t border-[#EEEEEE] pt-4">
-                <p className="font-semibold text-[14px] text-[#111]">Insurance</p>
-                <p className="text-[13px] text-[#888] mt-0.5">Your choice from a shortlist of competitive policies, priced separately.</p>
-              </div>
-              <div className="border-t border-b border-[#EEEEEE] py-4">
-                <p className="font-semibold text-[14px] text-[#111]">Maintenance &amp; servicing</p>
-                <p className="text-[13px] text-[#888] mt-0.5">Scheduled servicing at the operator's designated garage, included.</p>
-              </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={() => navigate("/search")}
+                className="rounded-full bg-[#0B6B4F] text-white px-6 py-3.5 font-semibold inline-flex items-center gap-2 hover:bg-[#095B43] transition-colors"
+              >
+                Browse vehicles
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => navigate("/register")}
+                className="rounded-full border border-[#D6D4CD] bg-white px-6 py-3.5 font-semibold hover:bg-[#F0EEE8] transition-colors"
+              >
+                Join the launch list
+              </button>
             </div>
-          </div>
 
-          <InsurancePicker />
-        </div>
-      </section>
-
-      {/* What you need to qualify (left) + Aftercare (right) - one slide,
-          two halves, instead of two separate full-width sections stacked
-          vertically saying two unrelated things one after another. */}
-      <section className="py-16 px-4">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_0.85fr] gap-14 lg:gap-16 items-start">
-          {/* LEFT: eligibility check mock */}
-          <div>
-            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">What you need to qualify</p>
-            <motion.h2
-              {...FADE_UP}
-              className="text-[26px] sm:text-[30px] font-heading font-extrabold text-[#111] mb-8"
-              style={{ textWrap: "balance" }}
-            >
-              Meet the basics. We'll handle the rest.
-            </motion.h2>
-
-            <motion.div
-              {...FADE_UP}
-              className="bg-white rounded-[28px] border border-[#E8E8E8] overflow-hidden"
-              style={{ boxShadow: "0 30px 70px -30px rgba(0,0,0,0.15)" }}
-            >
-              <div className="flex items-center gap-2 px-5 py-3 bg-[#FAFAFA] border-b border-[#E8E8E8]">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-                <span className="ml-3 text-[11px] text-[#999]">Your eligibility check</span>
-              </div>
-
-              <div className="p-6 sm:p-8">
-                <div className="space-y-3.5 mb-8">
-                  {REQUIREMENTS.map((r, i) => (
-                    <motion.div
-                      key={r}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: i * 0.08 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-5 h-5 rounded-md bg-[#0B6B4F] flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-white" strokeWidth={3} />
-                      </div>
-                      <p className="text-[14px] text-[#333]">{r}</p>
-                    </motion.div>
-                  ))}
+            <div className="mt-8 grid grid-cols-3 gap-3 max-w-xl">
+              {[
+                ["01", "Find", "Search the marketplace"],
+                ["02", "Compare", "Check the key details"],
+                ["03", "Connect", "Speak to the operator"],
+              ].map(([n, title, body]) => (
+                <div key={n} className="rounded-2xl border border-[#E3E1DA] bg-white p-4">
+                  <span className="text-[11px] font-heading font-extrabold text-[#0B6B4F]">{n}</span>
+                  <p className="mt-3 font-heading font-bold text-[14px]">{title}</p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-[#7A817B]">{body}</p>
                 </div>
+              ))}
+            </div>
+          </motion.div>
 
-                <div className="border-t border-[#EEEEEE] pt-6">
-                  <p className="text-[11px] font-semibold text-[#888] uppercase tracking-wide mb-5">
-                    Then, 3-layer vetting in 48 hours
-                  </p>
-                  <div className="relative flex justify-between max-w-xs mx-auto">
-                    <div className="absolute top-[5px] left-[16%] right-[16%] h-px bg-[#0B6B4F]/25" />
-                    {["DVLA eligibility", "Liveness identity", "Open Banking"].map((label) => (
-                      <div key={label} className="relative flex flex-col items-center text-center w-1/3 px-1">
-                        <div className="w-[11px] h-[11px] rounded-full bg-[#0B6B4F] ring-4 ring-white" />
-                        <p className="text-[11px] text-[#666] mt-2.5 leading-tight">{label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+          <motion.div {...FADE} className="relative">
+            <div className="rounded-[30px] overflow-hidden aspect-[4/5] bg-[#E5E1D8] shadow-[0_35px_80px_-35px_rgba(0,0,0,.34)]">
+              <img
+                src={IMG.taxiDriver}
+                alt="Private hire driver in a car"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute left-5 right-5 bottom-5 sm:left-auto sm:right-5 sm:max-w-[270px] rounded-2xl border border-white/30 bg-[#10231B]/92 backdrop-blur-md text-white p-5">
+              <div className="flex items-center gap-2 text-[#72D7B0]">
+                <BadgeCheck className="w-4 h-4" />
+                <span className="text-[11px] uppercase tracking-[0.14em] font-bold">
+                  Before you commit
+                </span>
               </div>
-            </motion.div>
-
-            <button
-              onClick={() => navigate("/search")}
-              className="mt-8 px-6 py-3 rounded-full bg-[#0B6B4F] text-white font-semibold text-[14px] hover:bg-[#095B43] transition-colors"
-            >
-              Browse available cars
-            </button>
-          </div>
-
-          {/* RIGHT: aftercare - an "incoming call" mock instead of another
-              stat card, since the site already leans on big-number-in-a-
-              white-card everywhere else. Ties directly to the "a call away"
-              promise. */}
-          <div className="lg:pt-[52px]">
-            <p className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3">Aftercare</p>
-            <h2 className="text-[26px] sm:text-[30px] font-heading font-extrabold text-[#111] mb-4" style={{ textWrap: "balance" }}>
-              A real team, on call for as long as you're driving
-            </h2>
-            <p className="text-[#666] text-[15px] leading-relaxed mb-8">
-              Issues don't stick to office hours, so neither do we. If something goes wrong
-              with the car, or you're involved in an accident, Kharo's support team is a call
-              away to help get it sorted with the operator, rather than leaving you to handle
-              it alone.
-            </p>
-
-            <motion.div
-              {...FADE_UP}
-              className="relative w-[190px] bg-white border border-[#E8E8E8] rounded-[28px] p-6 text-center"
-              style={{ boxShadow: "0 20px 50px -20px rgba(0,0,0,0.15)" }}
-            >
-              <div className="relative w-14 h-14 mx-auto mb-4">
-                <motion.span
-                  className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
-                  animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
-                />
-                <motion.span
-                  className="absolute inset-0 rounded-full bg-[#0B6B4F]/25"
-                  animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.6 }}
-                />
-                <div className="relative w-14 h-14 rounded-full bg-[#0B6B4F] flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-white" />
-                </div>
-              </div>
-              <p className="text-[#111] text-[13px] font-semibold">Kharo Support</p>
-              <p className="text-[#0B6B4F] text-[11px] mt-1 font-medium flex items-center justify-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0B6B4F] animate-pulse" />
-                Available 24/7
+              <p className="mt-2 text-[15px] leading-relaxed text-white/80">
+                Check the price, deposit, mileage, insurance and rental terms first.
               </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Dashboard showcase - moved to the bottom of the page, right before
-          the FAQ, instead of sitting right after the step-by-step process */}
-      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4 overflow-hidden">
-        <div className="max-w-5xl 2xl:max-w-6xl mx-auto">
-          <div className="max-w-xl mx-auto text-center mb-12">
-            <motion.p
-              {...FADE_UP}
-              className="text-[11px] font-bold text-[#0B6B4F] tracking-[0.14em] uppercase mb-3"
-            >
-              Your account
-            </motion.p>
-            <motion.h2
-              {...FADE_UP}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-[28px] sm:text-[32px] font-heading font-extrabold text-[#111] mb-4"
-            >
-              Your rental and your cover, in one dashboard
-            </motion.h2>
-            <motion.p
-              {...FADE_UP}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-[15px] text-[#666] leading-relaxed"
-            >
-              Once you're approved, everything lives in your Kharo account: the rental itself,
-              your insurance certificate and renewal date, every payment, and every document,
-              all in one place instead of scattered across emails.
-            </motion.p>
-          </div>
-
-          <motion.div
-            {...FADE_UP}
-            className="rounded-[22px] overflow-hidden border border-[#E8E8E8] bg-white"
-            style={{ boxShadow: "0 40px 80px -30px rgba(0,0,0,0.22)" }}
-          >
-            {/* browser chrome */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-[#F5F5F5] border-b border-[#E8E8E8]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-              <span className="ml-3 text-[11px] text-[#999] bg-white border border-[#E8E8E8] rounded-full px-3 py-1">
-                app.kharo.co.uk/driver
-              </span>
-            </div>
-
-            <div className="grid sm:grid-cols-[168px_1fr]">
-              {/* sidebar */}
-              <div className="hidden sm:flex flex-col gap-1 p-3 bg-[#FAFAFA] border-r border-[#EEEEEE]">
-                {DASHBOARD_NAV.map(({ icon: Icon, label, active }) => (
-                  <div
-                    key={label}
-                    className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium ${active ? "bg-[#0B6B4F] text-white" : "text-[#666]"}`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {label}
-                  </div>
-                ))}
-              </div>
-
-              {/* main content */}
-              <div className="p-5 sm:p-6">
-                <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                  {/* rental card */}
-                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">My rental</span>
-                      <span className="text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5">Active</span>
-                    </div>
-                    <p className="font-heading font-bold text-[17px] text-[#111]">Toyota Prius &middot; Southwark</p>
-                    <div className="flex items-baseline gap-1 mt-2">
-                      <span className="font-heading font-extrabold text-[26px] text-[#111]">£165</span>
-                      <span className="text-[#AAA] text-[12px]">/ week rental</span>
-                    </div>
-                    <p className="text-[11px] text-[#AAA] mt-1">Next payment due 10 Sep</p>
-                  </div>
-
-                  {/* insurance card */}
-                  <div className="rounded-2xl border border-[#EEEEEE] p-5 bg-[#FAFFFE]">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Insurance</span>
-                      <span className="text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5">Active</span>
-                    </div>
-                    <p className="font-heading font-bold text-[17px] text-[#111]">Standard Cover</p>
-                    <div className="flex items-baseline gap-1 mt-2">
-                      <span className="font-heading font-extrabold text-[26px] text-[#111]">£38</span>
-                      <span className="text-[#AAA] text-[12px]">/ week</span>
-                    </div>
-                    <button className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0B6B4F] mt-2">
-                      View certificate <ArrowUpRight className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4 mb-4">
-                  {/* maintenance */}
-                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Wrench className="w-3.5 h-3.5 text-[#0B6B4F]" />
-                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Maintenance</span>
-                    </div>
-                    <p className="text-[13px] text-[#333] mt-2">Warning light &middot; reported 4 Sep</p>
-                    <span className="inline-block text-[10px] font-bold text-[#8A5E1E] bg-[#FDF3E3] rounded-full px-2 py-0.5 mt-2">In progress</span>
-                  </div>
-
-                  {/* claims */}
-                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
-                    <div className="flex items-center gap-2 mb-1">
-                      <LifeBuoy className="w-3.5 h-3.5 text-[#0B6B4F]" />
-                      <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Claims</span>
-                    </div>
-                    <p className="text-[13px] text-[#333] mt-2">No open claims</p>
-                    <span className="inline-block text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5 mt-2">Report a claim</span>
-                  </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {/* payments */}
-                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
-                    <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Recent payments</span>
-                    <div className="mt-2">
-                      {DASHBOARD_PAYMENTS.map(({ label, value, date }, i) => (
-                        <div key={label} className={`flex items-center justify-between py-2.5 ${i > 0 ? "border-t border-[#F0F0F0]" : ""}`}>
-                          <div>
-                            <p className="text-[13px] text-[#333] font-medium">{label}</p>
-                            <p className="text-[11px] text-[#AAA]">{date}</p>
-                          </div>
-                          <span className="text-[13px] font-semibold text-[#111]">{value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* documents */}
-                  <div className="rounded-2xl border border-[#EEEEEE] p-5">
-                    <span className="text-[12px] font-semibold text-[#888] uppercase tracking-wide">Documents</span>
-                    <div className="mt-2">
-                      {DASHBOARD_DOCUMENTS.map(({ label, status, detail }, i) => (
-                        <div key={label} className={`flex items-center justify-between py-2.5 ${i > 0 ? "border-t border-[#F0F0F0]" : ""}`}>
-                          <div className="flex items-center gap-2">
-                            <FileText className="w-3.5 h-3.5 text-[#AAA]" />
-                            <div>
-                              <p className="text-[13px] text-[#333] font-medium">{label}</p>
-                              <p className="text-[11px] text-[#AAA]">{detail}</p>
-                            </div>
-                          </div>
-                          <span className="text-[10px] font-bold text-[#0B6B4F] bg-[#EAF5F1] rounded-full px-2 py-0.5 shrink-0">{status}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="bg-white border-y border-[#EBEBEB] py-16 px-4">
-        <div className="max-w-3xl 2xl:max-w-4xl mx-auto">
-          <motion.h2
-            {...FADE_UP}
-            className="text-[28px] font-heading font-extrabold text-[#111] mb-10 text-center"
+      <section className="bg-white border-b border-[#E6E4DE] py-16 sm:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="max-w-2xl mb-14">
+            <Label>How it works</Label>
+            <h2 className="font-heading font-extrabold text-[32px] sm:text-[44px] leading-tight tracking-[-0.03em]">
+              From finding a car to getting the keys.
+            </h2>
+            <p className="mt-4 text-[16px] leading-relaxed text-[#666D68]">
+              The process is designed to be easy to follow. You can look around
+              first and decide later.
+            </p>
+          </motion.div>
+
+          <div className="space-y-16 sm:space-y-20">
+            {STEPS.map((step, i) => (
+              <motion.article
+                key={step.num}
+                {...FADE}
+                transition={{ duration: 0.5, delay: i * 0.03 }}
+                className={`grid lg:grid-cols-[1fr_1fr] gap-8 lg:gap-14 items-center ${
+                  i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
+                }`}
+              >
+                <div className="relative">
+                  <span
+                    className="absolute -top-8 -left-2 font-heading font-extrabold text-[96px] leading-none text-[#0B6B4F]/[0.07] select-none pointer-events-none"
+                    aria-hidden="true"
+                  >
+                    {step.num}
+                  </span>
+                  <div className="relative rounded-[26px] overflow-hidden aspect-[16/10] bg-[#E7E4DB]">
+                    <img
+                      src={step.photo}
+                      alt={step.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                <div className="max-w-xl">
+                  <span className="text-[11px] uppercase tracking-[0.15em] font-bold text-[#0B6B4F]">
+                    Step {step.num}
+                  </span>
+                  <h3 className="mt-2 font-heading font-bold text-[27px] sm:text-[31px] tracking-[-0.02em]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-[15px] sm:text-[16px] text-[#626963] leading-relaxed">
+                    {step.body}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-[#F7F6F2]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="max-w-2xl">
+            <Label>Before you say yes</Label>
+            <h2 className="font-heading font-extrabold text-[32px] sm:text-[42px] leading-tight">
+              These are the details worth checking.
+            </h2>
+            <p className="mt-4 text-[16px] text-[#666D68] leading-relaxed">
+              Every operator can set its own rental terms. Ask questions until
+              you know exactly what you are agreeing to.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+            {WHAT_TO_CHECK.map(({ icon: Icon, title, body }, i) => (
+              <motion.article
+                key={title}
+                {...FADE}
+                transition={{ duration: 0.45, delay: i * 0.05 }}
+                className="rounded-[22px] border border-[#E2E0D9] bg-white p-6"
+              >
+                <Icon className="w-5 h-5 text-[#0B6B4F] mb-5" />
+                <h3 className="font-heading font-bold text-[18px]">{title}</h3>
+                <p className="mt-2 text-[14px] leading-relaxed text-[#646B66]">
+                  {body}
+                </p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#10231B] text-white py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-[1.1fr_.9fr] gap-10 lg:gap-16 items-start">
+          <motion.div {...FADE}>
+            <Label light>What you will need</Label>
+            <h2 className="font-heading font-extrabold text-[34px] sm:text-[44px] leading-tight tracking-[-0.03em]">
+              Get the basics ready.
+            </h2>
+            <p className="mt-4 text-white/65 text-[15px] sm:text-[16px] leading-relaxed max-w-xl">
+              The exact requirements can vary by operator, vehicle and insurance.
+              This is the usual starting point.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              {REQUIREMENTS.map((item) => (
+                <div key={item} className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-[#65D2A4] shrink-0 mt-0.5" strokeWidth={2.5} />
+                  <p className="text-[14px] sm:text-[15px] text-white/78 leading-relaxed">{item}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div {...FADE} className="rounded-[25px] border border-white/10 bg-white/[0.045] p-6 sm:p-7">
+            <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center mb-5">
+              <UserCheck className="w-5 h-5 text-[#65D2A4]" />
+            </div>
+            <h3 className="font-heading font-bold text-[21px]">Your application is not a commitment</h3>
+            <p className="mt-3 text-[14px] text-white/65 leading-relaxed">
+              Registering interest tells us which car you want. You still get the
+              chance to speak with the operator, understand the terms and decide
+              whether the rental is right for you.
+            </p>
+            <div className="mt-6 flex items-start gap-3 border-t border-white/10 pt-5">
+              <CircleHelp className="w-4 h-4 text-[#65D2A4] shrink-0 mt-0.5" />
+              <p className="text-[13px] text-white/55 leading-relaxed">
+                Never pay a deposit or sign a rental agreement until you are
+                comfortable with the terms and know who the agreement is with.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16 sm:py-20 border-y border-[#E6E4DE]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div {...FADE} className="text-center">
+            <Label>Questions drivers ask</Label>
+            <h2 className="font-heading font-extrabold text-[32px] sm:text-[42px] tracking-[-0.025em]">
+              Before you register
+            </h2>
+          </motion.div>
+
+          <motion.div
+            {...FADE}
+            className="mt-10 rounded-[22px] border border-[#E2E0D9] bg-white px-5 sm:px-7"
           >
-            Frequently asked questions
-          </motion.h2>
-          <div className="bg-white rounded-2xl border border-[#E8E8E8] px-6 py-2">
             {FAQS.map((faq) => (
               <Faq key={faq.q} {...faq} />
             ))}
-          </div>
-          <p className="text-[13px] text-[#888] text-center mt-6">
-            More questions?{" "}
-            <button
-              onClick={() => navigate("/help")}
-              className="text-[#0B6B4F] font-medium hover:underline"
-            >
-              Visit our help centre
-            </button>
-          </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* CTA - brand green, not another black block, so it doesn't visually
-          fuse with the black footer directly beneath it */}
-      <section className="bg-[#0B6B4F] py-14 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-[32px] font-heading font-extrabold text-white mb-4">
-            Ready to find your car?
-          </h2>
-          <p className="text-white/70 text-[15px] mb-8 max-w-md mx-auto">
-            Browse verified PCO cars across London. Register interest in 60 seconds.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <button
-              onClick={() => navigate("/search")}
-              className="px-7 py-3.5 rounded-full bg-white text-[#0B6B4F] font-semibold text-[15px] hover:bg-[#EAF5F1] transition-colors"
-            >
-              Browse PCO cars
-            </button>
-            <button
-              onClick={() => navigate("/for-drivers")}
-              className="px-7 py-3.5 rounded-full border border-white/30 text-white font-medium text-[15px] hover:bg-white/10 transition-colors flex items-center gap-2"
-            >
-              For drivers overview
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+      <section className="bg-[#0B6B4F] text-white py-14 sm:py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <motion.div {...FADE}>
+            <h2 className="font-heading font-extrabold text-[34px] sm:text-[46px] leading-tight tracking-[-0.03em]">
+              Ready to find your next car?
+            </h2>
+            <p className="mt-4 text-white/70 text-[15px] sm:text-[16px]">
+              Browse the Kharo marketplace and see what is available in your area.
+            </p>
+            <div className="mt-8 flex justify-center flex-wrap gap-3">
+              <button
+                onClick={() => navigate("/search")}
+                className="rounded-full bg-white text-[#0B6B4F] px-7 py-3.5 font-semibold hover:bg-[#EAF5F1] transition-colors inline-flex items-center gap-2"
+              >
+                Browse vehicles
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => navigate("/register")}
+                className="rounded-full border border-white/30 px-7 py-3.5 font-semibold hover:bg-white/10 transition-colors"
+              >
+                Join the launch list
+              </button>
+            </div>
+          </motion.div>
         </div>
       </section>
-
-      <FloatingCTA label="See what you could earn" onClick={() => navigate("/search")} />
-    </div>
+    </main>
   );
 }
