@@ -399,7 +399,7 @@ export default function Home() {
       {/* FAQ - short, genuinely useful, driver-focused */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-8">
-          <p className="text-xs uppercase tracking-widest text-[#AAA] font-semibold mb-1">Questions</p>
+          <p className="text-xs uppercase tracking-widest text-[#0B6B4F] font-semibold mb-1">Questions</p>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#111]">Frequently asked</h2>
         </div>
         <div className="divide-y divide-[#E8E8E8] rounded-2xl ring-1 ring-[#E8E8E8] bg-white">
