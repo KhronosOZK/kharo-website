@@ -200,7 +200,7 @@ export const HOME = {
 export const FOR_DRIVERS = {
   seo: {
     title: "For drivers · Rent a private hire car with Kharo",
-    description: "Rent a licensed private hire car from a checked operator. Choose your insurance when you apply and have Uber and Bolt live before you collect.",
+    description: "Everything a private hire driver gets with Kharo: the insurance choice, the three checks, platform set-up before collection, and one account for payments, documents and claims.",
   },
   hero: {
     tag: "For drivers",
@@ -350,6 +350,7 @@ export const OPERATOR_GUIDE = {
   },
   manage: {
     heading: "Everything around the car, managed.",
+    sub: "Six jobs an operator normally chases by phone and email. Kharo runs all of them from one console and tells you when something needs you.",
     items: [
       { t: "Approvals", d: "Applications arrive with the DVLA, identity and affordability checks done and the driver's insurance choice attached. Approve or decline from one queue." },
       { t: "Documents", d: "V5C, MOT, PHV plate, insurance and hire agreements for every vehicle, stored and shown to you in one place." },
@@ -387,7 +388,16 @@ export const OPERATOR_GUIDE = {
   },
   earnings: {
     heading: "What standing cars are costing you.",
-    sub: "The same instrument you will see when you tell us about your fleet.",
+    sub: "Set the sliders to your own fleet.",
+    ctaHeading: "Turn that number into rent.",
+    ctaBody: "Register your fleet and a consultant calls you within one working day. They check your operator licence, take your vehicle details, photographs and rates, and build the listings for you. You never sit and type them in.",
+    ctaPoints: [
+      "A named consultant owns your onboarding",
+      "We build and publish the listings",
+      "Vetted drivers arrive with checks and insurance already attached",
+    ],
+    cta: "List your fleet",
+    ctaNote: FACTS.fee,
   },
   faq: [
     { q: "Who insures the driver?", a: "By default the driver chooses their own hire and reward policy when they apply, and you see that choice with their application. If you carry fleet cover, add it to the listing and the price shows it as included." },

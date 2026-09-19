@@ -198,6 +198,7 @@ export default function SearchResults() {
   const [fuelFilter, setFuelFilter] = useState(searchParams.get("engine") || "");
   const [bodyFilters, setBodyFilters] = useState(parseListParam(searchParams.get("bodyType")));
   const [transmission, setTransmission] = useState(searchParams.get("transmission") || "");
+  const [colour, setColour] = useState(searchParams.get("colour") || "");
   const [seatsFilters, setSeatsFilters] = useState(parseListParam(searchParams.get("seats")).map(Number));
   const [councils, setCouncils] = useState(parseListParam(searchParams.get("council")));
   const [yearRange, setYearRange] = useState([
@@ -218,7 +219,6 @@ export default function SearchResults() {
   const setCity = (next) => { setCityRaw(next); setBorough(""); };
   const setMake = (next) => { setMakeRaw(next); setModel(""); };
 
-  const toggleBody = (bt) => setBodyFilters((prev) => (prev.includes(bt) ? prev.filter((b) => b !== bt) : [...prev, bt]));
   const toggleSeat = (n) => setSeatsFilters((prev) => (prev.includes(n) ? prev.filter((s) => s !== n) : [...prev, n]));
   const toggleCouncil = (a) => setCouncils((prev) => (prev.includes(a) ? prev.filter((c) => c !== a) : [...prev, a]));
 
@@ -226,8 +226,8 @@ export default function SearchResults() {
   // truthful to the other filters currently applied.
   const filtersExceptPrice = useMemo(() => ({
     city, borough, make, model, fuel: fuelFilter, transmission,
-    bodyTypes: bodyFilters, seats: seatsFilters, councils, yearRange, mileageMin,
-  }), [city, borough, make, model, fuelFilter, transmission, bodyFilters, seatsFilters, councils, yearRange, mileageMin]);
+    bodyTypes: bodyFilters, colour, seats: seatsFilters, councils, yearRange, mileageMin,
+  }), [city, borough, make, model, fuelFilter, transmission, colour, bodyFilters, seatsFilters, councils, yearRange, mileageMin]);
 
   const basePool = useMemo(() => applyFilters(MOCK_LISTINGS, filtersExceptPrice, ["price"]), [filtersExceptPrice]);
 
@@ -277,6 +277,7 @@ export default function SearchResults() {
       setOrDelete("engine", fuelFilter);
       setOrDelete("transmission", transmission);
       setOrDelete("bodyType", listParam(bodyFilters));
+      setOrDelete("colour", colour);
       setOrDelete("seats", listParam(seatsFilters.map(String)));
       setOrDelete("council", listParam(councils));
       if (yearRange[0] > YEAR_BOUNDS[0] || yearRange[1] < YEAR_BOUNDS[1]) {
@@ -289,7 +290,7 @@ export default function SearchResults() {
       setOrDelete("minMileage", mileageMin ? String(mileageMin) : "");
       return next;
     }, { replace: true });
-  }, [city, borough, make, model, fuelFilter, transmission, bodyFilters, seatsFilters, councils, yearRange, mileageMin, setSearchParams]);
+  }, [city, borough, make, model, fuelFilter, transmission, colour, bodyFilters, seatsFilters, councils, yearRange, mileageMin, setSearchParams]);
 
   // Price bound sync, debounced against drag events.
   const budgetSyncTimer = useRef(null);
@@ -339,17 +340,17 @@ export default function SearchResults() {
   const priceTouched = priceRange != null && (priceRange[0] > priceMin || priceRange[1] < priceMax);
   const yearTouched = yearRange[0] > YEAR_BOUNDS[0] || yearRange[1] < YEAR_BOUNDS[1];
   const hasFilters = Boolean(
-    city || borough || make || model || fuelFilter || bodyFilters.length || transmission
+    city || borough || make || model || fuelFilter || bodyFilters.length || transmission || colour
     || seatsFilters.length || councils.length || yearTouched || mileageMin || priceTouched || nearMe
   );
-  const extraActiveCount = [make, model].filter(Boolean).length + (transmission ? 1 : 0)
+  const extraActiveCount = [make, model, colour].filter(Boolean).length + (transmission ? 1 : 0)
     + bodyFilters.length + seatsFilters.length + councils.length + (yearTouched ? 1 : 0) + (mileageMin ? 1 : 0);
   const mobileActiveCount = extraActiveCount + [borough, fuelFilter].filter(Boolean).length
     + (priceTouched ? 1 : 0) + (nearMe ? 1 : 0);
 
   const clearAll = () => {
     setCityRaw(""); setBorough(""); setMakeRaw(""); setModel(""); setFuelFilter("");
-    setBodyFilters([]); setTransmission(""); setSeatsFilters([]); setCouncils([]);
+    setBodyFilters([]); setTransmission(""); setColour(""); setSeatsFilters([]); setCouncils([]);
     setYearRange([YEAR_BOUNDS[0], YEAR_BOUNDS[1]]); setMileageMin(0);
     // Not [priceMin, priceMax]: those are computed from the pool as filtered
     // *before* this click takes effect, so they would freeze the range at the
@@ -467,7 +468,8 @@ export default function SearchResults() {
         borough={borough} setBorough={setBorough} areaOptions={areaOptions}
         fuel={fuelFilter} setFuel={setFuelFilter}
         transmission={transmission} setTransmission={setTransmission}
-        bodyTypes={bodyFilters} toggleBodyType={toggleBody}
+        bodyTypes={bodyFilters} setBodyTypes={setBodyFilters}
+        colour={colour} setColour={setColour}
         seats={seatsFilters} toggleSeat={toggleSeat}
         councils={councils} toggleCouncil={toggleCouncil}
         make={make} setMake={setMake}
@@ -526,7 +528,8 @@ export default function SearchResults() {
             {model && <FilterChip label={model} onRemove={() => setModel("")} />}
             {fuelFilter && <FilterChip label={fuelValueLabel} onRemove={() => setFuelFilter("")} />}
             {transmission && <FilterChip label={transmission} onRemove={() => setTransmission("")} />}
-            {bodyFilters.map((b) => <FilterChip key={b} label={b} onRemove={() => toggleBody(b)} />)}
+            {bodyFilters.map((b) => <FilterChip key={b} label={b} onRemove={() => setBodyFilters([])} />)}
+            {colour && <FilterChip label={colour} onRemove={() => setColour("")} />}
             {seatsFilters.map((s) => <FilterChip key={s} label={SEARCH.filters.seatsValue(s)} onRemove={() => toggleSeat(s)} />)}
             {councils.map((c) => <FilterChip key={c} label={c} onRemove={() => toggleCouncil(c)} />)}
             {yearTouched && <FilterChip label={ageValueLabel} onRemove={() => setYearRange([YEAR_BOUNDS[0], YEAR_BOUNDS[1]])} />}

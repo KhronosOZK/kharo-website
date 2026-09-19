@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CARD } from "@/content/pages/marketplace";
 
 const MAX_ZONES = 5;
@@ -50,14 +50,6 @@ export default function VehicleCard({ vehicle }) {
     });
   };
 
-  const goToDetail = () => navigate(`/vehicle/${id}`);
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      goToDetail();
-    }
-  };
-
 
   const handleApply = (e) => {
     e.stopPropagation();
@@ -97,16 +89,12 @@ export default function VehicleCard({ vehicle }) {
 
   return (
     <article
-      role="link"
-      tabIndex={0}
-      onClick={goToDetail}
-      onKeyDown={handleKeyDown}
-      className="pressable-card group cursor-pointer"
+      className="pressable-card group relative"
       data-testid="vehicle-card"
       onPointerEnter={warmPhotos}
     >
       <div
-        className="relative aspect-[4/3] rounded-lg overflow-hidden bg-surface-2"
+        className="relative z-10 aspect-[4/3] rounded-lg overflow-hidden bg-surface-2"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handlePhotoClick}
@@ -159,7 +147,16 @@ export default function VehicleCard({ vehicle }) {
       </div>
 
       <div className="pt-3">
-        <h3 className="font-heading font-bold text-ink text-[16px] leading-tight truncate">{make} {model}</h3>
+        <h3 className="font-heading font-bold text-ink text-[16px] leading-tight truncate">
+          <Link
+            to={`/vehicle/${id}`}
+            data-testid="vehicle-card-link"
+            className="after:absolute after:inset-0 after:content-[''] after:rounded-lg
+                       focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-green"
+          >
+            {make} {model}
+          </Link>
+        </h3>
         <p className="mt-0.5 text-[13px] text-ink-3">{year}, {borough}</p>
         {plate && (
           <p className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[12px]">
@@ -180,7 +177,7 @@ export default function VehicleCard({ vehicle }) {
           <button
             type="button"
             onClick={handleApply}
-            className="pressable shrink-0 text-[13px] font-semibold text-green"
+            className="pressable relative z-10 shrink-0 text-[13px] font-semibold text-green"
             data-testid="vehicle-card-apply"
           >
             {CARD.registerInterest}

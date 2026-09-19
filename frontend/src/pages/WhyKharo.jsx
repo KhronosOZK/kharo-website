@@ -18,16 +18,17 @@ function GapFigure({ value, label, source }) {
 
   return (
     <div ref={ref}>
-      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
-        <AnimatedNumber
-          value={inView ? value : 0}
-          from={0}
-          transition={{ duration: DUR.count, ease: EASE.out }}
-          className="text-stat font-heading font-extrabold text-green tabular"
-        />
-        <p className="text-[15.5px] text-ink max-w-[26ch] leading-snug">{label}</p>
-      </div>
-      <p className="mt-3 text-[12.5px] text-ink-3">{source}</p>
+      {/* Stacked, not baseline-aligned. Sharing a baseline between a 60px
+          figure and 15px text left the label hanging off the number's foot
+          and read as a layout fault. */}
+      <AnimatedNumber
+        value={inView ? value : 0}
+        from={0}
+        transition={{ duration: DUR.count, ease: EASE.out }}
+        className="block text-[clamp(2.75rem,2rem+3vw,4rem)] font-heading font-extrabold text-green tabular leading-[0.95] tracking-[-0.02em]"
+      />
+      <p className="mt-4 text-[16px] text-ink max-w-[30ch] leading-snug">{label}</p>
+      <p className="mt-2.5 text-[12.5px] text-ink-3">{source}</p>
     </div>
   );
 }
@@ -49,7 +50,7 @@ export default function WhyKharo() {
 
       {/* ── THE GAP: one editorial figure, a lead paragraph beside it ──── */}
       <section className="bg-surface border-y border-line">
-        <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+        <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14 items-start">
           <RevealItem className="lg:col-span-5">
             <GapFigure value={gapValue} label={gap.label} source={gap.source} />
           </RevealItem>

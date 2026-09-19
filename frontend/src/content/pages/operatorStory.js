@@ -17,16 +17,11 @@ export const OPERATOR_STORY = {
         d: "You choose which vehicles go up and you set the weekly rate. Every application that reaches you arrives with the checks already done, and you decide who drives your car.",
       },
       {
-        t: "We build your listings for you.",
-        d: "Your consultant collects the vehicle details, photographs, rates, deposits and documents and puts the listing together. You are never sat typing it in yourself.",
-      },
-      {
-        t: "We take the admin off your desk.",
-        d: "Finding and vetting drivers, the insurance choice attached to each application, tracking documents and expiries, coordinating maintenance and handling claims when something goes wrong all run through Kharo.",
-      },
-      {
-        t: "Rent flows through Kharo, on schedule.",
-        d: `The driver pays their rent to Kharo, and we pay it to you on schedule. ${FACTS.fee}`,
+        // This section says what Kharo IS. How the listing gets built, who
+        // calls you and what happens afterwards are the "How listing works"
+        // steps further down the same page, so they are not repeated here.
+        t: "Nothing to pay to find out.",
+        d: FACTS.fee,
       },
     ],
   },

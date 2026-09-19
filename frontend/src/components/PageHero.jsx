@@ -1,48 +1,86 @@
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Enter } from "@/components/Reveal";
 
 /**
  * The hero every page wears.
  *
- * One photograph held inside an inset rounded frame rather than bleeding to
- * the window edge, with the page's own word set large enough to run off both
- * sides and get cropped by the frame. The crop is the point: it reads as a
- * printed cover rather than a stock photo with a headline dropped on top,
- * and it gives each page a distinct identity while the furniture stays
- * identical everywhere.
+ * One photograph in an inset rounded frame, with the page's own word set to
+ * span the frame and get cropped by its bottom edge. The crop is vertical
+ * only: the word is measured and scaled to fit the frame's width exactly, so
+ * no letter is ever sliced down the side. Guessing an average character width
+ * instead of measuring is what produced "OPERATO" and "WHY KHA".
  *
- * The frame clips decoration ONLY. Content sits in a sibling layer that is
- * never clipped, so popovers opened from inside a hero (the homepage search)
- * can escape it.
+ * The frame clips decoration ONLY. Copy sits in a sibling layer that is never
+ * clipped, so popovers opened inside a hero can escape it.
  */
 export default function PageHero({
-  word,            // the oversized crop word, e.g. "KHARO", "LONDON"
-  eyebrow,         // one small label above the heading
+  word,
+  eyebrow,
   heading,
   sub,
   img,
   imgAlt = "",
   position = "50% center",
-  meta = [],       // short factual pairs, set against the top right corner
-  caption,         // one line against the bottom left of the frame
-  children,        // search bar, buttons
+  meta = [],
+  caption,
+  children,
   priority = false,
-  // "band" is the short variant for pages whose real content is a form. It
-  // carries the same frame and crop word at roughly a third of the height, so
-  // the form stays above the fold instead of being pushed under a photograph.
   size = "full",
   className = "",
 }) {
   const band = size === "band";
-  // Every word spans the frame regardless of length: the longer the word, the
-  // smaller the type, so "KHARO" and "OPERATORS" both bleed off the edges by
-  // about the same amount. 0.6em is the average uppercase advance in Cabinet
-  // Grotesk at this weight.
-  const fill = word ? `min(${(112 / (word.length * 0.6)).toFixed(2)}vw, ${band ? 15 : 25}vw)` : null;
+  // The crop word needs a full-height frame to land; in the short band it
+  // came out at a quarter width and looked like a mistake.
+  const crop = band ? null : word;
+  const frameRef = useRef(null);
+  const gaugeRef = useRef(null);
+  const [fontPx, setFontPx] = useState(0);
+
+  // Measured off a hidden twin pinned at 100px, never off the visible word.
+  // Writing a measuring size onto the live element and relying on the next
+  // render to put it back silently fails: when the computed size matches the
+  // current state React skips the re-render, and the element is left stuck at
+  // the measuring size.
+  const fit = useCallback(() => {
+    const frame = frameRef.current;
+    const gauge = gaugeRef.current;
+    if (!frame || !gauge || !crop) return;
+    const natural = gauge.getBoundingClientRect().width;
+    if (!natural) return;
+    // Width alone made a five-letter word enormous and a nine-letter word
+    // modest: "KHARO" reached 305px where "OPERATORS" sat at 180px. Capping
+    // against the frame's own height keeps the word in proportion to the
+    // photograph and keeps every page at roughly the same weight.
+    // Width sets the size so the word spans the frame; height caps it so a
+    // short word cannot balloon. 0.38 is the loosest cap that still keeps
+    // every page inside an 84-97% fill, which reads as one deliberate
+    // treatment rather than a different decision per page.
+    const byWidth = (100 * frame.clientWidth * 0.97) / natural;
+    const byHeight = frame.clientHeight * 0.38;
+    setFontPx(Math.max(28, Math.min(byWidth, byHeight)));
+  }, [crop]);
+
+  useLayoutEffect(() => {
+    if (!crop) return undefined;
+    fit();
+    const ro = new ResizeObserver(fit);
+    if (frameRef.current) ro.observe(frameRef.current);
+    return () => ro.disconnect();
+  }, [crop, fit]);
+
+  // Webfonts land after first paint and change every advance width.
+  useEffect(() => {
+    if (!crop || !document.fonts?.ready) return;
+    document.fonts.ready.then(fit).catch(() => {});
+  }, [crop, fit]);
+
+  // Keep the copy clear of the word instead of letting buttons sit on top of
+  // it. 0.62 is the share of the line box left visible after the bottom crop.
+  const clearance = fontPx ? Math.round(fontPx * 0.62) + 26 : 0;
 
   return (
     <section className={`relative isolate text-white ${className}`}>
-      {/* Decoration layer: clipped by the frame */}
-      <div className="absolute inset-[clamp(0.5rem,1vw,0.875rem)] rounded-hero overflow-hidden bg-night">
+      <div ref={frameRef} className="absolute inset-[clamp(0.5rem,1vw,0.875rem)] rounded-hero overflow-hidden bg-night">
         <img
           src={img}
           alt={imgAlt}
@@ -51,33 +89,50 @@ export default function PageHero({
           {...(priority ? { fetchPriority: "high" } : { loading: "lazy" })}
           decoding="async"
         />
-        {/* Three scrims, because the photographs vary from night streets to a
-            bright showroom and the copy has to hold on all of them: a full
-            wash, a left column behind the text, and a deep foot so the crop
-            word never disappears into a pale image. */}
+        {/* Three scrims: the photographs run from night streets to a bright
+            showroom and the copy has to hold on all of them. */}
         <div className="absolute inset-0 bg-gradient-to-t from-night/85 via-night/45 to-night/25" />
         <div className="absolute inset-0 bg-gradient-to-r from-night/70 via-night/20 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night/80 to-transparent" />
 
-        {word && (
-          <Enter
+        {crop && (
+          <div
             aria-hidden="true"
-            delay={0.18}
-            className="absolute inset-x-0 bottom-0 select-none text-center font-heading font-extrabold
-                       leading-[0.78] tracking-[-0.035em] whitespace-nowrap text-white/[0.30]
-                       mb-[-0.14em]"
-            style={{ fontSize: fill }}
+            className="absolute inset-x-0 bottom-0 flex justify-center overflow-hidden"
+            style={{ height: fontPx ? `${Math.round(fontPx * 0.62)}px` : 0 }}
           >
-            {word}
-          </Enter>
+            <span
+              className="block whitespace-nowrap font-heading font-extrabold leading-[0.78]
+                         tracking-[-0.03em] text-white/[0.18] select-none"
+              style={{ fontSize: fontPx ? `${fontPx}px` : "100px", visibility: fontPx ? "visible" : "hidden" }}
+            >
+              {crop}
+            </span>
+          </div>
         )}
       </div>
 
-      {/* Content layer: never clipped */}
-      <div className={`wrap relative flex flex-col justify-end
-                      px-[clamp(0.5rem,1vw,0.875rem)]
-                      pt-[calc(var(--header-h)+clamp(1.5rem,5vh,3rem))]
-                      ${band ? "min-h-band pb-[clamp(1.75rem,4vh,2.75rem)]" : "min-h-hero pb-[clamp(2.5rem,7vh,4.5rem)]"}`}>
+      {/* The gauge: same face, weight and tracking, fixed at 100px, out of
+          flow and out of the accessibility tree. Only ever read from. */}
+      {crop && (
+        <span
+          ref={gaugeRef}
+          aria-hidden="true"
+          className="pointer-events-none fixed left-[-9999px] top-0 whitespace-nowrap font-heading
+                     font-extrabold leading-[0.78] tracking-[-0.03em]"
+          style={{ fontSize: "100px", visibility: "hidden" }}
+        >
+          {crop}
+        </span>
+      )}
+
+      <div
+        className={`wrap relative flex flex-col justify-end
+                    px-[clamp(0.5rem,1vw,0.875rem)]
+                    pt-[calc(var(--header-h)+clamp(1.5rem,5vh,3rem))]
+                    ${band ? "min-h-band" : "min-h-hero"}`}
+        style={{ paddingBottom: clearance || undefined }}
+      >
         {meta.length > 0 && (
           <Enter delay={0.1} className="absolute right-[clamp(1.5rem,4vw,3.5rem)] top-[calc(var(--header-h)+1.5rem)] hidden md:block text-right">
             <dl className="space-y-3">
@@ -113,8 +168,7 @@ export default function PageHero({
 
         {caption && (
           <Enter as="p" delay={0.22}
-            className="mt-10 max-w-[34ch] text-[12.5px] leading-relaxed text-white/60
-                       [text-shadow:0_1px_10px_rgba(0,0,0,0.55)]">
+            className="mt-10 max-w-[34ch] text-[12.5px] leading-relaxed text-white/60">
             {caption}
           </Enter>
         )}

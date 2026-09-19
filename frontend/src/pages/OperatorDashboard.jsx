@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Car, AlertTriangle, Check, X, Plus, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, Tooltip } from "recharts";
+import { useAuth } from "@/context/AuthContext";
 import { useSeo } from "@/lib/seo";
 
 const kpis = [
@@ -59,7 +61,16 @@ function TrackingNote() {
 
 export default function OperatorDashboard() {
   const [tab, setTab] = useState("overview");
+  // Every figure below this line is invented demo data down to the company
+  // name, the plates and the driver names. Without a guard the whole console
+  // was served to anyone who guessed the URL, which reads as a real
+  // operator's books. Gated the same way the driver portal is.
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => { if (user === false) navigate("/login"); }, [user, navigate]);
   useSeo({ title: "Your fleet · Kharo", description: "Your Kharo operator console.", noindex: true });
+
+  if (!user) return <div className="min-h-page bg-bone wrap py-section text-ink-2">Loading</div>;
 
   return (
     <main className="min-h-page bg-bone wrap py-section">

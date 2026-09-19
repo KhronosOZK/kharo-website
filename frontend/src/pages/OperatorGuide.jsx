@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import PageHero from "@/components/PageHero";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import OperatorEarnings from "@/components/OperatorEarnings";
 import Faq from "@/components/Faq";
@@ -80,9 +80,13 @@ export default function OperatorGuide() {
 
       {/* ── MANAGE: statement plus hairline list ───────────────────────── */}
       <RevealGroup as="section" className="wrap py-section">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-14">
-          <RevealItem className="lg:col-span-5">
+        {/* items-start matters: a grid stretches its children by default, so
+            the column would fill the row's full height and sticky would have
+            nothing left to travel within. */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+          <RevealItem className="lg:col-span-5 lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{manage.heading}</h2>
+            <p className="mt-4 text-[15.5px] leading-relaxed text-ink-2 max-w-[34ch]">{manage.sub}</p>
           </RevealItem>
           <RevealItem as="ul" className="lg:col-span-7 divide-y divide-line border-y border-line">
             {manage.items.map((it) => (
@@ -143,8 +147,26 @@ export default function OperatorGuide() {
             <h2 className="text-h2 font-heading font-extrabold text-ink">{earnings.heading}</h2>
             <p className="mt-4 text-lead text-ink-2">{earnings.sub}</p>
           </RevealItem>
-          <RevealItem className="mt-8">
-            <OperatorEarnings />
+          {/* The calculator produces a number; the column beside it is what
+              to do about that number. It was empty space before. */}
+          <RevealItem className="mt-8 grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <OperatorEarnings className="max-w-none" />
+            <div className="lg:pt-2">
+              <h3 className="text-h3 font-heading font-extrabold text-ink">{earnings.ctaHeading}</h3>
+              <p className="mt-3.5 text-[15.5px] leading-relaxed text-ink-2">{earnings.ctaBody}</p>
+              <ul className="mt-5 divide-y divide-line border-y border-line">
+                {earnings.ctaPoints.map((pt) => (
+                  <li key={pt} className="flex gap-3 py-3 text-[14.5px] text-ink-2">
+                    <Check size={17} strokeWidth={2.25} className="mt-0.5 shrink-0 text-green" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <Button size="lg" className="mt-6" onClick={() => navigate("/list-your-fleet")} data-testid="earnings-list-fleet">
+                {earnings.cta} <ArrowRight size={16} />
+              </Button>
+              <p className="mt-3.5 text-[12.5px] leading-relaxed text-ink-3 max-w-[40ch]">{earnings.ctaNote}</p>
+            </div>
           </RevealItem>
         </RevealGroup>
       </section>
