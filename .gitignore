@@ -1,0 +1,26 @@
+# Secrets. Never commit these: they leaked once already.
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dependencies and builds
+node_modules/
+**/node_modules/
+build/
+dist/
+**/build/
+__pycache__/
+**/__pycache__/
+*.pyc
+venv/
+**/venv/
+
+# Local noise
+.DS_Store
+**/.DS_Store
+*.log
+.impeccable/
+scratch_*
