@@ -8,7 +8,7 @@ import PreviewNotice from "@/components/PreviewNotice";
 import ApproxAreaMap from "@/components/ApproxAreaMap";
 import { Button } from "@/components/ui/button";
 import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
-import { getMockById } from "@/data/mockListings";
+import { getMockById, isPreviewId } from "@/data/mockListings";
 import { areaCoords } from "@/lib/geo";
 import { DETAIL } from "@/content/pages/marketplace";
 
@@ -42,7 +42,7 @@ export default function VehicleDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     // Handle mock vehicle IDs without making API calls
-    if (id && id.startsWith("mock-")) {
+    if (isPreviewId(id)) {
       const mockVehicle = getMockById(id);
       if (mockVehicle) {
         setV(mockVehicle);
@@ -169,7 +169,9 @@ export default function VehicleDetail() {
           </div>
         </div>
 
-        {/* Gallery */}
+        {/* Gallery: one bordered object holding the photo, the counter and
+            the thumbnail strip, rather than three loose elements stacked. */}
+        <figure className="surface-raised rounded-xl border border-line p-2 sm:p-2.5">
         <div className="relative rounded-lg overflow-hidden aspect-[4/3] sm:aspect-[3/2] bg-surface-2" data-testid="gallery-main">
           <img src={v.photos?.[photo]} alt={`${v.make} ${v.model}`} className="w-full h-full object-cover" />
           {uniquePhotoCount > 1 && (
@@ -196,14 +198,8 @@ export default function VehicleDetail() {
             </>
           )}
         </div>
-        {isElectric && (
-          <p className="flex items-center gap-1.5 text-[13px] font-medium text-green mt-2.5">
-            <Zap className="w-3.5 h-3.5" strokeWidth={1.75} /> Electric, ULEZ exempt
-          </p>
-        )}
-
         {uniquePhotoCount > 1 && (
-          <div className="flex gap-2 mt-3 overflow-x-auto hide-scrollbar">
+          <div className="flex gap-2 mt-2.5 pt-2.5 border-t border-line overflow-x-auto hide-scrollbar">
             {v.photos.map((p, i) => (
               <button
                 key={`${p}-${i}`}
@@ -215,6 +211,12 @@ export default function VehicleDetail() {
               </button>
             ))}
           </div>
+        )}
+        </figure>
+        {isElectric && (
+          <p className="flex items-center gap-1.5 text-[13px] font-medium text-green mt-2.5">
+            <Zap className="w-3.5 h-3.5" strokeWidth={1.75} /> Electric, ULEZ exempt
+          </p>
         )}
 
         <PreviewNotice variant="inline" className="lg:hidden mt-4" />
@@ -241,6 +243,18 @@ export default function VehicleDetail() {
                   <MapPin className="w-3.5 h-3.5" strokeWidth={1.75} />
                   {v.borough}, {v.city}
                 </span>
+              </div>
+
+              <div className="mt-6 pt-6 hairline">
+                <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.vehicleDetailsHeading}</h2>
+                <div className="mt-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-4">
+                  {specs.map((sp) => (
+                    <div key={sp.label}>
+                      <div className="text-[12.5px] text-ink-3">{sp.label}</div>
+                      <div className={`mt-1 font-medium text-ink text-[15px] ${sp.capitalize ? "capitalize" : ""}`}>{sp.value}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-6 pt-6 hairline">
@@ -315,17 +329,6 @@ export default function VehicleDetail() {
               </section>
             )}
 
-            <section className="hairline py-6">
-              <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.vehicleDetailsHeading}</h2>
-              <div className="mt-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-4">
-                {specs.map((s) => (
-                  <div key={s.label}>
-                    <div className="text-[12.5px] text-ink-3">{s.label}</div>
-                    <div className={`mt-1 font-medium text-ink text-[15px] ${s.capitalize ? "capitalize" : ""}`}>{s.value}</div>
-                  </div>
-                ))}
-              </div>
-            </section>
 
             <section className="hairline py-6">
               <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.collectionAreaHeading}</h2>

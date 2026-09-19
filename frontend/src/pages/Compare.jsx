@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import { getMockById } from "@/data/mockListings";
+import { getMockById, isPreviewId } from "@/data/mockListings";
 import CompareTable from "@/components/CompareTable";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
@@ -17,7 +17,7 @@ export default function Compare() {
   useSeo({ title: COMPARE.seo.title, noindex: true });
 
   const [all, setAll] = useState([]);
-  const realIds = compare.filter((id) => !id.startsWith("mock-"));
+  const realIds = compare.filter((id) => !isPreviewId(id));
 
   useEffect(() => {
     if (!realIds.length) { setAll([]); return; }
@@ -25,8 +25,8 @@ export default function Compare() {
   }, [realIds.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Preview inventory lives in the mock dataset, not the live API, so a
-  // mock-* id has to be resolved locally rather than looked up server side.
-  const mockItems = compare.filter((id) => id.startsWith("mock-")).map(getMockById).filter(Boolean);
+  // KH- id has to be resolved locally rather than looked up server side.
+  const mockItems = compare.filter(isPreviewId).map(getMockById).filter(Boolean);
   const items = [...mockItems, ...all.filter((v) => compare.includes(v.id))];
 
   return (

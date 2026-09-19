@@ -6,7 +6,7 @@
 
 export const MOCK_LISTINGS = [
   {
-    id: "mock-1",
+    id: "KH-1001",
     make: "Skoda",
     model: "Octavia",
     year: 2021,
@@ -35,7 +35,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-2",
+    id: "KH-1002",
     make: "Nissan",
     model: "Leaf",
     year: 2021,
@@ -64,7 +64,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-3",
+    id: "KH-1003",
     make: "Skoda",
     model: "Octavia",
     year: 2019,
@@ -93,7 +93,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-4",
+    id: "KH-1004",
     make: "Volkswagen",
     model: "Touran",
     year: 2019,
@@ -122,7 +122,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-5",
+    id: "KH-1005",
     make: "Tesla",
     model: "Model 3",
     year: 2023,
@@ -151,7 +151,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-6",
+    id: "KH-1006",
     make: "Ford",
     model: "Galaxy",
     year: 2022,
@@ -180,7 +180,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-7",
+    id: "KH-1007",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2021,
@@ -209,7 +209,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-8",
+    id: "KH-1008",
     make: "Tesla",
     model: "Model 3",
     year: 2021,
@@ -238,7 +238,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-9",
+    id: "KH-1009",
     make: "Skoda",
     model: "Octavia",
     year: 2023,
@@ -267,7 +267,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-10",
+    id: "KH-1010",
     make: "Volkswagen",
     model: "Touran",
     year: 2022,
@@ -296,7 +296,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-11",
+    id: "KH-1011",
     make: "BMW",
     model: "3 Series",
     year: 2021,
@@ -325,7 +325,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-12",
+    id: "KH-1012",
     make: "Hyundai",
     model: "Tucson",
     year: 2021,
@@ -354,7 +354,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-13",
+    id: "KH-1013",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2021,
@@ -383,7 +383,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-14",
+    id: "KH-1014",
     make: "Ford",
     model: "Focus",
     year: 2019,
@@ -412,7 +412,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-15",
+    id: "KH-1015",
     make: "Kia",
     model: "Sportage",
     year: 2024,
@@ -441,7 +441,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-16",
+    id: "KH-1016",
     make: "BMW",
     model: "3 Series",
     year: 2019,
@@ -470,7 +470,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-17",
+    id: "KH-1017",
     make: "Hyundai",
     model: "Tucson",
     year: 2021,
@@ -499,7 +499,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-18",
+    id: "KH-1018",
     make: "Hyundai",
     model: "Tucson",
     year: 2022,
@@ -528,7 +528,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-19",
+    id: "KH-1019",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2020,
@@ -557,7 +557,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-20",
+    id: "KH-1020",
     make: "Kia",
     model: "Niro EV",
     year: 2022,
@@ -586,7 +586,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-21",
+    id: "KH-1021",
     make: "Kia",
     model: "Niro EV",
     year: 2022,
@@ -615,7 +615,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-22",
+    id: "KH-1022",
     make: "Nissan",
     model: "Leaf",
     year: 2022,
@@ -644,7 +644,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-23",
+    id: "KH-1023",
     make: "Skoda",
     model: "Octavia",
     year: 2021,
@@ -673,7 +673,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-24",
+    id: "KH-1024",
     make: "Toyota",
     model: "Corolla",
     year: 2022,
@@ -702,7 +702,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-25",
+    id: "KH-1025",
     make: "Kia",
     model: "Niro EV",
     year: 2024,
@@ -731,7 +731,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-26",
+    id: "KH-1026",
     make: "Nissan",
     model: "Leaf",
     year: 2022,
@@ -760,7 +760,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-27",
+    id: "KH-1027",
     make: "BMW",
     model: "5 Series",
     year: 2020,
@@ -789,7 +789,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-28",
+    id: "KH-1028",
     make: "Volkswagen",
     model: "Touran",
     year: 2022,
@@ -818,7 +818,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-29",
+    id: "KH-1029",
     make: "Ford",
     model: "Galaxy",
     year: 2021,
@@ -847,7 +847,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-30",
+    id: "KH-1030",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2020,
@@ -876,7 +876,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-31",
+    id: "KH-1031",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2022,
@@ -905,7 +905,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-32",
+    id: "KH-1032",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2021,
@@ -934,7 +934,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-33",
+    id: "KH-1033",
     make: "BMW",
     model: "5 Series",
     year: 2023,
@@ -963,7 +963,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-34",
+    id: "KH-1034",
     make: "Toyota",
     model: "Corolla",
     year: 2022,
@@ -992,7 +992,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-35",
+    id: "KH-1035",
     make: "Ford",
     model: "Galaxy",
     year: 2021,
@@ -1021,7 +1021,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-36",
+    id: "KH-1036",
     make: "Ford",
     model: "Focus",
     year: 2022,
@@ -1050,7 +1050,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-37",
+    id: "KH-1037",
     make: "Nissan",
     model: "Leaf",
     year: 2020,
@@ -1079,7 +1079,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-38",
+    id: "KH-1038",
     make: "Tesla",
     model: "Model 3",
     year: 2024,
@@ -1108,7 +1108,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-39",
+    id: "KH-1039",
     make: "Hyundai",
     model: "Tucson",
     year: 2023,
@@ -1137,7 +1137,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-40",
+    id: "KH-1040",
     make: "Ford",
     model: "Focus",
     year: 2020,
@@ -1166,7 +1166,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-41",
+    id: "KH-1041",
     make: "Volkswagen",
     model: "Touran",
     year: 2019,
@@ -1195,7 +1195,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-42",
+    id: "KH-1042",
     make: "Skoda",
     model: "Superb",
     year: 2021,
@@ -1224,7 +1224,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-43",
+    id: "KH-1043",
     make: "Skoda",
     model: "Superb",
     year: 2021,
@@ -1253,7 +1253,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-44",
+    id: "KH-1044",
     make: "Ford",
     model: "Focus",
     year: 2019,
@@ -1282,7 +1282,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-45",
+    id: "KH-1045",
     make: "Toyota",
     model: "Camry",
     year: 2022,
@@ -1311,7 +1311,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-46",
+    id: "KH-1046",
     make: "Toyota",
     model: "Camry",
     year: 2020,
@@ -1340,7 +1340,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-47",
+    id: "KH-1047",
     make: "Ford",
     model: "Galaxy",
     year: 2021,
@@ -1369,7 +1369,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-48",
+    id: "KH-1048",
     make: "Volkswagen",
     model: "Touran",
     year: 2022,
@@ -1398,7 +1398,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-49",
+    id: "KH-1049",
     make: "Ford",
     model: "Galaxy",
     year: 2020,
@@ -1427,7 +1427,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-50",
+    id: "KH-1050",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2022,
@@ -1456,7 +1456,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-51",
+    id: "KH-1051",
     make: "Skoda",
     model: "Octavia",
     year: 2022,
@@ -1485,7 +1485,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-52",
+    id: "KH-1052",
     make: "Skoda",
     model: "Octavia",
     year: 2020,
@@ -1514,7 +1514,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-53",
+    id: "KH-1053",
     make: "Ford",
     model: "Galaxy",
     year: 2020,
@@ -1543,7 +1543,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-54",
+    id: "KH-1054",
     make: "Toyota",
     model: "Corolla",
     year: 2024,
@@ -1572,7 +1572,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-55",
+    id: "KH-1055",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2022,
@@ -1601,7 +1601,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-56",
+    id: "KH-1056",
     make: "BMW",
     model: "3 Series",
     year: 2019,
@@ -1630,7 +1630,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-57",
+    id: "KH-1057",
     make: "Kia",
     model: "Niro EV",
     year: 2021,
@@ -1659,7 +1659,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-58",
+    id: "KH-1058",
     make: "Volkswagen",
     model: "Touran",
     year: 2020,
@@ -1688,7 +1688,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-59",
+    id: "KH-1059",
     make: "Kia",
     model: "Niro EV",
     year: 2024,
@@ -1717,7 +1717,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-60",
+    id: "KH-1060",
     make: "Volkswagen",
     model: "Touran",
     year: 2019,
@@ -1746,7 +1746,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-61",
+    id: "KH-1061",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2023,
@@ -1775,7 +1775,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-62",
+    id: "KH-1062",
     make: "Nissan",
     model: "Leaf",
     year: 2023,
@@ -1804,7 +1804,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-63",
+    id: "KH-1063",
     make: "Ford",
     model: "Galaxy",
     year: 2019,
@@ -1833,7 +1833,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-64",
+    id: "KH-1064",
     make: "Ford",
     model: "Focus",
     year: 2020,
@@ -1862,7 +1862,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-65",
+    id: "KH-1065",
     make: "Skoda",
     model: "Superb",
     year: 2019,
@@ -1891,7 +1891,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-66",
+    id: "KH-1066",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2020,
@@ -1920,7 +1920,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-67",
+    id: "KH-1067",
     make: "BMW",
     model: "5 Series",
     year: 2020,
@@ -1949,7 +1949,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-68",
+    id: "KH-1068",
     make: "BMW",
     model: "3 Series",
     year: 2021,
@@ -1978,7 +1978,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-69",
+    id: "KH-1069",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2023,
@@ -2007,7 +2007,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-70",
+    id: "KH-1070",
     make: "Skoda",
     model: "Superb",
     year: 2019,
@@ -2036,7 +2036,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-71",
+    id: "KH-1071",
     make: "Kia",
     model: "Niro EV",
     year: 2023,
@@ -2065,7 +2065,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-72",
+    id: "KH-1072",
     make: "Kia",
     model: "Niro EV",
     year: 2024,
@@ -2094,7 +2094,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-73",
+    id: "KH-1073",
     make: "Hyundai",
     model: "Tucson",
     year: 2021,
@@ -2123,7 +2123,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-74",
+    id: "KH-1074",
     make: "Toyota",
     model: "Camry",
     year: 2023,
@@ -2152,7 +2152,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-75",
+    id: "KH-1075",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2022,
@@ -2181,7 +2181,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-76",
+    id: "KH-1076",
     make: "Toyota",
     model: "Prius",
     year: 2021,
@@ -2210,7 +2210,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-prius.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-77",
+    id: "KH-1077",
     make: "Volkswagen",
     model: "Touran",
     year: 2021,
@@ -2239,7 +2239,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-78",
+    id: "KH-1078",
     make: "Volkswagen",
     model: "Touran",
     year: 2021,
@@ -2268,7 +2268,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-79",
+    id: "KH-1079",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2019,
@@ -2297,7 +2297,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-80",
+    id: "KH-1080",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2020,
@@ -2326,7 +2326,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-81",
+    id: "KH-1081",
     make: "Toyota",
     model: "Corolla",
     year: 2024,
@@ -2355,7 +2355,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-82",
+    id: "KH-1082",
     make: "Toyota",
     model: "Camry",
     year: 2020,
@@ -2384,7 +2384,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-83",
+    id: "KH-1083",
     make: "Volkswagen",
     model: "Touran",
     year: 2021,
@@ -2413,7 +2413,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-84",
+    id: "KH-1084",
     make: "Kia",
     model: "Niro EV",
     year: 2022,
@@ -2442,7 +2442,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-85",
+    id: "KH-1085",
     make: "Skoda",
     model: "Superb",
     year: 2021,
@@ -2471,7 +2471,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-86",
+    id: "KH-1086",
     make: "Toyota",
     model: "Corolla",
     year: 2024,
@@ -2500,7 +2500,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-87",
+    id: "KH-1087",
     make: "Hyundai",
     model: "Tucson",
     year: 2024,
@@ -2529,7 +2529,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-88",
+    id: "KH-1088",
     make: "Kia",
     model: "Sportage",
     year: 2021,
@@ -2558,7 +2558,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-89",
+    id: "KH-1089",
     make: "BMW",
     model: "5 Series",
     year: 2022,
@@ -2587,7 +2587,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-90",
+    id: "KH-1090",
     make: "Hyundai",
     model: "Tucson",
     year: 2021,
@@ -2616,7 +2616,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-91",
+    id: "KH-1091",
     make: "Volkswagen",
     model: "Touran",
     year: 2022,
@@ -2645,7 +2645,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-92",
+    id: "KH-1092",
     make: "Skoda",
     model: "Octavia",
     year: 2023,
@@ -2674,7 +2674,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-93",
+    id: "KH-1093",
     make: "Skoda",
     model: "Superb",
     year: 2019,
@@ -2703,7 +2703,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-94",
+    id: "KH-1094",
     make: "Toyota",
     model: "Camry",
     year: 2020,
@@ -2732,7 +2732,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-95",
+    id: "KH-1095",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2022,
@@ -2761,7 +2761,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-96",
+    id: "KH-1096",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2020,
@@ -2790,7 +2790,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-97",
+    id: "KH-1097",
     make: "Toyota",
     model: "Corolla",
     year: 2023,
@@ -2819,7 +2819,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-98",
+    id: "KH-1098",
     make: "Volkswagen",
     model: "Touran",
     year: 2021,
@@ -2848,7 +2848,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-99",
+    id: "KH-1099",
     make: "BMW",
     model: "5 Series",
     year: 2021,
@@ -2877,7 +2877,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-100",
+    id: "KH-1100",
     make: "BMW",
     model: "5 Series",
     year: 2022,
@@ -2906,7 +2906,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-101",
+    id: "KH-1101",
     make: "Skoda",
     model: "Octavia",
     year: 2020,
@@ -2935,7 +2935,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-102",
+    id: "KH-1102",
     make: "Toyota",
     model: "Corolla",
     year: 2024,
@@ -2964,7 +2964,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-103",
+    id: "KH-1103",
     make: "Skoda",
     model: "Superb",
     year: 2021,
@@ -2993,7 +2993,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-104",
+    id: "KH-1104",
     make: "Tesla",
     model: "Model 3",
     year: 2023,
@@ -3022,7 +3022,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-105",
+    id: "KH-1105",
     make: "Ford",
     model: "Galaxy",
     year: 2020,
@@ -3051,7 +3051,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-106",
+    id: "KH-1106",
     make: "Toyota",
     model: "Camry",
     year: 2021,
@@ -3080,7 +3080,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-107",
+    id: "KH-1107",
     make: "Ford",
     model: "Galaxy",
     year: 2019,
@@ -3109,7 +3109,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-108",
+    id: "KH-1108",
     make: "Tesla",
     model: "Model 3",
     year: 2021,
@@ -3138,7 +3138,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-109",
+    id: "KH-1109",
     make: "Ford",
     model: "Focus",
     year: 2019,
@@ -3167,7 +3167,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-110",
+    id: "KH-1110",
     make: "Skoda",
     model: "Superb",
     year: 2019,
@@ -3196,7 +3196,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-111",
+    id: "KH-1111",
     make: "Volkswagen",
     model: "Touran",
     year: 2021,
@@ -3225,7 +3225,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-112",
+    id: "KH-1112",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2021,
@@ -3254,7 +3254,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-113",
+    id: "KH-1113",
     make: "Kia",
     model: "Niro EV",
     year: 2021,
@@ -3283,7 +3283,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-114",
+    id: "KH-1114",
     make: "Skoda",
     model: "Octavia",
     year: 2022,
@@ -3312,7 +3312,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-115",
+    id: "KH-1115",
     make: "Skoda",
     model: "Octavia",
     year: 2023,
@@ -3341,7 +3341,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-116",
+    id: "KH-1116",
     make: "Toyota",
     model: "Corolla",
     year: 2023,
@@ -3370,7 +3370,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-117",
+    id: "KH-1117",
     make: "BMW",
     model: "3 Series",
     year: 2022,
@@ -3399,7 +3399,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-118",
+    id: "KH-1118",
     make: "Skoda",
     model: "Octavia",
     year: 2023,
@@ -3428,7 +3428,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-119",
+    id: "KH-1119",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2023,
@@ -3457,7 +3457,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-120",
+    id: "KH-1120",
     make: "Skoda",
     model: "Octavia",
     year: 2023,
@@ -3486,7 +3486,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-121",
+    id: "KH-1121",
     make: "BMW",
     model: "5 Series",
     year: 2023,
@@ -3515,7 +3515,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-122",
+    id: "KH-1122",
     make: "Ford",
     model: "Galaxy",
     year: 2020,
@@ -3544,7 +3544,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-123",
+    id: "KH-1123",
     make: "Toyota",
     model: "Prius",
     year: 2019,
@@ -3573,7 +3573,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-prius.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-124",
+    id: "KH-1124",
     make: "BMW",
     model: "3 Series",
     year: 2020,
@@ -3602,7 +3602,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-125",
+    id: "KH-1125",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2021,
@@ -3631,7 +3631,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-126",
+    id: "KH-1126",
     make: "Nissan",
     model: "Leaf",
     year: 2022,
@@ -3660,7 +3660,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-127",
+    id: "KH-1127",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2020,
@@ -3689,7 +3689,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-128",
+    id: "KH-1128",
     make: "Skoda",
     model: "Octavia",
     year: 2020,
@@ -3718,7 +3718,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-129",
+    id: "KH-1129",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2022,
@@ -3747,7 +3747,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-130",
+    id: "KH-1130",
     make: "Kia",
     model: "Sportage",
     year: 2022,
@@ -3776,7 +3776,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-131",
+    id: "KH-1131",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2022,
@@ -3805,7 +3805,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-132",
+    id: "KH-1132",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2021,
@@ -3834,7 +3834,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-133",
+    id: "KH-1133",
     make: "BMW",
     model: "3 Series",
     year: 2020,
@@ -3863,7 +3863,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-134",
+    id: "KH-1134",
     make: "Toyota",
     model: "Camry",
     year: 2021,
@@ -3892,7 +3892,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-135",
+    id: "KH-1135",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2023,
@@ -3921,7 +3921,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-136",
+    id: "KH-1136",
     make: "Skoda",
     model: "Octavia",
     year: 2022,
@@ -3950,7 +3950,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-137",
+    id: "KH-1137",
     make: "Skoda",
     model: "Superb",
     year: 2020,
@@ -3979,7 +3979,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-138",
+    id: "KH-1138",
     make: "Ford",
     model: "Focus",
     year: 2022,
@@ -4008,7 +4008,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-139",
+    id: "KH-1139",
     make: "Nissan",
     model: "Leaf",
     year: 2020,
@@ -4037,7 +4037,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-140",
+    id: "KH-1140",
     make: "Hyundai",
     model: "Tucson",
     year: 2022,
@@ -4066,7 +4066,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-141",
+    id: "KH-1141",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2022,
@@ -4095,7 +4095,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-142",
+    id: "KH-1142",
     make: "Hyundai",
     model: "Tucson",
     year: 2022,
@@ -4124,7 +4124,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-143",
+    id: "KH-1143",
     make: "Tesla",
     model: "Model 3",
     year: 2022,
@@ -4153,7 +4153,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-144",
+    id: "KH-1144",
     make: "Toyota",
     model: "Prius",
     year: 2021,
@@ -4182,7 +4182,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-prius.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-145",
+    id: "KH-1145",
     make: "BMW",
     model: "3 Series",
     year: 2022,
@@ -4211,7 +4211,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-146",
+    id: "KH-1146",
     make: "Ford",
     model: "Focus",
     year: 2022,
@@ -4240,7 +4240,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-147",
+    id: "KH-1147",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2021,
@@ -4269,7 +4269,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-148",
+    id: "KH-1148",
     make: "Toyota",
     model: "Camry",
     year: 2020,
@@ -4298,7 +4298,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-149",
+    id: "KH-1149",
     make: "BMW",
     model: "3 Series",
     year: 2022,
@@ -4327,7 +4327,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-150",
+    id: "KH-1150",
     make: "Skoda",
     model: "Superb",
     year: 2019,
@@ -4356,7 +4356,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-151",
+    id: "KH-1151",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2020,
@@ -4385,7 +4385,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-152",
+    id: "KH-1152",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2023,
@@ -4414,7 +4414,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-153",
+    id: "KH-1153",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2022,
@@ -4443,7 +4443,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-154",
+    id: "KH-1154",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2021,
@@ -4472,7 +4472,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-155",
+    id: "KH-1155",
     make: "Ford",
     model: "Galaxy",
     year: 2020,
@@ -4501,7 +4501,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-156",
+    id: "KH-1156",
     make: "Ford",
     model: "Focus",
     year: 2019,
@@ -4530,7 +4530,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-157",
+    id: "KH-1157",
     make: "Ford",
     model: "Focus",
     year: 2021,
@@ -4559,7 +4559,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-158",
+    id: "KH-1158",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2023,
@@ -4588,7 +4588,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-159",
+    id: "KH-1159",
     make: "Hyundai",
     model: "Tucson",
     year: 2023,
@@ -4617,7 +4617,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-160",
+    id: "KH-1160",
     make: "Ford",
     model: "Galaxy",
     year: 2019,
@@ -4646,7 +4646,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-161",
+    id: "KH-1161",
     make: "Skoda",
     model: "Superb",
     year: 2020,
@@ -4675,7 +4675,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-162",
+    id: "KH-1162",
     make: "Toyota",
     model: "Prius",
     year: 2020,
@@ -4704,7 +4704,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-prius.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-163",
+    id: "KH-1163",
     make: "Toyota",
     model: "Prius",
     year: 2021,
@@ -4733,7 +4733,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-prius.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-164",
+    id: "KH-1164",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2020,
@@ -4762,7 +4762,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-165",
+    id: "KH-1165",
     make: "Kia",
     model: "Niro EV",
     year: 2022,
@@ -4791,7 +4791,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-166",
+    id: "KH-1166",
     make: "Kia",
     model: "Sportage",
     year: 2023,
@@ -4820,7 +4820,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-167",
+    id: "KH-1167",
     make: "Kia",
     model: "Niro EV",
     year: 2024,
@@ -4849,7 +4849,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-168",
+    id: "KH-1168",
     make: "Ford",
     model: "Galaxy",
     year: 2020,
@@ -4878,7 +4878,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-169",
+    id: "KH-1169",
     make: "Mercedes-Benz",
     model: "E-Class",
     year: 2023,
@@ -4907,7 +4907,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/17185083/pexels-photo-17185083.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-170",
+    id: "KH-1170",
     make: "Ford",
     model: "Focus",
     year: 2020,
@@ -4936,7 +4936,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-171",
+    id: "KH-1171",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2020,
@@ -4965,7 +4965,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-172",
+    id: "KH-1172",
     make: "Tesla",
     model: "Model 3",
     year: 2023,
@@ -4994,7 +4994,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-173",
+    id: "KH-1173",
     make: "Volkswagen",
     model: "Touran",
     year: 2021,
@@ -5023,7 +5023,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-174",
+    id: "KH-1174",
     make: "Hyundai",
     model: "Tucson",
     year: 2023,
@@ -5052,7 +5052,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-175",
+    id: "KH-1175",
     make: "Nissan",
     model: "Leaf",
     year: 2022,
@@ -5081,7 +5081,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-176",
+    id: "KH-1176",
     make: "Ford",
     model: "Focus",
     year: 2022,
@@ -5110,7 +5110,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-177",
+    id: "KH-1177",
     make: "Toyota",
     model: "Corolla",
     year: 2024,
@@ -5139,7 +5139,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-178",
+    id: "KH-1178",
     make: "Ford",
     model: "Focus",
     year: 2022,
@@ -5168,7 +5168,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27138933/pexels-photo-27138933.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-179",
+    id: "KH-1179",
     make: "Skoda",
     model: "Octavia",
     year: 2021,
@@ -5197,7 +5197,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-180",
+    id: "KH-1180",
     make: "Toyota",
     model: "Prius",
     year: 2021,
@@ -5226,7 +5226,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-prius.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-181",
+    id: "KH-1181",
     make: "Volkswagen",
     model: "Touran",
     year: 2020,
@@ -5255,7 +5255,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-182",
+    id: "KH-1182",
     make: "Toyota",
     model: "Camry",
     year: 2020,
@@ -5284,7 +5284,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-183",
+    id: "KH-1183",
     make: "Toyota",
     model: "Corolla",
     year: 2023,
@@ -5313,7 +5313,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-184",
+    id: "KH-1184",
     make: "Skoda",
     model: "Superb",
     year: 2021,
@@ -5342,7 +5342,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-185",
+    id: "KH-1185",
     make: "Volkswagen",
     model: "Touran",
     year: 2019,
@@ -5371,7 +5371,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-186",
+    id: "KH-1186",
     make: "Skoda",
     model: "Octavia",
     year: 2021,
@@ -5400,7 +5400,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-187",
+    id: "KH-1187",
     make: "Kia",
     model: "Niro EV",
     year: 2021,
@@ -5429,7 +5429,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-188",
+    id: "KH-1188",
     make: "Skoda",
     model: "Octavia",
     year: 2021,
@@ -5458,7 +5458,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-189",
+    id: "KH-1189",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2023,
@@ -5487,7 +5487,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-190",
+    id: "KH-1190",
     make: "Toyota",
     model: "Prius",
     year: 2019,
@@ -5516,7 +5516,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-prius.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-191",
+    id: "KH-1191",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2021,
@@ -5545,7 +5545,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-192",
+    id: "KH-1192",
     make: "Nissan",
     model: "Leaf",
     year: 2022,
@@ -5574,7 +5574,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-193",
+    id: "KH-1193",
     make: "Toyota",
     model: "Camry",
     year: 2022,
@@ -5603,7 +5603,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-194",
+    id: "KH-1194",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2020,
@@ -5632,7 +5632,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-195",
+    id: "KH-1195",
     make: "Skoda",
     model: "Superb",
     year: 2021,
@@ -5661,7 +5661,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-196",
+    id: "KH-1196",
     make: "Hyundai",
     model: "Tucson",
     year: 2021,
@@ -5690,7 +5690,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/hyundai-tucson.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-197",
+    id: "KH-1197",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2021,
@@ -5719,7 +5719,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-198",
+    id: "KH-1198",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2021,
@@ -5748,7 +5748,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-199",
+    id: "KH-1199",
     make: "Kia",
     model: "Niro EV",
     year: 2022,
@@ -5777,7 +5777,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/27286179/pexels-photo-27286179.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-200",
+    id: "KH-1200",
     make: "BMW",
     model: "5 Series",
     year: 2021,
@@ -5806,7 +5806,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-201",
+    id: "KH-1201",
     make: "Skoda",
     model: "Superb",
     year: 2020,
@@ -5835,7 +5835,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1764090317825-9b76e437c8d8?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-202",
+    id: "KH-1202",
     make: "Toyota",
     model: "Camry",
     year: 2022,
@@ -5864,7 +5864,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-203",
+    id: "KH-1203",
     make: "BMW",
     model: "3 Series",
     year: 2019,
@@ -5893,7 +5893,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-204",
+    id: "KH-1204",
     make: "BMW",
     model: "5 Series",
     year: 2020,
@@ -5922,7 +5922,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-205",
+    id: "KH-1205",
     make: "Mercedes-Benz",
     model: "C-Class",
     year: 2020,
@@ -5951,7 +5951,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/18837778/pexels-photo-18837778.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-206",
+    id: "KH-1206",
     make: "Kia",
     model: "Sportage",
     year: 2023,
@@ -5980,7 +5980,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/2036544/pexels-photo-2036544.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-207",
+    id: "KH-1207",
     make: "Ford",
     model: "Galaxy",
     year: 2022,
@@ -6009,7 +6009,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/29566906/pexels-photo-29566906.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-208",
+    id: "KH-1208",
     make: "BMW",
     model: "5 Series",
     year: 2022,
@@ -6038,7 +6038,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/33125984/pexels-photo-33125984.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-209",
+    id: "KH-1209",
     make: "BMW",
     model: "3 Series",
     year: 2021,
@@ -6067,7 +6067,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/8332625/pexels-photo-8332625.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-210",
+    id: "KH-1210",
     make: "Volkswagen",
     model: "Passat GTE",
     year: 2021,
@@ -6096,7 +6096,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/vw-passat-gte.jpg", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-211",
+    id: "KH-1211",
     make: "Toyota",
     model: "Camry",
     year: 2021,
@@ -6125,7 +6125,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-212",
+    id: "KH-1212",
     make: "Nissan",
     model: "Leaf",
     year: 2021,
@@ -6154,7 +6154,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-213",
+    id: "KH-1213",
     make: "Skoda",
     model: "Octavia",
     year: 2023,
@@ -6183,7 +6183,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-214",
+    id: "KH-1214",
     make: "Nissan",
     model: "Leaf",
     year: 2023,
@@ -6212,7 +6212,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.pexels.com/photos/13733818/pexels-photo-13733818.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1615829386703-e2bb66a7cb7d?crop=entropy&cs=srgb&fm=jpg&q=80&w=900"],
   },
   {
-    id: "mock-215",
+    id: "KH-1215",
     make: "Toyota",
     model: "Camry",
     year: 2021,
@@ -6241,7 +6241,7 @@ export const MOCK_LISTINGS = [
     photos: ["https://images.unsplash.com/photo-1623869675781-80aa31012a5a?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-216",
+    id: "KH-1216",
     make: "Toyota",
     model: "Corolla",
     year: 2021,
@@ -6270,7 +6270,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/toyota-corolla.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-217",
+    id: "KH-1217",
     make: "Skoda",
     model: "Octavia",
     year: 2021,
@@ -6299,7 +6299,7 @@ export const MOCK_LISTINGS = [
     photos: ["/images/listings/skoda-octavia.jpg", "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900", "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?auto=compress&cs=tinysrgb&w=900"],
   },
   {
-    id: "mock-218",
+    id: "KH-1218",
     make: "Ford",
     model: "Galaxy",
     year: 2022,
@@ -6330,6 +6330,10 @@ export const MOCK_LISTINGS = [
 ];
 
 export const getMockById = (id) => MOCK_LISTINGS.find((l) => l.id === id) || null;
+
+/** Preview inventory carries a KH- reference. Anything else is a real listing
+ * held server side, so callers know which source to resolve an id against. */
+export const isPreviewId = (id) => typeof id === "string" && id.startsWith("KH-");
 
 export const MOCK_CITIES = ["London", "Birmingham", "Manchester", "Leeds", "Wolverhampton", "Sheffield", "Liverpool"];
 

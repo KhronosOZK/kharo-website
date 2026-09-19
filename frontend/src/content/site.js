@@ -295,7 +295,7 @@ export const DRIVER_GUIDE = {
     rows: [
       ["Weekly rent", "Set by the operator, shown on the listing, collected through Kharo"],
       ["Insurance", "Your chosen policy, paid monthly, six-monthly or yearly to the insurer"],
-      ["Deposit", "Set by the operator, shown on the listing, returned after the handback check"],
+      ["Deposit", "Returned in full after the handback photos are compared"],
       ["Kharo", "Nothing. Kharo earns from the operator when a rental completes"],
     ],
   },
@@ -397,14 +397,13 @@ export const OPERATOR_GUIDE = {
       "Vetted drivers arrive with checks and insurance already attached",
     ],
     cta: "List your fleet",
-    ctaNote: FACTS.fee,
+    ctaNote: "A consultant calls within one working day. Nothing is listed until you approve it.",
   },
   faq: [
     { q: "Who insures the driver?", a: "By default the driver chooses their own hire and reward policy when they apply, and you see that choice with their application. If you carry fleet cover, add it to the listing and the price shows it as included." },
     { q: "What checks are done before I see an application?", a: FACTS.vetting },
     { q: "How does rent reach me?", a: "Rent is collected from the driver through Kharo each week and paid to you on schedule. Your console shows every collection and payout." },
     { q: "What if a driver stops paying?", a: "You are told the same day and a person from Kharo calls the driver to arrange payment. The steps that follow are set out in the operator agreement before you list." },
-    { q: "What does Kharo charge?", a: FACTS.fee },
     { q: "Can I list now?", a: "Yes. We are onboarding launch operators now, and your vehicles go live with the platform." },
   ],
   closer: {

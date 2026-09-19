@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Columns3, X } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import { getMockById } from "@/data/mockListings";
+import { getMockById, isPreviewId } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 import CompareTable from "@/components/CompareTable";
 import { Button } from "@/components/ui/button";
@@ -18,17 +18,17 @@ export default function Saved() {
 
   useSeo({ title: SAVED.seo.title, noindex: true });
 
-  // The preview inventory lives in the mock dataset, so a saved mock-* id
+  // The preview inventory lives in the mock dataset, so a saved KH- id
   // has to be resolved locally rather than looked up on the live API, which
   // only knows about real listings once operators start listing.
-  const realIds = saved.filter((id) => !id.startsWith("mock-"));
+  const realIds = saved.filter((id) => !isPreviewId(id));
 
   useEffect(() => {
     if (!realIds.length) { setAll([]); return; }
     api.get("/listings").then((r) => setAll(r.data)).catch(() => setAll([]));
   }, [realIds.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const mockItems = saved.filter((id) => id.startsWith("mock-")).map(getMockById).filter(Boolean);
+  const mockItems = saved.filter(isPreviewId).map(getMockById).filter(Boolean);
   const items = [...mockItems, ...all.filter((v) => saved.includes(v.id))];
 
   return (

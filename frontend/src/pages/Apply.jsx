@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { api, trackEvent } from "@/lib/api";
-import { getMockById } from "@/data/mockListings";
+import { getMockById, isPreviewId } from "@/data/mockListings";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -46,7 +46,7 @@ export default function Apply() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (id && id.startsWith("mock-")) {
+    if (isPreviewId(id)) {
       const mockVehicle = getMockById(id);
       if (mockVehicle) setV(mockVehicle); else navigate("/search");
       return;

@@ -207,7 +207,7 @@ def main():
             auto = fuel in ("Electric", "Hybrid", "Plug-in Hybrid") or rnd.random() < 0.8
             letters = "ABDEFGHJLNPQRSTUWXYZ"
             rows.append(dict(
-                id=f"mock-{n}", make=make, model=model, year=year, fuel=fuel,
+                id=f"KH-{1000 + n}", make=make, model=model, year=year, fuel=fuel,
                 transmission="Automatic" if auto else "Manual",
                 seats=seats, colour=rnd.choice(COLOURS), borough=area, city=city,
                 postcode=(f"{rnd.choice(POSTCODE_PREFIX[city])}{rnd.randint(1, 29)} "
