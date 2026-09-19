@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import PageHero from "@/components/PageHero";
+import HeroMarketplace from "@/components/HeroMarketplace";
 import { useNavigate, Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { MOCK_LISTINGS } from "@/data/mockListings";
@@ -7,7 +7,6 @@ import VehicleCard from "@/components/VehicleCard";
 import PreviewNotice from "@/components/PreviewNotice";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import Faq from "@/components/Faq";
-import HeroSearch from "@/components/HeroSearch";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
@@ -40,18 +39,12 @@ export default function Home() {
     if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
   };
 
-  const { hero, work, fleet, featured, dashboard, paths, faq, closer } = HOME;
+  const { work, fleet, featured, dashboard, paths, faq, closer } = HOME;
 
   return (
     <div className="bg-bone">
       {/* ── HERO: one photograph, one sentence, one action ─────────────── */}
-      <PageHero
-        word={hero.word} eyebrow={hero.eyebrow} heading={hero.heading} sub={hero.sub}
-        img={hero.img} imgAlt={hero.imgAlt} position="60% center"
-        caption={hero.caption} priority
-      >
-        <HeroSearch />
-      </PageHero>
+      <HeroMarketplace />
 
       {/* ── THE WORK AROUND THE CAR: statement + hairline list ─────────── */}
       <RevealGroup as="section" className="wrap py-section">

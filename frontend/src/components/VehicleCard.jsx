@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { CARD } from "@/content/pages/marketplace";
 
 const MAX_ZONES = 5;
@@ -20,9 +21,9 @@ export default function VehicleCard({ vehicle }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const {
-    id, make, model, year, fuel, weekly_rent, borough,
-    photos, transmission, mileage_allowance, insurance_included,
-    licence_type, cross_border,
+    id, make, model, year, fuel, weekly_rent, borough, seats,
+    photos, mileage_allowance, insurance_included,
+    licence_type, cross_border, licensing_authority,
   } = vehicle;
 
   const uniquePhotos = Array.isArray(photos) ? [...new Set(photos)] : [photos].filter(Boolean);
@@ -82,7 +83,23 @@ export default function VehicleCard({ vehicle }) {
     }
   };
 
-  const specs = [fuel, transmission, mileage_allowance ? `${mileage_allowance.toLocaleString()} mi/mo` : null].filter(Boolean);
+  const specs = [
+    seats ? `${seats} seats` : null,
+    fuel,
+    mileage_allowance ? `${mileage_allowance.toLocaleString()} mi/mo` : null,
+  ].filter(Boolean);
+
+  // Status pills. Only claims the record actually supports: an "insurance
+  // included" pill appears solely where the operator has said so, because
+  // every listing here is rent-only unless flagged otherwise.
+  const EV_FUELS = ["Electric", "Plug-in Hybrid", "Hybrid"];
+  const pills = [
+    EV_FUELS.includes(fuel) ? (fuel === "Electric" ? "EV" : fuel) : null,
+    licensing_authority?.startsWith("Transport for London")
+      ? "TfL licensed"
+      : licensing_authority ? `${licensing_authority.replace(" City Council", "").replace("City of ", "")} licensed` : null,
+    insurance_included ? "Insurance included" : null,
+  ].filter(Boolean);
   // The plate is the first thing a driver checks: a car on the wrong licence
   // is no use to them whatever it costs.
   const plate = licence_type ? licence_type.replace(" private hire vehicle licence", "").replace(" PHV plate", "") : null;
@@ -94,7 +111,7 @@ export default function VehicleCard({ vehicle }) {
       onPointerEnter={warmPhotos}
     >
       <div
-        className="relative z-10 aspect-[4/3] rounded-lg overflow-hidden bg-surface-2"
+        className="relative z-10 aspect-[16/10] rounded-lg overflow-hidden bg-surface-2"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handlePhotoClick}
@@ -102,6 +119,7 @@ export default function VehicleCard({ vehicle }) {
         {/* Every frame is mounted and stacked, with only opacity changing.
             Mounting a fresh <img> per frame meant each one had to decode
             before it painted, which is what made scrubbing flicker. */}
+        <div className="absolute inset-0 transition-transform duration-500 ease-out motion-safe:group-hover:scale-105">
         {uniquePhotos.slice(0, armed ? MAX_ZONES : Math.max(1, activeIndex + 1)).map((src, i) => (
           <img
             key={src}
@@ -115,6 +133,22 @@ export default function VehicleCard({ vehicle }) {
             style={{ opacity: i === activeIndex ? 1 : 0 }}
           />
         ))}
+        </div>
+
+        {pills.length > 0 && (
+          <div className="pointer-events-none absolute inset-x-2 top-4 z-10 flex flex-wrap items-start justify-between gap-1.5">
+            <span className="flex flex-wrap gap-1.5">
+              {pills.slice(0, 2).map((p) => (
+                <span key={p} className="rounded-full bg-ink/72 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
+                  {p}
+                </span>
+              ))}
+            </span>
+            {pills[2] && (
+              <span className="rounded-full bg-green px-2.5 py-1 text-[11px] font-semibold text-white">{pills[2]}</span>
+            )}
+          </div>
+        )}
 
         {canScrub && (
           <div className="absolute top-2 left-2 right-2 z-10 flex gap-1 pointer-events-none">
@@ -169,18 +203,26 @@ export default function VehicleCard({ vehicle }) {
 
         <div className="mt-2.5 hairline" />
 
-        <div className="mt-2.5 flex items-baseline justify-between gap-2">
+        <div className="mt-2.5 flex items-end justify-between gap-3">
           <p className="tabular">
-            <span className="font-heading font-extrabold text-ink text-[20px]">£{weekly_rent}</span>
-            <span className="ml-1.5 text-[13px] text-ink-3">a week</span>
+            <span className="font-heading text-2xl font-bold tracking-tight text-ink">£{weekly_rent}</span>
+            <span className="ml-1.5 text-xs font-normal text-ink-3">a week</span>
           </p>
           <button
             type="button"
             onClick={handleApply}
-            className="pressable relative z-10 shrink-0 text-[13px] font-semibold text-green"
+            className="pressable group/cta relative z-10 inline-flex shrink-0 items-center gap-1.5 rounded-full
+                       border border-line-strong px-3.5 h-9 text-[13px] font-semibold text-ink
+                       hover:border-ink hover:bg-ink hover:text-white active:scale-[0.98]
+                       transition-[background-color,border-color,color,transform] duration-press"
             data-testid="vehicle-card-apply"
           >
             {CARD.registerInterest}
+            <ArrowRight
+              size={14}
+              strokeWidth={2.25}
+              className="transition-transform duration-ui ease-out group-hover/cta:translate-x-0.5"
+            />
           </button>
         </div>
 

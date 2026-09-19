@@ -163,7 +163,6 @@
 }
 
 @layer components {
-  /* Container + gutter. Replaces `max-w-7xl mx-auto px-4 sm:px-6`. */
   .wrap { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
   .wrap-narrow { --container: 44rem; }
   .wrap-mid    { --container: 62rem; }

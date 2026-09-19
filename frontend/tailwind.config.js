@@ -25,6 +25,7 @@ module.exports = {
         mint: "#7FD8B0",
         gold: { DEFAULT: "#111312", soft: "#FDF6E7", ink: "#6E4A10" },
         night: "#111312",
+        obsidian: { DEFAULT: "#0B0C0B", 2: "#151715", 3: "#1F221F" },
         danger: { DEFAULT: "#B42318", soft: "#FCEEEC" },
         // shadcn semantic tokens
         background: "hsl(var(--background))",
@@ -58,6 +59,9 @@ module.exports = {
       fontFamily: {
         heading: ["'Cabinet Grotesk'", "'Satoshi'", "-apple-system", "sans-serif"],
         sans: ["'Satoshi'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        // System stack: the tracked micro-labels need a mono face and this
+        // costs no extra webfont request.
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
       },
       // Fluid type scale. Values live in index.css so CSS and Tailwind agree.
       fontSize: {

@@ -141,7 +141,7 @@ export default function OperatorGuide() {
       </section>
 
       {/* ── EARNINGS: the number that makes an operator sign up ────────── */}
-      <section className="bg-surface border-y border-line">
+      <section id="earnings" className="bg-surface border-y border-line">
         <RevealGroup className="wrap py-section">
           <RevealItem className="max-w-2xl">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{earnings.heading}</h2>
