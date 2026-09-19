@@ -107,8 +107,7 @@ export default function DriverGuide() {
   return (
     <div className="bg-bone">
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <PageHero
-        word={hero.word} eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
+      <PageHero eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
         img={hero.img} position="50% center" priority
       >
         <Button size="lg" onClick={() => navigate("/search")} data-testid="driver-guide-browse">{hero.cta} <ArrowRight size={16} /></Button>

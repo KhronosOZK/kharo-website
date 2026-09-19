@@ -104,7 +104,6 @@ export default function OperatorInterest() {
     <main className="bg-bone min-h-page">
       <PageHero
         size="band"
-        word="FLEET"
         eyebrow={OPERATOR_INTEREST.tag}
         heading={OPERATOR_INTEREST.heading}
         sub={OPERATOR_INTEREST.sub}

@@ -101,7 +101,6 @@ export default function Register() {
     <main className="bg-bone">
       <PageHero
         size="band"
-        word="WAITLIST"
         eyebrow={tag}
         heading={heading}
         sub={sub}

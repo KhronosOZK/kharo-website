@@ -28,8 +28,7 @@ export default function OperatorGuide() {
   return (
     <div className="bg-bone">
       {/* ── HERO: fleet photograph, left-aligned copy, one panel card ───── */}
-      <PageHero
-        word={hero.word} eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
+      <PageHero eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
         img={hero.img} imgAlt={hero.imgAlt} position="50% center" priority
       >
         <div className="flex flex-wrap gap-3">

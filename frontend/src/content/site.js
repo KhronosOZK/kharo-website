@@ -120,7 +120,6 @@ export const HOME = {
     description: "Rent a licensed private hire car from a checked operator. Choose insurance when you apply, and have Uber and Bolt live before you collect the keys.",
   },
   hero: {
-    word: "KHARO",
     eyebrow: "UK private hire rental",
     heading: "Drive it off the forecourt earning.",
     sub: "Find a car, pick your cover, and we get you road ready before you collect the keys.",
@@ -204,7 +203,6 @@ export const FOR_DRIVERS = {
   },
   hero: {
     tag: "For drivers",
-    word: "DRIVERS",
     heading: "By the time you collect the keys, you are ready to earn.",
     sub: "Insurance chosen, Uber and Bolt live, every document in your account. You drive.",
     img: IMG.taxiDriver,
@@ -274,7 +272,6 @@ export const DRIVER_GUIDE = {
   },
   hero: {
     tag: "For drivers",
-    word: "THE GUIDE",
     heading: "How renting works.",
     sub: "Every step, in order, before you sign anything.",
     img: IMG.driverMirror,
@@ -340,7 +337,6 @@ export const OPERATOR_GUIDE = {
   },
   hero: {
     tag: "For operators",
-    word: "OPERATORS",
     heading: "We manage the fleet. You collect the rent.",
     sub: "Vetted applications with the insurance choice attached, and a console that watches every document, expiry and claim for you.",
     img: IMG.showroom,
@@ -449,7 +445,6 @@ export const WHY = {
     description: "Kharo handles insurance, platforms, payments, documents and claims around every private hire rental, for drivers and for operators.",
   },
   hero: {
-    word: "WHY KHARO",
     eyebrow: "Why Kharo",
     heading: "Private hire rental, done properly.",
     sub: "The car is the easy part. Kharo does the rest.",

@@ -58,7 +58,6 @@ export default function CityPage() {
     return (
       <main data-testid={`city-page-${city}-coming-soon`}>
         <PageHero
-          word={city.toUpperCase()}
           heading={t(CITY_PAGE.comingSoon.heading, { city })}
           sub={t(CITY_PAGE.comingSoon.sub, { city })}
           img={heroImg}
@@ -103,7 +102,6 @@ export default function CityPage() {
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <PageHero
-        word={city.toUpperCase()}
         eyebrow={t(CITY_PAGE.tagTemplate, { city })}
         heading={t(CITY_PAGE.heroHeadingTemplate, { city })}
         sub={t(CITY_PAGE.heroSubTemplate, { count, city })}
