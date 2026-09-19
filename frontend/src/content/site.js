@@ -17,8 +17,8 @@
 import { IMG } from "@/lib/images";
 
 export const FACTS = {
-  cities: ["London", "Birmingham", "Manchester", "Leeds", "Sheffield"],
-  citiesSentence: "London, Birmingham, Manchester, Leeds and Sheffield",
+  cities: ["London", "Birmingham", "Manchester", "Leeds", "Sheffield", "Wolverhampton", "Liverpool"],
+  citiesSentence: "London, Birmingham, Manchester, Leeds, Sheffield, Wolverhampton and Liverpool",
   price: "The weekly price is the rental only, set by the operator and shown before you apply.",
   insurance:
     "When you apply, you choose hire and reward insurance from quotes we gather for you: comprehensive, third party fire and theft, or third party, paid monthly, every six months or yearly. Where an operator includes their own fleet cover, the listing says so.",
@@ -228,6 +228,19 @@ export const FOR_DRIVERS = {
       { t: "Collect and earn", d: "Take the handover photos together, sign the agreement in the app, and start the same day." },
     ],
   },
+  guideLink: {
+    kicker: "Before you commit",
+    heading: "The whole process, written down.",
+    sub: "Every step from finding a car to handing it back, what you pay and to whom, and what happens the day something goes wrong.",
+    cta: "Read the driver guide",
+    contents: [
+      "Finding a car and registering interest",
+      "Choosing your insurance",
+      "The three checks, and who sees what",
+      "Collection, payments and your account",
+      "Accidents, repairs and replacement cars",
+    ],
+  },
   dashboard: {
     heading: "One account for the whole rental.",
     sub: "Every payment, invoice, document and alert, live. Click the tabs to see what it holds. The same account arrives as an app soon after launch.",
@@ -275,7 +288,7 @@ export const DRIVER_GUIDE = {
     tag: "For drivers",
     heading: "How renting works.",
     sub: "Every step, in order, before you sign anything.",
-    img: IMG.phoneInCar,
+    img: IMG.driverMirror,
     cta: "Browse cars",
   },
   steps: [
@@ -285,8 +298,8 @@ export const DRIVER_GUIDE = {
     { t: "Three checks", d: FACTS.vetting, img: IMG.driverSuit },
     { t: "The operator decides", d: "The operator sees your checks and your insurance choice together and accepts or declines the application in their console.", img: IMG.handshake },
     { t: "Platforms set up", d: FACTS.platforms, img: IMG.driverNight },
-    { t: "Collect the car", d: "You and the operator photograph the car together in the app. Those timestamped photos settle any deposit question later.", img: IMG.keysWoman },
-    { t: "Pay weekly, all in your account", d: FACTS.payments, img: IMG.happyDriver },
+    { t: "Collect the car", d: "You and the operator photograph the car together in the app. Those timestamped photos settle any deposit question later.", img: IMG.keysHandover },
+    { t: "Pay weekly, all in your account", d: FACTS.payments, img: IMG.money },
   ],
   money: {
     heading: "What you pay, and to whom",
@@ -374,8 +387,8 @@ export const OPERATOR_GUIDE = {
   claims: {
     heading: "When a car is damaged, you have a team.",
     body: "Report it once. Our insurance team notifies the insurer, books the repair, arranges a replacement for the driver so the rental keeps earning, and keeps you informed until the claim is closed.",
-    img: IMG.showroom,
-    imgAlt: "A vehicle in a workshop bay",
+    img: IMG.fleetAerial,
+    imgAlt: "Fleet vehicles seen from above",
   },
   fee: {
     heading: "What it costs",
@@ -434,7 +447,7 @@ export const WHY = {
   hero: {
     heading: "Private hire rental, done properly.",
     sub: "The car is the easy part. Kharo does the rest.",
-    img: IMG.londonBus,
+    img: IMG.londonNight,
   },
   gap: {
     number: "12,712",
@@ -448,9 +461,9 @@ export const WHY = {
       { t: "One price, shown first", d: FACTS.price },
       { t: "Insurance you choose", d: "Quotes side by side, with the cover level and payment term you want." },
       { t: "Live on your platforms before collection", d: FACTS.platforms },
-      { t: "Someone to call", d: FACTS.support },
+      { t: "Someone to call", d: "A person on the phone when something goes wrong, not a form to fill in and wait on." },
     ],
-    img: IMG.happyDriver,
+    img: IMG.vintageDriver,
     cta: "For drivers",
   },
   operators: {
@@ -461,7 +474,7 @@ export const WHY = {
       { t: "Documents and expiries watched", d: "MOT, PHV plate, insurance and service dates for every vehicle, with a reminder before anything runs out." },
       { t: "A claims team", d: "Accidents, repairs and replacement cars handled by Kharo's insurance team." },
     ],
-    img: IMG.fleetLot,
+    img: IMG.suvLot,
     cta: "For operators",
   },
   honesty: {
@@ -580,6 +593,22 @@ export const CITY_PAGE = {
         { q: "What do I need to drive private hire in Leeds?", a: "A private hire driver and vehicle licence from Leeds City Council. Kharo cars are ready for council plating." },
         { q: "Which cars are available in Leeds?", a: "Mostly hybrids and electric cars with low running costs, plus a number of MPVs and executive options." },
         { q: "Is there anything to pay to register?", a: "No. Joining the waitlist is free. You pay once you have been approved and you are renting a car." },
+      ],
+    },
+    Wolverhampton: {
+      intro: "Wolverhampton is a launch city for one reason: its plates travel. A car, driver and operator all licensed by the City of Wolverhampton Council can legally work across England and Wales, which makes these cars the flexible option if you cover more than one area. Kharo lists checked local operators from the City Centre out to Bilston, Tettenhall and Bushbury.",
+      faq: [
+        { q: "Can a Wolverhampton-plated car work outside Wolverhampton?", a: "Yes. City of Wolverhampton Council plates are widely used for cross-border private hire work across England and Wales. Your driver licence and your operator must be licensed by the same authority as the vehicle." },
+        { q: "What licence do I need in Wolverhampton?", a: "A private hire driver licence from the City of Wolverhampton Council, plus a licensed vehicle. Our operators can guide you through plating." },
+        { q: "Is insurance included?", a: `${FACTS.price} ${FACTS.insurance}` },
+      ],
+    },
+    Liverpool: {
+      intro: "Liverpool is one of our newest cities. Kharo connects you with checked local operators across the city, from the centre out to Toxteth, Wavertree and Old Swan, with hybrids and electric cars that keep running costs down over the daily miles.",
+      faq: [
+        { q: "What licence do I need to drive private hire in Liverpool?", a: "A private hire driver and vehicle licence from Liverpool City Council. Kharo cars are ready for council plating." },
+        { q: "Which cars are available in Liverpool?", a: "Mostly hybrids and electric cars with low running costs, alongside saloons and estates, with more added as we bring local operators on." },
+        { q: "When can I rent a car in Liverpool?", a: "Join the waitlist now and we will email you the moment cars are ready to rent in Liverpool." },
       ],
     },
     Sheffield: {

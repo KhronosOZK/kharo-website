@@ -68,7 +68,6 @@ export default function HeroSearch() {
     && (!fuel || v.fuel === fuel)
   ), [city, area, make, fuel]);
 
-  const matches = scoped.filter((v) => v.weekly_rent >= range[0] && v.weekly_rent <= range[1]).length;
   const areaOptions = (AREAS_BY_CITY[city] || []).slice(1);
 
   useEffect(() => {
@@ -139,7 +138,6 @@ export default function HeroSearch() {
           className="pressable shrink-0 bg-green hover:bg-green-hover text-white font-semibold text-[14px] px-6 py-3.5 sm:py-0 inline-flex items-center justify-center gap-2">
           <Search size={16} strokeWidth={2.25} />
           <span>{HERO_SEARCH.submit}</span>
-          <span className="tabular text-white/70 font-medium">{matches}</span>
         </button>
       </div>
 
@@ -150,9 +148,7 @@ export default function HeroSearch() {
           {locating ? <Loader2 size={14} className="animate-spin" strokeWidth={2} /> : <LocateFixed size={14} strokeWidth={2} />}
           {HERO_SEARCH.near.label}
         </button>
-        {nearNote
-          ? <span className="text-[12.5px] text-white/70">{nearNote}</span>
-          : <span className="text-[12.5px] text-white/70 tabular">{HERO_SEARCH.matching(matches)}</span>}
+        {nearNote && <span className="text-[12.5px] text-white/70">{nearNote}</span>}
       </div>
 
       <AnimatePresence>

@@ -1,16 +1,109 @@
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import OperatorEarnings from "@/components/OperatorEarnings";
+import GuideLink from "@/components/GuideLink";
 import Faq from "@/components/Faq";
 import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
+import { EASE, SPRING, useMotionPrefs } from "@/lib/motion";
 import { useSeo } from "@/lib/seo";
 import { OPERATOR_GUIDE } from "@/content/site";
 import { OPERATOR_EARNINGS } from "@/content/pages/operatorEarnings";
 import { OPERATOR_GUIDE_PAGE } from "@/content/pages/operatorGuide";
+import { OPERATOR_STORY } from "@/content/pages/operatorStory";
 
 const CONSOLE_ID = "console";
+
+/**
+ * "Everything around the car, managed." Left column: a sticky heading whose
+ * active item's title and body change as the reader scrolls, tracked with an
+ * IntersectionObserver (never a scroll listener), plus a slim progress rail.
+ * Right column: the six items as tall blocks the observer watches. On mobile
+ * the sticky column collapses and every item renders as its own plain block,
+ * title and body together, so nothing is lost off the smaller screen.
+ */
+function ManageIndex({ heading, items }) {
+  const itemRefs = useRef([]);
+  const [active, setActive] = useState(0);
+  const { reduce } = useMotionPrefs();
+
+  useEffect(() => {
+    const els = itemRefs.current.filter(Boolean);
+    if (!els.length) return undefined;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(Number(entry.target.dataset.index));
+        });
+      },
+      { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [items.length]);
+
+  const activeItem = items[active];
+
+  return (
+    <div className="grid lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+      <div className="lg:col-span-5 lg:sticky top-below-header">
+        <h2 className="text-h2 font-heading font-extrabold text-ink">{heading}</h2>
+
+        <div className="hidden lg:block">
+          <div className="mt-8 relative min-h-[9.5rem]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeItem.t}
+                initial={reduce ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduce ? 0 : -8 }}
+                transition={{ duration: reduce ? 0.12 : 0.22, ease: EASE.out }}
+              >
+                <h3 className="text-h3 font-heading font-bold text-ink">{activeItem.t}</h3>
+                <p className="mt-2.5 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{activeItem.d}</p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="mt-8 flex gap-1.5" role="presentation">
+            {items.map((it, i) => (
+              <span key={it.t} className="h-[3px] flex-1 rounded-full bg-line-strong overflow-hidden">
+                <motion.span
+                  className="block h-full w-full origin-left bg-green"
+                  initial={false}
+                  animate={{ scaleX: i === active ? 1 : 0 }}
+                  transition={reduce ? { duration: 0 } : SPRING.ui}
+                />
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="lg:col-span-7 divide-y divide-line border-y border-line lg:border-0 lg:divide-y-0">
+        {items.map((it, i) => (
+          <div
+            key={it.t}
+            ref={(el) => { itemRefs.current[i] = el; }}
+            data-index={i}
+            className="py-7 lg:py-0 lg:min-h-[15rem] lg:flex lg:items-center lg:border-t lg:border-line first:lg:border-t-0"
+          >
+            <div>
+              <p className="text-[12.5px] font-semibold text-ink-3 tabular lg:hidden">{String(i + 1).padStart(2, "0")}</p>
+              <h3 className={`text-h3 font-heading font-bold text-ink transition-colors duration-hover ease-out ${i === active ? "" : "lg:text-ink-3"}`}>
+                {it.t}
+              </h3>
+              <p className="mt-2.5 text-[15.5px] text-ink-2 leading-relaxed measure lg:hidden">{it.d}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function OperatorGuide() {
   const navigate = useNavigate();
@@ -55,21 +148,51 @@ export default function OperatorGuide() {
         </div>
       </section>
 
-      {/* ── MANAGE: statement plus hairline list ───────────────────────── */}
+      {/* ── WHAT KHARO IS: the model, before any detail ─────────────────── */}
       <RevealGroup as="section" className="wrap py-section">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-14">
-          <RevealItem className="lg:col-span-5">
-            <h2 className="text-h2 font-heading font-extrabold text-ink">{manage.heading}</h2>
+        <RevealItem className="max-w-2xl">
+          <h2 className="text-h2 font-heading font-extrabold text-ink">{OPERATOR_STORY.intro.heading}</h2>
+        </RevealItem>
+        <RevealItem as="ol" className="mt-10 divide-y divide-line border-y border-line">
+          {OPERATOR_STORY.intro.points.map((p, i) => (
+            <li key={p.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-7">
+              <div>
+                <p className="text-[12.5px] font-semibold text-ink-3 tabular">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="mt-1 text-h3 font-heading font-bold text-ink">{p.t}</h3>
+              </div>
+              <p className="text-[15.5px] text-ink-2 leading-relaxed measure">{p.d}</p>
+            </li>
+          ))}
+        </RevealItem>
+      </RevealGroup>
+
+      {/* ── STEPS: how listing works, the onboarding sequence ───────────── */}
+      <section className="bg-surface border-y border-line">
+        <RevealGroup className="wrap py-section">
+          <RevealItem>
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{steps.heading}</h2>
           </RevealItem>
-          <RevealItem as="ul" className="lg:col-span-7 divide-y divide-line border-y border-line">
-            {manage.items.map((it) => (
-              <li key={it.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-6">
-                <h3 className="text-h3 font-heading font-bold text-ink">{it.t}</h3>
-                <p className="text-[15.5px] text-ink-2 leading-relaxed">{it.d}</p>
-              </li>
+          <RevealItem className="mt-8 grid md:grid-cols-2 gap-x-block">
+            {stepColumns.map((column, c) => (
+              <ol key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
+                {column.map((s) => (
+                  <li key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
+                    <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full bg-green" />
+                    <h3 className="text-h3 font-heading font-bold text-ink">{s.t}</h3>
+                    <p className="mt-2 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{s.d}</p>
+                  </li>
+                ))}
+              </ol>
             ))}
           </RevealItem>
-        </div>
+        </RevealGroup>
+      </section>
+
+      {/* ── MANAGE: sticky scroll-linked section ─────────────────────────── */}
+      <RevealGroup as="section" className="wrap py-section">
+        <RevealItem>
+          <ManageIndex heading={manage.heading} items={manage.items} />
+        </RevealItem>
       </RevealGroup>
 
       {/* ── CONSOLE: the operator account, live ────────────────────────── */}
@@ -77,33 +200,14 @@ export default function OperatorGuide() {
         <RevealGroup className="wrap py-section">
           <RevealItem className="max-w-2xl">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{dashboard.heading}</h2>
-            <p className="mt-4 text-lead text-ink-2">{dashboard.sub}</p>
+            <p className="mt-4 text-lead text-ink-2">{OPERATOR_STORY.consoleLine}</p>
+            <p className="mt-2 text-[15px] text-ink-3">{dashboard.sub}</p>
           </RevealItem>
           <RevealItem className="mt-8">
             <DashboardSnapshot variant="operator" />
           </RevealItem>
         </RevealGroup>
       </section>
-
-      {/* ── STEPS: a quiet vertical timeline, two columns on tablets up ── */}
-      <RevealGroup as="section" className="wrap py-section">
-        <RevealItem>
-          <h2 className="text-h2 font-heading font-extrabold text-ink">{steps.heading}</h2>
-        </RevealItem>
-        <RevealItem className="mt-8 grid md:grid-cols-2 gap-x-block">
-          {stepColumns.map((column, c) => (
-            <ol key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
-              {column.map((s) => (
-                <li key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
-                  <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full bg-green" />
-                  <h3 className="text-h3 font-heading font-bold text-ink">{s.t}</h3>
-                  <p className="mt-2 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{s.d}</p>
-                </li>
-              ))}
-            </ol>
-          ))}
-        </RevealItem>
-      </RevealGroup>
 
       {/* ── CLAIMS: the one photo and text split on the page ───────────── */}
       <RevealGroup as="section" className="wrap pb-section">
@@ -144,6 +248,21 @@ export default function OperatorGuide() {
           </RevealItem>
         </RevealGroup>
       </section>
+
+      {/* ── GUIDE LINK: the detail, for anyone about to list ────────────── */}
+      <RevealGroup as="section" className="wrap py-section">
+        <RevealItem>
+          <GuideLink
+            kicker={OPERATOR_STORY.guideLink.kicker}
+            heading={OPERATOR_STORY.guideLink.heading}
+            sub={OPERATOR_STORY.guideLink.sub}
+            contents={OPERATOR_STORY.guideLink.contents}
+            cta={OPERATOR_STORY.guideLink.cta}
+            to="/list-your-fleet"
+            testId="operator-guide-list-link"
+          />
+        </RevealItem>
+      </RevealGroup>
 
       {/* ── CLOSER: quiet, one panel, one button ───────────────────────── */}
       <section className="bg-bone">

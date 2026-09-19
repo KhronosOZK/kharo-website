@@ -155,7 +155,7 @@ export default function OperatorInterest() {
         </div>
 
         {/* ── The form: first on phones, the page's one hero object ─────── */}
-        <Enter delay={0.06} className="order-first lg:order-none w-full">
+        <Enter delay={0.06} className="w-full">
           <motion.div layout transition={SPRING.ui} className="surface-raised rounded-hero p-card">
             <div className="mb-7">
               <p className="text-[13px] text-ink-3 mb-2.5" data-testid="op-step-label">{T.stepLabel(step + 1, STEPS.length)}</p>

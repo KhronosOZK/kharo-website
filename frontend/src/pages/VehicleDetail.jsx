@@ -26,6 +26,18 @@ export default function VehicleDetail() {
   const [photo, setPhoto] = useState(0);
   const [weeks, setWeeks] = useState(1);
   const [copied, setCopied] = useState(false);
+  // The sticky bar must get out of the way at the end of the page, or it
+  // permanently covers the footer's legal links on a phone.
+  const [barHidden, setBarHidden] = useState(false);
+  const endRef = useRef(null);
+
+  useEffect(() => {
+    const el = endRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    const io = new IntersectionObserver(([e]) => setBarHidden(e.isIntersecting), { threshold: 0 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -81,6 +93,7 @@ export default function VehicleDetail() {
   const uniquePhotoCount = new Set(v.photos).size;
 
   const specs = [
+    ...(v.licensing_authority ? [{ label: "Licensed by", value: v.licensing_authority }] : []),
     { label: DETAIL.specs.fuel, value: v.fuel, capitalize: true },
     { label: DETAIL.specs.seats, value: v.seats },
     ...(v.mpg ? [{ label: DETAIL.specs.economy, value: `${v.mpg} mpg` }] : []),
@@ -348,8 +361,11 @@ export default function VehicleDetail() {
         </div>
       </div>
 
+      <div ref={endRef} aria-hidden="true" className="h-px w-full" />
+
       {/* Mobile sticky CTA bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-line p-4 pb-safe">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-line p-4 pb-safe transition-transform duration-ui ease-out"
+          style={{ transform: barHidden ? "translateY(110%)" : "translateY(0)" }}>
         <div className="flex items-center justify-between gap-3">
           <div>
             <div className="text-[11px] text-ink-3">{DETAIL.mobileRentPrefix}</div>

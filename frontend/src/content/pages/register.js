@@ -6,7 +6,7 @@ export const REGISTER = {
   heading: "Join the waitlist to drive with Kharo.",
   sub: "Tell us who you are and where you drive. We will email you the moment matching cars are ready in your city.",
   estimator: {
-    label: "Your estimated take-home",
+    label: "What drivers typically take home",
     perWeek: "/ week, full time",
     fares: "Typical weekly fares",
     rentInsurance: "Rent and insurance",

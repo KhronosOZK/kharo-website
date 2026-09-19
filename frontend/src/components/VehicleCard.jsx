@@ -1,9 +1,5 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import { Heart } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
-import { EASE, SPRING } from "@/lib/motion";
 import { CARD } from "@/content/pages/marketplace";
 
 const MAX_ZONES = 5;
@@ -20,22 +16,19 @@ const MAX_ZONES = 5;
  */
 export default function VehicleCard({ vehicle }) {
   const navigate = useNavigate();
-  const { saved = [], toggleSaved } = useAuth() || {};
-  const heartControls = useAnimation();
   const [hasHover] = useState(() => typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const {
     id, make, model, year, fuel, weekly_rent, borough,
     photos, transmission, mileage_allowance, insurance_included,
+    licence_type, cross_border,
   } = vehicle;
 
-  const isSaved = saved.includes(id);
   const uniquePhotos = Array.isArray(photos) ? [...new Set(photos)] : [photos].filter(Boolean);
   const zoneCount = Math.min(uniquePhotos.length, MAX_ZONES);
   const canScrub = zoneCount > 1;
   const atLastFrame = canScrub && activeIndex === zoneCount - 1;
-  const activePhoto = uniquePhotos[Math.min(activeIndex, uniquePhotos.length - 1)];
 
   // Warm the other frames the first time a pointer touches the card, so
   // scrubbing swaps instantly instead of flashing an empty box while the
@@ -55,11 +48,6 @@ export default function VehicleCard({ vehicle }) {
     }
   };
 
-  const handleSave = (e) => {
-    e.stopPropagation();
-    toggleSaved?.(id);
-    heartControls.start({ scale: [1, 1.28, 1], transition: SPRING.ui });
-  };
 
   const handleApply = (e) => {
     e.stopPropagation();
@@ -92,6 +80,9 @@ export default function VehicleCard({ vehicle }) {
   };
 
   const specs = [fuel, transmission, mileage_allowance ? `${mileage_allowance.toLocaleString()} mi/mo` : null].filter(Boolean);
+  // The plate is the first thing a driver checks: a car on the wrong licence
+  // is no use to them whatever it costs.
+  const plate = licence_type ? licence_type.replace(" private hire vehicle licence", "").replace(" PHV plate", "") : null;
 
   return (
     <article
@@ -109,19 +100,21 @@ export default function VehicleCard({ vehicle }) {
         onMouseLeave={handleMouseLeave}
         onClick={handlePhotoClick}
       >
-        <AnimatePresence initial={false}>
-          <motion.img
-            key={activePhoto}
-            src={activePhoto}
-            alt={`${year} ${make} ${model}`}
-            loading="lazy"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18, ease: EASE.out }}
-            className="absolute inset-0 w-full h-full object-cover"
+        {/* Every frame is mounted and stacked, with only opacity changing.
+            Mounting a fresh <img> per frame meant each one had to decode
+            before it painted, which is what made scrubbing flicker. */}
+        {uniquePhotos.slice(0, MAX_ZONES).map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt={i === 0 ? `${year} ${make} ${model}` : ""}
+            aria-hidden={i === 0 ? undefined : "true"}
+            loading={i === 0 ? "lazy" : "eager"}
+            draggable="false"
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-150 ease-out"
+            style={{ opacity: i === activeIndex ? 1 : 0 }}
           />
-        </AnimatePresence>
+        ))}
 
         {canScrub && (
           <div className="absolute top-2 left-2 right-2 z-10 flex gap-1 pointer-events-none">
@@ -129,35 +122,41 @@ export default function VehicleCard({ vehicle }) {
               <span
                 key={i}
                 aria-hidden="true"
-                className={`h-[2px] flex-1 rounded-full ${i === activeIndex ? "bg-white" : "bg-white/30"}`}
+                className={`h-[2px] flex-1 rounded-full transition-colors duration-150 ${i === activeIndex ? "bg-white" : "bg-white/35"}`}
               />
             ))}
           </div>
         )}
 
-        {atLastFrame && (
-          <div className="absolute inset-0 z-10 bg-ink/72 flex flex-col items-center justify-center text-center px-4">
-            <p className="text-white font-heading font-bold text-[15px]">Like what you see?</p>
-            <span className="mt-1.5 text-white text-[13px] font-semibold underline underline-offset-4">See the full car</span>
-          </div>
-        )}
-
-        <motion.button
-          type="button"
-          onClick={handleSave}
-          animate={heartControls}
-          className="pressable absolute top-2 right-2 z-20 bg-surface/95 rounded-md h-9 w-9 grid place-items-center shadow-1"
-          aria-label={isSaved ? "Remove from saved cars" : "Save this car"}
-          aria-pressed={isSaved}
-          data-testid="vehicle-card-save"
+        {/* Last frame: a readable invitation sitting on a gradient, rather than
+            small type lost on a flat wash. */}
+        <div
+          className={`pointer-events-none absolute inset-x-0 bottom-0 z-10 p-3 transition-opacity duration-200 ease-out ${atLastFrame ? "opacity-100" : "opacity-0"}`}
         >
-          <Heart size={16} strokeWidth={1.75} className={isSaved ? "fill-ink text-ink" : "text-ink-3"} />
-        </motion.button>
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-ink via-ink/75 to-transparent" />
+          <div className="relative flex items-end justify-between gap-3">
+            <div>
+              <p className="font-heading text-[15px] font-bold leading-tight text-white">That is the tour.</p>
+              <p className="mt-0.5 text-[12.5px] text-white/75">Specs, deposit and the full breakdown inside.</p>
+            </div>
+            <span className="shrink-0 rounded-md bg-white px-3 py-2 text-[13px] font-semibold text-ink">
+              See the car
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className="pt-3">
         <h3 className="font-heading font-bold text-ink text-[16px] leading-tight truncate">{make} {model}</h3>
         <p className="mt-0.5 text-[13px] text-ink-3">{year}, {borough}</p>
+        {plate && (
+          <p className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[12px]">
+            <span className="inline-flex items-center rounded border border-line-strong px-1.5 py-0.5 font-semibold text-ink">
+              {plate}
+            </span>
+            {cross_border && <span className="text-ink-3">works across England and Wales</span>}
+          </p>
+        )}
 
         <div className="mt-2.5 hairline" />
 

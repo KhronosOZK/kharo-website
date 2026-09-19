@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Check, ArrowRight } from "lucide-react";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import ApplicationFlow from "@/components/ApplicationFlow";
+import GuideLink from "@/components/GuideLink";
 import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
@@ -9,7 +10,7 @@ import { FOR_DRIVERS } from "@/content/site";
 
 export default function ForDrivers() {
   const navigate = useNavigate();
-  const { seo, hero, steps, flow, dashboard, support, requirements, closer } = FOR_DRIVERS;
+  const { seo, hero, steps, guideLink, flow, dashboard, support, requirements, closer } = FOR_DRIVERS;
   useSeo({ title: seo.title, description: seo.description });
 
   return (
@@ -45,6 +46,18 @@ export default function ForDrivers() {
               <p className="mt-2 text-[15px] text-ink-2 leading-relaxed">{s.d}</p>
             </li>
           ))}
+        </RevealItem>
+
+        <RevealItem className="mt-10">
+          <GuideLink
+            kicker={guideLink.kicker}
+            heading={guideLink.heading}
+            sub={guideLink.sub}
+            contents={guideLink.contents}
+            cta={guideLink.cta}
+            to="/driver-guide"
+            testId="driver-guide-link"
+          />
         </RevealItem>
       </RevealGroup>
 

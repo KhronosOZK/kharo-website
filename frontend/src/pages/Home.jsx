@@ -64,18 +64,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FIGURES: the positioning, stated once, as type ──────────────── */}
-      <RevealGroup as="section" className="wrap">
-        <RevealItem as="dl" className="figures">
-          {HOME.figures.map((f) => (
-            <div key={f.l}>
-              <dt className="text-[clamp(2rem,1.4rem+2.2vw,3rem)] font-heading font-extrabold text-ink leading-none tabular">{f.v}</dt>
-              <dd className="mt-2 text-[14px] text-ink-2 leading-snug max-w-[22ch]">{f.l}</dd>
-            </div>
-          ))}
-        </RevealItem>
-      </RevealGroup>
-
       {/* ── THE WORK AROUND THE CAR: statement + hairline list ─────────── */}
       <RevealGroup as="section" className="wrap py-section">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-14">

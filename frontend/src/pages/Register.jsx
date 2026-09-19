@@ -129,7 +129,7 @@ export default function Register() {
           </Enter>
         </div>
 
-        <Enter delay={0.1} className="order-first lg:order-none w-full panel rounded-hero p-6 sm:p-8">
+        <Enter delay={0.1} className="w-full panel rounded-hero p-6 sm:p-8">
           <div className="mb-7">
             <div className="flex items-center justify-between text-[12.5px] text-ink-3 mb-2.5">
               <span data-testid="reg-step-label">Step {step + 1} of {STEPS.length}</span>

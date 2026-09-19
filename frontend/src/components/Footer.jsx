@@ -43,6 +43,28 @@ export default function Footer() {
               {BRAND.footerBlurb}
             </p>
 
+            {socials.length > 0 && (
+              <div className="mt-7" data-testid="footer-social">
+                <p className="text-[13px] font-semibold text-white/70 mb-2.5">Follow Kharo</p>
+                <div className="flex items-center gap-2">
+                  {socials.map(({ key, href, Icon }) => (
+                    <a
+                      key={key}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={key}
+                      title={key}
+                      data-testid={`social-${key.toLowerCase()}`}
+                      className="pressable grid h-11 w-11 place-items-center rounded-md border border-white/15 bg-white/[0.06] text-white/70 hover:border-mint hover:bg-mint hover:text-night"
+                    >
+                      <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="mt-7">
               <p className="text-[13px] font-semibold text-white/70 mb-2.5">{NAV.newsletter.heading}</p>
               {sent ? (
@@ -107,17 +129,6 @@ export default function Footer() {
               </button>
             </div>
 
-            {socials.length > 0 && (
-              <div className="flex items-center gap-2" data-testid="footer-social">
-                {socials.map(({ key, href, Icon }) => (
-                  <a key={key} href={href} target="_blank" rel="noopener noreferrer" aria-label={key}
-                    data-testid={`social-${key.toLowerCase()}`}
-                    className="pressable w-11 h-11 rounded-full bg-white/[0.06] hover:bg-mint group grid place-items-center">
-                    <Icon className="w-4 h-4 text-white/60 group-hover:text-night transition-colors" strokeWidth={1.75} />
-                  </a>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>
