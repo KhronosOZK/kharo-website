@@ -13,18 +13,18 @@ module.exports = {
       colors: {
         // Brand tokens. Static hex here (mirroring index.css :root) so Tailwind
         // opacity modifiers like bg-night/40 and ring-green/20 keep working.
-        ink: "#0A130F",
-        "ink-2": "#3C4A43",
-        "ink-3": "#5C6862",
-        bone: "#F7F7F4",
+        ink: "#111312",
+        "ink-2": "#454A47",
+        "ink-3": "#6A6F6C",
+        bone: "#F3F3F0",
         surface: "#FFFFFF",
-        "surface-2": "#F0F0EB",
-        line: "rgba(10, 19, 15, 0.10)",
-        "line-strong": "rgba(10, 19, 15, 0.20)",
-        green: { DEFAULT: "#0B6B4F", hover: "#095B43", soft: "#E6F2ED" },
-        mint: "#5FD3A6",
-        gold: { DEFAULT: "#C08A2D", soft: "#FDF6E7", ink: "#6E4A10" },
-        night: "#0A130F",
+        "surface-2": "#EAEAE5",
+        line: "rgba(17, 19, 18, 0.10)",
+        "line-strong": "rgba(17, 19, 18, 0.20)",
+        green: { DEFAULT: "#0E3B2C", hover: "#0A2C20", soft: "#EBF0ED" },
+        mint: "#7FD8B0",
+        gold: { DEFAULT: "#111312", soft: "#FDF6E7", ink: "#6E4A10" },
+        night: "#111312",
         danger: { DEFAULT: "#B42318", soft: "#FCEEEC" },
         // shadcn semantic tokens
         background: "hsl(var(--background))",
@@ -53,7 +53,7 @@ module.exports = {
         xl: "12px",
         "2xl": "12px",   // legacy usages collapse to the card radius
         "3xl": "14px",
-        hero: "14px",
+        hero: "18px",
       },
       fontFamily: {
         heading: ["'Cabinet Grotesk'", "'Satoshi'", "-apple-system", "sans-serif"],

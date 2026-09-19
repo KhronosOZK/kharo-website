@@ -34,10 +34,20 @@ export default function VehicleCard({ vehicle }) {
   // scrubbing swaps instantly instead of flashing an empty box while the
   // browser fetches the next photo.
   const warmed = useRef(false);
+  const [armed, setArmed] = useState(false);
   const warmPhotos = () => {
     if (warmed.current || !canScrub) return;
     warmed.current = true;
-    uniquePhotos.slice(1, MAX_ZONES).forEach((src) => { const i = new Image(); i.src = src; });
+    const rest = uniquePhotos.slice(1, MAX_ZONES);
+    let pending = rest.length;
+    if (!pending) { setArmed(true); return; }
+    rest.forEach((src) => {
+      const img = new Image();
+      const done = () => { pending -= 1; if (pending === 0) setArmed(true); };
+      img.onload = done;
+      img.onerror = done;
+      img.src = src;
+    });
   };
 
   const goToDetail = () => navigate(`/vehicle/${id}`);
@@ -55,7 +65,7 @@ export default function VehicleCard({ vehicle }) {
   };
 
   const handleMouseMove = (e) => {
-    if (!hasHover || !canScrub) return;
+    if (!hasHover || !canScrub || !armed) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width;
     const idx = Math.min(zoneCount - 1, Math.max(0, Math.floor(relX * zoneCount)));
@@ -68,6 +78,7 @@ export default function VehicleCard({ vehicle }) {
   // frame falls through to the card's own click so the card stays reachable.
   const handlePhotoClick = (e) => {
     if (hasHover || !canScrub) return;
+    warmPhotos();
     const rect = e.currentTarget.getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width;
     if (relX < 0.5 && activeIndex > 0) {
@@ -103,15 +114,16 @@ export default function VehicleCard({ vehicle }) {
         {/* Every frame is mounted and stacked, with only opacity changing.
             Mounting a fresh <img> per frame meant each one had to decode
             before it painted, which is what made scrubbing flicker. */}
-        {uniquePhotos.slice(0, MAX_ZONES).map((src, i) => (
+        {uniquePhotos.slice(0, armed ? MAX_ZONES : Math.max(1, activeIndex + 1)).map((src, i) => (
           <img
             key={src}
             src={src}
             alt={i === 0 ? `${year} ${make} ${model}` : ""}
             aria-hidden={i === 0 ? undefined : "true"}
-            loading={i === 0 ? "lazy" : "eager"}
+            loading="lazy"
+            decoding="async"
             draggable="false"
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-150 ease-out"
+            className="absolute inset-0 h-full w-full object-cover"
             style={{ opacity: i === activeIndex ? 1 : 0 }}
           />
         ))}

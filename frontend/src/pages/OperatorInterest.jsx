@@ -6,18 +6,16 @@ import { Check, ArrowRight, ArrowLeft, MessageCircle } from "lucide-react";
 import { api, trackEvent } from "@/lib/api";
 import { useSeo } from "@/lib/seo";
 import { EASE, SPRING } from "@/lib/motion";
-import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { Enter } from "@/components/Reveal";
+import PageHero from "@/components/PageHero";
+import { IMG } from "@/lib/images";
+import OperatorEarnings from "@/components/OperatorEarnings";
 import { BRAND, OPERATOR_INTEREST } from "@/content/site";
 import { OPERATOR_INTEREST_PAGE } from "@/content/pages/operatorInterest";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-
-// same £185/week default used as the slider's starting point
-const AVG_WEEKLY_RATE = 185;
 
 const STEPS = [
   { key: "company", q: "What's your company name?", sub: "So we know who we're speaking with.", fields: [{ label: "Company name", name: "company_name", placeholder: "e.g. London PHV Ltd", testid: "op-company" }], required: ["company_name"] },
@@ -49,17 +47,11 @@ export default function OperatorInterest() {
   });
   const set = (k) => (e) => setF((p) => ({ ...p, [k]: e.target.value }));
 
-  const [idleCount, setIdleCount] = useState(4);
-  const [weeklyRate, setWeeklyRate] = useState(AVG_WEEKLY_RATE);
-  const weeklyLoss = idleCount * weeklyRate;
-  const monthlyLoss = Math.round(weeklyLoss * 4.33);
-  const yearlyLoss = weeklyLoss * 52;
-
   useSeo({ title: OPERATOR_INTEREST.seo.title, description: OPERATOR_INTEREST.seo.description });
 
   const cur = STEPS[step];
   const isLast = step === STEPS.length - 1;
-  const { loss, success } = OPERATOR_INTEREST;
+  const { success } = OPERATOR_INTEREST;
   const T = OPERATOR_INTEREST_PAGE;
 
   const canNext = () => {
@@ -110,47 +102,23 @@ export default function OperatorInterest() {
 
   return (
     <main className="bg-bone min-h-page">
+      <PageHero
+        size="band"
+        word="FLEET"
+        eyebrow={OPERATOR_INTEREST.tag}
+        heading={OPERATOR_INTEREST.heading}
+        sub={OPERATOR_INTEREST.sub}
+        img={IMG.handshakeDesk}
+        imgAlt="An operator going through paperwork at a desk"
+        position="50% 40%"
+        priority
+      />
+
       <div className="wrap py-section grid lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] gap-block items-start">
-        {/* ── Intro and the loss calculator ─────────────────────────────── */}
+        {/* ── The loss calculator ───────────────────────────────────────── */}
         <div>
-          <Enter as="p" className="eyebrow">{OPERATOR_INTEREST.tag}</Enter>
-          <Enter as="h1" delay={0.04} className="mt-3 text-h1 font-heading font-extrabold text-ink max-w-[18ch]">
-            {OPERATOR_INTEREST.heading}
-          </Enter>
-          <Enter as="p" delay={0.08} className="mt-4 text-lead text-ink-2 measure-narrow">
-            {OPERATOR_INTEREST.sub}
-          </Enter>
-
-          <Enter delay={0.12} className="mt-8 surface-raised rounded-2xl p-card max-w-md" data-testid="operator-loss-card">
-            <p className="text-[13.5px] font-medium text-ink-3">{loss.label}</p>
-            <div className="flex items-end gap-2 mt-1.5">
-              <AnimatedNumber value={weeklyLoss} prefix="£" data-testid="operator-loss-value" className="text-stat font-heading font-extrabold text-ink" />
-              <span className="text-ink-3 text-[15px] pb-1.5">a week</span>
-            </div>
-            <div className="mt-5 hairline" />
-
-            <div className="mt-5">
-              <div className="flex items-center justify-between mb-2.5">
-                <span className="text-[13.5px] font-medium text-ink-2">{loss.idle}</span>
-                <span className="text-[15px] font-heading font-bold text-ink tabular">{idleCount} {T.carUnit(idleCount)}</span>
-              </div>
-              <Slider value={[idleCount]} onValueChange={([v]) => setIdleCount(v)} min={1} max={20} step={1} aria-label={loss.idle} data-testid="operator-idle-slider" />
-            </div>
-
-            <div className="mt-5">
-              <div className="flex items-center justify-between mb-2.5">
-                <span className="text-[13.5px] font-medium text-ink-2">{loss.rate}</span>
-                <span className="text-[15px] font-heading font-bold text-ink tabular">£{weeklyRate}</span>
-              </div>
-              <Slider value={[weeklyRate]} onValueChange={([v]) => setWeeklyRate(v)} min={100} max={300} step={5} aria-label={loss.rate} data-testid="operator-rate-slider" />
-            </div>
-
-            <dl className="mt-5 divide-y divide-line border-y border-line text-[14px]">
-              <Line l={loss.perWeek} v={weeklyLoss} strong />
-              <Line l={loss.perMonth} v={monthlyLoss} />
-              <Line l={loss.perYear} v={yearlyLoss} />
-            </dl>
-            <p className="mt-4 text-[12.5px] text-ink-3 leading-relaxed">{loss.note}</p>
+          <Enter>
+            <OperatorEarnings />
           </Enter>
         </div>
 
@@ -227,14 +195,5 @@ const Field = ({ label, children }) => (
   <div>
     <Label className="text-[13.5px] font-medium text-ink-2 mb-1.5 block">{label}</Label>
     {children}
-  </div>
-);
-
-const Line = ({ l, v, strong }) => (
-  <div className="flex justify-between py-2.5">
-    <dt className="text-ink-3">{l}</dt>
-    <dd className={strong ? "text-ink font-semibold" : "text-ink-2"}>
-      <AnimatedNumber value={v} prefix="£" />
-    </dd>
   </div>
 );

@@ -120,21 +120,18 @@ export const HOME = {
     description: "Rent a licensed private hire car from a checked operator. Choose insurance when you apply, and have Uber and Bolt live before you collect the keys.",
   },
   hero: {
-    heading: "Rent the car. We handle everything around it.",
-    sub: "Checked operators, insurance chosen when you apply, and Uber and Bolt live before you pick up the keys.",
+    word: "KHARO",
+    eyebrow: "UK private hire rental",
+    heading: "Drive it off the forecourt earning.",
+    sub: "Find a car, pick your cover, and we get you road ready before you collect the keys.",
     img: IMG.londonBus,
     imgAlt: "Traffic on a London street at dusk",
     searchCta: "Search cars",
     moreFilters: "More filters",
     fewerFilters: "Fewer filters",
     cityPlaceholder: "Pick a city",
+    caption: FACTS.prelaunch,
   },
-  figures: [
-    { v: "First", l: "marketplace of its kind in the UK" },
-    { v: "5", l: "cities at launch" },
-    { v: "1", l: "place for rent, insurance, documents and claims" },
-    { v: "0", l: "fees for drivers, ever" },
-  ],
   work: {
     heading: "The work around the car, done for you.",
     sub: "Most rental firms hand you the keys and stop there. Kharo carries on.",
@@ -207,6 +204,7 @@ export const FOR_DRIVERS = {
   },
   hero: {
     tag: "For drivers",
+    word: "DRIVERS",
     heading: "By the time you collect the keys, you are ready to earn.",
     sub: "Insurance chosen, Uber and Bolt live, every document in your account. You drive.",
     img: IMG.taxiDriver,
@@ -219,27 +217,17 @@ export const FOR_DRIVERS = {
     sub: "Pick the car, pick the cover, send it. The operator gets your checks and your insurance choice together, so they can decide straight away.",
   },
   steps: {
-    heading: "From application to the road",
+    heading: "From browsing to earning",
     items: [
-      { t: "Apply for the car", d: "Pick a car and register your interest. Your licence details are saved once and reused on every application." },
+      { t: "Browse and filter", d: "Filter by city, area, weekly rent, fuel, make and age to find a car licensed for the right authority." },
+      { t: "Register your interest", d: "Send a short form for that car. Your licence details are saved once and reused on every application." },
       { t: "Choose your insurance", d: "We gather quotes from private hire insurers. Pick the cover level and the payment term, monthly, six-monthly or yearly." },
-      { t: "The operator decides", d: `${FACTS.vetting} The operator sees the checks and your insurance choice together, and says yes or no.` },
-      { t: "We set up your platforms", d: "We add the car to Uber, Bolt and any other platform you drive for, so you are live before collection." },
-      { t: "Collect and earn", d: "Take the handover photos together, sign the agreement in the app, and start the same day." },
+      { t: "Three checks", d: FACTS.vetting },
+      { t: "The operator decides", d: "The operator sees your checks and your insurance choice together, and says yes or no." },
+      { t: "We set up your platforms", d: "Before you collect the car we add it to Uber, Bolt and any other platform you drive for, so day one is an earning day." },
+      { t: "Collect, then it is all in one account", d: "Take the handover photos together, sign the agreement in the app, and from there every payment, invoice and document lives in one place." },
     ],
-  },
-  guideLink: {
-    kicker: "Before you commit",
-    heading: "The whole process, written down.",
-    sub: "Every step from finding a car to handing it back, what you pay and to whom, and what happens the day something goes wrong.",
-    cta: "Read the driver guide",
-    contents: [
-      "Finding a car and registering interest",
-      "Choosing your insurance",
-      "The three checks, and who sees what",
-      "Collection, payments and your account",
-      "Accidents, repairs and replacement cars",
-    ],
+    guideCta: "Read the full driver guide",
   },
   dashboard: {
     heading: "One account for the whole rental.",
@@ -286,6 +274,7 @@ export const DRIVER_GUIDE = {
   },
   hero: {
     tag: "For drivers",
+    word: "THE GUIDE",
     heading: "How renting works.",
     sub: "Every step, in order, before you sign anything.",
     img: IMG.driverMirror,
@@ -351,6 +340,7 @@ export const OPERATOR_GUIDE = {
   },
   hero: {
     tag: "For operators",
+    word: "OPERATORS",
     heading: "We manage the fleet. You collect the rent.",
     sub: "Vetted applications with the insurance choice attached, and a console that watches every document, expiry and claim for you.",
     img: IMG.showroom,
@@ -376,12 +366,13 @@ export const OPERATOR_GUIDE = {
   steps: {
     heading: "How listing works",
     items: [
-      { t: "Tell us about your fleet", d: "How many vehicles, what kind, and where they are based. We call you within one working day." },
-      { t: "Get checked", d: "We verify your operator licence against the register and your Companies House record before anything goes live." },
-      { t: "List your vehicles", d: "Set the weekly rate and deposit for each car. If you carry your own fleet insurance, add it once and the listing says so." },
-      { t: "Approve drivers", d: "Vetted applications arrive with the insurance choice attached. You decide." },
-      { t: "Hand over with a record", d: "You and the driver photograph the car together at collection and return. That record settles deposit questions." },
-      { t: "Get paid", d: "Rent is collected from the driver through Kharo and paid to you on schedule." },
+      { t: "You fill in a short form", d: "Your company name, fleet size and the areas you cover. That is all you do yourself, no account and no listing builder to learn." },
+      { t: "A consultant calls you", d: "A named person from Kharo calls within one working day and owns your onboarding from there." },
+      { t: "We verify you", d: "Your operator licence is checked against the licensing authority's register, alongside your Companies House record." },
+      { t: "We build your listings for you", d: "Your consultant collects the vehicle details, photographs, rates, deposits and documents and puts the listings together. You are not sat typing them in." },
+      { t: "Your vehicles go live", d: "Listings go live for your city when Kharo opens there." },
+      { t: "Vetted drivers arrive", d: "Applications reach you with the DVLA, identity and affordability checks done and the driver's insurance choice already attached. You approve or decline." },
+      { t: "We keep watching after that", d: "Kharo tracks documents, MOT, PHV plate and insurance expiries, coordinates maintenance and runs claims through a dedicated insurance team. Rent is collected from the driver through Kharo and paid to you on schedule." },
     ],
   },
   claims: {
@@ -393,6 +384,10 @@ export const OPERATOR_GUIDE = {
   fee: {
     heading: "What it costs",
     body: FACTS.fee,
+  },
+  earnings: {
+    heading: "What standing cars are costing you.",
+    sub: "The same instrument you will see when you tell us about your fleet.",
   },
   faq: [
     { q: "Who insures the driver?", a: "By default the driver chooses their own hire and reward policy when they apply, and you see that choice with their application. If you carry fleet cover, add it to the listing and the price shows it as included." },
@@ -445,6 +440,8 @@ export const WHY = {
     description: "Kharo handles insurance, platforms, payments, documents and claims around every private hire rental, for drivers and for operators.",
   },
   hero: {
+    word: "WHY KHARO",
+    eyebrow: "Why Kharo",
     heading: "Private hire rental, done properly.",
     sub: "The car is the easy part. Kharo does the rest.",
     img: IMG.londonNight,
@@ -543,6 +540,7 @@ export const LEGAL = {
 // ---------------------------------------------------------------------------
 export const CITY_PAGE = {
   tagTemplate: "Kharo in {city}",
+  heroHeadingTemplate: "Rent a private hire car in {city}.",
   heroSubTemplate: "{count} cars in {city} from operators we have checked, with the rental price shown first and insurance chosen when you apply.",
   seeAllCta: "See all {count} cars",
   accountCta: "Join the waitlist",

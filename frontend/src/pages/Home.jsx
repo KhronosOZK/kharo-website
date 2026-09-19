@@ -1,4 +1,5 @@
 import { useMemo, useRef } from "react";
+import PageHero from "@/components/PageHero";
 import { useNavigate, Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { MOCK_LISTINGS } from "@/data/mockListings";
@@ -7,7 +8,7 @@ import PreviewNotice from "@/components/PreviewNotice";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import Faq from "@/components/Faq";
 import HeroSearch from "@/components/HeroSearch";
-import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
 import { HOME } from "@/content/site";
@@ -44,25 +45,13 @@ export default function Home() {
   return (
     <div className="bg-bone">
       {/* ── HERO: one photograph, one sentence, one action ─────────────── */}
-      <section className="relative isolate text-white">
-        <div className="absolute inset-0 overflow-hidden">
-          <img src={hero.img} alt={hero.imgAlt} className="absolute inset-0 h-full w-full object-cover object-[60%_center]" fetchPriority="high" />
-          <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/35 to-night/15" />
-        </div>
-
-        <div className="wrap relative flex flex-col justify-end min-h-[88svh] pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
-          <Enter as="h1" className="text-display font-heading font-extrabold max-w-[18ch]">
-            {hero.heading}
-          </Enter>
-          <Enter as="p" delay={0.06} className="mt-5 text-lead text-white/80 max-w-[48ch]">
-            {hero.sub}
-          </Enter>
-
-          <Enter delay={0.12} className="mt-9">
-            <HeroSearch />
-          </Enter>
-        </div>
-      </section>
+      <PageHero
+        word={hero.word} eyebrow={hero.eyebrow} heading={hero.heading} sub={hero.sub}
+        img={hero.img} imgAlt={hero.imgAlt} position="60% center"
+        caption={hero.caption} priority
+      >
+        <HeroSearch />
+      </PageHero>
 
       {/* ── THE WORK AROUND THE CAR: statement + hairline list ─────────── */}
       <RevealGroup as="section" className="wrap py-section">
@@ -180,9 +169,13 @@ export default function Home() {
       </section>
 
       {/* ── CLOSER: full-width operator band ───────────────────────────── */}
-      <section className="relative isolate overflow-hidden text-white">
-        <img src={closer.img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-night/70" />
+      {/* Closes in the same inset frame the page opened with, so the
+          photography is bracketed rather than running off the edge once. */}
+      <section className="relative isolate text-white px-[clamp(0.5rem,1vw,0.875rem)] pb-[clamp(0.5rem,1vw,0.875rem)]">
+        <div className="absolute inset-[clamp(0.5rem,1vw,0.875rem)] top-0 rounded-hero overflow-hidden bg-night">
+          <img src={closer.img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-night/75" />
+        </div>
         <RevealGroup className="wrap relative py-section">
           <RevealItem className="grid lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-7">

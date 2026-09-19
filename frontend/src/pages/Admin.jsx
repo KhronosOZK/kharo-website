@@ -137,12 +137,17 @@ export default function Admin() {
   // (waitlist_start / waitlist_complete are new trackEvent calls, not yet
   // aggregated server side); the last two already exist on summary/analytics.
   const countType = (type) => eventRows.filter((r) => r.type === type).length;
+  // Every figure comes from the server's own aggregate. Counting these in the
+  // browser meant counting inside the newest 1000 event rows, which page views
+  // fill on their own, so conversions would fall off the bottom of the window
+  // as traffic grew. countType stays for the per-vehicle breakdown below.
   const funnelSteps = analytics ? [
     { l: "Page views", n: analytics.funnel.page_views },
-    { l: "Waitlist started", n: countType("waitlist_start") },
-    { l: "Waitlist completed", n: countType("waitlist_complete") },
-    { l: "Per-vehicle interest", n: countType("apply_complete") },
-    { l: "Operator interest", n: summary ? summary.interests : 0 },
+    { l: "Searches", n: analytics.funnel.searches },
+    { l: "Waitlist started", n: analytics.funnel.waitlist_start ?? countType("waitlist_start") },
+    { l: "Waitlist completed", n: analytics.funnel.waitlist_complete ?? countType("waitlist_complete") },
+    { l: "Per-vehicle interest", n: analytics.funnel.apply_complete ?? countType("apply_complete") },
+    { l: "Operator interest", n: analytics.funnel.operator_interests ?? (summary ? summary.interests : 0) },
   ] : [];
   const funnelMax = Math.max(...funnelSteps.map((s) => s.n), 1);
 

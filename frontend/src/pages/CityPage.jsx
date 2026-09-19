@@ -7,9 +7,10 @@ import { IMG } from "@/lib/images";
 import VehicleCard from "@/components/VehicleCard";
 import { Button } from "@/components/ui/button";
 import PreviewNotice from "@/components/PreviewNotice";
+import PageHero from "@/components/PageHero";
 import CityInterestForm from "@/components/CityInterestForm";
 import Faq from "@/components/Faq";
-import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { CITY_PAGE } from "@/content/site";
 import { useSeo, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
@@ -36,6 +37,11 @@ export default function CityPage() {
   // rather than breaking the image.
   const heroImg = CITY_IMAGES[city] || IMG.rowCars;
 
+  // Which council or authority licenses private hire here. Taken from the
+  // listings themselves rather than a second table, so it can never disagree
+  // with the cars on the page.
+  const authority = list[0]?.licensing_authority || "";
+
   const seoFaqs = CITY_SEO[city]?.faq || [];
   useSeo({
     title: `Private hire cars to rent in ${city} · Kharo`,
@@ -51,22 +57,17 @@ export default function CityPage() {
   if (count === 0) {
     return (
       <main data-testid={`city-page-${city}-coming-soon`}>
-        <section className="relative isolate overflow-hidden text-white">
-          <img src={heroImg} alt="" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
-          <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/30 to-night/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
-          <div className="wrap relative min-h-[58svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
-            <Enter as="h1" className="text-display font-heading font-extrabold max-w-[14ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
-              {city}
-            </Enter>
-            <Enter as="p" delay={0.06} className="mt-4 text-lead text-white/85 max-w-[46ch] drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
-              {t(CITY_PAGE.comingSoon.sub, { city })}
-            </Enter>
-            <Enter delay={0.12} className="mt-7 panel rounded-2xl p-5 sm:p-6 text-ink max-w-xl">
-              <CityInterestForm city={city} compact />
-            </Enter>
+        <PageHero
+          word={city.toUpperCase()}
+          heading={t(CITY_PAGE.comingSoon.heading, { city })}
+          sub={t(CITY_PAGE.comingSoon.sub, { city })}
+          img={heroImg}
+          priority
+        >
+          <div className="panel rounded-2xl p-5 sm:p-6 text-ink max-w-xl">
+            <CityInterestForm city={city} compact />
           </div>
-        </section>
+        </PageHero>
 
         <RevealGroup as="section" className="wrap py-section">
           <RevealItem>
@@ -101,25 +102,23 @@ export default function CityPage() {
       <PreviewNotice />
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative isolate overflow-hidden text-white">
-        <img src={heroImg} alt={`${city} skyline`} className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
-        <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/30 to-night/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
-        <div className="wrap relative min-h-[62svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
-          <Enter as="h1" className="text-display font-heading font-extrabold max-w-[14ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
-            {city}
-          </Enter>
-          <Enter as="p" delay={0.06} className="mt-4 text-lead text-white/85 max-w-[46ch] drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
-            {t(CITY_PAGE.heroSubTemplate, { count, city })}
-          </Enter>
-          <Enter delay={0.12} className="mt-7 flex flex-wrap gap-3">
-            <Button size="lg" onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)} data-testid="city-see-all">
-              {t(CITY_PAGE.seeAllCta, { count })} <ArrowRight size={16} />
-            </Button>
-            <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")}>{CITY_PAGE.accountCta}</Button>
-          </Enter>
+      <PageHero
+        word={city.toUpperCase()}
+        eyebrow={t(CITY_PAGE.tagTemplate, { city })}
+        heading={t(CITY_PAGE.heroHeadingTemplate, { city })}
+        sub={t(CITY_PAGE.heroSubTemplate, { count, city })}
+        img={heroImg}
+        imgAlt={`${city} skyline`}
+        meta={authority ? [{ label: "Licensing authority", value: authority }] : []}
+        priority
+      >
+        <div className="flex flex-wrap gap-3">
+          <Button size="lg" onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)} data-testid="city-see-all">
+            {t(CITY_PAGE.seeAllCta, { count })} <ArrowRight size={16} />
+          </Button>
+          <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")}>{CITY_PAGE.accountCta}</Button>
         </div>
-      </section>
+      </PageHero>
 
       {/* ── FIGURES: one hairline-divided row, no cards ─────────────────── */}
       <RevealGroup as="section" className="wrap">

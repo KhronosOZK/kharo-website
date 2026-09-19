@@ -18,6 +18,7 @@ export default function PriceRangeFilter({
   countLabel = (n) => `${n} ${n === 1 ? "car" : "cars"} in range`,
   className = "",
   id = "price-range",
+  compact = false,
 }) {
   const { reduce } = useMotionPrefs();
   const trackRef = useRef(null);
@@ -109,14 +110,17 @@ export default function PriceRangeFilter({
 
   return (
     <div className={className} data-testid={id}>
-      <div className="flex items-baseline justify-between gap-3 mb-2">
-        <span className="text-[13.5px] font-medium text-ink tabular">£{lo} to £{hi} a week</span>
-        <span className="text-[12.5px] text-ink-3 tabular" data-testid={`${id}-count`} aria-live="polite">
-          {countLabel(inRange)}
-        </span>
+      <div className={`flex items-baseline justify-between gap-3 ${compact ? "" : "mb-2"}`}>
+        <span className={`font-medium text-ink tabular ${compact ? "text-[13.5px]" : "text-[13.5px]"}`}>£{lo} to £{hi}</span>
+        {!compact && (
+          <span className="text-[12.5px] text-ink-3 tabular" data-testid={`${id}-count`} aria-live="polite">
+            {countLabel(inRange)}
+          </span>
+        )}
       </div>
 
       {/* Distribution */}
+      {!compact && (
       <div className="flex items-end gap-[2px] h-11" aria-hidden="true">
         {bars.map((b, i) => {
           const active = b.to >= lo && b.from <= hi;
@@ -132,9 +136,10 @@ export default function PriceRangeFilter({
           );
         })}
       </div>
+      )}
 
       {/* Track */}
-      <div ref={trackRef} className="relative h-6 mt-1 select-none">
+      <div ref={trackRef} className={`relative select-none ${compact ? "h-5 mt-0.5" : "h-6 mt-1"}`}>
         <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[3px] rounded-full bg-surface-2" />
         <span
           className="absolute top-1/2 -translate-y-1/2 h-[3px] rounded-full bg-ink"

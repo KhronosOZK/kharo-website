@@ -1,63 +1,54 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Check, ArrowRight } from "lucide-react";
+import PageHero from "@/components/PageHero";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import ApplicationFlow from "@/components/ApplicationFlow";
-import GuideLink from "@/components/GuideLink";
-import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
 import { FOR_DRIVERS } from "@/content/site";
 
 export default function ForDrivers() {
   const navigate = useNavigate();
-  const { seo, hero, steps, guideLink, flow, dashboard, support, requirements, closer } = FOR_DRIVERS;
+  const { seo, hero, steps, flow, dashboard, support, requirements, closer } = FOR_DRIVERS;
+  const half = Math.ceil(steps.items.length / 2);
+  const stepColumns = [steps.items.slice(0, half), steps.items.slice(half)];
   useSeo({ title: seo.title, description: seo.description });
 
   return (
     <div className="bg-bone">
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative isolate overflow-hidden text-white">
-        <img src={hero.img} alt={hero.imgAlt} className="absolute inset-0 h-full w-full object-cover object-[65%_center]" fetchPriority="high" />
-        <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/30 to-night/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
-
-        <div className="wrap relative min-h-[78svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
-          <Enter as="p" className="eyebrow text-mint">{hero.tag}</Enter>
-          <Enter as="h1" delay={0.04} className="mt-3 text-display font-heading font-extrabold max-w-[18ch]">
-            {hero.heading}
-          </Enter>
-          <Enter as="p" delay={0.08} className="mt-5 text-lead text-white/80 max-w-[46ch]">{hero.sub}</Enter>
-          <Enter delay={0.12} className="mt-8 flex flex-wrap gap-3">
-            <Button size="lg" onClick={() => navigate("/search")} data-testid="for-drivers-browse">{hero.primaryCta} <ArrowRight size={16} /></Button>
-            <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")} data-testid="for-drivers-register">{hero.secondaryCta}</Button>
-          </Enter>
+      <PageHero
+        word={hero.word} eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
+        img={hero.img} imgAlt={hero.imgAlt} position="55% center" priority
+      >
+        <div className="flex flex-wrap gap-3">
+          <Button size="lg" onClick={() => navigate("/search")} data-testid="for-drivers-browse">{hero.primaryCta} <ArrowRight size={16} /></Button>
+          <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")} data-testid="for-drivers-register">{hero.secondaryCta}</Button>
         </div>
-      </section>
+      </PageHero>
 
-      {/* ── STEPS: one horizontal timeline ────────────────────────────── */}
+      {/* ── STEPS: the whole arc, browsing to earning ───────────────────── */}
       <RevealGroup as="section" className="wrap py-section">
         <RevealItem><h2 className="text-h2 font-heading font-extrabold text-ink max-w-[22ch]">{steps.heading}</h2></RevealItem>
-        <RevealItem as="ol" className="mt-10 grid gap-8 md:grid-cols-5 md:gap-6">
-          {steps.items.map((s, i) => (
-            <li key={s.t} className="relative pl-6 md:pl-0 md:pt-6 border-l md:border-l-0 md:border-t border-line">
-              <span aria-hidden className="absolute -left-[5px] top-1 md:left-0 md:-top-[5px] w-[9px] h-[9px] rounded-full bg-green" />
-              <p className="text-[12.5px] font-semibold text-ink-3 tabular">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-1 text-h3 font-heading font-bold text-ink">{s.t}</h3>
-              <p className="mt-2 text-[15px] text-ink-2 leading-relaxed">{s.d}</p>
-            </li>
+        <RevealItem className="mt-10 grid md:grid-cols-2 gap-x-block">
+          {stepColumns.map((column, c) => (
+            <ol key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
+              {column.map((s) => (
+                <li key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
+                  <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full bg-green" />
+                  <h3 className="text-h3 font-heading font-bold text-ink">{s.t}</h3>
+                  <p className="mt-2 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{s.d}</p>
+                </li>
+              ))}
+            </ol>
           ))}
         </RevealItem>
 
-        <RevealItem className="mt-10">
-          <GuideLink
-            kicker={guideLink.kicker}
-            heading={guideLink.heading}
-            sub={guideLink.sub}
-            contents={guideLink.contents}
-            cta={guideLink.cta}
-            to="/driver-guide"
-            testId="driver-guide-link"
-          />
+        <RevealItem className="mt-2">
+          <Link to="/driver-guide" data-testid="driver-guide-link" className="pressable inline-flex items-center gap-1.5 text-[14.5px] font-semibold text-green hover:underline underline-offset-4">
+            {steps.guideCta} <ArrowRight size={16} strokeWidth={1.75} />
+          </Link>
         </RevealItem>
       </RevealGroup>
 

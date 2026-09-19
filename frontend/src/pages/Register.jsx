@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import { api, trackEvent } from "@/lib/api";
 import { DRIVER_CARS, estimateDriverWeek } from "@/lib/pricing";
+import PageHero from "@/components/PageHero";
+import { IMG } from "@/lib/images";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { Enter } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
@@ -97,11 +99,20 @@ export default function Register() {
 
   return (
     <main className="bg-bone">
+      <PageHero
+        size="band"
+        word="WAITLIST"
+        eyebrow={tag}
+        heading={heading}
+        sub={sub}
+        img={IMG.londonStreet}
+        imgAlt="A private hire car on a city street"
+        position="50% 55%"
+        priority
+      />
+
       <div className="wrap py-section grid lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] gap-block items-start">
         <div>
-          <Enter as="p" className="eyebrow">{tag}</Enter>
-          <Enter as="h1" delay={0.04} className="mt-3 text-h1 font-heading font-extrabold text-ink max-w-[20ch]">{heading}</Enter>
-          <Enter as="p" delay={0.08} className="mt-4 text-lead text-ink-2 max-w-[44ch]">{sub}</Enter>
 
           <Enter delay={0.14} className="mt-8 panel rounded-2xl p-6 sm:p-7 max-w-md" data-testid="driver-take-home">
             <div className="text-[13px] text-ink-3">{estimator.label}</div>

@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
+import PageHero from "@/components/PageHero";
 import { useNavigate, Link } from "react-router-dom";
 import { useInView } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
-import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { DUR, EASE } from "@/lib/motion";
 import { useSeo } from "@/lib/seo";
@@ -41,19 +42,10 @@ export default function WhyKharo() {
   return (
     <div className="bg-bone">
       {/* ── HERO: photograph, headline, sub. Nothing floating. ──────────── */}
-      <section className="relative isolate overflow-hidden text-white">
-        <img src={hero.img} alt="" className="absolute inset-0 h-full w-full object-cover object-[55%_center]" fetchPriority="high" />
-        <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/30 to-night/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
-        <div className="wrap relative min-h-[64svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
-          <Enter as="h1" className="text-display font-heading font-extrabold max-w-[18ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
-            {hero.heading}
-          </Enter>
-          <Enter as="p" delay={0.06} className="mt-4 text-lead text-white/85 max-w-[42ch] drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
-            {hero.sub}
-          </Enter>
-        </div>
-      </section>
+      <PageHero
+        word={hero.word} eyebrow={hero.eyebrow} heading={hero.heading} sub={hero.sub}
+        img={hero.img} position="55% center" priority
+      />
 
       {/* ── THE GAP: one editorial figure, a lead paragraph beside it ──── */}
       <section className="bg-surface border-y border-line">

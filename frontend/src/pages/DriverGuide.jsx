@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import PageHero from "@/components/PageHero";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import Faq from "@/components/Faq";
 import { useSeo } from "@/lib/seo";
@@ -106,23 +107,12 @@ export default function DriverGuide() {
   return (
     <div className="bg-bone">
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative isolate overflow-hidden text-white">
-        <img src={hero.img} alt="" className="absolute inset-0 h-full w-full object-cover object-[60%_center]" fetchPriority="high" />
-        <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/30 to-night/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
-        <div className="wrap relative min-h-[60svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
-          <Enter as="p" className="eyebrow text-mint">{hero.tag}</Enter>
-          <Enter as="h1" delay={0.04} className="mt-3 text-display font-heading font-extrabold max-w-[16ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
-            {hero.heading}
-          </Enter>
-          <Enter as="p" delay={0.08} className="mt-4 text-lead text-white/85 max-w-[42ch]">{hero.sub}</Enter>
-          <Enter delay={0.12} className="mt-7">
-            <Button size="lg" onClick={() => navigate("/search")} data-testid="driver-guide-browse">
-              {hero.cta} <ArrowRight size={16} />
-            </Button>
-          </Enter>
-        </div>
-      </section>
+      <PageHero
+        word={hero.word} eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
+        img={hero.img} position="50% center" priority
+      >
+        <Button size="lg" onClick={() => navigate("/search")} data-testid="driver-guide-browse">{hero.cta} <ArrowRight size={16} /></Button>
+      </PageHero>
 
       {/* ── STEPS: sticky index on desktop, pill track on mobile ────────── */}
       <RevealGroup as="section" className="wrap py-section">

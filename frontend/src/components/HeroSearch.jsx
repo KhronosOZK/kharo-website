@@ -117,9 +117,6 @@ export default function HeroSearch() {
     exit: { opacity: 0, y: -4, transition: { duration: 0.12, ease: EASE.out } },
   };
 
-  const priceLabel = range[0] === bounds[0] && range[1] === bounds[1]
-    ? HERO_SEARCH.anyPrice
-    : `£${range[0]} to £${range[1]}`;
 
   return (
     <div ref={wrapRef} className="relative w-full max-w-4xl" data-testid="hero-search">
@@ -129,8 +126,18 @@ export default function HeroSearch() {
         <Segment label={HERO_SEARCH.area} value={area || HERO_SEARCH.anyArea} testId="hero-area"
           open={open === "area"} onClick={() => setOpen(open === "area" ? null : "area")}
           className={city ? "" : "opacity-55"} />
-        <Segment label={HERO_SEARCH.price} value={priceLabel} testId="hero-price"
-          open={open === "price"} onClick={() => setOpen(open === "price" ? null : "price")} />
+        <div className="control-seg flex-[1.6] min-w-0" data-testid="hero-price">
+          <span className="control-seg-label">{HERO_SEARCH.price}</span>
+          <PriceRangeFilter
+            values={scoped.map((v) => v.weekly_rent)}
+            min={bounds[0]}
+            max={bounds[1]}
+            value={range}
+            onChange={setRange}
+            id="hero-price-range"
+            compact
+          />
+        </div>
         <Segment label={HERO_SEARCH.fuel} value={fuel || HERO_SEARCH.anyFuel} testId="hero-fuel"
           open={open === "fuel"} onClick={() => setOpen(open === "fuel" ? null : "fuel")} />
 
@@ -191,24 +198,6 @@ export default function HeroSearch() {
                   ))}
                 </div>
               ) : <p className="text-[13.5px] text-ink-3">{HERO_SEARCH.pickCityFirst}</p>
-            )}
-
-            {open === "price" && (
-              <>
-                <PriceRangeFilter
-                  values={scoped.map((v) => v.weekly_rent)}
-                  min={bounds[0]}
-                  max={bounds[1]}
-                  value={range}
-                  onChange={setRange}
-                  id="hero-price-range"
-                  countLabel={(n) => HERO_SEARCH.inRange(n)}
-                />
-                <button type="button" onClick={() => setRange(bounds)}
-                  className="pressable mt-3 text-[12.5px] font-medium text-ink-3 hover:text-ink">
-                  {HERO_SEARCH.resetPrice}
-                </button>
-              </>
             )}
 
             {open === "fuel" && (

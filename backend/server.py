@@ -43,8 +43,19 @@ def rate_limit(bucket: str, limit: int, window_seconds: int = 3600):
     to Redis before running more than one process.
     """
     async def _dep(request: Request):
-        ip = (request.headers.get("x-forwarded-for", "").split(",")[0].strip()
-              or (request.client.host if request.client else "unknown"))
+        # request.client.host is the TCP peer address, which cannot be forged
+        # by the caller. Trusting the leftmost X-Forwarded-For entry instead
+        # (the previous behaviour) let anyone reset their own rate-limit
+        # bucket on every request by sending a fresh, made-up XFF header, which
+        # defeats the limiter entirely. If this API is ever placed behind a
+        # proxy that does NOT already resolve request.client.host to the real
+        # client (Render does), set TRUST_PROXY_HEADERS=1 and audit that the
+        # proxy overwrites/strips any inbound XFF before appending its own hop.
+        if os.environ.get("TRUST_PROXY_HEADERS") == "1":
+            xff = request.headers.get("x-forwarded-for", "")
+            ip = xff.split(",")[-1].strip() or (request.client.host if request.client else "unknown")
+        else:
+            ip = request.client.host if request.client else "unknown"
         now = datetime.now(timezone.utc).timestamp()
         key = (bucket, ip)
         hits = [t for t in _RATE_BUCKETS.get(key, []) if now - t < window_seconds]
@@ -106,88 +117,104 @@ async def require_admin(user: dict = Depends(get_current_user)) -> dict:
     return user
 
 # ---------------------------------------------------------------- Models
+#
+# Every free-text field below is capped with max_length. Without a bound, a
+# client can submit a multi-megabyte string in any of these (a Pydantic
+# `str` field with no constraint accepts arbitrary length), which lands in
+# Mongo, gets echoed back through /admin/* and /admin/export/*, and costs
+# nothing to send but real memory/CPU/storage to store and serialize. Caps
+# below are generous relative to real-world values for each field.
+NAME_LEN = 120
+SHORT_LEN = 60      # phone, licence numbers, single-word-ish fields
+MED_LEN = 200        # areas, company names, free single-line fields
+LONG_LEN = 2000      # notes / previous_incidents free text
+
 class RegisterIn(BaseModel):
-    name: str
+    name: str = Field(..., min_length=1, max_length=NAME_LEN)
     email: EmailStr
-    phone: str
-    password: str
+    phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
+    # No minimum previously: an empty or single-character password was
+    # accepted at registration even though /auth/reset-password enforces a
+    # 6-character minimum, so the two entry points disagreed. 8 is the
+    # floor both now share (see reset_password below).
+    password: str = Field(..., min_length=8, max_length=128)
     role: str = "driver"
-    dob: Optional[str] = None
-    dvla_licence: Optional[str] = None
-    pco_licence: Optional[str] = None
+    dob: Optional[str] = Field(None, max_length=20)
+    dvla_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
+    pco_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
 
 class LoginIn(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(..., min_length=1, max_length=128)
 
 class QuoteIn(BaseModel):
-    listing_id: Optional[str] = None
-    age: Optional[int] = 35
-    years_experience: Optional[int] = 3
-    ncb_years: Optional[int] = 2
+    listing_id: Optional[str] = Field(None, max_length=SHORT_LEN)
+    age: Optional[int] = Field(35, ge=16, le=100)
+    years_experience: Optional[int] = Field(3, ge=0, le=80)
+    ncb_years: Optional[int] = Field(2, ge=0, le=80)
     convictions: Optional[bool] = False
-    cover_level: str = "comprehensive"
-    policy_length: str = "annual"
+    cover_level: str = Field("comprehensive", max_length=SHORT_LEN)
+    policy_length: str = Field("annual", max_length=SHORT_LEN)
 
 class ApplicationIn(BaseModel):
-    listing_id: str
-    full_name: str
+    listing_id: str = Field(..., max_length=SHORT_LEN)
+    full_name: str = Field(..., min_length=1, max_length=NAME_LEN)
     email: EmailStr
-    phone: str
-    dob: Optional[str] = None
-    dvla_licence: Optional[str] = None
-    pco_licence: Optional[str] = None
-    years_experience: Optional[int] = None
-    previous_incidents: Optional[str] = None
-    duration_weeks: Optional[int] = None
+    phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
+    dob: Optional[str] = Field(None, max_length=20)
+    dvla_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
+    pco_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
+    years_experience: Optional[int] = Field(None, ge=0, le=80)
+    previous_incidents: Optional[str] = Field(None, max_length=LONG_LEN)
+    duration_weeks: Optional[int] = Field(None, ge=0, le=520)
     insurance_details: Optional[dict] = None
-    estimated_weekly_cost: Optional[float] = None
+    estimated_weekly_cost: Optional[float] = Field(None, ge=0, le=100000)
 
 class InterestIn(BaseModel):
-    company_name: str
-    companies_house: Optional[str] = None
-    tfl_operator_licence: Optional[str] = None
-    fleet_size: str
-    areas: str
-    contact_name: str
-    role: Optional[str] = None
+    company_name: str = Field(..., min_length=1, max_length=MED_LEN)
+    companies_house: Optional[str] = Field(None, max_length=SHORT_LEN)
+    tfl_operator_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
+    fleet_size: str = Field(..., max_length=SHORT_LEN)
+    areas: str = Field(..., max_length=MED_LEN)
+    contact_name: str = Field(..., min_length=1, max_length=NAME_LEN)
+    role: Optional[str] = Field(None, max_length=SHORT_LEN)
     email: EmailStr
-    phone: str
-    heard_from: Optional[str] = None
-    vehicle_types: Optional[str] = None
+    phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
+    heard_from: Optional[str] = Field(None, max_length=MED_LEN)
+    vehicle_types: Optional[str] = Field(None, max_length=MED_LEN)
 
 class DriverInterestIn(BaseModel):
-    name: str
+    name: str = Field(..., min_length=1, max_length=NAME_LEN)
     email: EmailStr
-    phone: str
-    dob: Optional[str] = None
-    dvla_licence: Optional[str] = None
-    pco_licence: Optional[str] = None
-    years_experience: Optional[str] = None
-    city: Optional[str] = None
-    car_type: Optional[str] = None
-    availability: Optional[str] = None
-    notes: Optional[str] = None
-    heard_from: Optional[str] = None
+    phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
+    dob: Optional[str] = Field(None, max_length=20)
+    dvla_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
+    pco_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
+    years_experience: Optional[str] = Field(None, max_length=SHORT_LEN)
+    city: Optional[str] = Field(None, max_length=MED_LEN)
+    car_type: Optional[str] = Field(None, max_length=MED_LEN)
+    availability: Optional[str] = Field(None, max_length=MED_LEN)
+    notes: Optional[str] = Field(None, max_length=LONG_LEN)
+    heard_from: Optional[str] = Field(None, max_length=MED_LEN)
 
 class EventIn(BaseModel):
-    type: str
+    type: str = Field(..., min_length=1, max_length=SHORT_LEN)
     data: Optional[dict] = None
 
 class CityInterestIn(BaseModel):
-    city: str
-    name: Optional[str] = None
+    city: str = Field(..., min_length=1, max_length=MED_LEN)
+    name: Optional[str] = Field(None, max_length=NAME_LEN)
     email: EmailStr
-    phone: Optional[str] = None
-    vehicle_type: Optional[str] = None
-    budget: Optional[str] = None
-    note: Optional[str] = None
+    phone: Optional[str] = Field(None, max_length=SHORT_LEN)
+    vehicle_type: Optional[str] = Field(None, max_length=MED_LEN)
+    budget: Optional[str] = Field(None, max_length=SHORT_LEN)
+    note: Optional[str] = Field(None, max_length=LONG_LEN)
 
 class LeadIn(BaseModel):
-    name: Optional[str] = None
+    name: Optional[str] = Field(None, max_length=NAME_LEN)
     email: Optional[EmailStr] = None
-    phone: Optional[str] = None
-    source: str = "unknown"
+    phone: Optional[str] = Field(None, max_length=SHORT_LEN)
+    source: str = Field("unknown", max_length=SHORT_LEN)
     data: Optional[dict] = None
 
 class MarketplaceInterestIn(BaseModel):
@@ -197,32 +224,32 @@ class MarketplaceInterestIn(BaseModel):
     to move; buyers describe what they are hunting for. Both sides land in the
     same collection so the split can be read off directly.
     """
-    intent: str = "buy"
-    name: str
+    intent: str = Field("buy", max_length=SHORT_LEN)
+    name: str = Field(..., min_length=1, max_length=NAME_LEN)
     email: EmailStr
-    phone: str
-    city: Optional[str] = None
+    phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
+    city: Optional[str] = Field(None, max_length=MED_LEN)
     # seller side
-    make: Optional[str] = None
-    model: Optional[str] = None
-    year: Optional[str] = None
-    mileage: Optional[str] = None
-    fuel: Optional[str] = None
-    pco_expiry: Optional[str] = None
-    asking_price: Optional[str] = None
-    condition: Optional[str] = None
-    timeframe: Optional[str] = None
-    vehicle_count: Optional[str] = None
+    make: Optional[str] = Field(None, max_length=MED_LEN)
+    model: Optional[str] = Field(None, max_length=MED_LEN)
+    year: Optional[str] = Field(None, max_length=SHORT_LEN)
+    mileage: Optional[str] = Field(None, max_length=SHORT_LEN)
+    fuel: Optional[str] = Field(None, max_length=SHORT_LEN)
+    pco_expiry: Optional[str] = Field(None, max_length=20)
+    asking_price: Optional[str] = Field(None, max_length=SHORT_LEN)
+    condition: Optional[str] = Field(None, max_length=MED_LEN)
+    timeframe: Optional[str] = Field(None, max_length=MED_LEN)
+    vehicle_count: Optional[str] = Field(None, max_length=SHORT_LEN)
     # buyer side
-    looking_for: Optional[str] = None
-    budget: Optional[str] = None
-    min_pco_months: Optional[str] = None
-    finance_interest: Optional[str] = None
+    looking_for: Optional[str] = Field(None, max_length=MED_LEN)
+    budget: Optional[str] = Field(None, max_length=SHORT_LEN)
+    min_pco_months: Optional[str] = Field(None, max_length=SHORT_LEN)
+    finance_interest: Optional[str] = Field(None, max_length=SHORT_LEN)
     # shared
-    seller_type: Optional[str] = None
-    listing_id: Optional[str] = None
-    notes: Optional[str] = None
-    heard_from: Optional[str] = None
+    seller_type: Optional[str] = Field(None, max_length=SHORT_LEN)
+    listing_id: Optional[str] = Field(None, max_length=SHORT_LEN)
+    notes: Optional[str] = Field(None, max_length=LONG_LEN)
+    heard_from: Optional[str] = Field(None, max_length=MED_LEN)
 
 # ---------------------------------------------------------------- Auth routes
 async def _issue(resp: Response, user_id: str, email: str, role: str):
@@ -274,8 +301,8 @@ class ForgotIn(BaseModel):
     email: EmailStr
 
 class ResetIn(BaseModel):
-    token: str
-    password: str
+    token: str = Field(..., min_length=1, max_length=256)
+    password: str = Field(..., min_length=8, max_length=128)
 
 @api.post("/auth/forgot-password", dependencies=[Depends(rate_limit("forgot", 5))])
 async def forgot_password(body: ForgotIn):
@@ -295,8 +322,10 @@ async def forgot_password(body: ForgotIn):
 
 @api.post("/auth/reset-password", dependencies=[Depends(rate_limit("reset", 10))])
 async def reset_password(body: ResetIn):
-    if len(body.password) < 6:
-        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+    # ResetIn.password already enforces an 8-character minimum (matching
+    # RegisterIn), so this is now a defence-in-depth check, not the only gate.
+    if len(body.password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
     doc = await db.password_reset_tokens.find_one({"token": body.token})
     if not doc or doc.get("used"):
         raise HTTPException(status_code=400, detail="This reset link is invalid or has already been used")
@@ -504,7 +533,7 @@ async def create_marketplace_interest(body: MarketplaceInterestIn):
     }))
     return {"ok": True, "intent": intent}
 
-@api.get("/marketplace-demand")
+@api.get("/marketplace-demand", dependencies=[Depends(rate_limit("marketplace_demand", 120))])
 async def marketplace_demand():
     """Public counts so both sides can see the market filling up."""
     async def n(intent):
@@ -655,13 +684,13 @@ async def city_interest(body: CityInterestIn):
     fire(send_interest_thanks("driver", body.email.lower(), body.name, body.city or ""))
     return {"ok": True}
 
-@api.get("/city-demand")
+@api.get("/city-demand", dependencies=[Depends(rate_limit("city_demand", 120))])
 async def city_demand():
     pipeline = [{"$group": {"_id": "$city", "count": {"$sum": 1}}}, {"$sort": {"count": -1}}]
     rows = await db.city_requests.aggregate(pipeline).to_list(100)
     return [{"city": r["_id"], "requests": r["count"]} for r in rows]
 
-@api.get("/stats")
+@api.get("/stats", dependencies=[Depends(rate_limit("stats", 120))])
 async def stats():
     real = {"company_name": {"$not": {"$regex": "(test|abc|abv|^demo)", "$options": "i"}}}
     drivers = await db.users.count_documents({"role": "driver", "email": {"$not": {"$regex": "^test", "$options": "i"}}})
@@ -726,6 +755,18 @@ async def admin_analytics(_: dict = Depends(require_admin)):
         "applications": await db.applications.count_documents({}),
         "driver_signups": await db.users.count_documents({"role": "driver"}),
         "sale_listing_views": await db.events.count_documents({"type": "sale_listing_view"}),
+        # Conversion counts are aggregated here rather than derived in the
+        # browser from /admin/{collection}, which returns only the newest 1000
+        # rows. Page views dominate that window, so once the site passes 1000
+        # events a client-side count would drop waitlist conversions while page
+        # views kept climbing, and the funnel would read as a collapse.
+        "waitlist_start": await db.events.count_documents({"type": "waitlist_start"}),
+        "waitlist_complete": await db.events.count_documents({"type": "waitlist_complete"}),
+        "apply_start": await db.events.count_documents({"type": "apply_start"}),
+        "apply_complete": await db.events.count_documents({"type": "apply_complete"}),
+        "driver_interests": await db.driver_interests.count_documents({}),
+        "operator_interests": await db.interests.count_documents({}),
+        "city_requests": await db.city_requests.count_documents({}),
     }
 
     marketplace = {
@@ -747,7 +788,7 @@ async def admin_analytics(_: dict = Depends(require_admin)):
 
 @api.get("/admin/{collection}")
 async def admin_list(collection: str, _: dict = Depends(require_admin)):
-    allowed = {"leads", "applications", "interests", "events", "users", "city_requests", "marketplace_interests"}
+    allowed = {"leads", "applications", "interests", "driver_interests", "events", "users", "city_requests", "marketplace_interests"}
     if collection not in allowed:
         raise HTTPException(status_code=404, detail="Unknown collection")
     proj = {"_id": 0, "password_hash": 0} if collection == "users" else {"_id": 0}
@@ -756,7 +797,7 @@ async def admin_list(collection: str, _: dict = Depends(require_admin)):
 
 @api.get("/admin/export/{collection}")
 async def admin_export(collection: str, _: dict = Depends(require_admin)):
-    allowed = {"leads", "applications", "interests", "events", "users", "city_requests", "marketplace_interests"}
+    allowed = {"leads", "applications", "interests", "driver_interests", "events", "users", "city_requests", "marketplace_interests"}
     if collection not in allowed:
         raise HTTPException(status_code=404, detail="Unknown collection")
     proj = {"_id": 0, "password_hash": 0} if collection == "users" else {"_id": 0}
@@ -777,6 +818,43 @@ async def admin_export(collection: str, _: dict = Depends(require_admin)):
 
 app.include_router(api)
 
+# ---------------------------------------------------------------- Request size guard
+# Starlette/FastAPI do not cap request body size by default, so any POST
+# endpoint would otherwise accept an arbitrarily large body even with tight
+# Pydantic field constraints on top (the oversized body is still fully read
+# and parsed as JSON before validation can reject it). Reject early based on
+# Content-Length; nothing this app accepts legitimately is over ~200KB.
+MAX_BODY_BYTES = 300_000
+
+@app.middleware("http")
+async def limit_body_size(request: Request, call_next):
+    cl = request.headers.get("content-length")
+    if cl is not None:
+        try:
+            if int(cl) > MAX_BODY_BYTES:
+                return Response(status_code=413, content="Request body too large")
+        except ValueError:
+            pass
+    return await call_next(request)
+
+# ---------------------------------------------------------------- Security headers
+# Baseline hardening headers for every response. CSP is intentionally left to
+# the frontend's own hosting config (see frontend/vercel.json) since this API
+# serves JSON/CSV, not HTML, so there is nothing here for a CSP to protect
+# beyond what these headers already cover.
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = (
+        "camera=(), microphone=(), geolocation=(), payment=(), usb=(), "
+        "interest-cohort=()"
+    )
+    response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains; preload"
+    return response
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -784,8 +862,8 @@ app.add_middleware(
     # browsers anyway, and leaving it as the default means an unset env var
     # silently opens the API to any site. Set CORS_ORIGINS in production.
     allow_origins=[o.strip() for o in os.environ.get('CORS_ORIGINS', 'http://localhost:3000').split(',') if o.strip()],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 # ---------------------------------------------------------------- Seed

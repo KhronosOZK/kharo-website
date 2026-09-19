@@ -1,7 +1,7 @@
 // Copy for the narrative sections added to the operator guide page
 // (/operator-guide): what Kharo is to an operator and how the arrangement
-// works, the line that introduces the console, and the guide link near the
-// close of the page. Not part of the shared OPERATOR_GUIDE block in site.js.
+// works, plus the line that introduces the console. Not part of the shared
+// OPERATOR_GUIDE block in site.js.
 import { FACTS } from "@/content/site";
 
 export const OPERATOR_STORY = {
@@ -17,6 +17,10 @@ export const OPERATOR_STORY = {
         d: "You choose which vehicles go up and you set the weekly rate. Every application that reaches you arrives with the checks already done, and you decide who drives your car.",
       },
       {
+        t: "We build your listings for you.",
+        d: "Your consultant collects the vehicle details, photographs, rates, deposits and documents and puts the listing together. You are never sat typing it in yourself.",
+      },
+      {
         t: "We take the admin off your desk.",
         d: "Finding and vetting drivers, the insurance choice attached to each application, tracking documents and expiries, coordinating maintenance and handling claims when something goes wrong all run through Kharo.",
       },
@@ -27,17 +31,4 @@ export const OPERATOR_STORY = {
     ],
   },
   consoleLine: "This is what you see once your vehicles are live.",
-  guideLink: {
-    kicker: "Ready to list",
-    heading: "Tell us about your fleet.",
-    sub: "Two minutes, no commitment. We call you within one working day to get you checked and listed.",
-    cta: "List your fleet",
-    contents: [
-      "How many vehicles, and where",
-      "Getting your operator licence checked",
-      "Setting your weekly rate and deposit",
-      "How driver approvals reach you",
-      "How and when rent reaches your account",
-    ],
-  },
 };
