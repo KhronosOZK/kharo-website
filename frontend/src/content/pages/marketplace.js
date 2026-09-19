@@ -156,12 +156,5 @@ export const DETAIL = {
   applyCta: "Register interest",
   mobileRentPrefix: "Rent from",
   mobileRentSuffix: "a week",
-  nextStepsHeading: "What happens next",
-  nextSteps: [
-    "You register your interest with your name and contact details",
-    "We add you to the priority list for this vehicle and area",
-    "We email you the moment Kharo goes live near you",
-    "No commitment, no charge, until you decide to go ahead",
-  ],
   trustFooter: "Operator checked against the licensing register. No payment taken at this stage.",
 };

@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { shortAuthority } from "@/lib/cities";
 import { CARD } from "@/content/pages/marketplace";
 
 const MAX_ZONES = 5;
@@ -95,9 +96,7 @@ export default function VehicleCard({ vehicle }) {
   const EV_FUELS = ["Electric", "Plug-in Hybrid", "Hybrid"];
   const pills = [
     EV_FUELS.includes(fuel) ? (fuel === "Electric" ? "EV" : fuel) : null,
-    licensing_authority?.startsWith("Transport for London")
-      ? "TfL licensed"
-      : licensing_authority ? `${licensing_authority.replace(" City Council", "").replace("City of ", "")} licensed` : null,
+    licensing_authority ? `${shortAuthority(licensing_authority)} licensed` : null,
     insurance_included ? "Insurance included" : null,
   ].filter(Boolean);
   // The plate is the first thing a driver checks: a car on the wrong licence

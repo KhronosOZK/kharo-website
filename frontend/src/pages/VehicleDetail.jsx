@@ -419,20 +419,6 @@ function CostPanel({ v, weeks, rentWeekly, onApply }) {
       </Button>
       <PreviewNotice variant="inline" className="mt-3" />
 
-      <div className="mt-6">
-        <p className="text-[12.5px] font-semibold text-ink-3">{DETAIL.nextStepsHeading}</p>
-        <ol className="mt-3 space-y-2.5">
-          {DETAIL.nextSteps.map((step, i) => (
-            <li key={step} className="flex items-start gap-2.5 text-[12.5px] text-ink-2">
-              <span className="tabular w-5 h-5 rounded-md bg-green-soft text-green text-[10px] font-bold grid place-items-center shrink-0 mt-0.5">
-                {i + 1}
-              </span>
-              {step}
-            </li>
-          ))}
-        </ol>
-      </div>
-
       <div className="mt-5 pt-4 hairline flex items-center gap-2 text-[12px] text-ink-3">
         <Shield className="w-3.5 h-3.5 text-green shrink-0" strokeWidth={1.75} />
         {DETAIL.trustFooter}

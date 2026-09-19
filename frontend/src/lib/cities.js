@@ -19,3 +19,12 @@ export const CITY_IMAGES = {
   Sheffield: `${_CIMG}3733c0483e67e421cf5921ea115751d7a848511ac2c4283c3c370efacfea3ddd.jpeg`,
   // No bespoke skyline for these two yet; CityPage falls back to fleet imagery.
 };
+
+
+/** "City of Wolverhampton Council" -> "Wolverhampton", "Transport for London
+ *  (TfL)" -> "TfL". Used wherever a licensing authority has to fit in a pill. */
+export function shortAuthority(authority) {
+  if (!authority) return null;
+  if (authority.startsWith("Transport for London")) return "TfL";
+  return authority.replace(/^City of /, "").replace(/ City Council$/, "").replace(/ Council$/, "").trim();
+}

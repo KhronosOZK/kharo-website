@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown, Search } from "lucide-react";
 import { MOCK_LISTINGS } from "@/data/mockListings";
+import { shortAuthority } from "@/lib/cities";
 import { EASE, DUR } from "@/lib/motion";
 import { HERO_MARKETPLACE } from "@/content/pages/heroMarketplace";
 
@@ -17,15 +18,22 @@ const COUNCILS = uniq(MOCK_LISTINGS.map((v) => v.licensing_authority)).sort((a, 
 const VEHICLE_TYPES = uniq(MOCK_LISTINGS.map((v) => v.fuel)).sort((a, b) => a.localeCompare(b));
 const RATE_STEPS = [150, 175, 200, 225, 250, 275];
 
-/** A real listing, so every figure shown is one a driver can go and check. */
+/** The car on the homepage.
+ *
+ *  A real listing, so every figure shown is one a driver can go and check,
+ *  and specifically one whose photograph is a verified local asset. The
+ *  remote stock photography in this dataset frequently shows a different
+ *  vehicle from the one named, which is survivable in a grid and not
+ *  survivable on the homepage. Preference order: a London/TfL car with a
+ *  local photo, then any car with a local photo, then anything. */
+const hasLocalPhoto = (v) => typeof v.photos?.[0] === "string" && v.photos[0].startsWith("/images/listings/");
+
 const FEATURED =
-  MOCK_LISTINGS.find((v) => v.id === "KH-1005") ||
-  MOCK_LISTINGS.find((v) => v.fuel === "Electric") ||
+  MOCK_LISTINGS.find((v) => hasLocalPhoto(v) && v.licensing_authority?.startsWith("Transport for London")) ||
+  MOCK_LISTINGS.find(hasLocalPhoto) ||
   MOCK_LISTINGS[0];
 
-const shortCouncil = (a) =>
-  a?.startsWith("Transport for London") ? "TfL licensed"
-    : a ? `${a.replace(" City Council", "").replace("City of ", "")} licensed` : null;
+const shortCouncil = (a) => (a ? `${shortAuthority(a)} licensed` : null);
 
 /* ── Pieces ───────────────────────────────────────────────────────────── */
 
