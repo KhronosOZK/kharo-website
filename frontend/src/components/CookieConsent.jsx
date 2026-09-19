@@ -49,7 +49,7 @@ export default function CookieConsent() {
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
           transition={{ duration: 0.4, ease: EASE.drawer, delay: 0.5 }}
-          className="fixed bottom-0 inset-x-0 z-[70] glass border-t border-line pb-safe"
+          className="fixed bottom-0 inset-x-0 z-[70] bg-surface border-t border-line shadow-2 pb-safe"
         >
           <div className="wrap py-4 flex flex-col sm:flex-row sm:items-center gap-4">
             <p className="text-[13.5px] text-ink-2 leading-relaxed flex-1">

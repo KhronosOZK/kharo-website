@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
-import { api } from "@/lib/api";
+import { api, trackEvent } from "@/lib/api";
 
 /**
  * Expansion-demand capture. Distinct from the per-vehicle Register Interest
@@ -10,9 +10,13 @@ import { api } from "@/lib/api";
  *
  * If `city` is passed, the field is locked to that city (used on CityPage's
  * empty state). Otherwise the visitor types the city or area themselves
- * (used on the homepage, for anyone outside our current four cities).
+ * (used on the homepage, for anyone outside our current five cities).
+ *
+ * `mode="request"` is the specific-car variant used by RequestCar.jsx: the
+ * note and vehicle_type make clear this is a driver asking for a particular
+ * kind of car, not general city expansion interest.
  */
-export default function CityInterestForm({ city: fixedCity, className = "", compact = false }) {
+export default function CityInterestForm({ city: fixedCity, className = "", compact = false, mode = "expansion" }) {
   const [city, setCity] = useState(fixedCity || "");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,9 +36,12 @@ export default function CityInterestForm({ city: fixedCity, className = "", comp
         name,
         email,
         phone: "",
-        vehicle_type: "General interest",
-        note: `Expansion interest: no Kharo vehicles listed in ${city} yet.`,
+        vehicle_type: mode === "request" ? "Specific request" : "General interest",
+        note: mode === "request"
+          ? `Specific car request from a driver in ${city}.`
+          : `Expansion interest: no Kharo vehicles listed in ${city} yet.`,
       });
+      trackEvent("city_interest", { city, mode });
       setDone(true);
     } catch {
       toast.error("Couldn't send that. Please try again.");
@@ -45,9 +52,9 @@ export default function CityInterestForm({ city: fixedCity, className = "", comp
   if (done) {
     return (
       <div className={`flex items-start gap-3 ${className}`}>
-        <Check className="w-5 h-5 mt-0.5 shrink-0" style={{ color: "#0B6B4F" }} strokeWidth={2} />
-        <p className="text-[15px] text-[#333]">
-          You're on the list. We'll email you the moment Kharo has cars in {city}.
+        <Check className="w-5 h-5 mt-0.5 shrink-0 text-green" strokeWidth={2} />
+        <p className="text-[15px] text-ink">
+          You are on the list. We will email you the moment Kharo has cars in {city}.
         </p>
       </div>
     );
@@ -60,28 +67,28 @@ export default function CityInterestForm({ city: fixedCity, className = "", comp
           value={city}
           onChange={(e) => setCity(e.target.value)}
           placeholder="Your city or area"
-          className="flex-1 min-w-0 border border-[#E8E8E8] text-sm text-[#333] px-4 py-3 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
+          className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-full bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
         />
       )}
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Your name"
-        className="flex-1 min-w-0 border border-[#E8E8E8] text-sm text-[#333] px-4 py-3 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
+        className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-full bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
       />
       <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Your email"
-        className="flex-1 min-w-0 border border-[#E8E8E8] text-sm text-[#333] px-4 py-3 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
+        className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-full bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
       />
       <button
         type="submit"
         disabled={loading}
-        className="flex items-center justify-center gap-2 bg-[#0B6B4F] hover:bg-[#095B43] text-white text-sm font-semibold px-6 py-3 rounded-full transition-colors disabled:opacity-60 shrink-0"
+        className="pressable flex items-center justify-center gap-2 bg-green hover:bg-green-hover text-white text-sm font-semibold px-6 py-3 rounded-full disabled:opacity-60 shrink-0"
       >
-        {loading ? "Sending…" : "Register Interest"} {!loading && <ArrowRight size={14} />}
+        {loading ? "Sending" : "Register interest"} {!loading && <ArrowRight size={14} strokeWidth={1.75} />}
       </button>
     </form>
   );

@@ -1,107 +1,187 @@
-import { useState, useEffect, useCallback } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { SlidersHorizontal, ChevronDown, X, Map as MapIcon, List as ListIcon } from "lucide-react";
-import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY } from "@/data/mockListings";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { SlidersHorizontal, X, Map as MapIcon, List as ListIcon } from "lucide-react";
+import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
 import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import VehicleCard from "@/components/VehicleCard";
 import SearchMap from "@/components/SearchMap";
 import CityInterestForm from "@/components/CityInterestForm";
-import { MapPin } from "lucide-react";
+import PreviewNotice from "@/components/PreviewNotice";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useSeo } from "@/lib/seo";
+import { SPRING } from "@/lib/motion";
+import { SEARCH } from "@/content/pages/marketplace";
 
 const BODY_TYPES = ["Saloon", "Estate", "SUV", "Crossover", "MPV", "Hatchback"];
-const FUEL_TYPES = ["Electric", "Plug-in Hybrid", "Hybrid", "Petrol", "Diesel"];
+const FUEL_OPTIONS = ENGINE_OPTIONS.filter((o) => o.value);
+const TRANSMISSIONS = ["Automatic", "Manual"];
 
-function FilterSection({ title, children, defaultOpen = true }) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className="border-b border-[#F5F5F5] pb-4 mb-4">
-      <button
-        className="flex items-center justify-between w-full text-sm font-semibold text-[#333] mb-3"
-        onClick={() => setOpen(!open)}
-      >
-        {title}
-        <ChevronDown size={14} className={`transition-transform text-[#AAA] ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open && children}
-    </div>
-  );
-}
+/* ── Small, hoisted pieces. Kept out of the page function so their identity
+   never changes between renders - a component redefined on every keystroke
+   gets unmounted and remounted by React, which was silently resetting any
+   local UI state (open sections, sheet position) on every filter edit. ── */
 
-function CheckItem({ label, checked, onChange }) {
+function FilterSelect({ label, value, onChange, options, className = "" }) {
   return (
-    <label className="flex items-center gap-2.5 cursor-pointer group mb-2">
-      <div
-        className={`w-4 h-4 rounded-sm border flex items-center justify-center flex-shrink-0 transition-colors ${
-          checked ? "bg-[#0A0A0A] border-[#0A0A0A]" : "border-[#CCC] bg-white group-hover:border-[#AAA]"
-        }`}
+    <label className={`block min-w-0 ${className}`}>
+      <span className="sr-only">{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="select-field w-full"
+        aria-label={label}
       >
-        {checked && <X size={10} className="text-white" strokeWidth={3} />}
-      </div>
-      <span className="text-sm text-[#666]">{label}</span>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
+      </select>
     </label>
   );
 }
 
-function PillGroup({ options, value, onChange }) {
+function PillButton({ active, onClick, children }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {options.map((o) => (
-        <button
-          key={o}
-          onClick={() => onChange(value === o ? "" : o)}
-          className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-colors ${
-            value === o
-              ? "bg-[#0B6B4F] border-[#0B6B4F] text-white"
-              : "bg-white border-[#E8E8E8] text-[#666] hover:border-[#AAA]"
-          }`}
-        >
-          {o}
-        </button>
-      ))}
-    </div>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`pressable shrink-0 h-9 px-3.5 rounded-full border text-[13px] font-medium ${
+        active ? "bg-green border-green text-white" : "bg-surface border-line-strong text-ink-2"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function FilterChip({ label, onRemove }) {
+  return (
+    <span className="pressable inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-line-strong bg-surface text-[13px] font-medium text-ink">
+      {label}
+      <button type="button" onClick={onRemove} aria-label={`Remove ${label} filter`} className="pressable text-ink-3 hover:text-ink">
+        <X size={13} strokeWidth={2} />
+      </button>
+    </span>
+  );
+}
+
+/** The bottom sheet holding every filter on mobile, and the overflow filters
+ * (make, body type, transmission) on desktop where city/area/fuel/budget
+ * already sit in the sticky bar. */
+function MoreFiltersSheet({
+  open, onOpenChange, full, resultCount,
+  city, setCity, borough, setBorough, areaOptions,
+  fuelFilter, setFuelFilter, maxBudget, setMaxBudget,
+  make, setMake, bodyFilters, toggleBody, transmission, setTransmission,
+  hasFilters, onClear,
+}) {
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="max-h-[85svh] overflow-y-auto rounded-t-2xl pb-safe">
+        <SheetTitle className="text-h3 font-heading font-bold text-ink">{SEARCH.filters.filtersButton}</SheetTitle>
+        <div className="mt-5 flex flex-col gap-5">
+          {full && (
+            <>
+              <FilterSelect
+                label={SEARCH.filters.cityLabel}
+                value={city}
+                onChange={setCity}
+                options={[{ label: SEARCH.filters.cityPlaceholder, value: "" }, ...ALL_CITIES.map((c) => ({ label: c, value: c }))]}
+              />
+              <FilterSelect
+                label={SEARCH.filters.areaLabel}
+                value={borough}
+                onChange={setBorough}
+                options={[{ label: SEARCH.filters.areaPlaceholder, value: "" }, ...areaOptions.slice(1).map((b) => ({ label: b, value: b }))]}
+              />
+              <div>
+                <p className="text-[13px] font-medium text-ink-2 mb-2">{SEARCH.filters.fuelLabel}</p>
+                <div className="flex flex-wrap gap-2">
+                  {FUEL_OPTIONS.map((f) => (
+                    <PillButton key={f.value} active={fuelFilter === f.value} onClick={() => setFuelFilter(fuelFilter === f.value ? "" : f.value)}>
+                      {f.label}
+                    </PillButton>
+                  ))}
+                </div>
+              </div>
+              <FilterSelect label={SEARCH.filters.budgetLabel} value={maxBudget} onChange={setMaxBudget} options={BUDGET_OPTIONS} />
+            </>
+          )}
+          <FilterSelect
+            label={SEARCH.filters.makeLabel}
+            value={make}
+            onChange={setMake}
+            options={MOCK_MAKES.map((m) => ({ label: m, value: m === "All Makes" ? "" : m }))}
+          />
+          <div>
+            <p className="text-[13px] font-medium text-ink-2 mb-2">{SEARCH.filters.bodyLabel}</p>
+            <div className="flex flex-wrap gap-2">
+              {BODY_TYPES.map((bt) => (
+                <PillButton key={bt} active={bodyFilters.includes(bt)} onClick={() => toggleBody(bt)}>{bt}</PillButton>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-[13px] font-medium text-ink-2 mb-2">{SEARCH.filters.transmissionLabel}</p>
+            <div className="flex flex-wrap gap-2">
+              {TRANSMISSIONS.map((t) => (
+                <PillButton key={t} active={transmission === t} onClick={() => setTransmission(transmission === t ? "" : t)}>{t}</PillButton>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-7 flex gap-3">
+          {hasFilters && (
+            <Button variant="outline" onClick={onClear} className="flex-1">{SEARCH.filters.clearAll}</Button>
+          )}
+          <Button onClick={() => onOpenChange(false)} className="flex-1">
+            {SEARCH.resultsCount(resultCount)}
+          </Button>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 }
 
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
-  // Canonical points at the bare /search path regardless of filters applied,
-  // since every filter combination is the same underlying listing set and
-  // shouldn't be indexed as separate duplicate-content pages.
   useSeo({
-    title: "Search PCO & PHV Cars for Rent · Kharo",
-    description:
-      "Browse and filter PHV and PCO rental cars from checked operators across the UK by city, budget, make and fuel type.",
+    title: SEARCH.seo.title,
+    description: SEARCH.seo.description,
     canonical: "https://kharo.co.uk/search",
   });
 
-  // Filter state from URL or defaults
   const [city, setCityRaw] = useState(searchParams.get("city") || "");
   const [borough, setBorough] = useState(searchParams.get("borough") || "");
   const [make, setMake] = useState(searchParams.get("make") || "");
+  const [maxBudget, setMaxBudget] = useState(searchParams.get("budget") || "");
+  const [fuelFilter, setFuelFilter] = useState(searchParams.get("engine") || "");
+  const [bodyFilters, setBodyFilters] = useState(searchParams.get("bodyType") ? [searchParams.get("bodyType")] : []);
+  const [transmission, setTransmission] = useState(searchParams.get("transmission") || "");
+  const [sortBy, setSortBy] = useState("price_asc");
+  const [showMap, setShowMap] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetFull, setSheetFull] = useState(true);
 
-  // Areas available depend on the selected city; with no city chosen, show every area across all cities
   const areaOptions = city
     ? AREAS_BY_CITY[city] || ["All Areas"]
     : ["All Areas", ...Array.from(new Set(LIVE_CITIES.flatMap((c) => (AREAS_BY_CITY[c] || []).slice(1))))];
 
-  const setCity = (next) => {
-    setCityRaw(next);
-    setBorough(""); // area list changes with city, so reset the drill-down
-  };
-  const [maxBudget, setMaxBudget] = useState(searchParams.get("budget") || "");
-  const [fuelFilter, setFuelFilter] = useState(searchParams.get("engine") || "");
-  const [bodyFilters, setBodyFilters] = useState(
-    searchParams.get("bodyType") ? [searchParams.get("bodyType")] : []
-  );
-  const [transmission, setTransmission] = useState(searchParams.get("transmission") || "");
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [showMap, setShowMap] = useState(false); // mobile: list/map toggle
+  const setCity = (next) => { setCityRaw(next); setBorough(""); };
 
-  const [results, setResults] = useState([]);
-  const [sortBy, setSortBy] = useState("price_asc");
+  const toggleBody = (bt) => setBodyFilters((prev) => (prev.includes(bt) ? prev.filter((b) => b !== bt) : [...prev, bt]));
+
+  const hasFilters = Boolean(city || borough || make || fuelFilter || maxBudget || bodyFilters.length || transmission);
+  const extraActiveCount = [make, transmission].filter(Boolean).length + bodyFilters.length;
+  const mobileActiveCount = [city, borough, make, fuelFilter, maxBudget, transmission].filter(Boolean).length + bodyFilters.length;
+
+  const clearAll = () => {
+    setCityRaw(""); setBorough(""); setMake(""); setFuelFilter(""); setMaxBudget("");
+    setBodyFilters([]); setTransmission("");
+  };
 
   const applyFilters = useCallback(() => {
     let data = [...MOCK_LISTINGS];
@@ -109,290 +189,208 @@ export default function SearchResults() {
     if (borough) data = data.filter((v) => v.borough === borough);
     if (make) data = data.filter((v) => v.make === make);
     if (fuelFilter) data = data.filter((v) => v.fuel === fuelFilter);
-    if (maxBudget) data = data.filter((v) => v.weekly_rent <= parseInt(maxBudget));
+    if (maxBudget) data = data.filter((v) => v.weekly_rent <= parseInt(maxBudget, 10));
     if (bodyFilters.length) data = data.filter((v) => bodyFilters.includes(v.body_type));
     if (transmission) data = data.filter((v) => v.transmission === transmission);
 
     if (sortBy === "price_asc") data.sort((a, b) => a.weekly_rent - b.weekly_rent);
     if (sortBy === "price_desc") data.sort((a, b) => b.weekly_rent - a.weekly_rent);
-    if (sortBy === "rating") data.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-
-    setResults(data);
+    return data;
   }, [city, borough, make, fuelFilter, maxBudget, bodyFilters, transmission, sortBy]);
 
-  useEffect(() => { applyFilters(); }, [applyFilters]);
+  const [results, setResults] = useState([]);
+  useEffect(() => { setResults(applyFilters()); }, [applyFilters]);
 
-  const toggleBody = (bt) =>
-    setBodyFilters((prev) => prev.includes(bt) ? prev.filter((b) => b !== bt) : [...prev, bt]);
-
-  const hasFilters = city || borough || make || fuelFilter || maxBudget || bodyFilters.length || transmission;
-
-  const clearAll = () => {
-    setCityRaw(""); setBorough(""); setMake(""); setFuelFilter(""); setMaxBudget("");
-    setBodyFilters([]); setTransmission("");
-  };
-
-  const Sidebar = () => (
-    <aside className="w-full lg:w-64 flex-shrink-0">
-      <div className="bg-white border border-[#E8E8E8] rounded-2xl p-5 sticky top-4">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="font-heading font-bold text-[#111] text-sm">Filter by</h2>
-          {hasFilters && (
-            <button onClick={clearAll} className="text-xs text-[#888] hover:text-[#111] font-medium">
-              Reset all
-            </button>
-          )}
-        </div>
-
-        <FilterSection title="City">
-          <select
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="w-full border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
-          >
-            <option value="">All Cities</option>
-            {ALL_CITIES.map((c) => (
-              <option key={c} value={c}>{LIVE_CITIES.includes(c) ? c : `${c} (coming soon)`}</option>
-            ))}
-          </select>
-        </FilterSection>
-
-        <FilterSection title="Borough / Area">
-          <select
-            value={borough}
-            onChange={(e) => setBorough(e.target.value)}
-            className="w-full border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
-          >
-            <option value="">All Areas</option>
-            {areaOptions.slice(1).map((b) => <option key={b} value={b}>{b}</option>)}
-          </select>
-        </FilterSection>
-
-        <FilterSection title="Engine / Fuel Type">
-          <PillGroup
-            options={["EV", "PHEV", "Hybrid", "Petrol", "Diesel"]}
-            value={
-              fuelFilter === "Electric" ? "EV" :
-              fuelFilter === "Plug-in Hybrid" ? "PHEV" :
-              fuelFilter
-            }
-            onChange={(v) => {
-              if (!v) { setFuelFilter(""); return; }
-              const map = { EV: "Electric", PHEV: "Plug-in Hybrid" };
-              setFuelFilter(map[v] || v);
-            }}
-          />
-        </FilterSection>
-
-        <FilterSection title="Weekly Budget">
-          <div className="space-y-2">
-            {[
-              { label: "Any", value: "" },
-              { label: "Up to £200", value: "200" },
-              { label: "Up to £250", value: "250" },
-              { label: "Up to £300", value: "300" },
-              { label: "Up to £350", value: "350" },
-            ].map((o) => (
-              <label key={o.value} className="flex items-center gap-2.5 cursor-pointer group">
-                <div
-                  className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 transition-colors ${
-                    maxBudget === o.value ? "border-[#0B6B4F] bg-[#0B6B4F]" : "border-[#CCC]"
-                  }`}
-                  onClick={() => setMaxBudget(o.value)}
-                >
-                  {maxBudget === o.value && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                </div>
-                <span className="text-sm text-[#666]">{o.label}</span>
-              </label>
-            ))}
-          </div>
-        </FilterSection>
-
-        <FilterSection title="Make">
-          <select
-            value={make}
-            onChange={(e) => setMake(e.target.value)}
-            className="w-full border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] focus:ring-1 focus:ring-[#AAA]"
-          >
-            <option value="">All Makes</option>
-            {MOCK_MAKES.slice(1).map((m) => <option key={m} value={m}>{m}</option>)}
-          </select>
-        </FilterSection>
-
-        <FilterSection title="Body Type" defaultOpen={false}>
-          {BODY_TYPES.map((bt) => (
-            <CheckItem
-              key={bt}
-              label={bt}
-              checked={bodyFilters.includes(bt)}
-              onChange={() => toggleBody(bt)}
-            />
-          ))}
-        </FilterSection>
-
-        <FilterSection title="Transmission" defaultOpen={false}>
-          <PillGroup
-            options={["Any", "Automatic", "Manual"]}
-            value={transmission || "Any"}
-            onChange={(v) => setTransmission(v === "Any" ? "" : v)}
-          />
-        </FilterSection>
-      </div>
-    </aside>
-  );
+  const animateLayout = results.length <= 24;
+  const cityHasNoCars = results.length === 0 && city && !LIVE_CITIES.includes(city);
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-        {/* Mobile filter toggle */}
-        <button
-          onClick={() => setShowSidebar(!showSidebar)}
-          className="flex items-center gap-2 border border-[#E8E8E8] bg-white px-3 py-2.5 rounded-full text-sm text-[#555] font-medium hover:border-[#AAA] lg:hidden mb-4"
-        >
-          <SlidersHorizontal size={14} />
-          Filters
-          {hasFilters && <span className="w-4 h-4 bg-[#0B6B4F] rounded-full text-white text-xs flex items-center justify-center leading-none">{[city, borough, make, fuelFilter, maxBudget, ...bodyFilters, transmission].filter(Boolean).length}</span>}
-        </button>
-        <div className="flex gap-6">
-          {/* Desktop sidebar */}
-          <div className="hidden lg:block">
-            <Sidebar />
+    <div className="min-h-page bg-bone">
+      <PreviewNotice />
+
+      {/* Sticky filter bar. Not a sidebar card: a single row of controls that
+          stays reachable while the grid scrolls underneath it. */}
+      <div className="sticky top-below-header z-30 bg-bone/95 border-b border-line">
+        <div className="wrap">
+          <div className="hidden lg:flex items-center gap-3 py-3">
+            <FilterSelect
+              label={SEARCH.filters.cityLabel}
+              value={city}
+              onChange={setCity}
+              options={[{ label: SEARCH.filters.cityPlaceholder, value: "" }, ...ALL_CITIES.map((c) => ({ label: c, value: c }))]}
+              className="min-w-[9rem]"
+            />
+            <FilterSelect
+              label={SEARCH.filters.areaLabel}
+              value={borough}
+              onChange={setBorough}
+              options={[{ label: SEARCH.filters.areaPlaceholder, value: "" }, ...areaOptions.slice(1).map((b) => ({ label: b, value: b }))]}
+              className="min-w-[9rem]"
+            />
+            <div className="flex flex-wrap gap-2">
+              {FUEL_OPTIONS.map((f) => (
+                <PillButton key={f.value} active={fuelFilter === f.value} onClick={() => setFuelFilter(fuelFilter === f.value ? "" : f.value)}>
+                  {f.label}
+                </PillButton>
+              ))}
+            </div>
+            <FilterSelect label={SEARCH.filters.budgetLabel} value={maxBudget} onChange={setMaxBudget} options={BUDGET_OPTIONS} className="min-w-[10rem]" />
+            <Button
+              variant="outline"
+              onClick={() => { setSheetFull(false); setSheetOpen(true); }}
+              className="ml-auto shrink-0"
+              data-testid="more-filters-btn"
+            >
+              <SlidersHorizontal size={16} strokeWidth={1.75} /> {SEARCH.filters.moreFilters}
+              {extraActiveCount > 0 && (
+                <span className="tabular h-5 w-5 rounded-full bg-green text-white text-[11px] font-semibold grid place-items-center">{extraActiveCount}</span>
+              )}
+            </Button>
           </div>
 
-          {/* Mobile sidebar overlay - z-[60] so it sits above the floating
-              map/list toggle button (z-50), which otherwise stayed visible
-              and overlapped the drawer's content since they share a layer */}
-          {showSidebar && (
-            <div className="fixed inset-0 z-[60] lg:hidden">
-              <div className="absolute inset-0 bg-black/40" onClick={() => setShowSidebar(false)} />
-              <div className="absolute right-0 top-0 h-full w-72 bg-white overflow-y-auto p-5">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-semibold text-[#111]">Filters</span>
-                  <button onClick={() => setShowSidebar(false)}><X size={18} /></button>
-                </div>
-                <Sidebar />
-              </div>
-            </div>
-          )}
+          <div className="lg:hidden track gap-2 py-3">
+            <button
+              type="button"
+              onClick={() => { setSheetFull(true); setSheetOpen(true); }}
+              className="pressable shrink-0 h-9 px-3.5 rounded-full border border-line-strong bg-surface text-[13px] font-medium text-ink inline-flex items-center gap-1.5"
+              data-testid="mobile-filters-btn"
+            >
+              <SlidersHorizontal size={14} strokeWidth={1.75} /> {SEARCH.filters.filtersButton}
+              {mobileActiveCount > 0 && (
+                <span className="tabular h-5 w-5 rounded-full bg-green text-white text-[11px] font-semibold grid place-items-center">{mobileActiveCount}</span>
+              )}
+            </button>
+            <PillButton active={Boolean(city)} onClick={() => { setSheetFull(true); setSheetOpen(true); }}>
+              {city || SEARCH.filters.cityLabel}
+            </PillButton>
+            <PillButton active={Boolean(fuelFilter)} onClick={() => { setSheetFull(true); setSheetOpen(true); }}>
+              {fuelFilter || SEARCH.filters.fuelLabel}
+            </PillButton>
+            <PillButton active={Boolean(maxBudget)} onClick={() => { setSheetFull(true); setSheetOpen(true); }}>
+              {maxBudget ? `Up to £${maxBudget}/wk` : SEARCH.filters.budgetLabel}
+            </PillButton>
+          </div>
+        </div>
+      </div>
 
-          {/* Main results */}
+      <MoreFiltersSheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        full={sheetFull}
+        resultCount={results.length}
+        city={city} setCity={setCity}
+        borough={borough} setBorough={setBorough}
+        areaOptions={areaOptions}
+        fuelFilter={fuelFilter} setFuelFilter={setFuelFilter}
+        maxBudget={maxBudget} setMaxBudget={setMaxBudget}
+        make={make} setMake={setMake}
+        bodyFilters={bodyFilters} toggleBody={toggleBody}
+        transmission={transmission} setTransmission={setTransmission}
+        hasFilters={hasFilters}
+        onClear={clearAll}
+      />
+
+      <div className="wrap py-6 lg:py-8">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <h1 className="text-h3 font-heading font-extrabold text-ink" data-testid="results-count">
+            {SEARCH.resultsCount(results.length)}
+          </h1>
+          <div className="flex items-center gap-2.5">
+            <label className="sr-only" htmlFor="search-sort">{SEARCH.sort.label}</label>
+            <select
+              id="search-sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="select-field"
+            >
+              {SEARCH.sort.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+            <button
+              type="button"
+              onClick={() => setShowMap((s) => !s)}
+              className="pressable inline-flex items-center gap-1.5 h-11 px-4 rounded-full border border-line-strong bg-surface text-[13.5px] font-medium text-ink-2"
+              data-testid="map-toggle"
+            >
+              <MapIcon size={15} strokeWidth={1.75} /> {showMap ? SEARCH.map.hide : SEARCH.map.show}
+            </button>
+          </div>
+        </div>
+
+        {hasFilters && (
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {city && <FilterChip label={city} onRemove={() => setCity("")} />}
+            {borough && <FilterChip label={borough} onRemove={() => setBorough("")} />}
+            {make && <FilterChip label={make} onRemove={() => setMake("")} />}
+            {fuelFilter && <FilterChip label={fuelFilter} onRemove={() => setFuelFilter("")} />}
+            {maxBudget && <FilterChip label={`Up to £${maxBudget}/wk`} onRemove={() => setMaxBudget("")} />}
+            {bodyFilters.map((b) => <FilterChip key={b} label={b} onRemove={() => toggleBody(b)} />)}
+            {transmission && <FilterChip label={transmission} onRemove={() => setTransmission("")} />}
+            <button type="button" onClick={clearAll} className="pressable text-[13.5px] font-semibold text-green">
+              {SEARCH.filters.clearAll}
+            </button>
+          </div>
+        )}
+
+        <div className="mt-7 flex flex-col lg:flex-row gap-8 items-start">
           <div className={`flex-1 min-w-0 ${showMap ? "hidden lg:block" : ""}`}>
-            {/* Results header */}
-            <div className="flex items-start justify-between mb-5">
-              <h1 className="font-heading font-bold text-[#111] text-lg pt-2">
-                {results.length} vehicle{results.length !== 1 ? "s" : ""} to rent
-              </h1>
-              <div className="hidden lg:flex flex-col items-end gap-2">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] bg-white"
-                >
-                  <option value="price_asc">Price: Low to High</option>
-                  <option value="price_desc">Price: High to Low</option>
-                  <option value="rating">Top Rated</option>
-                </select>
-                <button
-                  onClick={() => setShowMap((s) => !s)}
-                  className="flex items-center gap-1.5 border border-[#E8E8E8] bg-white px-3 py-2 rounded-full text-sm text-[#555] font-medium hover:border-[#AAA]"
-                >
-                  <MapIcon size={14} />
-                  {showMap ? "Hide map" : "Show map"}
-                </button>
-              </div>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="lg:hidden border border-[#E8E8E8] text-sm text-[#555] px-3 py-2 rounded-full focus:outline-none focus:border-[#AAA] bg-white"
-              >
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-              </select>
-            </div>
-
-            {/* Active filter chips */}
-            {hasFilters && (
-              <div className="flex flex-wrap gap-2 mb-4">
-                {city && <FilterChip label={city} onRemove={() => setCity("")} />}
-                {borough && <FilterChip label={borough} onRemove={() => setBorough("")} />}
-                {make && <FilterChip label={make} onRemove={() => setMake("")} />}
-                {fuelFilter && <FilterChip label={fuelFilter} onRemove={() => setFuelFilter("")} />}
-                {maxBudget && <FilterChip label={`Up to £${maxBudget}/wk`} onRemove={() => setMaxBudget("")} />}
-                {bodyFilters.map((b) => <FilterChip key={b} label={b} onRemove={() => toggleBody(b)} />)}
-                {transmission && <FilterChip label={transmission} onRemove={() => setTransmission("")} />}
-              </div>
-            )}
-
-            {results.length === 0 && city && !LIVE_CITIES.includes(city) ? (
-              <div className="text-center py-16 bg-white border border-[#E8E8E8] rounded-2xl px-6">
-                <div className="w-11 h-11 rounded-full bg-[#EAF5F1] flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-5 h-5 text-[#0B6B4F]" />
+            {results.length === 0 && cityHasNoCars ? (
+              <div className="py-14 max-w-lg" data-testid="empty-city-state">
+                <h2 className="text-h3 font-heading font-bold text-ink">{SEARCH.emptyCity.heading(city)}</h2>
+                <p className="mt-3 text-[15px] text-ink-2 leading-relaxed">{SEARCH.emptyCity.sub(city)}</p>
+                <div className="mt-6">
+                  <CityInterestForm city={city} compact />
                 </div>
-                <p className="font-heading text-xl font-bold text-[#111] mb-2">No cars in {city} just yet</p>
-                <p className="text-[#888] text-sm mb-6 max-w-sm mx-auto">
-                  Kharo is nationwide, but we're still bringing operators to every city. Register your
-                  interest and we'll email you the moment {city} has live listings.
-                </p>
-                <CityInterestForm city={city} compact className="max-w-xs mx-auto" />
               </div>
             ) : results.length === 0 ? (
-              <div className="text-center py-20 bg-white border border-[#E8E8E8] rounded-2xl px-6">
-                <p className="font-heading text-xl font-bold text-[#111] mb-2">No vehicles match your filters</p>
-                <p className="text-[#888] text-sm mb-5">Try adjusting your search criteria.</p>
-                <button onClick={clearAll} className="bg-[#0B6B4F] text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-[#095B43] transition-colors">
-                  Clear All Filters
-                </button>
+              <div className="py-14 max-w-md" data-testid="empty-filters-state">
+                <h2 className="text-h3 font-heading font-bold text-ink">{SEARCH.emptyFilters.heading}</h2>
+                <p className="mt-3 text-[15px] text-ink-2">{SEARCH.emptyFilters.sub}</p>
+                <Button onClick={clearAll} className="mt-6">{SEARCH.emptyFilters.cta}</Button>
+              </div>
+            ) : animateLayout ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-9">
+                <AnimatePresence mode="popLayout">
+                  {results.map((v) => (
+                    <motion.div
+                      key={v.id}
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={SPRING.ui}
+                    >
+                      <VehicleCard vehicle={v} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-9">
                 {results.map((v) => <VehicleCard key={v.id} vehicle={v} />)}
               </div>
             )}
           </div>
 
-          {/* Map: only mounted once actually visible, toggled via the header button
-              (desktop) or floating pill (mobile). Leaflet measures its container's
-              size once at construction - mounting it behind a display:none wrapper
-              (as before) meant it always measured 0x0 and its tile layer never
-              recovered, even with a later invalidateSize() call: no tiles ever
-              loaded, just the bare price pins on a blank gray box. Only rendering
-              it once showMap is true guarantees it always sees its real size. */}
           {showMap && (
-            <div className="flex-1 lg:flex-none lg:w-[42%] lg:sticky lg:top-4 lg:self-start">
-              {/* Mobile: the outer fixed/inset-0 box already tracks the real visual
-                  viewport. Giving the inner box its own 100vh-based height fought that -
-                  100vh reflects the *largest* possible viewport (chrome hidden), so once
-                  the mobile browser's address bar collapsed after a tap, the two boxes
-                  disagreed and a blank gap opened up beneath the map. h-full instead of
-                  a second vh calc means the inner box just fills whatever the outer box
-                  actually is, so there's nothing left to disagree. */}
-              <div className="fixed inset-0 z-40 lg:static lg:z-auto">
-                <div className="h-full lg:h-[calc(100vh-100px)] rounded-none lg:rounded-2xl overflow-hidden border border-[#E8E8E8]">
-                  <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} visibilityTrigger={showMap} />
-                </div>
+            <div
+              className="w-full lg:w-[min(28rem,40vw)] lg:shrink-0 fixed inset-x-0 bottom-0 top-[var(--header-h)] z-40 lg:static lg:z-auto lg:sticky lg:top-below-header lg:h-[calc(100dvh-8rem)]"
+              data-testid="search-map-pane"
+            >
+              <div className="h-full rounded-none lg:rounded-2xl overflow-hidden border-0 lg:border lg:border-line bg-surface-2">
+                <SearchMap results={results} activeBorough={borough} onAreaClick={(b) => setBorough(b || "")} visibilityTrigger={showMap} />
               </div>
+              <button
+                type="button"
+                onClick={() => setShowMap(false)}
+                className="pressable lg:hidden bottom-safe absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-2 h-11 px-5 rounded-full bg-ink text-white text-[13.5px] font-semibold shadow-2"
+                data-testid="back-to-list"
+              >
+                <ListIcon size={16} strokeWidth={1.75} /> {SEARCH.map.backToList}
+              </button>
             </div>
           )}
         </div>
       </div>
-
-      {/* Mobile list/map toggle */}
-      <button
-        onClick={() => setShowMap((s) => !s)}
-        className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-[#111] text-white text-sm font-semibold px-5 py-3 rounded-full shadow-[0_12px_30px_-8px_rgba(0,0,0,0.5)]"
-      >
-        {showMap ? <><ListIcon size={16} /> List</> : <><MapIcon size={16} /> Map</>}
-      </button>
     </div>
-  );
-}
-
-function FilterChip({ label, onRemove }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 bg-white border border-[#CCC] text-[#333] text-xs font-medium px-3 py-1.5 rounded-full">
-      {label}
-      <button onClick={onRemove} className="hover:text-[#111]"><X size={11} /></button>
-    </span>
   );
 }

@@ -1,33 +1,23 @@
-import { Info } from "lucide-react";
 import { PREVIEW } from "@/content/site";
 
 /**
- * Honest labelling for the pre-launch rental inventory. The cars shown are
- * representative of what operators in each city rent out, but they are not
- * bookable yet. Saying so plainly lets us capture demand against a specific
- * vehicle, price and area without ever implying a car is available.
- *
- * variant "banner" sits at the top of a listing page.
- * variant "inline" sits inside a card or panel next to a call to action.
+ * Pre-launch labelling. Deliberately quiet: a hairline rule and a line of
+ * text, not a coloured alert box. The point is honesty, not alarm.
  */
 export default function PreviewNotice({ variant = "banner", className = "" }) {
   if (variant === "inline") {
     return (
-      <div className={`rounded-2xl bg-gold-soft border border-gold/25 p-3.5 flex gap-2.5 ${className}`}
-        data-testid="preview-notice-inline">
-        <Info className="w-4 h-4 text-gold shrink-0 mt-0.5" strokeWidth={1.75} />
-        <p className="text-[13px] text-gold-ink leading-relaxed">{PREVIEW.inline}</p>
-      </div>
+      <p className={`text-[13px] text-ink-3 leading-relaxed border-l-2 border-line-strong pl-3 ${className}`} data-testid="preview-notice-inline">
+        {PREVIEW.inline}
+      </p>
     );
   }
 
   return (
-    <div className={`bg-gold-soft border-b border-gold/25 ${className}`} data-testid="preview-notice">
-      <div className="wrap py-3 flex gap-3 items-start">
-        <Info className="w-[18px] h-[18px] text-gold shrink-0 mt-0.5" strokeWidth={1.75} />
-        <p className="text-[13.5px] text-gold-ink leading-relaxed">
-          <span className="font-semibold">{PREVIEW.label}</span> {PREVIEW.banner}
-        </p>
+    <div className={`bg-surface border-b border-line ${className}`} data-testid="preview-notice">
+      <div className="wrap py-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        <span className="text-[12.5px] font-semibold text-ink">{PREVIEW.label}</span>
+        <span className="text-[12.5px] text-ink-3 leading-relaxed">{PREVIEW.short}</span>
       </div>
     </div>
   );

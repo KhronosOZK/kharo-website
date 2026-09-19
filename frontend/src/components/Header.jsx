@@ -11,7 +11,7 @@ import {
 const MENU_ICONS = [User, Building2];
 
 /**
- * Sticky glass header. Sits flush with the page at the top and only separates
+ * Sticky panel header. Sits flush with the page at the top and only separates
  * (border, shadow) once content is actually scrolling underneath it.
  */
 export default function Header() {
@@ -38,7 +38,7 @@ export default function Header() {
       <div ref={sentinel} aria-hidden className="absolute top-0 h-px w-px" />
       <header
         data-scrolled={scrolled || undefined}
-        className={`sticky top-0 z-50 glass transition-[box-shadow,border-color] duration-ui ease-out border-b ${scrolled ? "border-line shadow-1" : "border-transparent shadow-none"}`}
+        className={`sticky top-0 z-50 bg-bone/95 supports-[backdrop-filter]:bg-bone/80 backdrop-blur-sm transition-[box-shadow,border-color] duration-ui ease-out border-b ${scrolled ? "border-line shadow-1" : "border-transparent shadow-none"}`}
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         <div className="wrap h-header flex items-center justify-between gap-4">
@@ -92,9 +92,6 @@ export default function Header() {
                   );
                 })}
                 <DropdownMenuSeparator className="bg-line" />
-                <DropdownMenuItem onClick={() => navigate("/login")} className="cursor-pointer py-2.5 rounded-lg text-ink-2">Driver sign in</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/operator-login")} className="cursor-pointer py-2.5 rounded-lg text-ink-2">Operator sign in</DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-line" />
                 <DropdownMenuItem onClick={() => navigate("/help")} className="cursor-pointer py-2.5 rounded-lg text-ink-2">Help</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/legal")} className="cursor-pointer py-2.5 rounded-lg text-ink-2">Legal and privacy</DropdownMenuItem>
               </DropdownMenuContent>
@@ -127,8 +124,6 @@ export default function Header() {
                       className="pressable py-3 px-3 -mx-3 font-semibold text-green rounded-xl hover:bg-surface-2 flex items-center gap-2">{c.label} <ArrowRight className="w-4 h-4" strokeWidth={1.75} /></Link>
                   ))}
                   <div className="hairline my-3" />
-                  <Link to="/login" onClick={() => setOpen(false)} className="pressable py-3 px-3 -mx-3 rounded-xl text-ink-2 hover:bg-surface-2">Driver sign in</Link>
-                  <Link to="/operator-login" onClick={() => setOpen(false)} className="pressable py-3 px-3 -mx-3 rounded-xl text-ink-2 hover:bg-surface-2">Operator sign in</Link>
                   <Link to="/help" onClick={() => setOpen(false)} className="pressable py-3 px-3 -mx-3 rounded-xl text-ink-2 hover:bg-surface-2">Help</Link>
                   <Link to="/legal" onClick={() => setOpen(false)} className="pressable py-3 px-3 -mx-3 rounded-xl text-ink-2 hover:bg-surface-2">Legal and privacy</Link>
                 </div>

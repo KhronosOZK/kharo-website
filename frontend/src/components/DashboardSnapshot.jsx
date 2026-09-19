@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, LayoutGroup, useInView } from "framer-motion";
 import {
-  Wallet, Radio, History, Receipt, FileText, Wrench, LifeBuoy, Car, UserCheck, BellRing, Landmark, Download,
+  Wallet, Radio, History, Receipt, FileText, Wrench, LifeBuoy, Car, UserCheck, BellRing, Landmark, Download, Search,
 } from "lucide-react";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { DRIVER_DASHBOARD, OPERATOR_DASHBOARD } from "@/content/dashboardDemo";
@@ -31,6 +31,8 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
   const [dir, setDir] = useState(1);
   const [touched, setTouched] = useState(false);
   const [cycle, setCycle] = useState(0);
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("All");
   const prevHeadline = useRef(panels[0].headline.value);
   const rootRef = useRef(null);
   const inView = useInView(rootRef, { amount: 0.4 });
@@ -45,6 +47,8 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
     setDir(next > idx ? 1 : -1);
     prevHeadline.current = panel.headline.value;
     setActive(id);
+    setQuery("");
+    setFilter("All");
     if (fromUser) setTouched(true);
   };
 
@@ -68,6 +72,15 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
     const next = (idx + keys[e.key] + panels.length) % panels.length;
     select(panels[next].id);
   };
+
+  const rows = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return panel.rows.filter((r) => {
+      if (filter !== "All" && !`${r.status} ${r.t} ${r.d}`.toLowerCase().includes(filter.toLowerCase())) return false;
+      if (!q) return true;
+      return `${r.t} ${r.d} ${r.status}`.toLowerCase().includes(q);
+    });
+  }, [panel, query, filter]);
 
   const panelVariants = useMemo(() => ({
     enter: (d) => ({ opacity: 0, y: reduce ? 0 : 10 * d }),
@@ -190,8 +203,40 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                     ))}
                   </div>
 
-                  <ul className="mt-4 divide-y divide-line">
-                    {panel.rows.map((r, i) => (
+                  {(panel.searchLabel || panel.filters) && (
+                    <div className="mt-4 flex flex-wrap items-center gap-2">
+                      {panel.searchLabel && (
+                        <div className="relative flex-1 min-w-[12rem]">
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-3 pointer-events-none" strokeWidth={1.75} />
+                          <input
+                            type="search"
+                            value={query}
+                            onChange={(e) => { setQuery(e.target.value); setTouched(true); }}
+                            placeholder={panel.searchLabel}
+                            aria-label={panel.searchLabel}
+                            data-testid={`dashboard-search-${panel.id}`}
+                            className="field w-full h-10 rounded-lg border border-line-strong bg-surface pl-9 pr-3 text-base sm:text-[13.5px] text-ink placeholder:text-ink-3 focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
+                          />
+                        </div>
+                      )}
+                      {panel.filters && (
+                        <div className="flex gap-1 overflow-x-auto hide-scrollbar" role="group" aria-label="Filter">
+                          {panel.filters.map((f) => (
+                            <button key={f} type="button" onClick={() => { setFilter(f); setTouched(true); }}
+                              className={`pressable shrink-0 rounded-full h-9 px-3 text-[12.5px] font-medium ${filter === f ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
+                              {f}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <ul className="mt-3 divide-y divide-line">
+                    {rows.length === 0 && (
+                      <li className="py-6 text-[13.5px] text-ink-3">Nothing matches that. Try another vehicle or plate.</li>
+                    )}
+                    {rows.map((r, i) => (
                       <motion.li
                         key={`${panel.id}-${i}`}
                         variants={{ hidden: { opacity: 0, y: 6 }, visible: { opacity: 1, y: 0, transition: { duration: 0.22, ease: EASE.out } } }}

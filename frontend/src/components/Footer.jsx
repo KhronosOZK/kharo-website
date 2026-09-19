@@ -76,7 +76,9 @@ export default function Footer() {
             <div key={col.heading}>
               <h4 className="text-[13px] font-semibold text-white/50 mb-4">{col.heading}</h4>
               <ul className="space-y-2.5">
-                {col.links.map(([label, to]) => (
+                {/* No public sign in for operators pre-launch: the account routes stay
+                    mounted for the backend's email links but are never linked from here. */}
+                {col.links.filter(([, to]) => to !== "/operator-login").map(([label, to]) => (
                   <li key={label}>
                     <Link to={to} className="text-[14px] text-white/75 hover:text-white transition-colors duration-hover">
                       {label}

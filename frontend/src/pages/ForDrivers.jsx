@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Check, ArrowRight } from "lucide-react";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
+import ApplicationFlow from "@/components/ApplicationFlow";
 import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
@@ -8,7 +9,7 @@ import { FOR_DRIVERS } from "@/content/site";
 
 export default function ForDrivers() {
   const navigate = useNavigate();
-  const { seo, hero, steps, dashboard, support, requirements, closer } = FOR_DRIVERS;
+  const { seo, hero, steps, flow, dashboard, support, requirements, closer } = FOR_DRIVERS;
   useSeo({ title: seo.title, description: seo.description });
 
   return (
@@ -20,31 +21,15 @@ export default function ForDrivers() {
         <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
 
         <div className="wrap relative min-h-[78svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end">
-            <div className="lg:col-span-8">
-              <Enter as="p" className="eyebrow text-mint">{hero.tag}</Enter>
-              <Enter as="h1" delay={0.04} className="mt-3 text-display font-heading font-extrabold max-w-[20ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
-                {hero.heading}
-              </Enter>
-              <Enter as="p" delay={0.08} className="mt-4 text-lead text-white/85 max-w-[44ch]">{hero.sub}</Enter>
-              <Enter delay={0.12} className="mt-7 flex flex-wrap gap-3">
-                <Button size="lg" onClick={() => navigate("/search")} data-testid="for-drivers-browse">{hero.primaryCta} <ArrowRight size={16} /></Button>
-                <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")} data-testid="for-drivers-register">{hero.secondaryCta}</Button>
-              </Enter>
-            </div>
-            <Enter delay={0.18} className="lg:col-span-4 lg:justify-self-end w-full max-w-[19rem]">
-              <div className="glass-dark rounded-2xl p-5" data-testid="for-drivers-sorted-card">
-                <p className="font-heading font-bold text-[17px] leading-tight">{hero.card.heading}</p>
-                <ul className="mt-3 space-y-2.5">
-                  {hero.card.items.map((it) => (
-                    <li key={it} className="flex items-center gap-2.5 text-[14px]">
-                      <Check className="w-4 h-4 text-mint shrink-0" strokeWidth={2.5} /> {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Enter>
-          </div>
+          <Enter as="p" className="eyebrow text-mint">{hero.tag}</Enter>
+          <Enter as="h1" delay={0.04} className="mt-3 text-display font-heading font-extrabold max-w-[18ch]">
+            {hero.heading}
+          </Enter>
+          <Enter as="p" delay={0.08} className="mt-5 text-lead text-white/80 max-w-[46ch]">{hero.sub}</Enter>
+          <Enter delay={0.12} className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" onClick={() => navigate("/search")} data-testid="for-drivers-browse">{hero.primaryCta} <ArrowRight size={16} /></Button>
+            <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")} data-testid="for-drivers-register">{hero.secondaryCta}</Button>
+          </Enter>
         </div>
       </section>
 
@@ -63,8 +48,21 @@ export default function ForDrivers() {
         </RevealItem>
       </RevealGroup>
 
-      {/* ── THE ACCOUNT ───────────────────────────────────────────────── */}
+      {/* ── THE APPLICATION, SHOWN WORKING ───────────────────────────── */}
       <section className="bg-surface border-y border-line">
+        <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+          <RevealItem className="lg:col-span-4 lg:sticky top-below-header">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{flow.heading}</h2>
+            <p className="mt-4 text-lead text-ink-2 measure-narrow">{flow.sub}</p>
+          </RevealItem>
+          <RevealItem className="lg:col-span-8">
+            <ApplicationFlow />
+          </RevealItem>
+        </RevealGroup>
+      </section>
+
+      {/* ── THE ACCOUNT ───────────────────────────────────────────────── */}
+      <section>
         <RevealGroup className="wrap py-section">
           <RevealItem className="max-w-2xl">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{dashboard.heading}</h2>

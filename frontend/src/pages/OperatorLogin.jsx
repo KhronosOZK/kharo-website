@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
-import { ArrowRight, MapPin } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSeo } from "@/lib/seo";
 
-const inputCls = "h-12 bg-white border-[#E8E8E8] rounded-xl focus-visible:ring-[#0B6B4F]/30 focus-visible:border-[#0B6B4F]";
-
+// Staff / legacy route. Not linked from the header, footer or any page body:
+// operators join through /list-your-fleet pre-launch, not by signing in.
 export default function OperatorLogin() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  useSeo({ title: "Operator sign in · Kharo", description: "Sign in to your Kharo operator console.", noindex: true });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,40 +28,27 @@ export default function OperatorLogin() {
   };
 
   return (
-    <main className="bg-[#F5F5F5] min-h-[calc(100vh-68px)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 lg:py-20 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center lg:text-left">
-          <p className="text-[13px] font-medium text-[#0B6B4F] tracking-[0.12em] uppercase">Rental operators</p>
-          <h1 className="mt-3 font-heading font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.03] text-[#0A0A0A] text-balance">
-            Your fleet,<br /><span className="text-[#0B6B4F]">in command.</span>
-          </h1>
-          <div className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-[#EBEBEB] p-6 sm:p-7">
-            <p className="text-[18px] font-heading font-semibold text-[#0A0A0A] leading-snug">Every driver vetted before you speak to them. No listing fee, no cut on completed rentals.</p>
-            <div className="mt-4 flex items-center gap-2 text-[13px] text-[#0B6B4F] font-medium"><MapPin className="w-4 h-4" /> Live vehicle tracking on every rented car</div>
+    <main className="min-h-page bg-bone grid place-items-center px-4 py-section">
+      <div className="w-full max-w-sm panel rounded-2xl p-7 sm:p-8">
+        <Link to="/" className="caro-wordmark text-[22px] text-ink leading-none" aria-label="Kharo home">
+          kharo<span className="text-green">.</span>
+        </Link>
+        <h1 className="mt-5 text-h2 font-heading font-extrabold text-ink">Sign in to your fleet</h1>
+        <p className="mt-1.5 text-[14.5px] text-ink-2">Manage your cars, applications and payouts in one place.</p>
+        <form onSubmit={submit} className="mt-6 space-y-4">
+          <div>
+            <Label className="text-[13px] font-medium text-ink-2 mb-1.5 block">Email</Label>
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-testid="oplogin-email" required />
           </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-          className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[24px] ring-1 ring-[#E8E8E8]/70 p-7 sm:p-9 shadow-sm">
-          <h2 className="text-3xl font-heading font-bold text-[#0A0A0A]">Sign in to your fleet</h2>
-          <p className="text-[15px] text-[#666666] mt-2 mb-7">Manage your cars, applications and payouts in one place.</p>
-          <form onSubmit={submit} className="space-y-4">
-            <div><Label className="text-[13px] font-medium text-[#666666] mb-1.5 block">Email</Label><Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-testid="oplogin-email" className={inputCls} required /></div>
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <Label className="text-[13px] font-medium text-[#666666]">Password</Label>
-                <Link to="/forgot-password" className="text-[12.5px] text-[#0B6B4F] font-medium hover:underline" data-testid="oplogin-forgot">Forgot password?</Link>
-              </div>
-              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="oplogin-password" className={inputCls} required />
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <Label className="text-[13px] font-medium text-ink-2">Password</Label>
+              <Link to="/forgot-password" className="text-[12.5px] text-green font-medium hover:underline underline-offset-4" data-testid="oplogin-forgot">Forgot password?</Link>
             </div>
-            <Button type="submit" disabled={loading} className="w-full h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white hover:-translate-y-[2px] transition-transform" data-testid="oplogin-submit">{loading ? "Signing in" : "Sign in"}</Button>
-          </form>
-          <div className="mt-7 rounded-2xl bg-[#EAF5F1] border border-[#0B6B4F]/15 p-5">
-            <p className="text-[14px] text-[#0A0A0A]">Not with us yet? We are onboarding the first London operators now.</p>
-            <Link to="/list-your-fleet" className="inline-flex items-center gap-1.5 text-[#0B6B4F] font-semibold mt-2 text-[14px]">Register your fleet <ArrowRight className="w-4 h-4" /></Link>
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="oplogin-password" required />
           </div>
-          <p className="text-[13px] text-[#888888] mt-4 text-center">Are you a driver? <Link to="/login" className="text-[#0B6B4F] font-medium">Sign in here</Link></p>
-        </motion.div>
+          <Button type="submit" disabled={loading} className="w-full" data-testid="oplogin-submit">{loading ? "Signing in" : "Sign in"}</Button>
+        </form>
       </div>
     </main>
   );

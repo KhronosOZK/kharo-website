@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSeo } from "@/lib/seo";
 
-const inputCls = "h-12 bg-white border-[#E8E8E8] rounded-xl focus-visible:ring-[#0B6B4F]/30 focus-visible:border-[#0B6B4F]";
-
+// Staff / legacy route. Not linked from the header, footer or any page body:
+// the public site has no sign in, only the waitlist. Kept plain for whoever
+// still needs it, and because the backend's reset-password email points here.
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  useSeo({ title: "Sign in · Kharo", description: "Sign in to your Kharo account.", noindex: true });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,38 +29,27 @@ export default function Login() {
   };
 
   return (
-    <main className="bg-[#F5F5F5] min-h-[calc(100vh-68px)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12 lg:py-20 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center lg:text-left">
-          <p className="text-[13px] font-medium text-[#0B6B4F] tracking-[0.12em] uppercase">Welcome back</p>
-          <h1 className="mt-3 font-heading font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.03] text-[#0A0A0A] text-balance">
-            Back to the<br /><span className="text-[#0B6B4F]">driver's seat.</span>
-          </h1>
-          <div className="mt-8 max-w-md mx-auto lg:mx-0 text-left rounded-[24px] bg-[#EBEBEB] p-6 sm:p-7">
-            <p className="text-[18px] font-heading font-semibold text-[#0A0A0A] leading-snug">One clear weekly rental price. No hidden fees, no markup on insurance.</p>
-            <p className="text-[#888888] mt-3 text-sm">Every operator checked before they're allowed to list.</p>
+    <main className="min-h-page bg-bone grid place-items-center px-4 py-section">
+      <div className="w-full max-w-sm panel rounded-2xl p-7 sm:p-8">
+        <Link to="/" className="caro-wordmark text-[22px] text-ink leading-none" aria-label="Kharo home">
+          kharo<span className="text-green">.</span>
+        </Link>
+        <h1 className="mt-5 text-h2 font-heading font-extrabold text-ink">Sign in</h1>
+        <p className="mt-1.5 text-[14.5px] text-ink-2">See your rentals, applications and saved cars.</p>
+        <form onSubmit={submit} className="mt-6 space-y-4">
+          <div>
+            <Label className="text-[13px] font-medium text-ink-2 mb-1.5 block">Email</Label>
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-testid="login-email" required />
           </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-          className="w-full max-w-md justify-self-center lg:justify-self-end bg-white rounded-[24px] ring-1 ring-[#E8E8E8]/70 p-7 sm:p-9 shadow-sm">
-          <h2 className="text-3xl font-heading font-bold text-[#0A0A0A]">Sign in</h2>
-          <p className="text-[15px] text-[#666666] mt-2 mb-7">See your rentals, applications and saved cars.</p>
-          <form onSubmit={submit} className="space-y-4">
-            <div><Label className="text-[13px] font-medium text-[#666666] mb-1.5 block">Email</Label><Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} data-testid="login-email" className={inputCls} required /></div>
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <Label className="text-[13px] font-medium text-[#666666]">Password</Label>
-                <Link to="/forgot-password" className="text-[12.5px] text-[#0B6B4F] font-medium hover:underline" data-testid="login-forgot">Forgot password?</Link>
-              </div>
-              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="login-password" className={inputCls} required />
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <Label className="text-[13px] font-medium text-ink-2">Password</Label>
+              <Link to="/forgot-password" className="text-[12.5px] text-green font-medium hover:underline underline-offset-4" data-testid="login-forgot">Forgot password?</Link>
             </div>
-            <Button type="submit" disabled={loading} className="w-full h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white hover:-translate-y-[2px] transition-transform" data-testid="login-submit">{loading ? "Signing in" : "Sign in"}</Button>
-          </form>
-          <div className="mt-5 flex items-center gap-2 text-[12.5px] text-[#888888]"><ShieldCheck className="w-4 h-4 text-[#0B6B4F]" strokeWidth={1.6} /> Your details are encrypted and never sold on.</div>
-          <p className="text-[14px] text-[#666666] mt-6 text-center">New here? <Link to="/register" className="text-[#0B6B4F] font-semibold">Create your driver account</Link></p>
-          <p className="text-[13px] text-[#888888] mt-2 text-center">Run a fleet? <Link to="/operator-login" className="text-[#0B6B4F] font-medium">Operator sign in</Link></p>
-        </motion.div>
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="login-password" required />
+          </div>
+          <Button type="submit" disabled={loading} className="w-full" data-testid="login-submit">{loading ? "Signing in" : "Sign in"}</Button>
+        </form>
       </div>
     </main>
   );

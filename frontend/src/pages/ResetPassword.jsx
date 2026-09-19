@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSeo } from "@/lib/seo";
 
-const inputCls = "h-12 bg-white border-[#0A0A0A]/12 rounded-xl focus-visible:ring-[#0B6B4F]/30 focus-visible:border-[#0B6B4F]";
-
+// Staff / legacy route, unlinked from the public site. The backend's reset
+// email links here with ?token=, so the route has to keep working.
 export default function ResetPassword() {
   const { resetPassword } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const token = params.get("token") || "";
+  useSeo({ title: "Set a new password · Kharo", description: "Choose a new password for your Kharo account.", noindex: true });
+
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,29 +32,34 @@ export default function ResetPassword() {
   };
 
   return (
-    <main className="bg-[#0A0A0A] min-h-[calc(100vh-68px)]">
-      <div className="max-w-md mx-auto px-4 py-16 sm:py-20 min-h-[calc(100vh-68px)] flex items-center">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-          className="w-full bg-[#F5F5F5] rounded-[28px] p-7 sm:p-9 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)]">
-          <p className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#0B6B4F] mb-1">Set a new password</p>
-          {!token ? (
-            <div className="mt-5">
-              <h1 className="text-2xl font-heading font-extrabold text-[#0A0A0A]">This link looks incomplete</h1>
-              <p className="text-[#666666] mt-2 text-[15px]">Please use the full link from your email, or request a new one.</p>
-              <Link to="/forgot-password" className="inline-block mt-5 text-[#0B6B4F] font-semibold">Request a new link</Link>
-            </div>
-          ) : (
-            <>
-              <h1 className="text-[28px] font-heading font-extrabold text-[#0A0A0A] mt-4">Choose a new password</h1>
-              <p className="text-[14.5px] text-[#666666] mt-2 mb-7">Make it something you will remember.</p>
-              <form onSubmit={submit} className="space-y-4">
-                <div><Label className="text-[13px] font-medium text-[#666666] mb-1.5 block">New password</Label><Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="reset-password" className={inputCls} placeholder="At least 6 characters" required /></div>
-                <div><Label className="text-[13px] font-medium text-[#666666] mb-1.5 block">Confirm password</Label><Input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} data-testid="reset-confirm" className={inputCls} required /></div>
-                <Button type="submit" disabled={loading} className="w-full h-11 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white" data-testid="reset-submit">{loading ? "Updating" : "Update password"}</Button>
-              </form>
-            </>
-          )}
-        </motion.div>
+    <main className="min-h-page bg-bone grid place-items-center px-4 py-section">
+      <div className="w-full max-w-sm panel rounded-2xl p-7 sm:p-8">
+        <Link to="/" className="caro-wordmark text-[22px] text-ink leading-none" aria-label="Kharo home">
+          kharo<span className="text-green">.</span>
+        </Link>
+        {!token ? (
+          <div className="mt-6">
+            <h1 className="text-h2 font-heading font-extrabold text-ink">This link looks incomplete</h1>
+            <p className="text-ink-2 mt-2 text-[14.5px] leading-relaxed">Please use the full link from your email, or request a new one.</p>
+            <Link to="/forgot-password" className="inline-block mt-5 text-green font-semibold text-[14.5px]">Request a new link</Link>
+          </div>
+        ) : (
+          <>
+            <h1 className="mt-5 text-h2 font-heading font-extrabold text-ink">Choose a new password</h1>
+            <p className="mt-1.5 text-[14.5px] text-ink-2">Make it something you will remember.</p>
+            <form onSubmit={submit} className="mt-6 space-y-4">
+              <div>
+                <Label className="text-[13px] font-medium text-ink-2 mb-1.5 block">New password</Label>
+                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="reset-password" placeholder="At least 6 characters" required />
+              </div>
+              <div>
+                <Label className="text-[13px] font-medium text-ink-2 mb-1.5 block">Confirm password</Label>
+                <Input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} data-testid="reset-confirm" required />
+              </div>
+              <Button type="submit" disabled={loading} className="w-full" data-testid="reset-submit">{loading ? "Updating" : "Update password"}</Button>
+            </form>
+          </>
+        )}
       </div>
     </main>
   );

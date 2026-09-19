@@ -106,7 +106,8 @@ export const NAV = {
 // PRE-LAUNCH LABELLING
 // ---------------------------------------------------------------------------
 export const PREVIEW = {
-  label: "Preview inventory.",
+  label: "Launch preview.",
+  short: "These cars show what our launch operators rent out. Register interest and we match you to a real one when we open in your city.",
   banner: "These cars show the kind of vehicle, price and area our launch operators rent out. They are not bookable yet. Tell us which one suits you and we will match you to a real car when we go live in your city.",
   inline: "This car is not bookable yet. Registering tells us the vehicle, price and area you want, and we will come back to you with a real match at launch.",
 };
@@ -122,20 +123,19 @@ export const HOME = {
   hero: {
     heading: "Rent the car. We handle everything around it.",
     sub: "Checked operators, insurance chosen when you apply, and Uber and Bolt live before you pick up the keys.",
-    img: IMG.londonStreet,
-    imgAlt: "A private hire car on a London street at dusk",
+    img: IMG.londonBus,
+    imgAlt: "Traffic on a London street at dusk",
     searchCta: "Search cars",
     moreFilters: "More filters",
     fewerFilters: "Fewer filters",
-    card: {
-      heading: "Live before you collect",
-      rows: [
-        ["Uber", "Live"],
-        ["Bolt", "Live"],
-      ],
-      note: "We add the car to your platforms for you, at no charge.",
-    },
+    cityPlaceholder: "Pick a city",
   },
+  figures: [
+    { v: "First", l: "marketplace of its kind in the UK" },
+    { v: "5", l: "cities at launch" },
+    { v: "1", l: "place for rent, insurance, documents and claims" },
+    { v: "0", l: "fees for drivers, ever" },
+  ],
   work: {
     heading: "The work around the car, done for you.",
     sub: "Most rental firms hand you the keys and stop there. Kharo carries on.",
@@ -190,11 +190,11 @@ export const HOME = {
     ],
   },
   closer: {
-    heading: "Have cars sitting idle?",
+    heading: "Cars sitting idle cost you every week.",
     sub: "List your fleet, receive vetted applications with the insurance choice attached, and let us handle documents, expiries and claims.",
     cta: "List your fleet",
     secondary: "See how it works",
-    img: IMG.londonNight,
+    img: IMG.fleetLot,
   },
 };
 
@@ -210,14 +210,14 @@ export const FOR_DRIVERS = {
     tag: "For drivers",
     heading: "By the time you collect the keys, you are ready to earn.",
     sub: "Insurance chosen, Uber and Bolt live, every document in your account. You drive.",
-    img: IMG.driverMirror,
-    imgAlt: "A driver adjusting the mirror before a shift",
+    img: IMG.taxiDriver,
+    imgAlt: "A private hire driver beside his car",
     primaryCta: "Browse cars",
     secondaryCta: "Join the waitlist",
-    card: {
-      heading: "Sorted before collection",
-      items: ["Hire and reward insurance", "Uber and Bolt profiles", "Hire agreement signed", "Condition photos on file"],
-    },
+  },
+  flow: {
+    heading: "Applying takes one sitting.",
+    sub: "Pick the car, pick the cover, send it. The operator gets your checks and your insurance choice together, so they can decide straight away.",
   },
   steps: {
     heading: "From application to the road",
@@ -341,14 +341,10 @@ export const OPERATOR_GUIDE = {
     tag: "For operators",
     heading: "We manage the fleet. You collect the rent.",
     sub: "Vetted applications with the insurance choice attached, and a console that watches every document, expiry and claim for you.",
-    img: IMG.fleetLot,
-    imgAlt: "A row of private hire cars on a fleet lot",
+    img: IMG.showroom,
+    imgAlt: "Cars lined up in a dealership",
     primaryCta: "List your fleet",
     secondaryCta: "See the console",
-    card: {
-      heading: "This week",
-      rows: [["Vehicles rented", "21 of 24"], ["Applications vetted", "3"], ["Documents in date", "96 of 96"]],
-    },
   },
   manage: {
     heading: "Everything around the car, managed.",

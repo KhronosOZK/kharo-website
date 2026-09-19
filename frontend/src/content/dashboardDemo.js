@@ -46,6 +46,7 @@ export const DRIVER_DASHBOARD = {
       id: "history",
       label: "Rental history",
       icon: "History",
+      searchLabel: "Search your past rentals",
       headline: { label: "Weeks on the road with Kharo", value: 26 },
       kpis: [
         { label: "Current car", value: "Prius, 14 wks" },
@@ -61,6 +62,7 @@ export const DRIVER_DASHBOARD = {
       id: "invoices",
       label: "Invoices",
       icon: "Receipt",
+      searchLabel: "Search invoices",
       headline: { label: "Invoices this year", value: 26 },
       kpis: [
         { label: "Latest", value: "KH-0926" },
@@ -78,6 +80,7 @@ export const DRIVER_DASHBOARD = {
       label: "Documents",
       icon: "FileText",
       headline: { label: "Documents on file", value: 5 },
+      searchLabel: "Search documents",
       kpis: [
         { label: "Insurance", value: "Renews 2 Dec" },
         { label: "Hire agreement", value: "Signed" },
@@ -131,6 +134,8 @@ export const OPERATOR_DASHBOARD = {
     {
       id: "fleet",
       label: "Fleet",
+      searchLabel: "Search by plate, model or driver",
+      filters: ["All", "Rented", "Idle", "In service"],
       icon: "Car",
       headline: { label: "Vehicles earning this week", value: 21, suffix: " of 24" },
       kpis: [
@@ -148,6 +153,7 @@ export const OPERATOR_DASHBOARD = {
     {
       id: "approvals",
       label: "Approvals",
+      searchLabel: "Search applicants",
       icon: "UserCheck",
       headline: { label: "Applications waiting for you", value: 3 },
       kpis: [
@@ -165,6 +171,7 @@ export const OPERATOR_DASHBOARD = {
       id: "history",
       label: "Rental history",
       icon: "History",
+      searchLabel: "Search history by vehicle or plate",
       headline: { label: "Weeks rented across the fleet this year", value: 612 },
       kpis: [
         { label: "Utilisation", value: "89%" },
@@ -181,22 +188,26 @@ export const OPERATOR_DASHBOARD = {
       id: "documents",
       label: "Documents",
       icon: "FileText",
-      headline: { label: "Documents in date", value: 96, suffix: " of 96" },
+      searchLabel: "Search documents by vehicle",
+      headline: { label: "Documents needing attention", value: 2 },
       kpis: [
+        { label: "In date", value: "94 of 96" },
         { label: "Fleet insurance", value: "On file" },
-        { label: "Hire agreements", value: "21 signed" },
       ],
       rows: [
-        { t: "Fleet insurance certificate", d: "Renews 14 Feb 2027 · shown on your listings", v: "Valid", tone: "ok", status: "Valid" },
-        { t: "Operator licence", d: "TfL · verified against the register", v: "Valid", tone: "ok", status: "Valid" },
-        { t: "V5C, MOT and PHV plates", d: "24 vehicles · all held here", v: "Complete", tone: "ok", status: "Complete" },
+        { t: "V5C missing · Kia Niro EV KN23 EVE", d: "Upload the logbook to keep the listing live", v: "Upload", tone: "warn", status: "Missing" },
+        { t: "Insurance certificate · Ford Galaxy LG21 GXY", d: "Expired copy on file, replacement needed", v: "Replace", tone: "warn", status: "Out of date" },
+        { t: "Fleet insurance certificate", d: "Renews 14 Feb 2027 · shown on your listings", v: "In date", tone: "ok", status: "Valid" },
+        { t: "Operator licence", d: "TfL · verified against the register", v: "In date", tone: "ok", status: "Valid" },
+        { t: "Hire agreements", d: "21 signed and stored", v: "In date", tone: "ok", status: "Complete" },
       ],
-      foot: "Every vehicle document in one place, with a reminder before anything runs out.",
+      foot: "Everything in one place, with the two that need you at the top.",
     },
     {
       id: "alerts",
       label: "Expiries and issues",
       icon: "BellRing",
+      searchLabel: "Search alerts by vehicle",
       headline: { label: "Items due in the next 30 days", value: 3 },
       kpis: [
         { label: "MOT due", value: "12 days" },

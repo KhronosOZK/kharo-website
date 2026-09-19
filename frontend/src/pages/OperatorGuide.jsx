@@ -24,29 +24,20 @@ export default function OperatorGuide() {
 
   return (
     <div className="bg-bone">
-      {/* ── HERO: fleet photograph, left-aligned copy, one glass card ───── */}
+      {/* ── HERO: fleet photograph, left-aligned copy, one panel card ───── */}
       <section className="relative isolate overflow-hidden text-white">
         <img src={hero.img} alt={hero.imgAlt} className="absolute inset-0 h-full w-full object-cover object-[55%_center]" fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-t from-night/70 via-night/25 to-night/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
 
-        <div className="wrap relative grid lg:grid-cols-12 gap-block items-end min-h-[78svh] lg:min-h-[82svh] pt-[clamp(5rem,12vh,8rem)] pb-[clamp(2rem,6vh,4rem)]">
-          <div className="lg:col-span-7">
+        <div className="wrap relative flex flex-col justify-end min-h-[78svh] lg:min-h-[82svh] pt-[clamp(5rem,12vh,8rem)] pb-[clamp(2rem,6vh,4rem)]">
+          <div className="max-w-[46rem]">
             <Enter as="p" className="eyebrow text-mint">{hero.tag}</Enter>
-            <Enter as="h1" delay={0.04} className="mt-3 text-display font-heading font-extrabold max-w-[16ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
+            <Enter as="h1" delay={0.04} className="mt-3 text-display font-heading font-extrabold max-w-[16ch]">
               {hero.heading}
             </Enter>
-            <Enter as="p" delay={0.08} className="mt-4 text-lead text-white/85 max-w-[48ch] drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
+            <Enter as="p" delay={0.08} className="mt-5 text-lead text-white/80 max-w-[48ch]">
               {hero.sub}
-            </Enter>
-
-            {/* The card collapses to a row of pills on small screens */}
-            <Enter delay={0.12} className="mt-5 flex flex-wrap items-center gap-2 lg:hidden">
-              {hero.card.rows.map(([label, value]) => (
-                <span key={label} className="glass-dark inline-flex items-center gap-1.5 rounded-full px-3 h-8 text-[13px] font-medium">
-                  {label} <span className="text-mint font-semibold tabular">{value}</span>
-                </span>
-              ))}
             </Enter>
 
             <Enter delay={0.16} className="mt-7 flex flex-wrap gap-3">
@@ -59,19 +50,6 @@ export default function OperatorGuide() {
             </Enter>
           </div>
 
-          <Enter delay={0.2} className="hidden lg:block lg:col-span-5 justify-self-end w-full max-w-[22rem]">
-            <div className="glass-dark rounded-2xl p-6" data-testid="operator-hero-card">
-              <p className="font-heading font-bold text-[17px] leading-tight">{hero.card.heading}</p>
-              <ul className="mt-3 divide-y divide-white/10">
-                {hero.card.rows.map(([label, value]) => (
-                  <li key={label} className="flex items-center justify-between gap-4 py-3 text-[14.5px]">
-                    <span className="text-white/80">{label}</span>
-                    <span className="font-heading font-bold text-mint tabular">{value}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Enter>
         </div>
       </section>
 

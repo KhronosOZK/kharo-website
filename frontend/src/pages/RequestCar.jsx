@@ -1,8 +1,7 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowLeft, Search } from "lucide-react";
 import CityInterestForm from "@/components/CityInterestForm";
-import { IMG } from "@/lib/images";
+import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
 import { useSeo } from "@/lib/seo";
 
 export default function RequestCar() {
@@ -11,32 +10,26 @@ export default function RequestCar() {
   const city = params.get("city") || "London";
 
   useSeo({
-    title: `Request a PCO Car in ${city} · Kharo`,
-    description: `Tell us you're looking for a PCO car in ${city} and we'll email you the moment matching listings go live there.`,
+    title: `Request a car in ${city} · Kharo`,
+    description: `Tell us you're looking for a private hire car in ${city} and we'll email you the moment matching listings go live there.`,
   });
 
   return (
-    <main className="relative min-h-[calc(100vh-68px)] bg-[#0A0A0A] overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <img src={IMG.phoneInCar} alt="" className="w-full h-full object-cover" style={{ filter: "grayscale(0.5)" }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/90 via-[#0A0A0A]/88 to-[#0A0A0A]/75" />
-        <div className="absolute inset-0 grain opacity-40" />
-      </div>
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-10 lg:py-16 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[calc(100vh-68px)]">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }} className="text-white">
-          <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm" data-testid="request-back"><ArrowLeft className="w-4 h-4" /> Back to results</button>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-[12px] font-medium tracking-wide text-[#5FD3A6] mt-6"><Search className="w-3.5 h-3.5" /> Tell us what you want</div>
-          <h1 className="mt-5 font-heading font-extrabold tracking-tight text-[36px] leading-[1.04] sm:text-5xl lg:text-[56px] text-balance">Can't find the right car in {city}?</h1>
-          <p className="mt-5 text-[16px] text-white/65 max-w-md leading-relaxed">Describe exactly what you are after. We will match you the moment it comes up, and your request tells our rental partners what drivers in {city} actually want.</p>
-        </motion.div>
+    <main className="min-h-page bg-bone wrap-narrow py-section">
+      <button onClick={() => navigate(-1)} className="pressable inline-flex items-center gap-1.5 text-ink-2 hover:text-ink text-[14px]" data-testid="request-back">
+        <ArrowLeft className="w-4 h-4" strokeWidth={1.75} /> Back to results
+      </button>
 
-        <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.55 }}
-          className="w-full max-w-md justify-self-center lg:justify-self-end">
-          <div className="bg-[#FAFAFA] rounded-[28px] p-6 sm:p-8 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.7)]">
-            <CityInterestForm city={city} mode="request" compact />
-          </div>
-        </motion.div>
-      </div>
+      <RevealGroup className="mt-8">
+        <RevealItem>
+          <Enter as="p" className="eyebrow flex items-center gap-1.5"><Search className="w-3.5 h-3.5" strokeWidth={1.75} /> Tell us what you want</Enter>
+          <Enter as="h1" delay={0.04} className="mt-3 text-h1 font-heading font-extrabold text-ink">Can't find the right car in {city}?</Enter>
+          <Enter as="p" delay={0.08} className="mt-4 text-lead text-ink-2 max-w-[46ch]">Describe exactly what you are after. We will match you the moment it comes up, and your request tells our rental partners what drivers in {city} actually want.</Enter>
+        </RevealItem>
+        <RevealItem className="mt-8 panel rounded-2xl p-6 sm:p-8">
+          <CityInterestForm city={city} mode="request" compact />
+        </RevealItem>
+      </RevealGroup>
     </main>
   );
 }

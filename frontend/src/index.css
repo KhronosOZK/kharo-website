@@ -181,26 +181,29 @@
   .surface-raised { background: var(--surface); border: 1px solid var(--line); border-radius: 1rem; box-shadow: var(--shadow-1); }
   .hairline { border-top: 1px solid var(--line); }
 
-  /* Frosted glass, web approximation. Use ONLY over photography or over
-     scrolling content, where the blur shows what is behind it. */
-  .glass {
-    background: rgba(255, 255, 255, 0.74);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: var(--shadow-glass);
+  /* Panels that sit over photography. Solid, not frosted: a real card with a
+     real shadow reads as considered; a blurred one reads as a filter. */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-2);
   }
-  .glass-dark {
-    background: rgba(10, 19, 15, 0.58);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    backdrop-filter: blur(18px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 18px 50px -20px rgba(0, 0, 0, 0.45);
+  .panel-dark {
+    background: #10201A;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    box-shadow: 0 28px 70px -28px rgba(0, 0, 0, 0.55);
     color: #fff;
   }
-  @media (prefers-reduced-transparency: reduce) {
-    .glass { background: rgba(255, 255, 255, 0.97); -webkit-backdrop-filter: none; backdrop-filter: none; }
-    .glass-dark { background: rgba(10, 19, 15, 0.94); -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+  /* Editorial figure row: hairline-divided numbers, the Arcline device. */
+  .figures { display: grid; border-top: 1px solid var(--line); }
+  .figures > * { border-bottom: 1px solid var(--line); padding-block: 1.75rem; }
+  @media (min-width: 640px) {
+    .figures { grid-auto-flow: column; grid-auto-columns: 1fr; }
+    .figures > * + * { border-left: 1px solid var(--line); padding-left: 2rem; }
+    .figures > * { border-bottom: 0; }
   }
 
   /* Press feedback for everything you can press. */

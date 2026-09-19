@@ -1,0 +1,145 @@
+// Copy for the marketplace browse surface: the vehicle card, search results,
+// vehicle detail, compare and saved pages. Kept apart from site.js because
+// none of these had a dedicated block there yet.
+
+export const CARD = {
+  registerInterest: "Register interest",
+  rentalOnly: "Rental only. Insurance chosen when you apply.",
+  insuranceIncluded: "Insurance included by the operator.",
+};
+
+export const SEARCH = {
+  seo: {
+    title: "Browse private hire cars to rent, checked operators · Kharo",
+    description:
+      "Filter private hire and PCO cars by city, area, fuel and weekly budget. The rental price is shown first, and insurance is chosen when you apply.",
+  },
+  filters: {
+    cityLabel: "City",
+    cityPlaceholder: "Pick a city",
+    areaLabel: "Area",
+    areaPlaceholder: "All areas",
+    fuelLabel: "Fuel",
+    budgetLabel: "Weekly budget",
+    makeLabel: "Make",
+    bodyLabel: "Body type",
+    transmissionLabel: "Transmission",
+    moreFilters: "More filters",
+    filtersButton: "Filters",
+    clearAll: "Clear all",
+    showResults: "Show results",
+  },
+  sort: {
+    label: "Sort",
+    options: [
+      { value: "price_asc", label: "Price, low to high" },
+      { value: "price_desc", label: "Price, high to low" },
+    ],
+  },
+  resultsCount: (n) => `${n} car${n === 1 ? "" : "s"} to rent`,
+  map: { show: "Show map", hide: "Hide map", backToList: "Back to list" },
+  emptyFilters: {
+    heading: "No cars match those filters",
+    sub: "Try a wider budget, or clear a filter and start again.",
+    cta: "Clear all filters",
+  },
+  emptyCity: {
+    heading: (city) => `No cars in ${city} just yet`,
+    sub: (city) =>
+      `Kharo is built for the whole UK and we are bringing operators to every city. Join the waitlist and we will email you the moment ${city} has cars.`,
+  },
+};
+
+export const COMPARE = {
+  seo: { title: "Compare cars · Kharo" },
+  heading: "Compare cars",
+  count: (n) => `${n} car${n === 1 ? "" : "s"} side by side`,
+  clearAll: "Clear all",
+  lowestRent: "Lowest rent",
+  rows: {
+    rent: "Rent per week",
+    deposit: "Deposit, refundable",
+    insurance: "Insurance",
+    insuranceValue: "Chosen when you apply",
+    fuel: "Fuel",
+    transmission: "Transmission",
+    seats: "Seats",
+    mileage: "Weekly mileage",
+    area: "Area",
+  },
+  applyCta: "Register interest",
+  empty: {
+    heading: "Nothing to compare yet",
+    body: "Add cars to compare while you browse, then see them here side by side.",
+    cta: "Browse cars",
+  },
+};
+
+export const SAVED = {
+  seo: { title: "Saved cars · Kharo" },
+  heading: "Saved cars",
+  count: (n) => `${n} car${n === 1 ? "" : "s"} saved`,
+  compareCta: (n) => `Compare ${n} cars`,
+  backToGrid: "Back to grid",
+  empty: {
+    heading: "No saved cars yet",
+    body: "Tap the heart on any car to save it here, then compare the weekly rent side by side.",
+    cta: "Browse cars",
+  },
+};
+
+export const DETAIL = {
+  back: "Back to results",
+  save: "Save",
+  saved: "Saved",
+  share: "Share",
+  shareCopied: "Copied",
+  breadcrumbHome: "Home",
+  breadcrumbSearch: "Search",
+  whatCoversHeading: "What your weekly rent covers",
+  covers: {
+    compliance: "MOT, road tax and PHV compliance, handled by the operator",
+    breakdownIncluded: "24/7 breakdown cover included",
+    breakdownAvailable: "Breakdown cover available to add, £8 a week",
+    servicingAt: (garage) => `Servicing booked at ${garage}`,
+  },
+  insuranceHeading: "Insurance",
+  insuranceChosen: "Chosen when you apply",
+  insuranceHelper:
+    "Comprehensive, third party fire and theft, or third party, paid monthly, six-monthly or yearly.",
+  pricingHeading: "The longer you rent, the less you pay",
+  save3: "Save 3%",
+  save6: "Save 6%",
+  moreAnglesHeading: "More angles",
+  vehicleDetailsHeading: "Vehicle details",
+  collectionAreaHeading: "Collection area",
+  collectionNote: (borough, postcode) =>
+    `Approximate area: ${borough}, ${postcode}. Exact address shared once your details are confirmed.`,
+  reviewsHeading: "Operator reviews",
+  noReviews: "No reviews yet",
+  reviewsBody:
+    "This operator is new to Kharo. Background and licence checks are complete. Driver reviews will appear here after the first rentals.",
+  experienceOpen: "Open to new drivers",
+  specs: {
+    fuel: "Fuel type",
+    seats: "Seats",
+    economy: "Economy",
+    mileage: "Weekly mileage",
+    experience: "Experience required",
+    deposit: "Deposit",
+    servicing: "Servicing",
+    restrictions: "Restrictions",
+    none: "None",
+  },
+  applyCta: "Register interest",
+  mobileRentPrefix: "Rent from",
+  mobileRentSuffix: "a week",
+  nextStepsHeading: "What happens next",
+  nextSteps: [
+    "You register your interest with your name and contact details",
+    "We add you to the priority list for this vehicle and area",
+    "We email you the moment Kharo goes live near you",
+    "No commitment, no charge, until you decide to go ahead",
+  ],
+  trustFooter: "Operator checked against the licensing register. No payment taken at this stage.",
+};
