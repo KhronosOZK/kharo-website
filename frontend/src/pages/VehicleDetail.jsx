@@ -1,24 +1,28 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import {
-  ChevronLeft, ChevronRight, Heart, Share2, MapPin, Check,
-  RotateCw, Shield, Zap, Clock, Star,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, Share2, MapPin, Check, RotateCw, Shield, Zap } from "lucide-react";
 import { api, trackEvent } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { PRICING_TIERS, weeklyForWeeks } from "@/lib/pricing";
 import PreviewNotice from "@/components/PreviewNotice";
 import ApproxAreaMap from "@/components/ApproxAreaMap";
+import { Button } from "@/components/ui/button";
 import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
 import { getMockById } from "@/data/mockListings";
 import { areaCoords } from "@/lib/geo";
+import { DETAIL } from "@/content/pages/marketplace";
+
+function experienceLabel(months) {
+  if (!months) return DETAIL.experienceOpen;
+  if (months >= 12) return `${Math.round(months / 12)}+ years`;
+  return `${months}+ months`;
+}
 
 export default function VehicleDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { saved, toggleSaved } = useAuth();
   const [v, setV] = useState(null);
-  const [quote, setQuote] = useState(null);
   const [photo, setPhoto] = useState(0);
   const [weeks, setWeeks] = useState(1);
   const [copied, setCopied] = useState(false);
@@ -40,18 +44,14 @@ export default function VehicleDetail() {
       .then((r) => {
         setV(r.data);
         trackEvent("vehicle_view", { listing_id: id });
-        api
-          .post("/quote", { listing_id: id })
-          .then((q) => setQuote(q.data))
-          .catch(() => {});
       })
       .catch(() => navigate("/search"));
-  }, [id, navigate]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id, navigate]);
 
   useSeo({
     title: v ? `${v.make} ${v.model} ${v.year} for Rent · Kharo` : "Loading · Kharo",
     description: v
-      ? `Rent a ${v.year} ${v.make} ${v.model} in ${v.borough} from £${v.weekly_rent}/week. PCO-licensed, ULEZ exempt, verified operator.`
+      ? `Rent a ${v.year} ${v.make} ${v.model} in ${v.borough} from £${v.weekly_rent}/week. PCO-licensed, checked operator.`
       : undefined,
     jsonLd: v
       ? breadcrumbJsonLd([
@@ -65,41 +65,36 @@ export default function VehicleDetail() {
 
   if (!v) {
     return (
-      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
-        <div className="text-[#888] text-[15px]">Loading vehicle…</div>
+      <div className="min-h-page bg-bone grid place-items-center">
+        <p className="text-ink-3 text-[15px]">Loading vehicle</p>
       </div>
     );
   }
 
-  const insurance = quote ? quote.cheapest_weekly : null;
-  const breakdownCost = v.breakdown_included ? 0 : 8;
   const rentWeekly = weeklyForWeeks(v.weekly_rent, weeks);
-  const total = (rentWeekly + (insurance || 0) + breakdownCost).toFixed(2);
-  const monthly = (Number(total) * 4.33).toFixed(0);
   const isSaved = saved.includes(v.id);
   const [lat, lon] = areaCoords(v.borough, v.city);
 
   const isElectric = (v.fuel || "").toLowerCase() === "electric";
-  // mock listings often repeat the same photo url in every slot: only offer gallery
-  // navigation when there's more than one genuinely distinct image to look at
+  // Mock listings often repeat the same photo url in every slot: only offer
+  // gallery navigation when there's more than one genuinely distinct image.
   const uniquePhotoCount = new Set(v.photos).size;
 
   const specs = [
-    { label: "Fuel type", value: v.fuel, capitalize: true },
-    { label: "Seats", value: v.seats },
-    { label: isElectric ? "Range" : "Economy", value: isElectric ? "330 miles" : `${v.mpg} mpg` },
-    { label: "Weekly mileage", value: `${v.mileage_allowance} miles` },
-    { label: "Experience required", value: v.min_experience ? `${v.min_experience}+ years` : "Open to new drivers" },
-    { label: "Deposit", value: `£${v.deposit}, returned at end` },
-    { label: "Servicing", value: v.designated_garage },
-    { label: "Restrictions", value: v.restrictions || "None" },
+    { label: DETAIL.specs.fuel, value: v.fuel, capitalize: true },
+    { label: DETAIL.specs.seats, value: v.seats },
+    ...(v.mpg ? [{ label: DETAIL.specs.economy, value: `${v.mpg} mpg` }] : []),
+    { label: DETAIL.specs.mileage, value: `${v.mileage_allowance} miles` },
+    { label: DETAIL.specs.experience, value: experienceLabel(v.min_experience) },
+    { label: DETAIL.specs.deposit, value: `£${v.deposit}, returned at end` },
+    { label: DETAIL.specs.servicing, value: v.designated_garage },
+    { label: DETAIL.specs.restrictions, value: v.restrictions || DETAIL.specs.none },
   ];
 
   const included = [
-    { text: "MOT, road tax and PHV compliance, handled by the operator", always: true },
-    { text: v.breakdown_included ? "24/7 breakdown cover included" : "Breakdown cover available to add (£8/week)", always: true },
-    { text: `Servicing booked at ${v.designated_garage}`, always: true },
-    { text: "PHV insurance arranged before you drive", always: true },
+    DETAIL.covers.compliance,
+    v.breakdown_included ? DETAIL.covers.breakdownIncluded : DETAIL.covers.breakdownAvailable,
+    DETAIL.covers.servicingAt(v.designated_garage),
   ];
 
   const handleShare = async () => {
@@ -118,94 +113,89 @@ export default function VehicleDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
-        {/* Breadcrumb */}
+    <div className="min-h-page bg-bone pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-0">
+      <div className="wrap py-6 lg:py-8">
         <nav aria-label="Breadcrumb" className="mb-3">
-          <ol className="flex items-center gap-1.5 text-[13px] text-[#888] flex-wrap">
-            <li><Link to="/" className="hover:text-[#0B6B4F]">Home</Link></li>
+          <ol className="flex items-center gap-1.5 text-[13px] text-ink-3 flex-wrap">
+            <li><Link to="/" className="hover:text-green">{DETAIL.breadcrumbHome}</Link></li>
             <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
-            <li><Link to="/search" className="hover:text-[#0B6B4F]">Search</Link></li>
+            <li><Link to="/search" className="hover:text-green">{DETAIL.breadcrumbSearch}</Link></li>
             <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
-            <li><Link to={`/search?city=${encodeURIComponent(v.city)}`} className="hover:text-[#0B6B4F]">{v.city}</Link></li>
+            <li><Link to={`/search?city=${encodeURIComponent(v.city)}`} className="hover:text-green">{v.city}</Link></li>
             <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
-            <li className="text-[#111] font-medium truncate">{v.make} {v.model}</li>
+            <li className="text-ink font-medium truncate">{v.make} {v.model}</li>
           </ol>
         </nav>
 
-        {/* Top nav */}
         <div className="flex items-center justify-between mb-5">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-1.5 text-[13px] text-[#555] hover:text-[#0B6B4F] transition-colors"
+            className="pressable inline-flex items-center gap-1.5 text-[13px] text-ink-2 hover:text-green"
             data-testid="back-btn"
           >
-            <ChevronLeft className="w-4 h-4" />
-            Back to results
+            <ChevronLeft className="w-4 h-4" strokeWidth={1.75} />
+            {DETAIL.back}
           </button>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => { toggleSaved(v.id); trackEvent("save", { listing_id: id }); }}
-              className="inline-flex items-center gap-1.5 text-[13px] text-[#555] hover:text-[#0B6B4F] transition-colors"
+              className="pressable inline-flex items-center gap-1.5 text-[13px] text-ink-2 hover:text-green"
               data-testid="detail-save"
               aria-pressed={isSaved}
             >
-              <Heart className={`w-4 h-4 transition-colors ${isSaved ? "fill-[#111] text-[#111]" : ""}`} />
-              {isSaved ? "Saved" : "Save"}
+              <Heart className={`w-4 h-4 ${isSaved ? "fill-ink text-ink" : ""}`} strokeWidth={1.75} />
+              {isSaved ? DETAIL.saved : DETAIL.save}
             </button>
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-1.5 text-[13px] text-[#555] hover:text-[#0B6B4F] transition-colors"
+              className="pressable inline-flex items-center gap-1.5 text-[13px] text-ink-2 hover:text-green"
             >
-              <Share2 className="w-4 h-4" />
-              {copied ? "Copied!" : "Share"}
+              <Share2 className="w-4 h-4" strokeWidth={1.75} />
+              {copied ? DETAIL.shareCopied : DETAIL.share}
             </button>
           </div>
         </div>
 
         {/* Gallery */}
-        <div className="relative rounded-2xl overflow-hidden aspect-[16/9] sm:aspect-[21/9] bg-[#E8E8E8]" data-testid="gallery-main">
+        <div className="relative rounded-lg overflow-hidden aspect-[4/3] sm:aspect-[3/2] bg-surface-2" data-testid="gallery-main">
           <img src={v.photos?.[photo]} alt={`${v.make} ${v.model}`} className="w-full h-full object-cover" />
           {uniquePhotoCount > 1 && (
             <>
               <button
                 data-testid="gallery-prev"
                 onClick={() => setPhoto((photo - 1 + v.photos.length) % v.photos.length)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md"
+                className="pressable panel rounded-md absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 grid place-items-center"
                 aria-label="Previous photo"
               >
-                <ChevronLeft className="w-5 h-5 text-[#333]" />
+                <ChevronLeft className="w-5 h-5 text-ink" strokeWidth={1.75} />
               </button>
               <button
                 data-testid="gallery-next"
                 onClick={() => setPhoto((photo + 1) % v.photos.length)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-md"
+                className="pressable panel rounded-md absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 grid place-items-center"
                 aria-label="Next photo"
               >
-                <ChevronRight className="w-5 h-5 text-[#333]" />
+                <ChevronRight className="w-5 h-5 text-ink" strokeWidth={1.75} />
               </button>
-              <span className="absolute bottom-3 right-3 text-[12px] font-medium text-white bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1">
+              <span className="absolute bottom-3 right-3 text-[12px] font-medium text-white bg-ink/60 rounded-md px-2 py-1 tabular">
                 {photo + 1} / {v.photos.length}
               </span>
             </>
           )}
         </div>
         {isElectric && (
-          <p className="flex items-center gap-1.5 text-[13px] font-medium text-[#0B6B4F] mt-2.5">
-            <Zap className="w-3.5 h-3.5" /> Electric &middot; ULEZ exempt
+          <p className="flex items-center gap-1.5 text-[13px] font-medium text-green mt-2.5">
+            <Zap className="w-3.5 h-3.5" strokeWidth={1.75} /> Electric, ULEZ exempt
           </p>
         )}
 
-        {/* Thumbnail strip */}
         {uniquePhotoCount > 1 && (
-          <div className="flex gap-2 mt-3 overflow-x-auto scrollbar-hide">
+          <div className="flex gap-2 mt-3 overflow-x-auto hide-scrollbar">
             {v.photos.map((p, i) => (
               <button
                 key={`${p}-${i}`}
                 onClick={() => setPhoto(i)}
-                className={`w-20 h-14 rounded-xl overflow-hidden shrink-0 ring-2 transition-all ${
-                  photo === i ? "ring-[#0B6B4F]" : "ring-transparent opacity-60 hover:opacity-90"
-                }`}
+                className={`pressable w-20 h-14 rounded-md overflow-hidden shrink-0 ring-2 ${photo === i ? "ring-green" : "ring-transparent opacity-60"}`}
                 aria-label={`View photo ${i + 1}`}
               >
                 <img src={p} alt="" className="w-full h-full object-cover" />
@@ -214,57 +204,38 @@ export default function VehicleDetail() {
           </div>
         )}
 
-        {/* Preview notice - shown once in the normal page flow on mobile, instead
-            of living permanently inside the fixed bottom CTA bar where it used to
-            eat a third of the viewport on every scroll position */}
         <PreviewNotice variant="inline" className="lg:hidden mt-4" />
 
-        {/* Content grid */}
-        <div className="grid lg:grid-cols-[1fr_340px] gap-8 mt-8 items-start">
-          {/* LEFT COLUMN */}
+        <div className="grid lg:grid-cols-[1fr_21rem] gap-8 mt-6 items-start">
+          {/* ── ONE TYPOGRAPHIC COLUMN ─────────────────────────────────── */}
           <div>
-            {/* Header */}
-            <div className="bg-white rounded-2xl p-6 border border-[#E8E8E8]">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#111] leading-tight">
-                  {v.make} {v.model} {v.year}
-                </h1>
-                <p className="text-[14px] text-[#888] mt-1">
-                  {v.colour} · {v.mileage?.toLocaleString()} miles on the clock
-                </p>
-              </div>
+            <div className="pb-6">
+              <h1 className="text-h1 font-heading font-extrabold text-ink leading-tight">
+                {v.make} {v.model} {v.year}
+              </h1>
+              <p className="mt-2 text-[14px] text-ink-3">{v.colour}, {v.mileage?.toLocaleString()} miles on the clock</p>
 
-              {/* Trust row - the verification claim lives here as plain text, not a badge */}
-              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-[#555]">
+              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-ink-2">
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-[#0B6B4F]" />
-                  TfL licence checked
+                  <Check className="w-4 h-4 text-green" strokeWidth={1.75} />
+                  Operator licence checked
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-[#0B6B4F]" />
+                  <Check className="w-4 h-4 text-green" strokeWidth={1.75} />
                   Companies House checked
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-[#888]" />
+                <span className="flex items-center gap-1.5 text-ink-3">
+                  <MapPin className="w-3.5 h-3.5" strokeWidth={1.75} />
                   {v.borough}, {v.city}
-                </span>
-                <span className="flex items-center gap-1.5 text-[#888]">
-                  <Clock className="w-3.5 h-3.5" />
-                  Usually replies in {v.operator_response}
                 </span>
               </div>
 
-              {/* About this car - folded into the same card as the title instead of
-                  living as its own disconnected block further down the page */}
-              <div className="mt-6 pt-6 border-t border-[#EEEEEE]">
-                <p className="text-[15px] text-[#444] leading-relaxed">{v.description}</p>
+              <div className="mt-6 pt-6 hairline">
+                <p className="text-[15px] text-ink-2 leading-relaxed measure">{v.description}</p>
                 {v.features?.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-4">
                     {v.features.map((f) => (
-                      <span
-                        key={f}
-                        className="text-[13px] text-[#333] bg-[#F5F5F5] border border-[#E8E8E8] px-3 py-1.5 rounded-full"
-                      >
+                      <span key={f} className="text-[13px] text-ink-2 bg-surface-2 border border-line px-3 py-1.5 rounded-md">
                         {f}
                       </span>
                     ))}
@@ -273,153 +244,122 @@ export default function VehicleDetail() {
               </div>
             </div>
 
-            {/* What's included */}
-            <DetailSection title="What your weekly rent covers">
-              <ul className="space-y-3">
-                {included.map(({ text }) => (
-                  <li key={text} className="flex items-start gap-3 text-[15px] text-[#444]">
-                    <Check className="w-4 h-4 text-[#0B6B4F] shrink-0 mt-0.5" />
+            <section className="hairline py-6">
+              <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.whatCoversHeading}</h2>
+              <ul className="mt-4 space-y-3">
+                {included.map((text) => (
+                  <li key={text} className="flex items-start gap-3 text-[15px] text-ink-2">
+                    <Check className="w-4 h-4 text-green shrink-0 mt-0.5" strokeWidth={1.75} />
                     {text}
                   </li>
                 ))}
               </ul>
-            </DetailSection>
+            </section>
 
-            {/* Pricing tiers */}
-            <DetailSection title="The longer you rent, the less you pay">
-              <div className="grid sm:grid-cols-3 gap-3">
+            <section className="hairline py-6">
+              <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.pricingHeading}</h2>
+              <div className="mt-4 divide-y divide-line border-y border-line" role="radiogroup" aria-label={DETAIL.pricingHeading}>
                 {PRICING_TIERS.map((t, i) => {
                   const wk = weeklyForWeeks(v.weekly_rent, t.weeks);
                   const active = weeks === t.weeks;
                   return (
-                    <button
+                    <label
                       key={t.label}
-                      onClick={() => setWeeks(t.weeks)}
                       data-testid={`tier-${i}`}
-                      className={`text-left rounded-2xl p-4 border-2 transition-all ${
-                        active
-                          ? "border-[#0B6B4F] bg-[#EAF5F1]"
-                          : "border-[#E8E8E8] bg-white hover:border-[#CACACA]"
-                      }`}
+                      className={`pressable flex items-center justify-between gap-4 py-4 cursor-pointer ${active ? "bg-green-soft" : ""}`}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-heading font-bold text-[#111] text-[15px]">
-                          {t.label}
+                      <span className="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          name="pricing-tier"
+                          checked={active}
+                          onChange={() => setWeeks(t.weeks)}
+                          className="h-4 w-4 accent-green"
+                        />
+                        <span>
+                          <span className="block font-heading font-bold text-ink text-[15px]">{t.label}</span>
+                          <span className="block text-[12.5px] text-ink-3">{t.sub}</span>
                         </span>
-                        {i > 0 && (
-                          <span className="text-[11px] font-semibold text-[#0B6B4F] bg-[#EAF5F1] px-1.5 py-0.5 rounded-full">
-                            save {i === 1 ? "3" : "6"}%
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-[12px] text-[#888] mb-2">{t.sub}</div>
-                      <div className="text-[22px] font-heading font-extrabold text-[#111] leading-none">
-                        £{wk.toFixed(0)}
-                        <span className="text-[12px] font-normal text-[#888] ml-1">/ week</span>
-                      </div>
-                      <div className={`flex items-center gap-1 text-[12px] mt-2 font-medium ${active ? "text-[#0B6B4F]" : "text-[#BBB]"}`}>
-                        {active && <Check size={12} strokeWidth={2.5} />}
-                        {active ? "Selected" : "Select"}
-                      </div>
-                    </button>
+                      </span>
+                      <span className="text-right shrink-0">
+                        <span className="block font-heading font-extrabold text-ink text-[17px] tabular">
+                          £{wk.toFixed(0)}<span className="text-[12px] font-normal text-ink-3"> a week</span>
+                        </span>
+                        {i > 0 && <span className="block text-[11px] font-semibold text-green">{i === 1 ? DETAIL.save3 : DETAIL.save6}</span>}
+                      </span>
+                    </label>
                   );
                 })}
               </div>
-            </DetailSection>
+            </section>
 
-            {/* 360 spin: only worth offering when the listing actually has distinct angles to show */}
-            {new Set(v.photos).size > 1 && (
-              <DetailSection title="More angles">
-                <Spin360 photos={v.photos} />
-              </DetailSection>
+            {uniquePhotoCount > 1 && (
+              <section className="hairline py-6">
+                <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.moreAnglesHeading}</h2>
+                <div className="mt-4">
+                  <Spin360 photos={v.photos} />
+                </div>
+              </section>
             )}
 
-            {/* Specs grid */}
-            <DetailSection title="Vehicle details">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {specs.slice(0, 4).map((s) => (
-                  <div key={s.label} className="bg-white rounded-2xl p-4 border border-[#E8E8E8]">
-                    <div className="text-[11px] text-[#999] uppercase tracking-wide">{s.label}</div>
-                    <div className={`font-semibold text-[#111] mt-1 text-[15px] ${s.capitalize ? "capitalize" : ""}`}>
-                      {s.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-4 mt-5">
-                {specs.slice(4).map((s) => (
+            <section className="hairline py-6">
+              <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.vehicleDetailsHeading}</h2>
+              <div className="mt-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-4">
+                {specs.map((s) => (
                   <div key={s.label}>
-                    <div className="text-[12px] text-[#999]">{s.label}</div>
-                    <div className="font-medium text-[#333] mt-0.5 text-[14px]">{s.value}</div>
+                    <div className="text-[12.5px] text-ink-3">{s.label}</div>
+                    <div className={`mt-1 font-medium text-ink text-[15px] ${s.capitalize ? "capitalize" : ""}`}>{s.value}</div>
                   </div>
                 ))}
               </div>
-            </DetailSection>
+            </section>
 
-            {/* Location map */}
-            <DetailSection title="Collection area">
-              <div className="relative rounded-2xl overflow-hidden border border-[#E8E8E8] h-64" data-testid="location-map">
+            <section className="hairline py-6">
+              <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.collectionAreaHeading}</h2>
+              <div className="relative rounded-lg overflow-hidden border border-line h-64 mt-4" data-testid="location-map">
                 <ApproxAreaMap lat={lat} lon={lon} />
               </div>
-              <p className="text-[13px] text-[#888] mt-3 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[#0B6B4F] shrink-0" />
-                Approximate area: {v.borough}, {v.postcode}. Exact address shared once your details are confirmed.
+              <p className="text-[13px] text-ink-3 mt-3 flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-green shrink-0" strokeWidth={1.75} />
+                {DETAIL.collectionNote(v.borough, v.postcode)}
               </p>
-            </DetailSection>
+            </section>
 
-            {/* Reviews placeholder */}
-            <DetailSection title="Operator reviews">
-              <div className="bg-white rounded-2xl p-6 border border-[#E8E8E8]" data-testid="reviews-empty">
-                <div className="flex items-center gap-2 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-[#DDD]" />
-                  ))}
-                  <span className="text-[13px] text-[#888] ml-1">No reviews yet</span>
-                </div>
-                <p className="text-[14px] text-[#444] leading-relaxed">
-                  This operator is new to Kharo. Background and licence checks are complete.
-                  Driver reviews will appear here after the first rentals.
-                </p>
-              </div>
-            </DetailSection>
+            <section className="hairline py-6">
+              <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.reviewsHeading}</h2>
+              <p className="mt-3 text-[13px] text-ink-3" data-testid="reviews-empty">{DETAIL.noReviews}</p>
+              <p className="mt-2 text-[14px] text-ink-2 leading-relaxed measure">{DETAIL.reviewsBody}</p>
+            </section>
+
+            <div className="hairline pt-6">
+              <p className="text-[13px] text-ink-3">
+                Own a fleet?{" "}
+                <Link to="/list-your-fleet" className="text-green font-semibold hover:underline underline-offset-4">
+                  See what your idle cars could earn
+                </Link>
+              </p>
+            </div>
           </div>
 
-          {/* RIGHT COLUMN - sticky cost panel (desktop) */}
-          <div className="hidden lg:block">
-            <div className="sticky top-24">
-              <CostPanel
-                v={v}
-                insurance={insurance}
-                breakdownCost={breakdownCost}
-                rentWeekly={rentWeekly}
-                weeks={weeks}
-                total={total}
-                monthly={monthly}
-                onApply={handleApply}
-              />
-            </div>
+          {/* ── COST PANEL (desktop) ─────────────────────────────────────── */}
+          <div className="hidden lg:block lg:sticky top-below-header">
+            <CostPanel v={v} weeks={weeks} rentWeekly={rentWeekly} onApply={handleApply} />
           </div>
         </div>
       </div>
 
-      {/* Mobile sticky CTA bar - kept to just price + action so it stays a fixed
-          compact height instead of growing with the preview notice's text */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E8E8E8] p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+      {/* Mobile sticky CTA bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-line p-4 pb-safe">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <div className="text-[11px] text-[#888]">Rental from</div>
-            <div className="text-[20px] font-heading font-extrabold text-[#111]">
-              £{total}
-              <span className="text-[13px] font-normal text-[#888]"> / week</span>
+            <div className="text-[11px] text-ink-3">{DETAIL.mobileRentPrefix}</div>
+            <div className="text-[20px] font-heading font-extrabold text-ink tabular">
+              £{v.weekly_rent} <span className="text-[13px] font-normal text-ink-3">{DETAIL.mobileRentSuffix}</span>
             </div>
           </div>
-          <button
-            onClick={handleApply}
-            data-testid="apply-mobile-btn"
-            className="flex-1 h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[15px] transition-colors"
-          >
-            Register Interest
-          </button>
+          <Button onClick={handleApply} size="lg" className="flex-1" data-testid="apply-mobile-btn">
+            {DETAIL.applyCta}
+          </Button>
         </div>
       </div>
     </div>
@@ -428,64 +368,44 @@ export default function VehicleDetail() {
 
 /* ── Cost panel ─────────────────────────────────────── */
 
-function CostPanel({ v, insurance, breakdownCost, rentWeekly, weeks, total, monthly, onApply }) {
+function CostPanel({ v, weeks, rentWeekly, onApply }) {
   return (
-    <div className="bg-white rounded-2xl border border-[#E8E8E8] p-6 shadow-sm">
-      {/* Price headline */}
-      <div className="flex items-baseline gap-1.5 mb-1">
-        <span className="text-[32px] font-heading font-extrabold text-[#111]" data-testid="detail-headline-price">
-          £{rentWeekly.toFixed(0)}
-        </span>
-        <span className="text-[15px] text-[#888]">/ week</span>
+    <div className="panel p-card">
+      <div className="flex items-baseline gap-1.5" data-testid="detail-headline-price">
+        <span className="font-heading font-extrabold text-ink text-[32px] tabular">£{rentWeekly.toFixed(0)}</span>
+        <span className="text-[15px] text-ink-3">a week</span>
       </div>
-      <p className="text-[12px] text-[#AAA]">
-        over {weeks} {weeks === 1 ? "week" : "weeks"} · £{v.deposit} deposit (returned at end)
+      <p className="mt-1 text-[12px] text-ink-3">
+        Over {weeks} {weeks === 1 ? "week" : "weeks"}, rental only. £{v.deposit} deposit, returned at end.
       </p>
 
-      {/* Cost breakdown */}
-      <div className="mt-5 space-y-3 text-[14px]">
-        <CostRow label="Weekly rent" value={`£${rentWeekly.toFixed(2)}`} testId="detail-weekly-rent" />
-        <CostRow
-          label={<>Insurance <span className="text-[11px] text-[#BBB]">(indicative)</span></>}
-          value={insurance != null ? `£${insurance.toFixed(2)}` : "…"}
-        />
-        <CostRow
-          label="Breakdown cover"
-          value={v.breakdown_included ? "Included" : `£${breakdownCost.toFixed(2)}`}
-        />
-        <div className="border-t border-[#F0F0F0] pt-3 flex justify-between">
-          <span className="font-semibold text-[#111]">Every week</span>
-          <span className="font-heading font-extrabold text-[#0B6B4F]" data-testid="detail-all-in">
-            £{total}
-          </span>
+      <div className="mt-5 divide-y divide-line border-y border-line text-[14px]">
+        <div className="flex justify-between py-3">
+          <span className="text-ink-2">Weekly rent</span>
+          <span className="font-semibold text-ink tabular" data-testid="detail-weekly-rent">£{rentWeekly.toFixed(2)}</span>
         </div>
-        <p className="text-[12px] text-[#AAA] text-right">≈ £{monthly} / month</p>
+        <div className="flex justify-between py-3">
+          <span className="text-ink-2">{DETAIL.insuranceHeading}</span>
+          <span className="font-semibold text-ink">{DETAIL.insuranceChosen}</span>
+        </div>
+        <div className="flex justify-between py-3">
+          <span className="text-ink-2">Breakdown cover</span>
+          <span className="font-semibold text-ink">{v.breakdown_included ? "Included" : "£8 a week to add"}</span>
+        </div>
       </div>
+      <p className="mt-3 text-[12.5px] text-ink-3 leading-relaxed">{DETAIL.insuranceHelper}</p>
 
-      {/* CTA */}
-      <button
-        onClick={onApply}
-        data-testid="apply-to-rent-btn"
-        className="w-full mt-5 h-12 rounded-full bg-[#0B6B4F] hover:bg-[#095B43] text-white font-semibold text-[15px] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B6B4F] focus-visible:ring-offset-2"
-      >
-        Register Interest
-      </button>
+      <Button onClick={onApply} size="lg" className="w-full mt-5" data-testid="apply-to-rent-btn">
+        {DETAIL.applyCta}
+      </Button>
       <PreviewNotice variant="inline" className="mt-3" />
 
-      {/* Next steps */}
       <div className="mt-6">
-        <p className="text-[11px] font-semibold text-[#777] uppercase tracking-[0.08em] mb-3">
-          What happens next
-        </p>
-        <ol className="space-y-2.5">
-          {[
-            "You register your interest with your name and contact details",
-            "We add you to the priority list for this vehicle and borough",
-            "We email you the moment Kharo goes live near you",
-            "No commitment, no charge, until you decide to go ahead",
-          ].map((step, i) => (
-            <li key={step} className="flex items-start gap-2.5 text-[12.5px] text-[#666]">
-              <span className="w-5 h-5 rounded-full bg-[#EAF5F1] text-[#0B6B4F] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+        <p className="text-[12.5px] font-semibold text-ink-3">{DETAIL.nextStepsHeading}</p>
+        <ol className="mt-3 space-y-2.5">
+          {DETAIL.nextSteps.map((step, i) => (
+            <li key={step} className="flex items-start gap-2.5 text-[12.5px] text-ink-2">
+              <span className="tabular w-5 h-5 rounded-md bg-green-soft text-green text-[10px] font-bold grid place-items-center shrink-0 mt-0.5">
                 {i + 1}
               </span>
               {step}
@@ -494,20 +414,10 @@ function CostPanel({ v, insurance, breakdownCost, rentWeekly, weeks, total, mont
         </ol>
       </div>
 
-      {/* Trust footer */}
-      <div className="mt-5 pt-4 border-t border-[#F0F0F0] flex items-center gap-2 text-[12px] text-[#888]">
-        <Shield className="w-3.5 h-3.5 text-[#0B6B4F] shrink-0" />
-        Operator checked against the licensing register · No payment taken at this stage
+      <div className="mt-5 pt-4 hairline flex items-center gap-2 text-[12px] text-ink-3">
+        <Shield className="w-3.5 h-3.5 text-green shrink-0" strokeWidth={1.75} />
+        {DETAIL.trustFooter}
       </div>
-    </div>
-  );
-}
-
-function CostRow({ label, value, testId }) {
-  return (
-    <div className="flex justify-between text-[14px]">
-      <span className="text-[#555]">{label}</span>
-      <span className="font-semibold text-[#111]" data-testid={testId}>{value}</span>
     </div>
   );
 }
@@ -541,7 +451,7 @@ function Spin360({ photos }) {
 
   return (
     <div
-      className="relative rounded-2xl overflow-hidden bg-[#EDEDED] aspect-[16/10] select-none cursor-grab active:cursor-grabbing"
+      className="pressable-card touch-pan-y relative rounded-lg overflow-hidden bg-surface-2 aspect-[16/10] select-none cursor-grab active:cursor-grabbing"
       onMouseDown={onDown} onMouseMove={onMove} onMouseUp={onUp} onMouseLeave={onUp}
       onTouchStart={onDown} onTouchMove={onMove} onTouchEnd={onUp}
       data-testid="spin-360"
@@ -553,43 +463,32 @@ function Spin360({ photos }) {
         draggable={false}
         className="w-full h-full object-cover pointer-events-none"
       />
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-white/95 backdrop-blur rounded-full px-1.5 py-1.5 shadow-md">
+      <div className="panel rounded-md absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-1.5 py-1.5">
         <button
           data-testid="spin-360-prev"
           onClick={() => setIdx((i) => (i + photos.length - 1) % photos.length)}
-          className="w-8 h-8 rounded-full hover:bg-[#F5F5F5] flex items-center justify-center"
+          className="pressable w-8 h-8 rounded-md hover:bg-surface-2 flex items-center justify-center"
           aria-label="Previous angle"
         >
-          <ChevronLeft className="w-4 h-4 text-[#444]" />
+          <ChevronLeft className="w-4 h-4 text-ink-2" strokeWidth={1.75} />
         </button>
         <button
           data-testid="spin-360-spin"
           onClick={() => setSpinning((s) => !s)}
-          className="px-3 h-8 rounded-full bg-[#0B6B4F] text-white text-[12px] font-semibold flex items-center gap-1.5"
+          className="pressable px-3 h-8 rounded-md bg-green text-white text-[12px] font-semibold flex items-center gap-1.5"
         >
-          <RotateCw className={`w-3.5 h-3.5 ${spinning ? "animate-spin" : ""}`} />
+          <RotateCw className={`w-3.5 h-3.5 ${spinning ? "animate-spin" : ""}`} strokeWidth={1.75} />
           {spinning ? "Stop" : "Spin"}
         </button>
         <button
           data-testid="spin-360-next"
           onClick={() => setIdx((i) => (i + 1) % photos.length)}
-          className="w-8 h-8 rounded-full hover:bg-[#F5F5F5] flex items-center justify-center"
+          className="pressable w-8 h-8 rounded-md hover:bg-surface-2 flex items-center justify-center"
           aria-label="Next angle"
         >
-          <ChevronRight className="w-4 h-4 text-[#444]" />
+          <ChevronRight className="w-4 h-4 text-ink-2" strokeWidth={1.75} />
         </button>
       </div>
-    </div>
-  );
-}
-
-/* ── Section wrapper ────────────────────────────────── */
-
-function DetailSection({ title, children }) {
-  return (
-    <div className="mt-5 bg-white rounded-2xl p-6 border border-[#E8E8E8]">
-      <h2 className="text-[17px] font-heading font-bold text-[#111] mb-4">{title}</h2>
-      {children}
     </div>
   );
 }

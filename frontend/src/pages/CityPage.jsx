@@ -1,12 +1,15 @@
+import { useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, MapPin, Car, Building2, PoundSterling, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ALL_CITIES, LIVE_CITIES, CITY_IMAGES } from "@/lib/cities";
 import { MOCK_LISTINGS } from "@/data/mockListings";
+import { IMG } from "@/lib/images";
 import VehicleCard from "@/components/VehicleCard";
 import { Button } from "@/components/ui/button";
 import PreviewNotice from "@/components/PreviewNotice";
 import CityInterestForm from "@/components/CityInterestForm";
+import Faq from "@/components/Faq";
+import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
 import { CITY_PAGE } from "@/content/site";
 import { useSeo, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
@@ -19,165 +22,174 @@ export default function CityPage() {
   const { name } = useParams();
   const navigate = useNavigate();
   const city = ALL_CITIES.find((c) => c.toLowerCase() === (name || "").toLowerCase()) || name;
-  const isLive = LIVE_CITIES.includes(city);
 
   // Rental inventory is mock data (this is a pre-launch marketplace), same source as
   // Home and Search, so every page agrees on what cars exist in which city.
-  const list = MOCK_LISTINGS.filter((v) => v.city === city);
+  const list = useMemo(() => MOCK_LISTINGS.filter((v) => v.city === city), [city]);
   const count = list.length;
-  const operators = new Set(list.map((v) => v.designated_garage)).size;
-  const boroughs = new Set(list.map((v) => v.borough)).size;
+  const boroughs = useMemo(() => new Set(list.map((v) => v.borough)).size, [list]);
   const fromRent = count ? Math.min(...list.map((v) => v.weekly_rent)) : 0;
   const greenCount = list.filter((v) => v.fuel === "Electric" || v.fuel === "Hybrid" || v.fuel === "Plug-in Hybrid").length;
 
-  const stats = [
-    { icon: Car, n: count, l: CITY_PAGE.stats.cars },
-    { icon: Building2, n: operators, l: CITY_PAGE.stats.operators },
-    { icon: MapPin, n: boroughs, l: CITY_PAGE.stats.areas },
-    { icon: PoundSterling, n: `£${fromRent}`, l: CITY_PAGE.stats.from },
-  ];
+  // Every city has a hero photo; the five we have real inventory for get their
+  // own skyline, everywhere else falls back to a generic UK street of cars
+  // rather than breaking the image.
+  const heroImg = CITY_IMAGES[city] || IMG.rowCars;
 
   const seoFaqs = CITY_SEO[city]?.faq || [];
   useSeo({
     title: `Private hire cars to rent in ${city} · Kharo`,
-    description: CITY_SEO[city]?.intro,
+    description: CITY_SEO[city]?.intro || t(CITY_PAGE.comingSoon.sub, { city }),
     jsonLd: seoFaqs.length
       ? [faqJsonLd(seoFaqs), breadcrumbJsonLd([{ name: "Home", to: "/" }, { name: city, to: `/city/${city}` }])]
       : undefined,
   });
 
-  if (!isLive) {
+  // Discovery happens by clicking, not by being pre-refused: every city in
+  // ALL_CITIES resolves to this page. A city with no cars yet (whether or
+  // not it is in LIVE_CITIES) gets the same composed state, never an error.
+  if (count === 0) {
     return (
       <main data-testid={`city-page-${city}-coming-soon`}>
-        <section className="relative overflow-hidden bg-[#FAFAFA] border-b border-[#EEEEEE]">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-16 sm:pt-20 sm:pb-20 text-center">
-            <p className="text-[#0B6B4F] text-xs font-bold uppercase tracking-[0.16em] mb-5">Kharo in {city}</p>
-            <h1 className="font-heading text-[36px] sm:text-5xl font-extrabold text-[#111] mb-5" style={{ textWrap: "balance" }}>
-              We're not live in {city} yet.
-            </h1>
-            <p className="text-[#666] text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-              Kharo is built for the whole UK, and we're bringing checked operators to every city.
-              Register your interest and we'll email you the moment {city} has live listings.
-            </p>
-            <CityInterestForm city={city} className="max-w-xl mx-auto" />
+        <section className="relative isolate overflow-hidden text-white">
+          <img src={heroImg} alt="" className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
+          <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/30 to-night/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
+          <div className="wrap relative min-h-[58svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
+            <Enter as="h1" className="text-display font-heading font-extrabold max-w-[14ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
+              {city}
+            </Enter>
+            <Enter as="p" delay={0.06} className="mt-4 text-lead text-white/85 max-w-[46ch] drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
+              {t(CITY_PAGE.comingSoon.sub, { city })}
+            </Enter>
+            <Enter delay={0.12} className="mt-7 panel rounded-2xl p-5 sm:p-6 text-ink max-w-xl">
+              <CityInterestForm city={city} compact />
+            </Enter>
           </div>
         </section>
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
-          <h3 className="font-heading font-bold text-[#111] text-lg mb-4">Already live</h3>
-          <div className="flex flex-wrap gap-2.5">
-            {LIVE_CITIES.map((c) => (
-              <Link key={c} to={`/city/${c}`} data-testid={`city-link-${c}`}
-                className="px-4 py-2 rounded-full bg-white ring-1 ring-[#E8E8E8] text-[#111] text-sm font-medium hover:ring-[#0B6B4F] hover:text-[#0B6B4F] transition-colors">
-                {c}
-              </Link>
-            ))}
-          </div>
-        </section>
+
+        <RevealGroup as="section" className="wrap py-section">
+          <RevealItem>
+            <h3 className="text-h3 font-heading font-bold text-ink mb-4">{CITY_PAGE.comingSoon.liveHeading}</h3>
+            <div className="flex flex-wrap gap-2.5">
+              {LIVE_CITIES.filter((c) => c !== city).map((c) => (
+                <Link
+                  key={c}
+                  to={`/city/${c}`}
+                  data-testid={`city-link-${c}`}
+                  className="pressable px-4 py-2 rounded-full bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
+                >
+                  {c}
+                </Link>
+              ))}
+            </div>
+          </RevealItem>
+        </RevealGroup>
       </main>
     );
   }
 
+  const figures = [
+    { v: count, l: CITY_PAGE.stats.cars },
+    { v: boroughs, l: CITY_PAGE.stats.areas },
+    { v: `£${fromRent}`, l: CITY_PAGE.stats.from },
+    { v: greenCount, l: CITY_PAGE.stats.green },
+  ];
+
   return (
     <main data-testid={`city-page-${city}`}>
       <PreviewNotice />
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={CITY_IMAGES[city]} alt={`${city} skyline`} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-[#0A0A0A]/82" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/70 to-[#0A0A0A]/35" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-16 sm:pt-20 sm:pb-24">
-          <p className="text-[13px] font-medium text-[#5FD3A6] tracking-wide">{CITY_PAGE.eyebrow}</p>
-          <motion.h1 initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-            className="mt-3 text-[42px] leading-[1.02] sm:text-6xl lg:text-[72px] font-heading font-extrabold text-white tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.4)]">
+
+      {/* ── HERO ──────────────────────────────────────────────────────── */}
+      <section className="relative isolate overflow-hidden text-white">
+        <img src={heroImg} alt={`${city} skyline`} className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
+        <div className="absolute inset-0 bg-gradient-to-t from-night/75 via-night/30 to-night/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-night/50 via-night/15 to-transparent" />
+        <div className="wrap relative min-h-[62svh] flex flex-col justify-end pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
+          <Enter as="h1" className="text-display font-heading font-extrabold max-w-[14ch] drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)]">
             {city}
-          </motion.h1>
-          <p className="mt-4 text-[17px] sm:text-xl text-white/85 max-w-2xl leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
-            {t(CITY_PAGE.heroSubTemplate, { count, city, operators })}
-          </p>
-          <div className="flex gap-3 mt-8 flex-wrap">
-            <Button onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)} data-testid="city-see-all"
-              className="rounded-full bg-[#5FD3A6] text-[#0A0A0A] hover:bg-white font-semibold">
-              {t(CITY_PAGE.seeAllCta, { count })} <ArrowRight className="w-4 h-4 ml-2" />
+          </Enter>
+          <Enter as="p" delay={0.06} className="mt-4 text-lead text-white/85 max-w-[46ch] drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]">
+            {t(CITY_PAGE.heroSubTemplate, { count, city })}
+          </Enter>
+          <Enter delay={0.12} className="mt-7 flex flex-wrap gap-3">
+            <Button size="lg" onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)} data-testid="city-see-all">
+              {t(CITY_PAGE.seeAllCta, { count })} <ArrowRight size={16} />
             </Button>
-            <Button onClick={() => navigate("/register")} variant="outline"
-              className="rounded-full border-white/40 text-white bg-transparent hover:bg-white/10 hover:text-white">
-              {CITY_PAGE.accountCta}
-            </Button>
-          </div>
+            <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")}>{CITY_PAGE.accountCta}</Button>
+          </Enter>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 -mt-10 relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {stats.map((s) => (
-            <div key={s.l} data-testid="city-stat" className="bg-white rounded-2xl p-5 ring-1 ring-[#E8E8E8]/70 shadow-sm">
-              <s.icon className="w-5 h-5 text-[#0B6B4F]" strokeWidth={1.6} />
-              <div className="text-2xl sm:text-[28px] font-heading font-extrabold text-[#111] mt-3 leading-none">{s.n}</div>
-              <div className="text-[12.5px] text-[#888] mt-1.5">{s.l}</div>
+      {/* ── FIGURES: one hairline-divided row, no cards ─────────────────── */}
+      <RevealGroup as="section" className="wrap">
+        <RevealItem as="dl" className="figures">
+          {figures.map((f) => (
+            <div key={f.l} data-testid="city-stat">
+              <dt className="text-[clamp(2rem,1.4rem+2.2vw,3rem)] font-heading font-extrabold text-ink leading-none tabular">{f.v}</dt>
+              <dd className="mt-2 text-[14px] text-ink-2 leading-snug max-w-[22ch]">{f.l}</dd>
             </div>
           ))}
-        </div>
-      </section>
+        </RevealItem>
+      </RevealGroup>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <p className="text-[17px] text-[#444] leading-relaxed max-w-3xl" data-testid="city-intro">{CITY_SEO[city]?.intro}</p>
-      </section>
+      {/* ── INTRO ─────────────────────────────────────────────────────── */}
+      <RevealGroup as="section" className="wrap py-section">
+        <RevealItem>
+          <p className="text-lead text-ink-2 measure" data-testid="city-intro">{CITY_SEO[city]?.intro}</p>
+        </RevealItem>
+      </RevealGroup>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="mb-7">
-          <h2 className="text-[28px] sm:text-3xl font-heading font-bold text-[#111]">{t(CITY_PAGE.listingsHeading, { city })}</h2>
-          <p className="text-[#888] mt-1.5">
-            {t(CITY_PAGE.greenNote, { green: greenCount })}
-          </p>
-        </div>
-        {count === 0 ? (
-          <div className="text-center py-16 px-6 bg-white rounded-2xl ring-1 ring-[#E8E8E8]">
-            <p className="text-[#888] mb-6 max-w-md mx-auto">{t(CITY_PAGE.emptyNote, { city })}</p>
-            <div className="max-w-xl mx-auto">
-              <CityInterestForm city={city} />
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* ── LISTINGS ──────────────────────────────────────────────────── */}
+      <RevealGroup as="section" className="wrap pb-section">
+        <RevealItem className="mb-7">
+          <h2 className="text-h2 font-heading font-extrabold text-ink">{t(CITY_PAGE.listingsHeading, { city })}</h2>
+          <p className="mt-1.5 text-[14.5px] text-ink-3">{t(CITY_PAGE.greenNote, { green: greenCount })}</p>
+        </RevealItem>
+        <RevealItem>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-9">
             {list.slice(0, 9).map((v) => <VehicleCard key={v.id} vehicle={v} />)}
           </div>
-        )}
-        {count > 9 && (
-          <div className="mt-8">
-            <Button onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)} variant="outline" className="rounded-full">
-              See all {count} cars in {city} <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+          {count > 9 && (
+            <div className="mt-8">
+              <Button variant="outline" onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)}>
+                {t(CITY_PAGE.seeAllCta, { count })} <ArrowRight size={16} />
+              </Button>
+            </div>
+          )}
+        </RevealItem>
+      </RevealGroup>
+
+      {/* ── FAQ ───────────────────────────────────────────────────────── */}
+      <section className="bg-surface border-y border-line">
+        <RevealGroup className="wrap py-section">
+          <RevealItem className="max-w-2xl mb-8">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{t(CITY_PAGE.faqHeading, { city })}</h2>
+          </RevealItem>
+          <RevealItem>
+            <Faq items={CITY_SEO[city]?.faq || []} testId="city-faq" />
+          </RevealItem>
+        </RevealGroup>
+      </section>
+
+      {/* ── OTHER CITIES ──────────────────────────────────────────────── */}
+      <RevealGroup as="section" className="wrap py-section">
+        <RevealItem>
+          <h3 className="text-h3 font-heading font-bold text-ink mb-4">{CITY_PAGE.otherCitiesHeading}</h3>
+          <div className="flex flex-wrap gap-2.5">
+            {LIVE_CITIES.filter((c) => c !== city).map((c) => (
+              <Link
+                key={c}
+                to={`/city/${c}`}
+                data-testid={`city-link-${c}`}
+                className="pressable px-4 py-2 rounded-full bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
+              >
+                {c}
+              </Link>
+            ))}
           </div>
-        )}
-      </section>
-
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12" data-testid="city-faq">
-        <h2 className="text-[28px] sm:text-3xl font-heading font-bold text-[#111] mb-6">{t(CITY_PAGE.faqHeading, { city })}</h2>
-        <div className="divide-y divide-[#E8E8E8] rounded-2xl ring-1 ring-[#E8E8E8] bg-white">
-          {(CITY_SEO[city]?.faq || []).map((item) => (
-            <details key={item.q} data-testid="city-faq-item" className="group p-5">
-              <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-heading font-semibold text-[#111]">
-                {item.q}
-                <ChevronDown className="w-5 h-5 text-[#0B6B4F] shrink-0 transition-transform duration-300 group-open:rotate-180" />
-              </summary>
-              <p className="text-[15px] text-[#555] mt-3 leading-relaxed">{item.a}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
-        <h3 className="font-heading font-bold text-[#111] text-lg mb-4">{CITY_PAGE.otherCitiesHeading}</h3>
-        <div className="flex flex-wrap gap-2.5">
-          {LIVE_CITIES.filter((c) => c !== city).map((c) => (
-            <Link key={c} to={`/city/${c}`} data-testid={`city-link-${c}`}
-              className="px-4 py-2 rounded-full bg-white ring-1 ring-[#E8E8E8] text-[#111] text-sm font-medium hover:ring-[#0B6B4F] hover:text-[#0B6B4F] transition-colors">
-              {c}
-            </Link>
-          ))}
-        </div>
-      </section>
+        </RevealItem>
+      </RevealGroup>
     </main>
   );
 }

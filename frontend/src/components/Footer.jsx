@@ -78,7 +78,7 @@ export default function Footer() {
               <ul className="space-y-2.5">
                 {/* No public sign in for operators pre-launch: the account routes stay
                     mounted for the backend's email links but are never linked from here. */}
-                {col.links.filter(([, to]) => to !== "/operator-login").map(([label, to]) => (
+                {col.links.map(([label, to]) => (
                   <li key={label}>
                     <Link to={to} className="text-[14px] text-white/75 hover:text-white transition-colors duration-hover">
                       {label}

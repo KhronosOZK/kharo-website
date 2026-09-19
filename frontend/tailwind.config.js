@@ -45,10 +45,15 @@ module.exports = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        hero: "28px",
+        // Tight by intent: this product handles money, insurance and claims.
+        sm: "3px",
+        DEFAULT: "4px",
+        md: "6px",
+        lg: "10px",
+        xl: "12px",
+        "2xl": "12px",   // legacy usages collapse to the card radius
+        "3xl": "14px",
+        hero: "14px",
       },
       fontFamily: {
         heading: ["'Cabinet Grotesk'", "'Satoshi'", "-apple-system", "sans-serif"],

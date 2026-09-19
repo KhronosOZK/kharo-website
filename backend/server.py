@@ -20,7 +20,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field, BeforeValidator, EmailStr, ConfigDict
 from bson import ObjectId
 
-from emailer import send_welcome, send_reset, send_alert, fire
+from emailer import send_welcome, send_reset, send_alert, send_interest_thanks, fire
 
 # ---------------------------------------------------------------- DB
 mongo_url = os.environ['MONGO_URL']
@@ -605,6 +605,7 @@ async def create_interest(body: InterestIn):
     })
     fire(send_alert("Operator fleet interest", {"Company": body.company_name, "Contact": body.contact_name,
                                                 "Email": body.email.lower(), "Phone": body.phone, "Fleet size": body.fleet_size, "Areas": body.areas}))
+    fire(send_interest_thanks("operator", body.email.lower(), body.contact_name or body.company_name, body.areas or ""))
     return {"ok": True}
 
 @api.post("/driver-interest", dependencies=[Depends(rate_limit("driver_interest", 10))])
@@ -621,6 +622,7 @@ async def create_driver_interest(body: DriverInterestIn):
     })
     fire(send_alert("New driver interest", {"Name": body.name, "Email": body.email.lower(), "Phone": body.phone,
                                             "City": body.city, "Wants": body.car_type, "Experience": body.years_experience}))
+    fire(send_interest_thanks("driver", body.email.lower(), body.name, body.city or ""))
     return {"ok": True}
 
 @api.post("/leads", dependencies=[Depends(rate_limit("leads", 15))])
@@ -650,6 +652,7 @@ async def city_interest(body: CityInterestIn):
     })
     fire(send_alert("Car / city request", {"City": body.city, "Wants": body.vehicle_type, "Budget": body.budget,
                                            "Note": body.note, "Email": body.email.lower(), "Phone": body.phone}))
+    fire(send_interest_thanks("driver", body.email.lower(), body.name, body.city or ""))
     return {"ok": True}
 
 @api.get("/city-demand")

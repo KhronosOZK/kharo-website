@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Enter } from "@/components/Reveal";
+import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
 
 export default function NotFound() {
@@ -7,37 +9,22 @@ export default function NotFound() {
 
   useSeo({
     title: "Page not found · Kharo",
-    description: "That page doesn't exist. Browse PCO cars or head back to the Kharo homepage.",
+    description: "That page does not exist. Browse cars or head back to the Kharo homepage.",
     noindex: true,
   });
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-20" style={{ backgroundColor: "#FAFAFA" }}>
-      <div className="max-w-md mx-auto text-center">
-        <p className="font-heading font-extrabold text-[#0B6B4F] text-[80px] leading-none">404</p>
-        <h1 className="text-[26px] font-heading font-extrabold text-[#111] mt-2">
-          That page has gone missing.
-        </h1>
-        <p className="text-[#666] text-[15px] mt-3 leading-relaxed">
-          The link might be out of date, or the page may have moved. Try browsing cars,
-          or head back to the homepage.
+    <div className="min-h-page wrap wrap-narrow flex items-center">
+      <Enter>
+        <h1 className="text-h1 font-heading font-extrabold text-ink">That page has gone missing.</h1>
+        <p className="mt-3 text-[15.5px] text-ink-2 leading-relaxed measure">
+          The link might be out of date, or the page may have moved.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3 justify-center">
-          <button
-            onClick={() => navigate("/search")}
-            className="px-7 py-3.5 rounded-full bg-[#0B6B4F] text-white font-semibold text-[15px] hover:bg-[#095B43] transition-colors"
-          >
-            Browse PCO cars
-          </button>
-          <button
-            onClick={() => navigate("/")}
-            className="px-7 py-3.5 rounded-full border border-[#D8D8D8] text-[#111] font-medium text-[15px] hover:bg-white transition-colors flex items-center gap-2"
-          >
-            Kharo homepage
-            <ChevronRight className="w-4 h-4" />
-          </button>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <Button size="lg" onClick={() => navigate("/search")}>Browse cars <ArrowRight size={16} /></Button>
+          <Button size="lg" variant="outline" onClick={() => navigate("/")}>Home</Button>
         </div>
-      </div>
+      </Enter>
     </div>
   );
 }

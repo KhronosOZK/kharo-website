@@ -43,12 +43,12 @@ export const BRAND = {
   // Digits only, UK country code, no leading 0 or +: used to build wa.me links.
   whatsapp: "447392829759",
   copyright: `© 2026 Kharo. Launching in ${FACTS.citiesSentence}.`,
-  // Add your real profile URLs to switch these on. Icons stay hidden while
-  // the values are empty.
+  // Social profiles. Correct these to the real handles if they differ; the
+  // footer hides any icon whose value is empty.
   social: {
-    instagram: "",
-    facebook: "",
-    linkedin: "",
+    instagram: "https://www.instagram.com/kharo.uk",
+    facebook: "https://www.facebook.com/kharo.uk",
+    linkedin: "https://www.linkedin.com/company/kharo",
   },
 };
 
@@ -88,7 +88,6 @@ export const NAV = {
       links: [
         ["For operators", "/operator-guide"],
         ["List your fleet", "/list-your-fleet"],
-        ["Operator sign in", "/operator-login"],
       ],
     },
     {

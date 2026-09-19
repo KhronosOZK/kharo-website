@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Car, AlertTriangle, Check, X, Plus, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, Tooltip } from "recharts";

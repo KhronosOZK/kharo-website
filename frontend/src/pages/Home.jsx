@@ -1,47 +1,23 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, ChevronDown, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, BUDGET_OPTIONS, ENGINE_OPTIONS } from "@/data/mockListings";
-import { ALL_CITIES } from "@/lib/cities";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { MOCK_LISTINGS } from "@/data/mockListings";
 import VehicleCard from "@/components/VehicleCard";
 import PreviewNotice from "@/components/PreviewNotice";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import Faq from "@/components/Faq";
+import HeroSearch from "@/components/HeroSearch";
 import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
-import { EASE } from "@/lib/motion";
 import { HOME } from "@/content/site";
-
-function FilterSelect({ options, value, onChange, label }) {
-  return (
-    <label className="block">
-      <span className="sr-only">{label}</span>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="select-field w-full field" aria-label={label}>
-        {options.map((o) => (
-          <option key={o.value ?? o} value={o.value ?? o}>{o.label ?? o}</option>
-        ))}
-      </select>
-    </label>
-  );
-}
 
 export default function Home() {
   const navigate = useNavigate();
   useSeo({ title: HOME.seo.title, description: HOME.seo.description, canonical: "https://kharo.co.uk/" });
 
-  const [city, setCity] = useState("");
-  const [borough, setBorough] = useState("All Areas");
-  const [make, setMake] = useState("");
-  const [budget, setBudget] = useState("");
-  const [engine, setEngine] = useState("");
-  const [bodyType, setBodyType] = useState("");
-  const [transmission, setTransmission] = useState("");
-  const [showMore, setShowMore] = useState(false);
   const fleetRef = useRef(null);
 
-  const areaOptions = AREAS_BY_CITY[city] || ["All Areas"];
   const listings = useMemo(() => MOCK_LISTINGS.slice(0, 6), []);
 
   // One tile per model, at its lowest listed weekly rent, straight from the
@@ -63,32 +39,16 @@ export default function Home() {
     if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
   };
 
-  function handleCityChange(next) { setCity(next); setBorough("All Areas"); }
-
-  function handleSearch() {
-    // Kharo covers the whole UK but only has inventory in a few cities. A city
-    // with no cars should capture the demand rather than dead-end on an empty grid.
-    // Every city is selectable. If it has no cars, the results page says so
-    // and captures the interest there, rather than refusing up front.
-    const params = new URLSearchParams();
-    if (city) params.set("city", city);
-    if (borough && borough !== "All Areas") params.set("borough", borough);
-    if (make) params.set("make", make);
-    if (budget) params.set("budget", budget);
-    if (engine) params.set("engine", engine);
-    if (bodyType) params.set("bodyType", bodyType);
-    if (transmission) params.set("transmission", transmission);
-    navigate(`/search?${params.toString()}`);
-  }
-
   const { hero, work, fleet, featured, dashboard, paths, faq, closer } = HOME;
 
   return (
     <div className="bg-bone">
       {/* ── HERO: one photograph, one sentence, one action ─────────────── */}
-      <section className="relative isolate overflow-hidden text-white">
-        <img src={hero.img} alt={hero.imgAlt} className="absolute inset-0 h-full w-full object-cover object-[60%_center]" fetchPriority="high" />
-        <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/35 to-night/15" />
+      <section className="relative isolate text-white">
+        <div className="absolute inset-0 overflow-hidden">
+          <img src={hero.img} alt={hero.imgAlt} className="absolute inset-0 h-full w-full object-cover object-[60%_center]" fetchPriority="high" />
+          <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/35 to-night/15" />
+        </div>
 
         <div className="wrap relative flex flex-col justify-end min-h-[88svh] pt-[clamp(4rem,10vh,7rem)] pb-[clamp(2rem,6vh,4rem)]">
           <Enter as="h1" className="text-display font-heading font-extrabold max-w-[18ch]">
@@ -98,47 +58,8 @@ export default function Home() {
             {hero.sub}
           </Enter>
 
-          <Enter delay={0.12} className="mt-9 bg-surface rounded-2xl shadow-2 p-3 sm:p-3.5 text-ink w-full max-w-4xl" data-testid="hero-search">
-            <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2.5">
-              <FilterSelect label="City" value={city} onChange={handleCityChange}
-                options={[{ label: hero.cityPlaceholder, value: "" }, ...ALL_CITIES.map((c) => ({ label: c, value: c }))]} />
-              <FilterSelect label="Weekly budget" value={budget} onChange={setBudget} options={BUDGET_OPTIONS} />
-              <Button onClick={handleSearch} size="lg" className="w-full sm:w-auto sm:px-7" data-testid="hero-search-btn">
-                <Search size={16} strokeWidth={2} /> {hero.searchCta}
-              </Button>
-            </div>
-
-            <AnimatePresence initial={false}>
-              {showMore && (
-                <motion.div
-                  key="more"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.22, ease: EASE.out }}
-                  className="overflow-hidden"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2.5">
-                    <FilterSelect label="Area" value={borough} onChange={setBorough} options={areaOptions.map((b) => ({ label: b, value: b }))} />
-                    <FilterSelect label="Make" value={make} onChange={setMake} options={MOCK_MAKES.map((m) => ({ label: m, value: m === "All Makes" ? "" : m }))} />
-                    <FilterSelect label="Fuel" value={engine} onChange={setEngine} options={ENGINE_OPTIONS} />
-                    <FilterSelect label="Body type" value={bodyType} onChange={setBodyType} options={[
-                      { label: "Any body type", value: "" }, { label: "Saloon", value: "Saloon" }, { label: "Estate", value: "Estate" },
-                      { label: "SUV or crossover", value: "SUV" }, { label: "MPV", value: "MPV" },
-                    ]} />
-                    <FilterSelect label="Transmission" value={transmission} onChange={setTransmission} options={[
-                      { label: "Any transmission", value: "" }, { label: "Automatic", value: "Automatic" }, { label: "Manual", value: "Manual" },
-                    ]} />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <button type="button" onClick={() => setShowMore((s) => !s)} aria-expanded={showMore}
-              className="pressable mt-1 inline-flex items-center gap-1.5 h-9 px-2 rounded-full text-[13.5px] font-medium text-ink-3 hover:text-ink">
-              <ChevronDown size={15} strokeWidth={1.75} className={`transition-transform duration-ui ease-out ${showMore ? "rotate-180" : ""}`} />
-              {showMore ? hero.fewerFilters : hero.moreFilters}
-            </button>
+          <Enter delay={0.12} className="mt-9">
+            <HeroSearch />
           </Enter>
         </div>
       </section>

@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
+import OperatorEarnings from "@/components/OperatorEarnings";
 import Faq from "@/components/Faq";
 import { RevealGroup, RevealItem, Enter } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
 import { OPERATOR_GUIDE } from "@/content/site";
+import { OPERATOR_EARNINGS } from "@/content/pages/operatorEarnings";
 import { OPERATOR_GUIDE_PAGE } from "@/content/pages/operatorGuide";
 
 const CONSOLE_ID = "console";
@@ -126,6 +128,19 @@ export default function OperatorGuide() {
           </RevealItem>
           <RevealItem className="lg:col-span-8 lg:pt-1">
             <Faq items={faq} testId="operator-faq" />
+          </RevealItem>
+        </RevealGroup>
+      </section>
+
+      {/* ── EARNINGS: the number that makes an operator sign up ────────── */}
+      <section className="bg-surface border-y border-line">
+        <RevealGroup className="wrap py-section">
+          <RevealItem className="max-w-2xl">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{OPERATOR_EARNINGS.heading}</h2>
+            <p className="mt-4 text-lead text-ink-2">{OPERATOR_EARNINGS.sub}</p>
+          </RevealItem>
+          <RevealItem className="mt-8">
+            <OperatorEarnings />
           </RevealItem>
         </RevealGroup>
       </section>

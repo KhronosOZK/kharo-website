@@ -1,62 +1,72 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Search, MessageCircle, Mail, ArrowRight, LifeBuoy } from "lucide-react";
+import { Search, Mail, MessageCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
+import Faq from "@/components/Faq";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { HELP, BRAND } from "@/content/site";
 import { useSeo } from "@/lib/seo";
 
-const faqs = HELP.faqs;
-
 export default function Help() {
-  const navigate = useNavigate();
-
   useSeo({
-    title: "Help Centre · Kharo",
-    description: "Answers to common questions about renting or listing a PCO car on Kharo, plus how to get in touch.",
+    title: "Help · Kharo",
+    description: "Answers to the questions drivers and operators ask most, plus how to get in touch.",
     canonical: "https://kharo.co.uk/help",
   });
 
   const [q, setQ] = useState("");
-  const filtered = faqs.filter((f) => (f.q + f.a).toLowerCase().includes(q.toLowerCase()));
+  const filtered = HELP.faqs.filter((f) => (f.q + f.a).toLowerCase().includes(q.toLowerCase()));
 
   return (
-    <main className="max-w-3xl mx-auto px-4 sm:px-6 py-14">
-      <div className="text-center">
-        <LifeBuoy className="w-9 h-9 text-[#0B6B4F] mx-auto mb-4" strokeWidth={1.5} />
-        <h1 className="text-4xl sm:text-5xl font-heading font-extrabold text-[#0A0A0A]">{HELP.heading}</h1>
-        <p className="text-[#666] mt-3">{HELP.sub}</p>
-        <div className="relative max-w-xl mx-auto mt-6">
-          <Search className="w-5 h-5 text-[#AAA] absolute left-4 top-1/2 -translate-y-1/2" />
-          <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder={HELP.searchPlaceholder} className="pl-11 h-12 rounded-full bg-white border-[#E0E0E0]" data-testid="help-search" />
-        </div>
-      </div>
+    <main className="wrap wrap-narrow py-section">
+      <RevealGroup>
+        <RevealItem>
+          <h1 className="text-h1 font-heading font-extrabold text-ink">{HELP.heading}</h1>
+          <p className="mt-3 text-lead text-ink-2">{HELP.sub}</p>
+          <div className="relative mt-6 max-w-xl">
+            <Search className="w-4 h-4 text-ink-3 absolute left-4 top-1/2 -translate-y-1/2" strokeWidth={1.75} />
+            <Input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={HELP.searchPlaceholder}
+              className="pl-11 rounded-full"
+              data-testid="help-search"
+            />
+          </div>
+        </RevealItem>
 
-      <Accordion type="single" collapsible className="mt-10">
-        {filtered.map((f, i) => (
-          <AccordionItem key={f.q} value={`f-${i}`} className="border border-[#E8E8E8] rounded-2xl mb-3 px-5 bg-white hover:border-[#CCC] transition-colors">
-            <AccordionTrigger className="hover:no-underline font-heading font-bold text-[#0A0A0A] text-left" data-testid={`faq-${i}`}>{f.q}</AccordionTrigger>
-            <AccordionContent className="text-[#666] leading-relaxed">{f.a}</AccordionContent>
-          </AccordionItem>
-        ))}
-        {filtered.length === 0 && <div className="text-center text-[#888] py-10">No articles match "{q}". Try a different search.</div>}
-      </Accordion>
-
-      <div className="mt-10 bg-[#0A0A0A] rounded-3xl p-8 sm:p-10 text-center text-white">
-        <MessageCircle className="w-10 h-10 text-[#5FD3A6] mx-auto" strokeWidth={1.5} />
-        <h2 className="text-2xl font-heading font-bold mt-4">{HELP.contact.heading}</h2>
-        <p className="text-white/60 mt-2">{HELP.contact.sub}</p>
-        <div className="flex flex-wrap gap-3 justify-center mt-6">
-          <a href={`mailto:${BRAND.supportEmail}`}><Button className="h-11 rounded-full bg-[#5FD3A6] hover:bg-white text-[#0A0A0A] transition-colors"><Mail className="w-4 h-4 mr-2" /> {BRAND.supportEmail}</Button></a>
-          {BRAND.whatsapp && (
-            <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hi Kharo, I have a question about")}`} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="h-11 rounded-full border-white/40 text-white bg-transparent hover:bg-white/10 hover:text-white"><MessageCircle className="w-4 h-4 mr-2" /> WhatsApp us</Button>
-            </a>
+        <RevealItem className="mt-10">
+          {filtered.length > 0 ? (
+            <Faq items={filtered} testId="help-faq" />
+          ) : (
+            <p className="py-10 text-center text-[15px] text-ink-3">No articles match "{q}". Try a different search.</p>
           )}
-          <Button onClick={() => navigate("/list-your-fleet")} variant="outline" className="h-11 rounded-full border-white/40 text-white bg-transparent hover:bg-white/10 hover:text-white">List your fleet <ArrowRight className="w-4 h-4 ml-2" /></Button>
-        </div>
-      </div>
+        </RevealItem>
+
+        <RevealItem className="mt-12 panel rounded-2xl p-6 sm:p-8 grid sm:grid-cols-2 gap-6">
+          <div>
+            <h2 className="text-h3 font-heading font-bold text-ink">{HELP.contact.heading}</h2>
+            <p className="mt-2 text-[14.5px] text-ink-2 leading-relaxed">{HELP.contact.sub}</p>
+          </div>
+          <div className="flex flex-col gap-3 sm:items-end sm:text-right">
+            <a
+              href={`mailto:${BRAND.supportEmail}`}
+              className="pressable inline-flex items-center gap-2 text-[14.5px] font-semibold text-green break-all"
+            >
+              <Mail className="w-4 h-4 shrink-0" strokeWidth={1.75} /> {BRAND.supportEmail}
+            </a>
+            {BRAND.whatsapp && (
+              <a
+                href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hi Kharo, I have a question about")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pressable inline-flex items-center gap-2 text-[14.5px] font-semibold text-ink"
+              >
+                <MessageCircle className="w-4 h-4 shrink-0" strokeWidth={1.75} /> WhatsApp us
+              </a>
+            )}
+          </div>
+        </RevealItem>
+      </RevealGroup>
     </main>
   );
 }

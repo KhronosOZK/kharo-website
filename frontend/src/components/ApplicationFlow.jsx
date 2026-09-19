@@ -90,7 +90,7 @@ export default function ApplicationFlow({ className = "" }) {
 
       <div className="relative p-card min-h-[24rem] sm:min-h-[23rem]">
         <AnimatePresence mode="wait" initial={false}>
-          {/* 1 — pick the car */}
+          {/* 1. pick the car */}
           {step === 0 && (
             <motion.div key="car" variants={panel} initial="enter" animate="center" exit="exit">
               <p className="text-[13px] text-ink-3">{APPLICATION_FLOW.labels.car}</p>
@@ -115,7 +115,7 @@ export default function ApplicationFlow({ className = "" }) {
             </motion.div>
           )}
 
-          {/* 2 — choose the cover */}
+          {/* 2. choose the cover */}
           {step === 1 && (
             <motion.div key="insurance" variants={panel} initial="enter" animate="center" exit="exit">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -154,7 +154,7 @@ export default function ApplicationFlow({ className = "" }) {
             </motion.div>
           )}
 
-          {/* 3 — send it */}
+          {/* 3. send it */}
           {step === 2 && (
             <motion.div key="send" variants={panel} initial="enter" animate="center" exit="exit">
               <p className="text-[13px] text-ink-3">{APPLICATION_FLOW.labels.review}</p>
@@ -188,7 +188,7 @@ export default function ApplicationFlow({ className = "" }) {
             </motion.div>
           )}
 
-          {/* 4 — sent */}
+          {/* 4. sent */}
           {step === 3 && (
             <motion.div key="done" variants={panel} initial="enter" animate="center" exit="exit" className="text-center py-4">
               <motion.div
