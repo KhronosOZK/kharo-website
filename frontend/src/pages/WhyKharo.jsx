@@ -48,12 +48,12 @@ export default function WhyKharo() {
       />
 
       {/* ── THE GAP: one editorial figure, a lead paragraph beside it ──── */}
-      <section className="bg-surface border-y border-line">
-        <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+      <section className="wrap pt-10 sm:pt-14">
+        <RevealGroup className="grid gap-8 rounded-lg border border-line bg-surface p-6 sm:p-10 lg:grid-cols-12 lg:items-center lg:gap-14">
           <RevealItem className="lg:col-span-5">
             <GapFigure value={gapValue} label={gap.label} source={gap.source} />
           </RevealItem>
-          <RevealItem className="lg:col-span-7">
+          <RevealItem className="lg:col-span-7 lg:border-l lg:border-line lg:pl-14">
             <p className="text-lead text-ink-2 measure">{gap.body}</p>
           </RevealItem>
         </RevealGroup>

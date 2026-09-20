@@ -20,11 +20,12 @@ export const SPRING = {
   success: { type: "spring", duration: 0.5, bounce: 0.25 }, // success screens only
 };
 
-// The one reveal. Content is visible by default and only animates when the
-// motion library has mounted, so nothing is ever stuck invisible.
+// The one reveal. It moves, it never hides: text below the fold is readable
+// the moment the page paints (and in a crawler, a screenshot, or a browser
+// where the observer never fires), and only settles 14px upward on arrival.
 export const reveal = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: DUR.reveal, ease: EASE.out } },
+  hidden: { y: 14 },
+  visible: { y: 0, transition: { duration: DUR.reveal, ease: EASE.out } },
 };
 
 export const revealGroup = {

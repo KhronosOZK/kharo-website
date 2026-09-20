@@ -178,8 +178,10 @@ export default function VehicleDetail() {
 
         {/* Gallery: one bordered object holding the photo, the counter and
             the thumbnail strip, rather than three loose elements stacked. */}
-        <figure className="surface-raised rounded-xl border border-line p-2 sm:p-2.5">
-        <div className="relative rounded-lg overflow-hidden aspect-[4/3] sm:aspect-[3/2] bg-surface-2" data-testid="gallery-main">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_21rem] gap-8 mt-4 items-start">
+        <div>
+        <figure className="rounded-lg border border-line bg-surface p-2">
+        <div className="relative rounded-md overflow-hidden aspect-[16/10] bg-surface-2" data-testid="gallery-main">
           <img src={v.photos?.[photo]} alt={`${v.make} ${v.model}`} className="w-full h-full object-cover" />
           {uniquePhotoCount > 1 && (
             <>
@@ -228,10 +230,7 @@ export default function VehicleDetail() {
 
         <PreviewNotice variant="inline" className="lg:hidden mt-4" />
 
-        <div className="grid lg:grid-cols-[1fr_21rem] gap-8 mt-6 items-start">
-          {/* ── ONE TYPOGRAPHIC COLUMN ─────────────────────────────────── */}
-          <div>
-            <div className="pb-6">
+            <div className="mt-6 pb-6">
               <h1 className="text-h1 font-heading font-extrabold text-ink leading-tight">
                 {v.make} {v.model} {v.year}
               </h1>

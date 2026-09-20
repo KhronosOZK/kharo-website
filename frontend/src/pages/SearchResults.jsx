@@ -9,7 +9,7 @@ import VehicleCard from "@/components/VehicleCard";
 import SearchMap from "@/components/SearchMap";
 import CityInterestForm from "@/components/CityInterestForm";
 import PreviewNotice from "@/components/PreviewNotice";
-import FiltersDialog, { applyFilters, YEAR_BOUNDS } from "@/components/FiltersDialog";
+import FiltersDialog, { FilterPanel, applyFilters, YEAR_BOUNDS } from "@/components/FiltersDialog";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Close as PopoverClose } from "@radix-ui/react-popover";
@@ -24,9 +24,6 @@ const FULL_PRICE_BOUNDS = [
   Math.min(...MOCK_LISTINGS.map((v) => v.weekly_rent)),
   Math.max(...MOCK_LISTINGS.map((v) => v.weekly_rent)),
 ];
-// Short labels for the sticky bar's inline segmented control, where space is
-// tight; the dialog and filter chips use the full ENGINE_OPTIONS wording.
-const BAR_FUEL_OPTIONS = FUEL_OPTIONS.map((o) => ({ value: o.value, label: o.value }));
 const MAKE_OPTIONS = MOCK_MAKES.filter((m) => m !== "All Makes");
 
 function haversineKm([lat1, lon1], [lat2, lon2]) {
@@ -53,24 +50,6 @@ function OptionList({ options, value, onChange }) {
         <PopoverClose asChild key={o.value}>
           <button type="button" className={optionCls(value === o.value)} onClick={() => onChange(o.value)}>{o.label}</button>
         </PopoverClose>
-      ))}
-    </div>
-  );
-}
-
-function SegmentedControl({ options, value, onChange, label }) {
-  return (
-    <div className="segmented" role="group" aria-label={label}>
-      {options.map((o) => (
-        <button
-          key={o.value}
-          type="button"
-          aria-pressed={value === o.value}
-          data-active={value === o.value}
-          onClick={() => onChange(value === o.value ? "" : o.value)}
-        >
-          {o.label}
-        </button>
       ))}
     </div>
   );
@@ -206,6 +185,7 @@ export default function SearchResults() {
     searchParams.get("yearMax") ? Math.min(YEAR_BOUNDS[1], parseInt(searchParams.get("yearMax"), 10) || YEAR_BOUNDS[1]) : YEAR_BOUNDS[1],
   ]);
   const [mileageMin, setMileageMin] = useState(parseInt(searchParams.get("minMileage"), 10) || 0);
+  const [breakdownOnly, setBreakdownOnly] = useState(searchParams.get("breakdown") === "1");
   const [sortBy, setSortBy] = useState("price_asc");
   const [showMap, setShowMap] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -226,8 +206,8 @@ export default function SearchResults() {
   // truthful to the other filters currently applied.
   const filtersExceptPrice = useMemo(() => ({
     city, borough, make, model, fuel: fuelFilter, transmission,
-    bodyTypes: bodyFilters, colour, seats: seatsFilters, councils, yearRange, mileageMin,
-  }), [city, borough, make, model, fuelFilter, transmission, colour, bodyFilters, seatsFilters, councils, yearRange, mileageMin]);
+    bodyTypes: bodyFilters, colour, seats: seatsFilters, councils, yearRange, mileageMin, breakdownOnly,
+  }), [city, borough, make, model, fuelFilter, transmission, colour, bodyFilters, seatsFilters, councils, yearRange, mileageMin, breakdownOnly]);
 
   const basePool = useMemo(() => applyFilters(MOCK_LISTINGS, filtersExceptPrice, ["price"]), [filtersExceptPrice]);
 
@@ -288,9 +268,10 @@ export default function SearchResults() {
         next.delete("yearMax");
       }
       setOrDelete("minMileage", mileageMin ? String(mileageMin) : "");
+      setOrDelete("breakdown", breakdownOnly ? "1" : "");
       return next;
     }, { replace: true });
-  }, [city, borough, make, model, fuelFilter, transmission, colour, bodyFilters, seatsFilters, councils, yearRange, mileageMin, setSearchParams]);
+  }, [city, borough, make, model, fuelFilter, transmission, colour, bodyFilters, seatsFilters, councils, yearRange, mileageMin, breakdownOnly, setSearchParams]);
 
   // Price bound sync, debounced against drag events.
   const budgetSyncTimer = useRef(null);
@@ -341,17 +322,17 @@ export default function SearchResults() {
   const yearTouched = yearRange[0] > YEAR_BOUNDS[0] || yearRange[1] < YEAR_BOUNDS[1];
   const hasFilters = Boolean(
     city || borough || make || model || fuelFilter || bodyFilters.length || transmission || colour
-    || seatsFilters.length || councils.length || yearTouched || mileageMin || priceTouched || nearMe
+    || seatsFilters.length || councils.length || yearTouched || mileageMin || breakdownOnly || priceTouched || nearMe
   );
   const extraActiveCount = [make, model, colour].filter(Boolean).length + (transmission ? 1 : 0)
-    + bodyFilters.length + seatsFilters.length + councils.length + (yearTouched ? 1 : 0) + (mileageMin ? 1 : 0);
+    + bodyFilters.length + seatsFilters.length + councils.length + (yearTouched ? 1 : 0) + (mileageMin ? 1 : 0) + (breakdownOnly ? 1 : 0);
   const mobileActiveCount = extraActiveCount + [borough, fuelFilter].filter(Boolean).length
     + (priceTouched ? 1 : 0) + (nearMe ? 1 : 0);
 
   const clearAll = () => {
     setCityRaw(""); setBorough(""); setMakeRaw(""); setModel(""); setFuelFilter("");
     setBodyFilters([]); setTransmission(""); setColour(""); setSeatsFilters([]); setCouncils([]);
-    setYearRange([YEAR_BOUNDS[0], YEAR_BOUNDS[1]]); setMileageMin(0);
+    setYearRange([YEAR_BOUNDS[0], YEAR_BOUNDS[1]]); setMileageMin(0); setBreakdownOnly(false);
     // Not [priceMin, priceMax]: those are computed from the pool as filtered
     // *before* this click takes effect, so they would freeze the range at the
     // narrowed bounds instead of the true full range.
@@ -369,59 +350,12 @@ export default function SearchResults() {
     <div className="min-h-page bg-bone">
       <PreviewNotice />
 
-      {/* Sticky filter bar: one cohesive instrument, not a row of floating
-          pills. Weekly rent is always the live left-to-right slider here,
-          never a control you must open first. */}
-      <div className="sticky top-below-header z-30 bg-bone/95 border-b border-line shadow-1">
+      {/* Narrow screens: a sticky bar with the city, the filters button and
+          the live rent slider. On wide screens the filters live in the
+          sidebar beside the results, so this bar disappears. */}
+      <div className="sticky top-below-header z-30 bg-bone/95 border-b border-line shadow-1 lg:hidden">
         <div className="wrap py-2.5">
-          <div className="hidden lg:flex control-bar">
-            <ControlSegment label={SEARCH.filters.cityLabel} value={city || "Any city"} className="flex-[0.75]">
-              <OptionList
-                options={[{ label: "Any city", value: "" }, ...ALL_CITIES.map((c) => ({ label: c, value: c }))]}
-                value={city}
-                onChange={setCity}
-              />
-            </ControlSegment>
-            <ControlSegment label={SEARCH.filters.areaLabel} value={borough || "All areas"} className="flex-[0.75]">
-              <OptionList
-                options={[{ label: "All areas", value: "" }, ...areaOptions.slice(1).map((b) => ({ label: b, value: b }))]}
-                value={borough}
-                onChange={setBorough}
-              />
-            </ControlSegment>
-            <div className="control-seg flex-[1.7] min-w-0" data-testid="fuel-bar">
-              <span className="control-seg-label">{SEARCH.filters.fuelLabel}</span>
-              {/* Guards against the segmented control ever silently clipping
-                  a fuel option if the bar is narrower than expected: this
-                  scrolls instead, since .segmented itself hides overflow. */}
-              <div className="mt-1 overflow-x-auto -mx-0.5 px-0.5">
-                <SegmentedControl label={SEARCH.filters.fuelLabel} options={BAR_FUEL_OPTIONS} value={fuelFilter} onChange={setFuelFilter} />
-              </div>
-            </div>
-            <div className="control-seg flex-[1.8] min-w-0" data-testid="rent-slider-bar">
-              <div className="flex items-baseline justify-between gap-2">
-                <span className="control-seg-label">{SEARCH.filters.budgetLabel}</span>
-                <span className="control-seg-value">{priceValueLabel}</span>
-              </div>
-              <div className="mt-1.5 px-0.5">
-                <InlineRentTrack id="price-range-bar" min={priceMin} max={priceMax} value={effectiveRange} onChange={setPriceRange} />
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => setFiltersOpen(true)}
-              className="control-seg pressable"
-              data-testid="more-filters-btn"
-            >
-              <span className="control-seg-label">&nbsp;</span>
-              <span className="control-seg-value inline-flex items-center gap-1.5">
-                <SlidersHorizontal size={13} strokeWidth={1.75} /> {SEARCH.filters.moreFilters}
-                {extraActiveCount > 0 && <span className="tabular h-4 min-w-4 px-1 rounded-full bg-green text-white text-[10px] font-semibold grid place-items-center">{extraActiveCount}</span>}
-              </span>
-            </button>
-          </div>
-
-          <div className="lg:hidden control-bar">
+          <div className="control-bar">
             <ControlSegment label={SEARCH.filters.cityLabel} value={city || "Any city"} className="flex-1">
               <OptionList
                 options={[{ label: "Any city", value: "" }, ...ALL_CITIES.map((c) => ({ label: c, value: c }))]}
@@ -445,7 +379,7 @@ export default function SearchResults() {
 
           {/* Weekly rent, always inline on mobile too: never a control you
               must open first, even in the collapsed bar. */}
-          <div className="lg:hidden mt-2.5 control-bar">
+          <div className="mt-2.5 control-bar">
             <div className="control-seg w-full" data-testid="rent-slider-bar-mobile">
               <div className="flex items-baseline justify-between gap-2">
                 <span className="control-seg-label">{SEARCH.filters.budgetLabel}</span>
@@ -464,7 +398,8 @@ export default function SearchResults() {
         onOpenChange={setFiltersOpen}
         resultCount={results.length}
         fuelOptions={FUEL_OPTIONS}
-        city={city}
+        city={city} setCity={setCity} cityOptions={ALL_CITIES}
+        breakdownOnly={breakdownOnly} setBreakdownOnly={setBreakdownOnly}
         borough={borough} setBorough={setBorough} areaOptions={areaOptions}
         fuel={fuelFilter} setFuel={setFuelFilter}
         transmission={transmission} setTransmission={setTransmission}
@@ -482,7 +417,30 @@ export default function SearchResults() {
         onClear={clearAll}
       />
 
-      <div className="wrap py-5 lg:py-6">
+      <div className="wrap py-5 lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-8 lg:py-8">
+        {/* The filter sidebar, wide screens only. Sticky, scrolls on its own. */}
+        <aside className="hidden lg:block lg:sticky lg:top-below-header lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto rounded-lg border border-line bg-surface p-5" data-testid="filter-sidebar">
+          <FilterPanel
+            fuelOptions={FUEL_OPTIONS}
+            city={city} setCity={setCity} cityOptions={ALL_CITIES}
+            borough={borough} setBorough={setBorough} areaOptions={areaOptions}
+            fuel={fuelFilter} setFuel={setFuelFilter}
+            transmission={transmission} setTransmission={setTransmission}
+            bodyTypes={bodyFilters} setBodyTypes={setBodyFilters}
+            colour={colour} setColour={setColour}
+            seats={seatsFilters} toggleSeat={toggleSeat}
+            councils={councils} toggleCouncil={toggleCouncil}
+            make={make} setMake={setMake} makeOptions={MAKE_OPTIONS}
+            model={model} setModel={setModel}
+            yearRange={yearRange} setYearRange={setYearRange}
+            mileageMin={mileageMin} setMileageMin={setMileageMin}
+            breakdownOnly={breakdownOnly} setBreakdownOnly={setBreakdownOnly}
+            priceValues={priceValues} priceMin={priceMin} priceMax={priceMax} priceRange={effectiveRange} setPriceRange={setPriceRange}
+            hasFilters={hasFilters} onClear={clearAll}
+          />
+        </aside>
+
+        <div className="min-w-0">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h1 className="text-h3 font-heading font-extrabold text-ink" data-testid="results-count">
             {SEARCH.resultsCount(results.length)}
@@ -534,6 +492,7 @@ export default function SearchResults() {
             {councils.map((c) => <FilterChip key={c} label={c} onRemove={() => toggleCouncil(c)} />)}
             {yearTouched && <FilterChip label={ageValueLabel} onRemove={() => setYearRange([YEAR_BOUNDS[0], YEAR_BOUNDS[1]])} />}
             {mileageMin > 0 && <FilterChip label={SEARCH.filters.mileageAtLeast(mileageMin)} onRemove={() => setMileageMin(0)} />}
+            {breakdownOnly && <FilterChip label="Breakdown cover included" onRemove={() => setBreakdownOnly(false)} />}
             {priceTouched && <FilterChip label={`£${Math.round(effectiveRange[0])} to £${Math.round(effectiveRange[1])}/wk`} onRemove={() => setPriceRange([priceMin, priceMax])} />}
             {nearMe && <FilterChip label="Near me" onRemove={() => { setNearMe(null); setNearMeStatus("idle"); }} />}
             <button type="button" onClick={clearAll} className="pressable text-[13px] font-semibold text-green">
@@ -600,6 +559,7 @@ export default function SearchResults() {
               </button>
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>

@@ -121,8 +121,8 @@ Change a token once and everything follows. Do not write hex values into compone
 
 | Route | File | What it is |
 |---|---|---|
-| `/` | `pages/HomeFunctional.jsx` | Search first, then the six cheapest cars this week |
-| `/search` | `pages/SearchResults.jsx` | Results with the full filter set (authority, price, fuel, body, colour, year) |
+| `/` | `pages/HomeFunctional.jsx` | Photo hero with the featured car and the search card, then browse by type, browse by make, featured cars, what Kharo does, two banners, recently added, the contact strip and the FAQ |
+| `/search` | `pages/SearchResults.jsx` | Filter sidebar on the left (the same panel opens as a dialog on phones), results grid on the right. Filters live in `components/FiltersDialog.jsx` |
 | `/vehicle/:id` | `pages/VehicleDetail.jsx` | Photos, specs, rent terms, the insurance comparison, collection area |
 | `/apply/:id` | `pages/Apply.jsx` | Register interest: about you, licence, insurance, review |
 | `/register` | `pages/Register.jsx` | General driver waitlist |
@@ -131,9 +131,9 @@ Change a token once and everything follows. Do not write hex values into compone
 | `/for-drivers`, `/why-kharo`, `/help`, `/legal` | one file each in `pages/` | Marketing and support pages |
 | `/city/:name` | `pages/CityPage.jsx` | City landing pages |
 | `/saved`, `/compare`, `/request-a-car` | one file each | Shortlist, side-by-side, "can't find it" form |
-| `/login`, `/driver-portal`, `/operator-login`, `/operator-dashboard`, `/admin` | one file each | Accounts and the admin dashboard |
+| `/login`, `/driver-portal`, `/operator-login`, `/operator-dashboard`, `/admin` | one file each | Accounts and the admin dashboard. Both consoles share `components/ConsoleShell.jsx` (navigation rail, Notifications, Chat, and the operator's Tracking map); their demo notifications, chat threads and vehicles are the constants at the top of each page |
 
-The page top on every page except the homepage is `components/PageHero.jsx`: heading, one line under it, optional facts row, a framed photo on the right.
+The page top on every page except the homepage is `components/PageHero.jsx`: one photograph across the width, the heading and one line in white on it, the page's buttons in the same column. Pass `img` from `lib/images.js`; leave it out (or set `size="band"`) on form pages to get the plain band.
 
 There is no buy/sell marketplace any more. It was removed in full (pages, components, API routes and seed data) on 20 September 2026.
 

@@ -17,7 +17,7 @@ export default function OperatorGuide() {
   const navigate = useNavigate();
   useSeo({ title: OPERATOR_GUIDE.seo.title, description: OPERATOR_GUIDE.seo.description });
 
-  const { hero, manage, dashboard, steps, claims, fee, earnings, faq, closer } = OPERATOR_GUIDE;
+  const { hero, manage, dashboard, steps, claims, fee, earnings, faq } = OPERATOR_GUIDE;
   const half = Math.ceil(steps.items.length / 2);
   const stepColumns = [steps.items.slice(0, half), steps.items.slice(half)];
 
@@ -169,24 +169,6 @@ export default function OperatorGuide() {
         </RevealGroup>
       </section>
 
-      {/* ── CLOSER: quiet, one panel, one button ───────────────────────── */}
-      <section className="bg-bone">
-        <RevealGroup className="wrap py-section">
-          <RevealItem className="surface-raised rounded-lg p-card">
-            <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-center">
-              <div className="lg:col-span-8">
-                <h2 className="text-h2 font-heading font-extrabold text-ink">{closer.heading}</h2>
-                <p className="mt-3 text-[15.5px] text-ink-2 leading-relaxed measure">{closer.sub}</p>
-              </div>
-              <div className="lg:col-span-4 lg:justify-self-end">
-                <Button size="lg" onClick={() => navigate("/list-your-fleet")} className="w-full xs:w-auto" data-testid="operator-guide-closer-cta">
-                  {closer.cta} <ArrowRight size={16} />
-                </Button>
-              </div>
-            </div>
-          </RevealItem>
-        </RevealGroup>
-      </section>
     </div>
   );
 }

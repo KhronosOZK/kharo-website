@@ -24,7 +24,7 @@ export default function Login() {
     setLoading(true);
     const res = await login(email, password);
     setLoading(false);
-    if (res.ok) { toast.success("Good to see you again"); navigate(res.user?.role === "admin" ? "/admin" : "/portal"); }
+    if (res.ok) { toast.success("Good to see you again"); navigate(res.user?.role === "admin" ? "/admin" : "/driver-portal"); }
     else toast.error(res.error);
   };
 

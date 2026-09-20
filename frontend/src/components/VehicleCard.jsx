@@ -1,39 +1,36 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Heart } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 import { CARD } from "@/content/pages/marketplace";
 
 const MAX_ZONES = 5;
 
 /**
- * The browse card. Editorial, not boxy: the photo carries the visual weight,
- * the text below reads like a listing line, not a stat block. No rating, no
- * review count, no "available now" dot - none of it is real pre-launch.
+ * The browse card: a white card, the photograph inside it, the name and one
+ * spec line under it, and the price where a buyer's eye lands. The whole
+ * card is the link; the heart and "Register interest" sit above it.
  *
  * The photo scrubs through the vehicle's other shots on hover (pointer
- * devices) or on tap of the left/right half (touch devices), with a thin
- * segmented indicator along the top. Reaching the last frame surfaces a
- * "see the full car" prompt instead of a photo.
+ * devices) or on tap of the left/right half (touch devices).
  */
-export default function VehicleCard({ vehicle }) {
+export default function VehicleCard({ vehicle, compact = false }) {
   const navigate = useNavigate();
+  const { saved, toggleSaved } = useAuth();
   const [hasHover] = useState(() => typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const {
-    id, make, model, year, fuel, weekly_rent, borough, seats,
-    photos, mileage_allowance, insurance_included,
-    licence_type, cross_border,
+    id, make, model, year, fuel, weekly_rent, borough, seats, transmission,
+    photos, mileage_allowance, licence_type,
   } = vehicle;
 
+  const href = `/vehicle/${id}`;
+  const isSaved = saved.includes(id);
   const uniquePhotos = Array.isArray(photos) ? [...new Set(photos)] : [photos].filter(Boolean);
   const zoneCount = Math.min(uniquePhotos.length, MAX_ZONES);
   const canScrub = zoneCount > 1;
-  const atLastFrame = canScrub && activeIndex === zoneCount - 1;
 
-  // Warm the other frames the first time a pointer touches the card, so
-  // scrubbing swaps instantly instead of flashing an empty box while the
-  // browser fetches the next photo.
   const warmed = useRef(false);
   const [armed, setArmed] = useState(false);
   const warmPhotos = () => {
@@ -51,169 +48,93 @@ export default function VehicleCard({ vehicle }) {
     });
   };
 
-
-  const handleApply = (e) => {
-    e.stopPropagation();
-    navigate(`/apply/${id}`);
-  };
-
   const handleMouseMove = (e) => {
     if (!hasHover || !canScrub || !armed) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width;
-    const idx = Math.min(zoneCount - 1, Math.max(0, Math.floor(relX * zoneCount)));
-    setActiveIndex(idx);
+    setActiveIndex(Math.min(zoneCount - 1, Math.max(0, Math.floor(relX * zoneCount))));
   };
   const handleMouseLeave = () => { if (hasHover) setActiveIndex(0); };
 
-  // Touch: tap the left/right half to step through photos rather than
-  // navigating away, except at the edges - tapping past the first or last
-  // frame falls through to the card's own click so the card stays reachable.
+  // Touch: tap the left/right half to step through photos; at either edge
+  // the tap opens the car instead. Pointer devices always open the car.
   const handlePhotoClick = (e) => {
-    if (hasHover || !canScrub) return;
+    if (hasHover || !canScrub) { navigate(href); return; }
     warmPhotos();
     const rect = e.currentTarget.getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width;
-    if (relX < 0.5 && activeIndex > 0) {
-      e.stopPropagation();
-      setActiveIndex((i) => i - 1);
-    } else if (relX >= 0.5 && activeIndex < zoneCount - 1) {
-      e.stopPropagation();
-      setActiveIndex((i) => i + 1);
-    }
+    if (relX < 0.5 && activeIndex > 0) setActiveIndex((i) => i - 1);
+    else if (relX >= 0.5 && activeIndex < zoneCount - 1) setActiveIndex((i) => i + 1);
+    else navigate(href);
   };
 
-  const specs = [
-    seats ? `${seats} seats` : null,
-    fuel,
-    mileage_allowance ? `${mileage_allowance.toLocaleString()} mi/mo` : null,
-  ].filter(Boolean);
-
-  // The plate is the first thing a driver checks: a car on the wrong licence
-  // is no use to them whatever it costs.
+  const specs = [fuel, transmission, seats ? `${seats} seats` : null, mileage_allowance ? `${mileage_allowance.toLocaleString()} mi a month` : null].filter(Boolean);
   const plate = licence_type ? licence_type.replace(" private hire vehicle licence", "").replace(" PHV plate", "") : null;
 
   return (
     <article
-      className="pressable-card group relative"
+      className="group relative flex h-full flex-col rounded-lg border border-line bg-surface p-3 transition-[box-shadow,border-color] duration-hover hover:border-line-strong hover:shadow-2"
       data-testid="vehicle-card"
       onPointerEnter={warmPhotos}
     >
+      <Link to={href} aria-label={`${year} ${make} ${model}`} data-testid="vehicle-card-link"
+        className="absolute inset-0 z-[1] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green" />
+
       <div
-        className="relative z-10 aspect-[16/10] rounded-lg overflow-hidden bg-surface-2"
+        className="relative z-[2] aspect-[16/10] cursor-pointer overflow-hidden rounded-md bg-surface-2"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handlePhotoClick}
       >
-        {/* Every frame is mounted and stacked, with only opacity changing.
-            Mounting a fresh <img> per frame meant each one had to decode
-            before it painted, which is what made scrubbing flicker. */}
-        <div className="absolute inset-0 transition-transform duration-500 ease-out motion-safe:group-hover:scale-105">
-        {uniquePhotos.slice(0, armed ? MAX_ZONES : Math.max(1, activeIndex + 1)).map((src, i) => (
-          <img
-            key={src}
-            src={src}
-            alt={i === 0 ? `${year} ${make} ${model}` : ""}
-            aria-hidden={i === 0 ? undefined : "true"}
-            loading="lazy"
-            decoding="async"
-            draggable="false"
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ opacity: i === activeIndex ? 1 : 0 }}
-          />
-        ))}
+        <div className="absolute inset-0">
+          {uniquePhotos.slice(0, armed ? MAX_ZONES : Math.max(1, activeIndex + 1)).map((src, i) => (
+            <img key={src} src={src} alt={i === 0 ? `${year} ${make} ${model}` : ""} aria-hidden={i === 0 ? undefined : "true"}
+              loading="lazy" decoding="async" draggable="false"
+              className="absolute inset-0 h-full w-full object-cover" style={{ opacity: i === activeIndex ? 1 : 0 }} />
+          ))}
         </div>
-
         {canScrub && (
-          <div className="absolute top-2 left-2 right-2 z-10 flex gap-1 pointer-events-none">
+          <div className="pointer-events-none absolute left-2 right-2 top-2 flex gap-1">
             {Array.from({ length: zoneCount }).map((_, i) => (
-              <span
-                key={i}
-                aria-hidden="true"
-                className={`h-[2px] flex-1 rounded-full transition-colors duration-150 ${i === activeIndex ? "bg-white" : "bg-white/35"}`}
-              />
+              <span key={i} aria-hidden="true" className={`h-[2px] flex-1 rounded-full transition-colors duration-150 ${i === activeIndex ? "bg-white" : "bg-white/35"}`} />
             ))}
           </div>
         )}
-
-        {/* Last frame: a readable invitation sitting on a gradient, rather than
-            small type lost on a flat wash. */}
-        <div
-          className={`pointer-events-none absolute inset-x-0 bottom-0 z-10 p-3 transition-opacity duration-200 ease-out ${atLastFrame ? "opacity-100" : "opacity-0"}`}
-        >
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-ink via-ink/75 to-transparent" />
-          <div className="relative flex items-end justify-between gap-3">
-            <div>
-              <p className="font-heading text-[15px] font-bold leading-tight text-white">That is the tour.</p>
-              <p className="mt-0.5 text-[12.5px] text-white/75">Specs, deposit and the full breakdown inside.</p>
-            </div>
-            <span className="shrink-0 rounded-md bg-white px-3 py-2 text-[13px] font-semibold text-ink">
-              See the car
-            </span>
-          </div>
-        </div>
       </div>
 
-      <div className="pt-3">
-        <h3 className="font-heading font-bold text-ink text-[16px] leading-tight truncate">
-          <Link
-            to={`/vehicle/${id}`}
-            data-testid="vehicle-card-link"
-            className="after:absolute after:inset-0 after:content-[''] after:rounded-lg
-                       focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-green"
-          >
-            {make} {model}
-          </Link>
-        </h3>
-        <p className="mt-0.5 text-[13px] text-ink-3">{year}, {borough}</p>
-        {plate && (
-          <p className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[12px]">
-            <span className="inline-flex items-center rounded border border-line-strong px-1.5 py-0.5 font-semibold text-ink">
-              {plate}
-            </span>
-            {cross_border && <span className="text-ink-3">works across England and Wales</span>}
-          </p>
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); toggleSaved(id); }}
+        aria-pressed={isSaved}
+        aria-label={isSaved ? "Remove from saved" : "Save this car"}
+        data-testid="vehicle-card-save"
+        className="pressable absolute right-5 top-5 z-[3] grid h-9 w-9 place-items-center rounded-md bg-surface/95 text-ink shadow-1 hover:bg-surface"
+      >
+        <Heart size={16} strokeWidth={2} className={isSaved ? "fill-ink" : ""} />
+      </button>
+
+      <div className="flex flex-1 flex-col pt-3">
+        <h3 className="truncate font-heading text-[16px] font-bold leading-tight text-ink">{make} {model}</h3>
+        <p className="mt-0.5 text-[13px] text-ink-3">{year} · {borough}{plate ? ` · ${plate}` : ""}</p>
+        {!compact && specs.length > 0 && (
+          <p className="mt-1.5 truncate text-[12.5px] text-ink-3">{specs.join(" · ")}</p>
         )}
 
-        <div className="mt-2.5 hairline" />
-
-        <div className="mt-2.5 flex items-end justify-between gap-3">
+        <div className="mt-auto flex items-end justify-between gap-3 pt-3">
           <p className="tabular">
-            <span className="font-heading text-2xl font-bold tracking-tight text-ink">£{weekly_rent}</span>
-            <span className="ml-1.5 text-xs font-normal text-ink-3">a week</span>
+            <span className="font-heading text-[22px] font-bold tracking-tight text-ink">£{weekly_rent}</span>
+            <span className="ml-1 text-[12px] text-ink-3">a week</span>
           </p>
           <button
             type="button"
-            onClick={handleApply}
-            className="pressable group/cta relative z-10 inline-flex shrink-0 items-center gap-1.5 rounded-md
-                       border border-line-strong px-3.5 h-9 text-[13px] font-semibold text-ink
-                       hover:border-ink hover:bg-ink hover:text-white active:scale-[0.98]
-                       transition-[background-color,border-color,color,transform] duration-press"
+            onClick={(e) => { e.stopPropagation(); navigate(`/apply/${id}`); }}
+            className="pressable group/cta relative z-[3] inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-line-strong px-3 text-[12.5px] font-semibold text-ink transition-[background-color,border-color,color] duration-hover hover:border-ink hover:bg-ink hover:text-white"
             data-testid="vehicle-card-apply"
           >
             {CARD.registerInterest}
-            <ArrowRight
-              size={14}
-              strokeWidth={2.25}
-              className="transition-transform duration-ui ease-out group-hover/cta:translate-x-0.5"
-            />
+            <ArrowRight size={13} strokeWidth={2.25} className="transition-transform duration-ui ease-out group-hover/cta:translate-x-0.5" />
           </button>
         </div>
-
-        {specs.length > 0 && (
-          <div className="mt-2 flex items-center gap-2 text-[12.5px] text-ink-3">
-            {specs.map((s, i) => (
-              <span key={s} className="flex items-center gap-2">
-                {i > 0 && <span aria-hidden="true" className="w-px h-3 bg-line-strong" />}
-                {s}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <p className="mt-1.5 text-[12.5px] text-ink-3 leading-relaxed">
-          {insurance_included ? CARD.insuranceIncluded : CARD.rentalOnly} {CARD.preview}
-        </p>
       </div>
     </article>
   );
