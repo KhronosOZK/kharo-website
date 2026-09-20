@@ -56,6 +56,11 @@ module.exports = {
         "3xl": "14px",
         hero: "18px",
       },
+      // Headings set at 500, not 800: the dealership reference the owner chose
+      // runs a light, wide grotesk. One mapping here moves every heading.
+      fontWeight: {
+        extrabold: "500",
+      },
       fontFamily: {
         heading: ["'Cabinet Grotesk'", "'Satoshi'", "-apple-system", "sans-serif"],
         sans: ["'Satoshi'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
@@ -102,6 +107,8 @@ module.exports = {
         reveal: "var(--dur-reveal)",
       },
       keyframes: {
+        // Slow drift on the homepage photograph, one direction, never loops.
+        "hero-drift": { from: { transform: "scale(1)" }, to: { transform: "scale(1.06)" } },
         "accordion-down": {
           from: { height: "0", opacity: "0" },
           to: { height: "var(--radix-accordion-content-height)", opacity: "1" },

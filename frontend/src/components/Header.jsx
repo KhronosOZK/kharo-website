@@ -1,5 +1,5 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Menu, Heart, User, Building2, ArrowRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { BRAND, NAV } from "@/content/site";
@@ -21,6 +21,14 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const sentinel = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  // Pages that open on a photograph mark it with data-hero-photo. Over that
+  // photograph the header is transparent with white type, and turns solid
+  // the moment the page scrolls, the way the dealership reference does.
+  const [overHero, setOverHero] = useState(false);
+  useLayoutEffect(() => {
+    setOverHero(Boolean(document.querySelector("[data-hero-photo]")));
+  }, [location.pathname]);
 
   useEffect(() => {
     const el = sentinel.current;
@@ -30,20 +38,22 @@ export default function Header() {
     return () => io.disconnect();
   }, []);
 
+  const clear = overHero && !scrolled;
   const linkCls = ({ isActive }) =>
-    `relative text-[14px] font-medium whitespace-nowrap transition-colors duration-hover ${isActive ? "text-ink" : "text-ink-2 hover:text-ink"} after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-green after:origin-left after:transition-transform after:duration-ui after:ease-out ${isActive ? "after:scale-x-100" : "after:scale-x-0"}`;
+    `relative text-[14px] font-medium whitespace-nowrap transition-colors duration-hover ${clear ? (isActive ? "text-white" : "text-white/80 hover:text-white") : (isActive ? "text-ink" : "text-ink-2 hover:text-ink")} after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-full after:rounded-full ${clear ? "after:bg-white" : "after:bg-green"} after:origin-left after:transition-transform after:duration-ui after:ease-out ${isActive ? "after:scale-x-100" : "after:scale-x-0"}`;
 
   return (
     <>
       <div ref={sentinel} aria-hidden className="absolute top-0 h-px w-px" />
       <header
         data-scrolled={scrolled || undefined}
-        className={`sticky top-0 z-50 bg-bone/95 supports-[backdrop-filter]:bg-bone/80 backdrop-blur-sm transition-[box-shadow,border-color] duration-ui ease-out border-b ${scrolled ? "border-line shadow-1" : "border-transparent shadow-none"}`}
+        data-clear={clear || undefined}
+        className={`sticky top-0 z-50 border-b transition-[background-color,box-shadow,border-color,color] duration-ui ease-out ${clear ? "bg-transparent border-transparent shadow-none" : `bg-bone/95 supports-[backdrop-filter]:bg-bone/80 backdrop-blur-sm ${scrolled ? "border-line shadow-1" : "border-transparent shadow-none"}`}`}
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         <div className="wrap h-header flex items-center justify-between gap-4">
-          <Link to="/" className="caro-wordmark text-[28px] text-ink leading-none" data-testid="logo-link" aria-label={`${BRAND.name} home`}>
-            kharo<span className="text-green">.</span>
+          <Link to="/" className={`caro-wordmark text-[28px] leading-none transition-colors duration-ui ${clear ? "text-white" : "text-ink"}`} data-testid="logo-link" aria-label={`${BRAND.name} home`}>
+            kharo<span className={clear ? "text-mint" : "text-green"}>.</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-7 lg:gap-9" aria-label="Primary">
@@ -57,14 +67,14 @@ export default function Header() {
 
           <div className="flex items-center gap-1.5 sm:gap-3">
             <button onClick={() => navigate("/saved")} aria-label={`Saved vehicles, ${savedTotal} items`}
-              className="pressable hidden sm:inline-flex items-center gap-1.5 h-10 px-2.5 rounded-md text-[14px] text-ink-2 hover:text-ink hover:bg-surface-2" data-testid="saved-count">
+              className={`pressable hidden sm:inline-flex items-center gap-1.5 h-10 px-2.5 rounded-md text-[14px] ${clear ? "text-white/85 hover:text-white hover:bg-white/10" : "text-ink-2 hover:text-ink hover:bg-surface-2"}`} data-testid="saved-count">
               <Heart className="w-[18px] h-[18px]" strokeWidth={1.75} /> {savedTotal > 0 && <span className="tabular">{savedTotal}</span>}
             </button>
 
             <Link
               to={NAV.headerCta.to}
               data-testid="join-waitlist-link"
-              className="pressable hidden md:inline-flex items-center h-10 px-4 rounded-md bg-green hover:bg-green-hover text-white text-[13.5px] font-semibold whitespace-nowrap"
+              className={`pressable hidden md:inline-flex items-center h-10 px-4 rounded-md text-[13.5px] font-semibold whitespace-nowrap transition-colors duration-ui ${clear ? "bg-white text-ink hover:bg-bone" : "bg-green hover:bg-green-hover text-white"}`}
             >
               {NAV.headerCta.label}
             </Link>
@@ -72,9 +82,9 @@ export default function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button data-testid="account-menu-btn" aria-label="Account menu"
-                  className="pressable hidden md:inline-flex items-center gap-2 h-10 rounded-md border border-line-strong bg-surface px-3 hover:bg-surface-2">
-                  <Menu className="w-4 h-4 text-ink-2" strokeWidth={1.75} />
-                  <User className="w-4 h-4 text-green" strokeWidth={1.75} />
+                  className={`pressable hidden md:inline-flex items-center gap-2 h-10 rounded-md border px-3 transition-colors duration-ui ${clear ? "border-white/35 bg-transparent text-white hover:bg-white/10" : "border-line-strong bg-surface hover:bg-surface-2"}`}>
+                  <Menu className={`w-4 h-4 ${clear ? "text-white" : "text-ink-2"}`} strokeWidth={1.75} />
+                  <User className={`w-4 h-4 ${clear ? "text-mint" : "text-green"}`} strokeWidth={1.75} />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-72 rounded-lg bg-surface shadow-2 border-line p-1.5 duration-fast ease-out">
@@ -99,7 +109,7 @@ export default function Header() {
 
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <button className="pressable md:hidden grid place-items-center h-11 w-11 -mr-2 rounded-full hover:bg-surface-2" data-testid="mobile-menu-btn" aria-label="Open menu">
+                <button className={`pressable md:hidden grid place-items-center h-11 w-11 -mr-2 rounded-md ${clear ? "text-white hover:bg-white/10" : "text-ink hover:bg-surface-2"}`} data-testid="mobile-menu-btn" aria-label="Open menu">
                   <Menu className="w-6 h-6" strokeWidth={1.75} />
                 </button>
               </SheetTrigger>

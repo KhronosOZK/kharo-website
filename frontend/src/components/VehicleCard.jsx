@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowUpRight, Heart } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { CARD } from "@/content/pages/marketplace";
 
@@ -128,11 +128,11 @@ export default function VehicleCard({ vehicle, compact = false }) {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); navigate(`/apply/${id}`); }}
-            className="pressable group/cta relative z-[3] inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-line-strong px-3 text-[12.5px] font-semibold text-ink transition-[background-color,border-color,color] duration-hover hover:border-ink hover:bg-ink hover:text-white"
+            className="pressable group/cta relative z-[3] inline-flex h-8 shrink-0 items-center gap-1 text-[13px] font-semibold text-ink-2 transition-colors duration-hover hover:text-green"
             data-testid="vehicle-card-apply"
           >
             {CARD.registerInterest}
-            <ArrowRight size={13} strokeWidth={2.25} className="transition-transform duration-ui ease-out group-hover/cta:translate-x-0.5" />
+            <ArrowUpRight size={14} strokeWidth={2.25} className="transition-transform duration-ui ease-out group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5" />
           </button>
         </div>
       </div>

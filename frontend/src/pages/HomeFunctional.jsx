@@ -4,7 +4,9 @@ import { ArrowRight, ArrowUpRight, ClipboardCheck, Scale, Search, ShieldCheck, W
 import { MOCK_LISTINGS } from "@/data/mockListings";
 import { LIVE_CITIES } from "@/lib/cities";
 import { IMG } from "@/lib/images";
-import { useMotionPrefs } from "@/lib/motion";
+import { motion } from "framer-motion";
+import { siToyota, siKia, siHyundai, siSkoda, siVolkswagen, siBmw, siVauxhall, siHonda, siNissan, siFord, siTesla } from "simple-icons";
+import { EASE, useMotionPrefs } from "@/lib/motion";
 import PriceRangeFilter from "@/components/PriceRangeFilter";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
@@ -56,6 +58,16 @@ const TYPES = [
   { label: "7 seats", to: "/search?seats=7", pred: (v) => v.seats === 7 },
   { label: "Estate", to: "/search?bodyType=Estate", pred: (v) => v.body_type === "Estate" },
 ].map((t) => ({ ...t, n: count(t.pred), img: firstPhotoWhere(t.pred) }));
+
+// Make marks from simple-icons, used the way Auto Trader uses them: to
+// identify the make, never to imply endorsement. Mercedes-Benz has no icon
+// in the set, so its tile falls back to an initial.
+const MAKE_ICONS = {
+  Toyota: siToyota, Kia: siKia, Hyundai: siHyundai, Skoda: siSkoda, Volkswagen: siVolkswagen,
+  BMW: siBmw, Vauxhall: siVauxhall, Honda: siHonda, Nissan: siNissan, Ford: siFord, Tesla: siTesla,
+};
+// Each hero line settles up as it appears; the card follows a beat later.
+const RISE = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE.out } } };
 
 const MAKES = Object.entries(MOCK_LISTINGS.reduce((acc, v) => { acc[v.make] = (acc[v.make] || 0) + 1; return acc; }, {}))
   .sort((a, b) => b[1] - a[1]);
@@ -138,50 +150,54 @@ export default function HomeFunctional() {
   return (
     <div className="bg-bone">
       {/* ── HERO: the featured car on a photograph, the search beside it ── */}
-      <section className="relative isolate overflow-hidden bg-night" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-night" data-hero-photo="true" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
         <div className="absolute inset-0">
           {/* One photograph at a time. A new key remounts the image, which
               fades in over the dark ground rather than stacking hidden
               frames behind the visible one. */}
           <img key={hero.id} src={hero.photos[0]} alt="" aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-700"
+            className="absolute inset-0 h-full w-full object-cover motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-700 motion-safe:[animation:hero-drift_14s_ease-out_forwards]"
             fetchPriority="high" decoding="async" />
           {FEATURED.slice(1).map((v) => <link key={v.id} rel="prefetch" as="image" href={v.photos[0]} />)}
           <div className="absolute inset-0 bg-gradient-to-r from-night/85 via-night/50 to-night/20" />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night/75 to-transparent" />
         </div>
 
-        <div className="wrap relative grid gap-8 pt-[calc(var(--header-h)+2.5rem)] pb-10 lg:min-h-[38rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:items-center lg:pb-14">
-          <div className="text-white">
-            <p className="text-[13px] font-medium text-white/70">Featured this week · {hero.borough}, {hero.city}</p>
-            <p className="mt-3 font-heading text-[clamp(2rem,1.4rem+2.6vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]" data-testid="hero-price">
-              £{hero.weekly_rent} <span className="text-[0.45em] font-semibold text-white/75">a week, rent only</span>
-            </p>
-            <h1 className="mt-2 font-heading text-h1 font-extrabold leading-[1.05] tracking-[-0.02em]">
+        <div className="wrap relative grid gap-8 pt-[calc(var(--header-h)+2.5rem)] pb-10 lg:min-h-[40rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:grid-rows-[1fr_auto] lg:items-center lg:pb-12">
+          <motion.div key={hero.id} className="text-white" initial={reduce ? false : "hidden"} animate="visible"
+            variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } }}>
+            <motion.p variants={RISE} className="text-[13px] font-medium text-white/70">Featured this week · {hero.borough}, {hero.city}</motion.p>
+            <motion.p variants={RISE} className="mt-3 font-heading text-[clamp(2rem,1.4rem+2.6vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]" data-testid="hero-price">
+              £{hero.weekly_rent} <span className="text-[0.45em] font-medium text-white/75">a week, rent only</span>
+            </motion.p>
+            <motion.h1 variants={RISE} className="mt-2 font-heading text-h1 font-extrabold leading-[1.05] tracking-[-0.02em]">
               {hero.make} {hero.model} {hero.year}
-            </h1>
-            <p className="mt-4 text-[15px] text-white/85">{hero.fuel} · {hero.transmission} · {hero.seats} seats · {hero.mileage_allowance.toLocaleString()} miles a month</p>
-            <div className="mt-7 flex flex-wrap items-center gap-4">
+            </motion.h1>
+            <motion.p variants={RISE} className="mt-4 text-[15px] text-white/85">{hero.fuel} · {hero.transmission} · {hero.seats} seats · {hero.mileage_allowance.toLocaleString()} miles a month</motion.p>
+            <motion.div variants={RISE} className="mt-7 flex flex-wrap items-center gap-4">
               <Link to={`/vehicle/${hero.id}`} className="pressable inline-flex h-11 items-center gap-2 rounded-md bg-surface px-5 text-[14.5px] font-semibold text-ink hover:bg-bone" data-testid="hero-see-car">
                 See this car <ArrowUpRight size={16} strokeWidth={2.25} />
               </Link>
               <Link to="/search" className="pressable inline-flex h-11 items-center gap-2 text-[14.5px] font-semibold text-white/90 hover:text-white">
                 All {MOCK_LISTINGS.length} cars <ArrowRight size={16} strokeWidth={2.25} />
               </Link>
-            </div>
-            <div className="mt-10 flex gap-2" role="tablist" aria-label="Featured cars">
+            </motion.div>
+          </motion.div>
+          <div className="lg:col-start-1 lg:row-start-2 flex gap-2 lg:-mt-6" role="tablist" aria-label="Featured cars">
               {FEATURED.map((v, i) => (
                 <button key={v.id} type="button" role="tab" aria-selected={i === slide} aria-label={`${v.make} ${v.model}`}
                   onClick={() => setSlide(i)}
                   className={`pressable h-1 w-9 rounded-full transition-colors duration-ui ${i === slide ? "bg-white" : "bg-white/35 hover:bg-white/60"}`} />
               ))}
-            </div>
           </div>
 
           {/* The search card */}
-          <form
+          <motion.form
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE.out, delay: 0.3 }}
             onSubmit={(e) => { e.preventDefault(); if (mode === "rent") search(); else listFleet(); }}
-            className="rounded-lg border border-line bg-surface p-5 text-ink shadow-2 sm:p-6"
+            className="rounded-lg border border-line bg-surface p-5 text-ink shadow-2 sm:p-6 lg:row-span-2"
             data-testid="home-search"
           >
             <p className="font-heading text-[18px] font-bold text-ink">Find your car</p>
@@ -243,7 +259,7 @@ export default function HomeFunctional() {
                 <p className="text-[12px] leading-relaxed text-ink-3">Listing is free. A consultant calls within one working day and builds the listings with you.</p>
               </div>
             )}
-          </form>
+          </motion.form>
         </div>
       </section>
 
@@ -252,14 +268,12 @@ export default function HomeFunctional() {
         <SectionHead title="Browse by type" to="/search" />
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
           {TYPES.map((t) => (
-            <Link key={t.label} to={t.to} className="group pressable-card relative block overflow-hidden rounded-lg border border-line bg-surface" data-testid={`home-type-${t.label}`}>
-              <div className="aspect-[4/3] overflow-hidden bg-surface-2">
-                {t.img && <img src={t.img} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />}
-              </div>
-              <div className="flex items-center justify-between px-3 py-2.5">
-                <span className="text-[14px] font-semibold text-ink">{t.label}</span>
-                <span className="tabular text-[12.5px] text-ink-3">{t.n}</span>
-              </div>
+            <Link key={t.label} to={t.to} className="group pressable-card relative block aspect-[4/5] overflow-hidden rounded-lg bg-surface-2" data-testid={`home-type-${t.label}`}>
+              {t.img && <img src={t.img} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.05]" />}
+              <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night/60 to-transparent" />
+              <span className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-md bg-surface/95 px-3 py-1.5 text-[13px] font-semibold text-ink shadow-1">
+                {t.label} <span className="tabular font-normal text-ink-3">{t.n}</span>
+              </span>
             </Link>
           ))}
         </div>
@@ -269,19 +283,27 @@ export default function HomeFunctional() {
       <section className="wrap pt-12 sm:pt-16">
         <SectionHead title="Browse by make" sub={`${MAKES.length} makes across ${FACTS.cities.length} cities`} to="/search" />
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
-          {MAKES.map(([make, n]) => (
-            <Link key={make} to={`/search?make=${encodeURIComponent(make)}`}
-              className="pressable-card flex items-center justify-between rounded-lg border border-line bg-surface px-4 py-4 hover:border-line-strong">
-              <span className="font-heading text-[15px] font-bold text-ink">{make}</span>
-              <span className="tabular text-[12.5px] text-ink-3">{n} {n === 1 ? "car" : "cars"}</span>
-            </Link>
-          ))}
+          {MAKES.map(([make, n]) => {
+            const icon = MAKE_ICONS[make];
+            return (
+              <Link key={make} to={`/search?make=${encodeURIComponent(make)}`}
+                className="pressable-card flex flex-col items-center justify-center gap-3 rounded-lg border border-line bg-surface px-4 py-6 transition-[border-color,box-shadow] duration-hover hover:border-line-strong hover:shadow-1">
+                {icon ? (
+                  <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true" className="fill-ink"><path d={icon.path} /></svg>
+                ) : (
+                  <span className="grid h-9 place-items-center font-heading text-[22px] font-bold leading-none text-ink">{make.slice(0, 1)}</span>
+                )}
+                <span className="text-[13.5px] font-semibold text-ink">{make}</span>
+                <span className="tabular -mt-2 text-[12px] text-ink-3">{n} {n === 1 ? "car" : "cars"}</span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
       {/* ── FEATURED ─────────────────────────────────────────────────────── */}
       <section className="wrap pt-12 sm:pt-16">
-        <div>
+        <div className="-mx-4 rounded-lg bg-surface-2/60 px-4 py-6 sm:-mx-6 sm:px-6 sm:py-8 lg:-mx-8 lg:px-8">
           <SectionHead title="Featured cars" to="/search" />
           <div className="mt-4 flex gap-6 border-b border-line" role="tablist" aria-label="Featured cars">
             {FEATURED_TABS.map((t) => (
