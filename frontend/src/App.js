@@ -7,7 +7,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
-import Home from "@/pages/Home";
+import HomeFunctional from "@/pages/HomeFunctional";
+import HomePremium from "@/pages/HomePremium";
 import { trackEvent } from "@/lib/api";
 import { EASE } from "@/lib/motion";
 
@@ -82,7 +83,8 @@ function App() {
             <Suspense fallback={<RouteFallback />}>
               <RouteShell>
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<HomeFunctional />} />
+                  <Route path="/premium" element={<HomePremium />} />
                   <Route path="/search" element={<SearchResults />} />
                   <Route path="/vehicle/:id" element={<VehicleDetail />} />
                   <Route path="/apply/:id" element={<Apply />} />
