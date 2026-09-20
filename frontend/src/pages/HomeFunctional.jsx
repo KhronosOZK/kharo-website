@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useInView } from "framer-motion";
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { siToyota, siKia, siHyundai, siSkoda, siVolkswagen, siBmw, siVauxhall, siHonda, siNissan, siFord, siTesla } from "simple-icons";
 import { MOCK_LISTINGS } from "@/data/mockListings";
 import { MODELS_BY_MAKE } from "@/components/FiltersDialog";
@@ -65,14 +65,12 @@ const TYPES = [
 
 // Make marks from simple-icons, used the way Auto Trader uses them: to
 // identify the make, never to imply endorsement. The set has no Mercedes
-// star, so that one is drawn here: a ring and three arms from the centre.
-const MERCEDES = {
-  path: "M12 1a11 11 0 1 0 0 22 11 11 0 0 0 0-22zm0 1.6a9.4 9.4 0 1 1 0 18.8 9.4 9.4 0 0 1 0-18.8zM11.25 3.4h1.5v7.9l6.85 3.96-.75 1.3L12 12.6l-6.85 3.96-.75-1.3 6.85-3.96z",
-};
+// star, so that one is the plain star from Wikimedia Commons, served from
+// /images/makes.
 const MAKE_ICONS = {
   Toyota: siToyota, Kia: siKia, Hyundai: siHyundai, Skoda: siSkoda, Volkswagen: siVolkswagen,
   BMW: siBmw, Vauxhall: siVauxhall, Honda: siHonda, Nissan: siNissan, Ford: siFord, Tesla: siTesla,
-  "Mercedes-Benz": MERCEDES,
+  "Mercedes-Benz": { img: "/images/makes/mercedes.svg" },
 };
 const MAKES = Object.entries(MOCK_LISTINGS.reduce((acc, v) => { acc[v.make] = (acc[v.make] || 0) + 1; return acc; }, {}))
   .sort((a, b) => b[1] - a[1]);
@@ -133,16 +131,18 @@ export default function HomeFunctional() {
   const { reduce } = useMotionPrefs();
   useSeo({ title: HOME.seo.title, description: HOME.seo.description });
 
-  // Hero. Auto-advances every eight seconds until the visitor touches it,
-  // then stays put, so a button never moves under a finger.
+  // Hero. One car at a time; the active bar under it fills over seven
+  // seconds and then the next car takes over. Hovering pauses it. Tapping
+  // the left or right edge of the photograph, or a bar, jumps straight there
+  // and the clock starts again from that car.
   const [slide, setSlide] = useState(0);
-  const interacted = useRef(false);
+  const [paused, setPaused] = useState(false);
   useEffect(() => {
-    if (reduce) return undefined;
-    const t = setInterval(() => { if (!interacted.current) setSlide((s) => (s + 1) % FEATURED.length); }, 8000);
-    return () => clearInterval(t);
-  }, [reduce]);
-  const go = (i) => { interacted.current = true; setSlide((i + FEATURED.length) % FEATURED.length); };
+    if (reduce || paused) return undefined;
+    const t = setTimeout(() => setSlide((s) => (s + 1) % FEATURED.length), 7000);
+    return () => clearTimeout(t);
+  }, [reduce, paused, slide]);
+  const go = (i) => setSlide((i + FEATURED.length) % FEATURED.length);
   const hero = FEATURED[slide];
 
   // Search card
@@ -178,7 +178,7 @@ export default function HomeFunctional() {
   return (
     <div className="bg-bone">
       {/* ── HERO: the featured car on a photograph, the search beside it ── */}
-      <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-bone lg:bg-night" data-hero-photo="true" onPointerDown={() => { interacted.current = true; }}>
+      <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-bone lg:bg-night" data-hero-photo="true" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
         {/* On a phone the photograph is a band behind the copy and the search
             card sits below it on the page; on wide screens it fills the hero. */}
         <div className="absolute inset-x-0 top-0 h-[23rem] bg-night lg:inset-0 lg:h-auto">
@@ -188,12 +188,15 @@ export default function HomeFunctional() {
           {FEATURED.slice(1).map((v) => <link key={v.id} rel="prefetch" as="image" href={v.photos[0]} />)}
           <div className="absolute inset-0 bg-gradient-to-r from-night/85 via-night/50 to-night/20" />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night/75 to-transparent" />
+          {/* Tap the edges of the photograph to move between cars. */}
+          <button type="button" onClick={() => go(slide - 1)} aria-label="Previous car" className="absolute inset-y-0 left-0 w-1/5 cursor-w-resize lg:w-1/6" />
+          <button type="button" onClick={() => go(slide + 1)} aria-label="Next car" className="absolute inset-y-0 right-0 w-1/5 cursor-e-resize lg:w-1/3" />
         </div>
 
         <div className="wrap relative grid gap-5 pt-[calc(var(--header-h)+1.5rem)] pb-8 sm:gap-8 lg:min-h-[40rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:grid-rows-[1fr_auto] lg:items-center lg:pb-12 lg:pt-[calc(var(--header-h)+2.5rem)]">
           {/* The entrance is CSS, not JavaScript, so the words are on screen
               even when a slow phone throttles animation frames. */}
-          <div className="text-white max-lg:flex max-lg:min-h-[14rem] max-lg:flex-col max-lg:justify-end">
+          <div className="relative z-10 text-white max-lg:flex max-lg:min-h-[14rem] max-lg:flex-col max-lg:justify-end lg:pointer-events-none lg:[&_a]:pointer-events-auto">
             <p className={`${ENTER} font-heading text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]`} data-testid="hero-price">
               £{hero.weekly_rent} <span className="text-[0.45em] font-medium text-white/75">a week</span>
             </p>
@@ -217,20 +220,17 @@ export default function HomeFunctional() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 max-lg:-mt-1 lg:col-start-1 lg:row-start-2 lg:-mt-4" role="group" aria-label="Featured cars">
-            <button type="button" onClick={() => go(slide - 1)} aria-label="Previous car" className="pressable grid h-9 w-9 place-items-center rounded-md border border-white/30 text-white hover:bg-white/10">
-              <ChevronLeft size={18} strokeWidth={2} />
-            </button>
-            <div className="flex gap-2" role="tablist">
-              {FEATURED.map((v, i) => (
-                <button key={v.id} type="button" role="tab" aria-selected={i === slide} aria-label={`${v.make} ${v.model}`}
-                  onClick={() => go(i)}
-                  className={`pressable h-1 w-8 rounded-full transition-colors duration-ui ${i === slide ? "bg-white" : "bg-white/35 hover:bg-white/60"}`} />
-              ))}
-            </div>
-            <button type="button" onClick={() => go(slide + 1)} aria-label="Next car" className="pressable grid h-9 w-9 place-items-center rounded-md border border-white/30 text-white hover:bg-white/10">
-              <ChevronRight size={18} strokeWidth={2} />
-            </button>
+          <div className="relative z-10 flex items-center gap-2 max-lg:-mt-1 lg:col-start-1 lg:row-start-2 lg:-mt-4" role="tablist" aria-label="Featured cars">
+            {FEATURED.map((v, i) => (
+              <button key={v.id} type="button" role="tab" aria-selected={i === slide} aria-label={`${v.make} ${v.model}`}
+                onClick={() => go(i)}
+                className="pressable relative h-1.5 w-10 overflow-hidden rounded-full bg-white/30">
+                {i === slide && (
+                  <span key={`${slide}-${paused}`} aria-hidden="true"
+                    className={`absolute inset-0 origin-left rounded-full bg-white ${reduce ? "" : "motion-safe:animate-hero-progress"} ${paused ? "[animation-play-state:paused]" : ""}`} />
+                )}
+              </button>
+            ))}
           </div>
 
           {/* The search card */}
@@ -335,7 +335,9 @@ export default function HomeFunctional() {
             return (
               <Link key={make} to={`/search?make=${encodeURIComponent(make)}`}
                 className="pressable-card flex flex-col items-center justify-center gap-3 rounded-lg border border-line bg-surface px-3 py-5 text-center transition-[border-color,box-shadow] duration-hover hover:border-line-strong hover:shadow-1 sm:py-6">
-                {icon ? (
+                {icon?.img ? (
+                  <img src={icon.img} alt="" width="34" height="34" aria-hidden="true" className="h-[34px] w-[34px]" />
+                ) : icon ? (
                   <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true" className="fill-ink"><path d={icon.path} /></svg>
                 ) : (
                   <span className="grid h-[34px] place-items-center font-heading text-[22px] font-bold leading-none text-ink">{make.slice(0, 1)}</span>

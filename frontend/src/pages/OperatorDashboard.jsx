@@ -89,7 +89,7 @@ function Tracking({ compact = false }) {
             </li>
           ))}
         </ul>
-        {!compact && <p className="mt-3 text-[12px] leading-relaxed text-ink-3">A tracker goes on before handover. Positions refresh every 30 seconds at launch; these are demo positions.</p>}
+        {!compact && <p className="mt-3 text-[12px] leading-relaxed text-ink-3">A tracker goes on before handover. Positions refresh every 30 seconds at launch; these are demo positions. Map © OpenStreetMap contributors, © CARTO.</p>}
       </Panel>
     </div>
   );

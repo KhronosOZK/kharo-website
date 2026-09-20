@@ -19,8 +19,6 @@ export default function OperatorGuide() {
   useSeo({ title: OPERATOR_GUIDE.seo.title, description: OPERATOR_GUIDE.seo.description });
 
   const { hero, manage, dashboard, steps, claims, fee, earnings, faq } = OPERATOR_GUIDE;
-  const half = Math.ceil(steps.items.length / 2);
-  const stepColumns = [steps.items.slice(0, half), steps.items.slice(half)];
 
   const scrollToConsole = () => {
     document.getElementById(CONSOLE_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -61,11 +59,7 @@ export default function OperatorGuide() {
           <RevealItem>
             <h2 className="text-h2 font-heading font-extrabold text-ink">{steps.heading}</h2>
           </RevealItem>
-          <div className="mt-8 grid md:grid-cols-2 gap-x-block">
-            {stepColumns.map((column, c) => (
-              <StepList key={c} items={column} start={c * half + 1} />
-            ))}
-          </div>
+          <StepList items={steps.items} className="mt-8" />
         </RevealGroup>
       </section>
 
@@ -105,12 +99,12 @@ export default function OperatorGuide() {
       </section>
 
       {/* ── CLAIMS: the one photo and text split on the page ───────────── */}
-      <RevealGroup as="section" className="wrap pb-section">
-        <div className="grid lg:grid-cols-2 gap-block items-center">
-          <RevealItem>
-            <img src={claims.img} alt={claims.imgAlt} loading="lazy" className="w-full rounded-lg border border-line aspect-[4/3] object-cover bg-surface-2" />
+      <RevealGroup as="section" className="wrap py-section">
+        <div className="grid items-center gap-8 rounded-lg border border-line bg-surface p-5 sm:p-8 lg:grid-cols-12 lg:gap-12 lg:p-10">
+          <RevealItem className="lg:col-span-5">
+            <img src={claims.img} alt={claims.imgAlt} loading="lazy" className="w-full rounded-md aspect-[4/3] object-cover bg-surface-2" />
           </RevealItem>
-          <RevealItem>
+          <RevealItem className="lg:col-span-7">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{claims.heading}</h2>
             <p className="mt-4 text-lead text-ink-2 measure">{claims.body}</p>
           </RevealItem>
@@ -177,32 +171,32 @@ export default function OperatorGuide() {
       </section>
 
       {/* ── HOW YOU GET PAID: the risk answer, on its own dark band ──────── */}
-      <section className="bg-ink text-white" data-testid="paid-band">
+      <section className="bg-surface border-y border-line" data-testid="paid-band">
         <RevealGroup className="wrap py-section">
           <RevealItem className="max-w-2xl">
-            <h2 className="font-heading text-h2 font-extrabold tracking-[-0.01em]">{OPERATOR_GUIDE.paid.heading}</h2>
-            <p className="mt-4 text-lead leading-relaxed text-white/80">{OPERATOR_GUIDE.paid.sub}</p>
+            <h2 className="font-heading text-h2 font-extrabold tracking-[-0.01em] text-ink">{OPERATOR_GUIDE.paid.heading}</h2>
+            <p className="mt-4 text-lead leading-relaxed text-ink-2">{OPERATOR_GUIDE.paid.sub}</p>
           </RevealItem>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {OPERATOR_GUIDE.paid.points.map((p) => (
-              <RevealItem key={p.t} className="rounded-lg border border-white/12 bg-white/[0.04] p-5">
-                <p className="font-heading text-[17px] font-bold">{p.t}</p>
-                <p className="mt-2 text-[14.5px] leading-relaxed text-white/75">{p.d}</p>
+            {OPERATOR_GUIDE.paid.points.map((p, i) => (
+              <RevealItem key={p.t} className="rounded-lg border border-line bg-bone p-5">
+                <span className="grid h-8 w-8 place-items-center rounded-md bg-green font-heading text-[14px] font-bold tabular text-ink">{i + 1}</span>
+                <p className="mt-4 font-heading text-[17px] font-bold text-ink">{p.t}</p>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{p.d}</p>
               </RevealItem>
             ))}
           </div>
 
-          <RevealItem className="mt-12 border-t border-white/12 pt-8">
-            <h3 className="font-heading text-h3 font-bold">{OPERATOR_GUIDE.enforcement.heading}</h3>
-            <p className="mt-2 text-[14.5px] text-white/70">This is what happens, and when. It is written into the operator agreement before you list.</p>
+          <RevealItem className="mt-12 border-t border-line pt-8">
+            <h3 className="font-heading text-h3 font-bold text-ink">{OPERATOR_GUIDE.enforcement.heading}</h3>
+            <p className="mt-2 text-[14.5px] text-ink-2">This is what happens, and when. It is written into the operator agreement before you list.</p>
           </RevealItem>
           <ol className="mt-6 grid gap-6 sm:grid-cols-4 sm:gap-4" data-testid="enforcement-timeline">
-            {OPERATOR_GUIDE.enforcement.steps.map((s, i) => (
+            {OPERATOR_GUIDE.enforcement.steps.map((s) => (
               <RevealItem as="li" key={s.day} className="relative border-t-2 border-green pt-4">
                 <span aria-hidden="true" className="absolute -top-[7px] left-0 h-3 w-3 rounded-full bg-green" />
-                <p className="font-heading text-[15px] font-bold text-green">{s.day}</p>
-                <p className="mt-1.5 text-[14px] leading-relaxed text-white/80">{s.d}</p>
-                {i === OPERATOR_GUIDE.enforcement.steps.length - 1 && null}
+                <p className="font-heading text-[15px] font-bold text-green-deep">{s.day}</p>
+                <p className="mt-1.5 text-[14px] leading-relaxed text-ink-2">{s.d}</p>
               </RevealItem>
             ))}
           </ol>

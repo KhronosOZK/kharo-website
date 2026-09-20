@@ -12,8 +12,6 @@ import { FOR_DRIVERS } from "@/content/site";
 export default function ForDrivers() {
   const navigate = useNavigate();
   const { seo, hero, steps, flow, dashboard, support, requirements, closer } = FOR_DRIVERS;
-  const half = Math.ceil(steps.items.length / 2);
-  const stepColumns = [steps.items.slice(0, half), steps.items.slice(half)];
   useSeo({ title: seo.title, description: seo.description });
 
   return (
@@ -31,11 +29,7 @@ export default function ForDrivers() {
       {/* ── STEPS: the whole arc, browsing to earning ───────────────────── */}
       <RevealGroup as="section" className="wrap py-section">
         <RevealItem><h2 className="text-h2 font-heading font-extrabold text-ink max-w-[22ch]">{steps.heading}</h2></RevealItem>
-        <div className="mt-10 grid md:grid-cols-2 gap-x-block">
-          {stepColumns.map((column, c) => (
-            <StepList key={c} items={column} start={c * half + 1} />
-          ))}
-        </div>
+        <StepList items={steps.items} className="mt-10" />
 
         <RevealItem className="mt-2">
           <Link to="/driver-guide" data-testid="driver-guide-link" className="pressable inline-flex items-center gap-1.5 text-[14.5px] font-semibold text-green hover:underline underline-offset-4">

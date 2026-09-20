@@ -383,9 +383,10 @@ export default function VehicleDetail() {
                 <ApproxAreaMap lat={lat} lon={lon} />
               </div>
               <p className="text-[13px] text-ink-3 mt-3 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-green shrink-0" strokeWidth={1.75} />
+                <MapPin className="w-4 h-4 text-green-deep shrink-0" strokeWidth={1.75} />
                 {DETAIL.collectionNote(v.borough, v.postcode)}
               </p>
+              <p className="mt-1 text-[11px] text-ink-3">Map © OpenStreetMap contributors, © CARTO</p>
             </section>
 
             <section className="hairline py-6">

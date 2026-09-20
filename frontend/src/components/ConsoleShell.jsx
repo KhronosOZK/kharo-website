@@ -213,7 +213,7 @@ export function FleetMap({ vehicles, selected, onSelect, className = "" }) {
   return (
     <div className={`overflow-hidden rounded-lg border border-line bg-surface-2 ${className}`} data-testid="fleet-map">
       <MapContainer center={points[0] || [51.5, -0.1]} zoom={11} scrollWheelZoom={false} attributionControl={false} className="h-full w-full">
-        <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
+        <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
         <FitAll points={points} />
         {vehicles.map((v, i) => (
           <Marker key={v.plate} position={points[i]} icon={plateIcon(v.plate, v.status)} opacity={selected && selected !== v.plate ? 0.55 : 1}

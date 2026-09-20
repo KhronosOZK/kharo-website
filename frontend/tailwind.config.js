@@ -111,6 +111,8 @@ module.exports = {
         "hero-drift": { from: { transform: "scale(1)" }, to: { transform: "scale(1.06)" } },
         // A row of car chips gliding left; the row is duplicated so the loop is seamless.
         marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
+        // The active hero dot fills left to right over one slide's time.
+        "hero-progress": { from: { transform: "scaleX(0)" }, to: { transform: "scaleX(1)" } },
         "accordion-down": {
           from: { height: "0", opacity: "0" },
           to: { height: "var(--radix-accordion-content-height)", opacity: "1" },
@@ -124,6 +126,7 @@ module.exports = {
         "accordion-down": "accordion-down var(--dur-ui) var(--ease-out)",
         "accordion-up": "accordion-up var(--dur-ui) var(--ease-out)",
         marquee: "marquee 48s linear infinite",
+        "hero-progress": "hero-progress 7s linear forwards",
       },
     },
   },
