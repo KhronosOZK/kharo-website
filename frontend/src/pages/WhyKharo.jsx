@@ -43,7 +43,7 @@ export default function WhyKharo() {
   return (
     <div className="bg-bone">
       {/* ── HERO: photograph, headline, sub. Nothing floating. ──────────── */}
-      <PageHero heading={hero.heading} sub={hero.sub} meta={hero.meta}
+      <PageHero heading={hero.heading} sub={hero.sub}
         img={hero.img} position="55% center" priority
       />
 

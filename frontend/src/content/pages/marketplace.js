@@ -5,7 +5,7 @@
 export const CARD = {
   registerInterest: "Register interest",
   preview: "Preview listing, not bookable yet.",
-  rentalOnly: "Rental only. Insurance chosen when you apply.",
+  rentalOnly: "Rent only. You choose the insurance.",
   insuranceIncluded: "Insurance included by the operator.",
 };
 
@@ -56,8 +56,11 @@ export const SEARCH = {
   sort: {
     label: "Sort",
     options: [
+      { value: "recommended", label: "Recommended" },
       { value: "price_asc", label: "Price, low to high" },
       { value: "price_desc", label: "Price, high to low" },
+      { value: "newest", label: "Newest listings" },
+      { value: "oldest", label: "Oldest listings" },
     ],
   },
   resultsCount: (n) => `${n} car${n === 1 ? "" : "s"} to rent`,
@@ -130,8 +133,8 @@ export const DETAIL = {
   insuranceHeading: "Insurance",
   insuranceChosen: "Chosen when you apply",
   coverHeading: "Compare insurance for this car",
-  coverSub: "Hire and reward cover is separate from the rent and paid to the insurer. Pick a level and how often you want to pay. You can change it when you apply.",
-  coverNote: "Indicative prices for a driver with a clean licence and two years of private hire experience. Your real quotes come from the insurers when you apply.",
+  coverSub: "Insurance is separate from the rent. Pick a level and how often you pay. You can change it when you apply.",
+  coverNote: "These prices are a guide, for a driver with a clean licence and two years of experience. You get real prices from the insurers when you apply.",
   coverPaidTo: "Paid to the insurer, not the operator.",
   insuranceHelper:
     "Comprehensive, third party fire and theft, or third party, paid monthly, six-monthly or yearly.",

@@ -19,6 +19,7 @@ export default function PriceRangeFilter({
   className = "",
   id = "price-range",
   compact = false,
+  showCount = false,
 }) {
   const { reduce } = useMotionPrefs();
   const trackRef = useRef(null);
@@ -112,7 +113,7 @@ export default function PriceRangeFilter({
     <div className={className} data-testid={id}>
       <div className={`flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 ${compact ? "" : "mb-2"}`}>
         <span className={`font-medium text-ink tabular ${compact ? "text-[13.5px]" : "text-[13.5px]"}`}>£{lo} to £{hi}</span>
-        {!compact && (
+        {!compact && showCount && (
           <span className="text-[12.5px] text-ink-3 tabular" data-testid={`${id}-count`} aria-live="polite">
             {countLabel(inRange)}
           </span>

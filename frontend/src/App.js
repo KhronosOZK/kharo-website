@@ -15,33 +15,48 @@ import { EASE } from "@/lib/motion";
 // page (organic, ads, direct), so it ships in the main bundle to render
 // immediately, while every other route only downloads its own chunk when a
 // visitor actually navigates there.
-const SearchResults = lazy(() => import("@/pages/SearchResults"));
-const VehicleDetail = lazy(() => import("@/pages/VehicleDetail"));
-const Apply = lazy(() => import("@/pages/Apply"));
-const Register = lazy(() => import("@/pages/Register"));
-const OperatorInterest = lazy(() => import("@/pages/OperatorInterest"));
-const DriverGuide = lazy(() => import("@/pages/DriverGuide"));
-const ForDrivers = lazy(() => import("@/pages/ForDrivers"));
-const OperatorGuide = lazy(() => import("@/pages/OperatorGuide"));
-const Admin = lazy(() => import("@/pages/Admin"));
-const WhyKharo = lazy(() => import("@/pages/WhyKharo"));
-const Help = lazy(() => import("@/pages/Help"));
-const Legal = lazy(() => import("@/pages/Legal"));
-const Saved = lazy(() => import("@/pages/Saved"));
-const Compare = lazy(() => import("@/pages/Compare"));
-const RequestCar = lazy(() => import("@/pages/RequestCar"));
-const CityPage = lazy(() => import("@/pages/CityPage"));
-const Login = lazy(() => import("@/pages/Login"));
-const OperatorLogin = lazy(() => import("@/pages/OperatorLogin"));
-const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
-const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
-const DriverPortal = lazy(() => import("@/pages/DriverPortal"));
-const OperatorDashboard = lazy(() => import("@/pages/OperatorDashboard"));
-const NotFound = lazy(() => import("@/pages/NotFound"));
+// A chunk can fail to load when a deploy lands between two navigations (the
+// page holds the old chunk names). Reload once to pick up the new build,
+// then let the error surface if it still fails.
+const lazyRetry = (load) => lazy(() => load().catch((err) => {
+  if (!sessionStorage.getItem("kharo_chunk_retry")) {
+    sessionStorage.setItem("kharo_chunk_retry", "1");
+    window.location.reload();
+    return new Promise(() => {});
+  }
+  throw err;
+}));
+
+const SearchResults = lazyRetry(() => import("@/pages/SearchResults"));
+const VehicleDetail = lazyRetry(() => import("@/pages/VehicleDetail"));
+const Apply = lazyRetry(() => import("@/pages/Apply"));
+const Register = lazyRetry(() => import("@/pages/Register"));
+const OperatorInterest = lazyRetry(() => import("@/pages/OperatorInterest"));
+const DriverGuide = lazyRetry(() => import("@/pages/DriverGuide"));
+const ForDrivers = lazyRetry(() => import("@/pages/ForDrivers"));
+const OperatorGuide = lazyRetry(() => import("@/pages/OperatorGuide"));
+const Admin = lazyRetry(() => import("@/pages/Admin"));
+const WhyKharo = lazyRetry(() => import("@/pages/WhyKharo"));
+const Help = lazyRetry(() => import("@/pages/Help"));
+const Legal = lazyRetry(() => import("@/pages/Legal"));
+const Saved = lazyRetry(() => import("@/pages/Saved"));
+const Compare = lazyRetry(() => import("@/pages/Compare"));
+const RequestCar = lazyRetry(() => import("@/pages/RequestCar"));
+const CityPage = lazyRetry(() => import("@/pages/CityPage"));
+const Login = lazyRetry(() => import("@/pages/Login"));
+const OperatorLogin = lazyRetry(() => import("@/pages/OperatorLogin"));
+const ForgotPassword = lazyRetry(() => import("@/pages/ForgotPassword"));
+const ResetPassword = lazyRetry(() => import("@/pages/ResetPassword"));
+const DriverPortal = lazyRetry(() => import("@/pages/DriverPortal"));
+const OperatorDashboard = lazyRetry(() => import("@/pages/OperatorDashboard"));
+const NotFound = lazyRetry(() => import("@/pages/NotFound"));
 
 function RouteTracker() {
   const loc = useLocation();
-  useEffect(() => { trackEvent("page_view", { path: loc.pathname }); }, [loc.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    trackEvent("page_view", { path: loc.pathname });
+    sessionStorage.removeItem("kharo_chunk_retry");
+  }, [loc.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
   return null;
 }
 

@@ -146,6 +146,7 @@ function countBy(list, key) {
  */
 export function FilterPanel({
   fuelOptions,
+  nearMe = false, nearMeStatus = "idle", onNearMe,
   city, setCity, cityOptions = [],
   borough, setBorough, areaOptions,
   fuel, setFuel,
@@ -200,6 +201,11 @@ export function FilterPanel({
               <option value="">{SEARCH.filters.areaPlaceholder}</option>
               {areaOptions.slice(1).map((b) => <option key={b} value={b}>{b}</option>)}
             </select>
+            {onNearMe && (
+              <CheckRow checked={nearMe} onChange={onNearMe} count={null}>
+                Near me{nearMeStatus === "loading" ? ", finding you" : nearMeStatus === "denied" ? ", location blocked" : nearMeStatus === "unsupported" ? ", not available" : ""}
+              </CheckRow>
+            )}
           </div>
         </Group>
       )}
@@ -235,12 +241,34 @@ export function FilterPanel({
       </Group>
 
       <Group title={SEARCH.filters.councilLabel} testId="filter-council">
-        <div className="-mx-1 max-h-56 overflow-y-auto px-1">
-          {COUNCILS.map((authority) => (
-            <CheckRow key={authority} checked={councils.includes(authority)} onChange={() => toggleCouncil(authority)} count={councilCounts[authority] || 0}>{authority}</CheckRow>
-          ))}
-        </div>
-        <p className="mt-2 text-[12px] leading-relaxed text-ink-3">{SEARCH.filters.councilNote}</p>
+        {/* A searchable list: type part of a council's name, pick it, and it
+            is added below. Alphabetical, so scrolling the list also works. */}
+        <input
+          type="search"
+          list="council-options"
+          placeholder="Search or choose a council"
+          aria-label="Search licensing councils"
+          data-testid="council-search"
+          className="select-field w-full"
+          onChange={(e) => {
+            const hit = COUNCILS.find((c) => c.toLowerCase() === e.target.value.trim().toLowerCase());
+            if (hit) { if (!councils.includes(hit)) toggleCouncil(hit); e.target.value = ""; }
+          }}
+        />
+        <datalist id="council-options">
+          {COUNCILS.filter((c) => !councils.includes(c)).map((c) => <option key={c} value={c}>{`${councilCounts[c] || 0} cars`}</option>)}
+        </datalist>
+        {councils.length > 0 && (
+          <ul className="mt-2 flex flex-wrap gap-1.5">
+            {councils.map((c) => (
+              <li key={c}>
+                <button type="button" onClick={() => toggleCouncil(c)} className="pressable inline-flex items-center gap-1.5 rounded-md border border-line-strong bg-surface px-2.5 py-1 text-[12.5px] font-medium text-ink" aria-label={`Remove ${c}`}>
+                  {c} <span aria-hidden="true" className="text-ink-3">×</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </Group>
 
       <Group title={SEARCH.filters.mileageLabel} testId="filter-mileage">

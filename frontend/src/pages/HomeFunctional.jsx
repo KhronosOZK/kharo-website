@@ -5,14 +5,13 @@ import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Search } from "luc
 import { siToyota, siKia, siHyundai, siSkoda, siVolkswagen, siBmw, siVauxhall, siHonda, siNissan, siFord, siTesla } from "simple-icons";
 import { MOCK_LISTINGS } from "@/data/mockListings";
 import { LIVE_CITIES } from "@/lib/cities";
-import { mileageLabel } from "@/lib/format";
 import { EASE, useMotionPrefs } from "@/lib/motion";
 import PriceRangeFilter from "@/components/PriceRangeFilter";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
 import Faq from "@/components/Faq";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
-import { HOME, FACTS, WHY } from "@/content/site";
+import { HOME, WHY } from "@/content/site";
 import { useSeo } from "@/lib/seo";
 
 /**
@@ -184,19 +183,17 @@ export default function HomeFunctional() {
         <div className="wrap relative grid gap-5 pt-[calc(var(--header-h)+1.5rem)] pb-8 sm:gap-8 lg:min-h-[40rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:grid-rows-[1fr_auto] lg:items-center lg:pb-12 lg:pt-[calc(var(--header-h)+2.5rem)]">
           <motion.div className="text-white max-lg:min-h-[17rem]" initial={reduce ? false : "hidden"} animate="visible"
             variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } }}>
-            <motion.p variants={RISE} className="text-[13px] font-medium text-white/70">Featured this week · {hero.borough}, {hero.city}</motion.p>
-            <motion.p variants={RISE} className="mt-3 font-heading text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]" data-testid="hero-price">
-              £{hero.weekly_rent} <span className="text-[0.45em] font-medium text-white/75">a week, rent only</span>
+            <motion.p variants={RISE} className="font-heading text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]" data-testid="hero-price">
+              £{hero.weekly_rent} <span className="text-[0.45em] font-medium text-white/75">a week</span>
             </motion.p>
-            <motion.h1 variants={RISE} className="mt-2 font-heading text-[clamp(1.9rem,1.2rem+3.2vw,3.6rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
-              {hero.make} {hero.model} {hero.year}
+            <motion.h1 variants={RISE} className="mt-3 font-heading text-[clamp(1.9rem,1.2rem+3.2vw,3.6rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+              {hero.make} {hero.model}
             </motion.h1>
-            <motion.p variants={RISE} className="mt-3 text-[14.5px] text-white/85 sm:mt-4 sm:text-[15px]">{hero.fuel} · {hero.transmission} · {hero.seats} seats · {mileageLabel(hero.mileage_allowance)}</motion.p>
-            <motion.div variants={RISE} className="mt-6 flex flex-wrap items-center gap-4 sm:mt-7">
-              <Link to={`/vehicle/${hero.id}`} className="pressable inline-flex h-11 items-center gap-2 rounded-md bg-surface px-5 text-[14.5px] font-semibold text-ink hover:bg-bone" data-testid="hero-see-car">
+            <motion.div variants={RISE} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 lg:mt-10">
+              <Link to={`/vehicle/${hero.id}`} className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-md bg-surface px-6 text-[15px] font-semibold text-ink hover:bg-bone" data-testid="hero-see-car">
                 See this car <ArrowUpRight size={16} strokeWidth={2.25} />
               </Link>
-              <Link to="/search" className="pressable inline-flex h-11 items-center gap-2 text-[14.5px] font-semibold text-white/90 hover:text-white">
+              <Link to="/search" className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-md border border-white/40 px-6 text-[15px] font-semibold text-white hover:bg-white/10">
                 Browse all cars <ArrowRight size={16} strokeWidth={2.25} />
               </Link>
             </motion.div>
@@ -307,20 +304,19 @@ export default function HomeFunctional() {
 
       {/* ── MAKES ────────────────────────────────────────────────────────── */}
       <section className="wrap pt-10 sm:pt-16">
-        <SectionHead title="Browse by make" sub={`${MAKES.length} makes across ${FACTS.cities.length} cities`} to="/search" />
-        <div className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6 lg:gap-4">
-          {MAKES.map(([make, n]) => {
+        <SectionHead title="Browse by make" to="/search" />
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6 lg:gap-4">
+          {MAKES.map(([make]) => {
             const icon = MAKE_ICONS[make];
             return (
               <Link key={make} to={`/search?make=${encodeURIComponent(make)}`}
-                className="pressable-card flex flex-col items-center justify-center gap-2.5 rounded-lg border border-line bg-surface px-3 py-5 transition-[border-color,box-shadow] duration-hover hover:border-line-strong hover:shadow-1 sm:py-6">
+                className="pressable-card flex flex-col items-center justify-center gap-3 rounded-lg border border-line bg-surface px-3 py-5 text-center transition-[border-color,box-shadow] duration-hover hover:border-line-strong hover:shadow-1 sm:py-6">
                 {icon ? (
                   <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true" className="fill-ink"><path d={icon.path} /></svg>
                 ) : (
                   <span className="grid h-[34px] place-items-center font-heading text-[22px] font-bold leading-none text-ink">{make.slice(0, 1)}</span>
                 )}
-                <span className="text-[13.5px] font-semibold text-ink">{make}</span>
-                <span className="tabular -mt-1.5 text-[12px] text-ink-3">{n} {n === 1 ? "car" : "cars"}</span>
+                <span className="text-[13.5px] font-semibold leading-tight text-ink">{make}</span>
               </Link>
             );
           })}
@@ -370,7 +366,13 @@ export default function HomeFunctional() {
           <Link to="/search" className="pressable mt-5 inline-flex h-11 w-fit items-center gap-2 rounded-md bg-green px-5 text-[14px] font-semibold text-ink hover:bg-green-hover">
             Find a car <ArrowUpRight size={15} strokeWidth={2.25} />
           </Link>
-          <div className="relative -mx-6 mt-7 overflow-hidden border-t border-white/10 pt-4 sm:-mx-8" aria-hidden="true">
+          <div className="mt-7 border-t border-white/10 pt-5">
+            <p className="font-heading text-[clamp(2.5rem,1.8rem+2.6vw,3.75rem)] font-extrabold leading-none tabular tracking-[-0.02em] text-white">
+              £{BOUNDS[0]}<span className="ml-2 text-[0.4em] font-medium text-white/70">a week, the cheapest car this week</span>
+            </p>
+            <p className="mt-2 text-[12.5px] text-white/60">Rent only. Insurance is compared on the car, and you choose the level.</p>
+          </div>
+          <div className="relative -mx-6 mt-5 overflow-hidden border-t border-white/10 pt-4 sm:-mx-8" aria-hidden="true">
             <div className="flex w-max gap-2 pl-6 motion-safe:animate-marquee motion-safe:group-hover:[animation-play-state:paused] sm:pl-8">
               {[...TICKER, ...TICKER].map((v, i) => (
                 <span key={`${v.id}-${i}`} className="shrink-0 rounded-md border border-white/15 px-3 py-1.5 text-[12.5px] text-white/85">
@@ -433,8 +435,8 @@ export default function HomeFunctional() {
 
       {/* ── FAQ ──────────────────────────────────────────────────────────── */}
       <section className="wrap py-10 sm:py-16">
-        <div className="max-w-3xl">
-          <h2 className="font-heading text-h2 font-extrabold tracking-[-0.01em] text-ink">{HOME.faq.heading}</h2>
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-center font-heading text-h2 font-extrabold tracking-[-0.01em] text-ink">{HOME.faq.heading}</h2>
           <div className="mt-5 rounded-lg border border-line bg-surface px-5"><Faq items={HOME.faq.items} testId="home-faq" /></div>
         </div>
       </section>

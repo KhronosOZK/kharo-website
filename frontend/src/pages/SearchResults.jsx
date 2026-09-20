@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { SlidersHorizontal, X, Map as MapIcon, List as ListIcon, LocateFixed } from "lucide-react";
+import { SlidersHorizontal, X, Map as MapIcon, List as ListIcon, ArrowUp } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, ENGINE_OPTIONS } from "@/data/mockListings";
 import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import { areaCoords } from "@/lib/geo";
 import VehicleCard from "@/components/VehicleCard";
 import SearchMap from "@/components/SearchMap";
 import CityInterestForm from "@/components/CityInterestForm";
-import PreviewNotice from "@/components/PreviewNotice";
 import FiltersDialog, { FilterPanel, applyFilters, YEAR_BOUNDS } from "@/components/FiltersDialog";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
@@ -186,7 +185,13 @@ export default function SearchResults() {
   ]);
   const [mileageMin, setMileageMin] = useState(parseInt(searchParams.get("minMileage"), 10) || 0);
   const [breakdownOnly, setBreakdownOnly] = useState(searchParams.get("breakdown") === "1");
-  const [sortBy, setSortBy] = useState("price_asc");
+  const [sortBy, setSortBy] = useState("recommended");
+  const [showTop, setShowTop] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 900);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const [showMap, setShowMap] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [nearMe, setNearMe] = useState(null); // { lat, lon } | null
@@ -299,7 +304,6 @@ export default function SearchResults() {
       { timeout: 8000 }
     );
   };
-  const nearMeLabel = { idle: "Off", loading: "Locating", on: "On", denied: "Unavailable", unsupported: "Unsupported" }[nearMeStatus];
 
   const results = useMemo(() => {
     const filters = { ...filtersExceptPrice, priceRange: effectiveRange };
@@ -312,8 +316,16 @@ export default function SearchResults() {
       });
     } else if (sortBy === "price_desc") {
       data = [...data].sort((a, b) => b.weekly_rent - a.weekly_rent);
-    } else {
+    } else if (sortBy === "price_asc") {
       data = [...data].sort((a, b) => a.weekly_rent - b.weekly_rent);
+    } else if (sortBy === "newest") {
+      data = [...data].sort((a, b) => b.id.localeCompare(a.id));
+    } else if (sortBy === "oldest") {
+      data = [...data].sort((a, b) => a.id.localeCompare(b.id));
+    } else {
+      // Recommended: cars with their own photographs first, cheapest within that.
+      const shown = (v) => (typeof v.photos?.[0] === "string" && (v.photos[0].startsWith("/images/listings/") || v.photos[0].includes("prod-images.emergentagent.com")) ? 1 : 0);
+      data = [...data].sort((a, b) => (shown(b) - shown(a)) || (a.weekly_rent - b.weekly_rent));
     }
     return data;
   }, [filtersExceptPrice, effectiveRange, sortBy, nearMe]);
@@ -348,12 +360,11 @@ export default function SearchResults() {
 
   return (
     <div className="min-h-page bg-bone">
-      <PreviewNotice />
 
       {/* Narrow screens: a sticky bar with the city, the filters button and
           the live rent slider. On wide screens the filters live in the
           sidebar beside the results, so this bar disappears. */}
-      <div className="sticky top-below-header z-30 bg-bone/95 border-b border-line shadow-1 lg:hidden">
+      <div className="border-b border-line lg:hidden">
         <div className="wrap py-2.5">
           <div className="control-bar">
             <ControlSegment label={SEARCH.filters.cityLabel} value={city || "Any city"} className="flex-1">
@@ -393,11 +404,23 @@ export default function SearchResults() {
         </div>
       </div>
 
+      {/* Phone: a shortcut back to the top of the listings once you are deep in them. */}
+      <button
+        type="button"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Back to the top of the listings"
+        data-testid="back-to-top"
+        className={`pressable fixed bottom-5 right-4 z-40 grid h-11 w-11 place-items-center rounded-md bg-ink text-white shadow-2 transition-[opacity,transform] duration-ui ease-out lg:hidden ${showTop ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-2"}`}
+      >
+        <ArrowUp size={18} strokeWidth={2} />
+      </button>
+
       <FiltersDialog
         open={filtersOpen}
         onOpenChange={setFiltersOpen}
         resultCount={results.length}
         fuelOptions={FUEL_OPTIONS}
+        nearMe={!!nearMe} nearMeStatus={nearMeStatus} onNearMe={handleNearMe}
         city={city} setCity={setCity} cityOptions={ALL_CITIES}
         breakdownOnly={breakdownOnly} setBreakdownOnly={setBreakdownOnly}
         borough={borough} setBorough={setBorough} areaOptions={areaOptions}
@@ -423,6 +446,7 @@ export default function SearchResults() {
         <aside className="hidden lg:block lg:self-start rounded-lg border border-line bg-surface p-5" data-testid="filter-sidebar">
           <FilterPanel
             fuelOptions={FUEL_OPTIONS}
+            nearMe={!!nearMe} nearMeStatus={nearMeStatus} onNearMe={handleNearMe}
             city={city} setCity={setCity} cityOptions={ALL_CITIES}
             borough={borough} setBorough={setBorough} areaOptions={areaOptions}
             fuel={fuelFilter} setFuel={setFuelFilter}
@@ -447,16 +471,6 @@ export default function SearchResults() {
             {SEARCH.resultsCount(results.length)}
           </h1>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleNearMe}
-              aria-pressed={!!nearMe}
-              className={`pressable hidden sm:inline-flex items-center gap-1.5 h-10 px-3.5 rounded-md border border-line-strong bg-surface text-[13px] font-medium text-ink-2 ${nearMe ? "bg-green-soft" : ""}`}
-              data-testid="near-me-toggle"
-            >
-              <LocateFixed size={14} strokeWidth={1.75} /> Near me
-              <span className="tabular text-ink-3">{nearMeLabel}</span>
-            </button>
             <label className="sr-only" htmlFor="search-sort">{SEARCH.sort.label}</label>
             <select
               id="search-sort"

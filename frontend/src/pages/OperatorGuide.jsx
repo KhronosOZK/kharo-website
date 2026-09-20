@@ -5,6 +5,7 @@ import DashboardSnapshot from "@/components/DashboardSnapshot";
 import OperatorEarnings from "@/components/OperatorEarnings";
 import Faq from "@/components/Faq";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
+import ScrollTrack from "@/components/ScrollLine";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
 import { OPERATOR_GUIDE } from "@/content/site";
@@ -28,7 +29,7 @@ export default function OperatorGuide() {
   return (
     <div className="bg-bone">
       {/* ── HERO: fleet photograph, left-aligned copy, one panel card ───── */}
-      <PageHero heading={hero.heading} sub={hero.sub} meta={hero.meta}
+      <PageHero heading={hero.heading} sub={hero.sub}
         img={hero.img} imgAlt={hero.imgAlt} position="50% center" priority
       >
         <div className="flex flex-wrap gap-3">
@@ -62,15 +63,15 @@ export default function OperatorGuide() {
           </RevealItem>
           <div className="mt-8 grid md:grid-cols-2 gap-x-block">
             {stepColumns.map((column, c) => (
-              <ol key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
+              <ScrollTrack key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
                 {column.map((s) => (
                   <RevealItem as="li" key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
-                    <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full bg-green" />
+                    <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full border-2 border-green bg-surface" />
                     <h3 className="text-h3 font-heading font-bold text-ink">{s.t}</h3>
                     <p className="mt-2 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{s.d}</p>
                   </RevealItem>
                 ))}
-              </ol>
+              </ScrollTrack>
             ))}
           </div>
         </RevealGroup>

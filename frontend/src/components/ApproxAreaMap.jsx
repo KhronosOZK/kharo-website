@@ -26,18 +26,20 @@ export default function ApproxAreaMap({ lat, lon, className = "" }) {
     <MapContainer
       center={[lat, lon]}
       zoom={13}
+      minZoom={9}
+      maxZoom={16}
       scrollWheelZoom={false}
-      dragging={false}
-      zoomControl={false}
+      dragging
+      zoomControl
       attributionControl={false}
       className={`w-full h-full ${className}`}
     >
-      <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
+      <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
       <FixSize />
       <Circle
         center={[lat, lon]}
         radius={900}
-        pathOptions={{ color: "#0B6B4F", fillColor: "#0B6B4F", fillOpacity: 0.12, weight: 1.5 }}
+        pathOptions={{ color: "#1E7F55", fillColor: "#7FD8B0", fillOpacity: 0.25, weight: 1.5 }}
       />
     </MapContainer>
   );

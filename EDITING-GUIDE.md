@@ -168,8 +168,13 @@ These are yours to action.
 
 ## 7. Copy style
 
+Most readers, drivers and operators alike, do not have strong English. Write for them.
+
+- One idea per sentence, and no sentence over about fifteen words.
+- Everyday words: "check", "pay", "car", "person calls you". Not "vetted", "affordability", "onboarding", "console" where a plainer word does the job.
+- Say who does what: "We check you", "You pick one", "The operator says yes or no".
+- Put the important information lower on the page, in the body, not in the page top. The top is one heading and one line.
 - British English. Licence with a c for the noun.
-- Short sentences. One idea each.
 - Say what the check is, not that something is "verified".
 - Say what happens next after every button.
 - Never state a number you cannot stand behind.

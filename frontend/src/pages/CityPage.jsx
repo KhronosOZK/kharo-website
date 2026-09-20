@@ -6,7 +6,6 @@ import { MOCK_LISTINGS } from "@/data/mockListings";
 import { IMG } from "@/lib/images";
 import VehicleCard from "@/components/VehicleCard";
 import { Button } from "@/components/ui/button";
-import PreviewNotice from "@/components/PreviewNotice";
 import PageHero from "@/components/PageHero";
 import CityInterestForm from "@/components/CityInterestForm";
 import Faq from "@/components/Faq";
@@ -98,7 +97,6 @@ export default function CityPage() {
 
   return (
     <main data-testid={`city-page-${city}`}>
-      <PreviewNotice />
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <PageHero

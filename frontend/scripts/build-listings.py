@@ -207,7 +207,12 @@ def main():
             make, model, fuel, body, seats, mpg, yrs, rent, photo_key = rnd.choice(FLEET)
             photos, shot_colour = pick_photos(photo_key, fuel, rnd)
             year = rnd.randint(*yrs)
-            weekly = int(round(rnd.randint(*rent) * CITY_ADJ[city] / 5.0) * 5)
+            # Kharo prices under the London incumbents: the catalogue's £120 to
+            # £275 band is stretched onto £90 to £500 so the cheapest cars
+            # genuinely undercut and the executive end still reads as premium.
+            base = rnd.randint(*rent) * CITY_ADJ[city]
+            weekly = int(round((90 + (base - 120) / (275 - 120) * 410) / 5.0) * 5)
+            weekly = max(90, min(500, weekly))
             area = rnd.choice(AREAS[city])
             mileage = rnd.randrange(24000, 122000, 137)
 

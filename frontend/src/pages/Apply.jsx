@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Enter } from "@/components/Reveal";
-import PreviewNotice from "@/components/PreviewNotice";
 import { EASE, SPRING } from "@/lib/motion";
 import { useSeo } from "@/lib/seo";
 import { APPLY } from "@/content/site";
@@ -146,9 +145,6 @@ export default function Apply() {
               <span className="text-ink-3 text-sm">/ week</span>
             </div>
             <p className="text-ink-3 text-xs mt-1">Rental only. Insurance chosen when you apply.</p>
-            <div className="mt-4 pt-4 border-t border-line">
-              <PreviewNotice variant="inline" />
-            </div>
           </div>
         </div>
 

@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Share2, MapPin, Check, RotateCw, Shield, Zap } from "lucide-react";
+import { ChevronLeft, ChevronRight, Share2, MapPin, Check, RotateCw, Zap } from "lucide-react";
 import { api, trackEvent } from "@/lib/api";
 import { PRICING_TIERS, weeklyForWeeks } from "@/lib/pricing";
-import PreviewNotice from "@/components/PreviewNotice";
 import ApproxAreaMap from "@/components/ApproxAreaMap";
 import { Button } from "@/components/ui/button";
 import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
@@ -217,7 +216,6 @@ export default function VehicleDetail() {
           </p>
         )}
 
-        <PreviewNotice variant="inline" className="lg:hidden mt-4" />
 
             <div className="mt-6 pb-6">
               <h1 className="text-h1 font-heading font-extrabold text-ink leading-tight">
@@ -322,21 +320,23 @@ export default function VehicleDetail() {
               <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.coverHeading}</h2>
               <p className="mt-2 text-[14.5px] text-ink-2 leading-relaxed measure">{DETAIL.coverSub}</p>
 
-              <div className="mt-5 flex gap-6 border-b border-line" role="radiogroup" aria-label="How you would pay">
+              <p className="mt-5 text-[13px] font-semibold text-ink">How often you pay</p>
+              <div className="mt-2 divide-y divide-line border-y border-line" role="radiogroup" aria-label="How often you pay">
                 {APPLICATION_FLOW.terms.map((t) => {
                   const on = coverTerm === t.id;
                   return (
-                    <button key={t.id} type="button" role="radio" aria-checked={on}
-                      onClick={() => setCoverTerm(t.id)}
-                      data-testid={`detail-term-${t.id}`}
-                      className={`pressable -mb-px border-b-2 pb-2.5 pt-1 text-[14px] font-semibold transition-colors duration-ui ${on ? "border-green text-ink" : "border-transparent text-ink-3 hover:text-ink"}`}>
-                      {t.label}
-                    </button>
+                    <label key={t.id} data-testid={`detail-term-${t.id}`}
+                      className={`pressable flex cursor-pointer items-center gap-3 px-1 py-3.5 ${on ? "bg-green-soft" : ""}`}>
+                      <input type="radio" name="cover-term" checked={on} onChange={() => setCoverTerm(t.id)} className="h-4 w-4 accent-[#111312]" />
+                      <span className="font-heading text-[15px] font-bold text-ink">{t.label}</span>
+                      <span className="ml-auto text-[12.5px] text-ink-3">{t.suffix}</span>
+                    </label>
                   );
                 })}
               </div>
 
-              <div className="divide-y divide-line border-b border-line" role="radiogroup" aria-label="Cover level">
+              <p className="mt-5 text-[13px] font-semibold text-ink">Level of cover</p>
+              <div className="mt-2 divide-y divide-line border-y border-line" role="radiogroup" aria-label="Cover level">
                 {COVER_LEVELS.map((lvl) => {
                   const q = quoteFor(lvl); const on = coverLevel === lvl;
                   const suffix = APPLICATION_FLOW.terms.find((t) => t.id === coverTerm).suffix;
@@ -374,7 +374,7 @@ export default function VehicleDetail() {
 
             <section className="hairline py-6">
               <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.collectionAreaHeading}</h2>
-              <div className="relative rounded-lg overflow-hidden border border-line h-64 mt-4" data-testid="location-map">
+              <div className="relative rounded-lg overflow-hidden border border-line h-80 mt-4" data-testid="location-map">
                 <ApproxAreaMap lat={lat} lon={lon} />
               </div>
               <p className="text-[13px] text-ink-3 mt-3 flex items-center gap-2">
@@ -456,17 +456,9 @@ function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
           <span className="font-semibold text-ink">{v.breakdown_included ? "Included" : "£8 a week to add"}</span>
         </div>
       </div>
-      <p className="mt-3 text-[12.5px] text-ink-3 leading-relaxed">{DETAIL.coverPaidTo}</p>
-
       <Button onClick={onApply} size="lg" className="w-full mt-5" data-testid="apply-to-rent-btn">
         {DETAIL.applyCta}
       </Button>
-      <PreviewNotice variant="inline" className="mt-3" />
-
-      <div className="mt-5 pt-4 hairline flex items-center gap-2 text-[12px] text-ink-3">
-        <Shield className="w-3.5 h-3.5 text-green shrink-0" strokeWidth={1.75} />
-        {DETAIL.trustFooter}
-      </div>
     </div>
   );
 }
