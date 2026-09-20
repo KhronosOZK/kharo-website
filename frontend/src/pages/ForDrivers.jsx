@@ -18,7 +18,7 @@ export default function ForDrivers() {
   return (
     <div className="bg-bone">
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <PageHero heading={hero.heading} sub={hero.sub}
+      <PageHero heading={hero.heading} sub={hero.sub} meta={hero.meta}
         img={hero.img} imgAlt={hero.imgAlt} position="55% center" priority
       >
         <div className="flex flex-wrap gap-3">

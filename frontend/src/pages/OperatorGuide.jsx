@@ -28,7 +28,7 @@ export default function OperatorGuide() {
   return (
     <div className="bg-bone">
       {/* ── HERO: fleet photograph, left-aligned copy, one panel card ───── */}
-      <PageHero heading={hero.heading} sub={hero.sub}
+      <PageHero heading={hero.heading} sub={hero.sub} meta={hero.meta}
         img={hero.img} imgAlt={hero.imgAlt} position="50% center" priority
       >
         <div className="flex flex-wrap gap-3">
@@ -42,16 +42,16 @@ export default function OperatorGuide() {
         <RevealItem className="max-w-2xl">
           <h2 className="text-h2 font-heading font-extrabold text-ink">{OPERATOR_STORY.intro.heading}</h2>
         </RevealItem>
-        <RevealItem as="ol" className="mt-10 divide-y divide-line border-y border-line">
+        <ol className="mt-10 divide-y divide-line border-y border-line">
           {OPERATOR_STORY.intro.points.map((p, i) => (
-            <li key={p.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-7">
+            <RevealItem as="li" key={p.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-7">
               <div>
                 <h3 className="text-h3 font-heading font-bold text-ink">{p.t}</h3>
               </div>
               <p className="text-[15.5px] text-ink-2 leading-relaxed measure">{p.d}</p>
-            </li>
+            </RevealItem>
           ))}
-        </RevealItem>
+        </ol>
       </RevealGroup>
 
       {/* ── STEPS: how listing works, the onboarding sequence ───────────── */}
@@ -60,19 +60,19 @@ export default function OperatorGuide() {
           <RevealItem>
             <h2 className="text-h2 font-heading font-extrabold text-ink">{steps.heading}</h2>
           </RevealItem>
-          <RevealItem className="mt-8 grid md:grid-cols-2 gap-x-block">
+          <div className="mt-8 grid md:grid-cols-2 gap-x-block">
             {stepColumns.map((column, c) => (
               <ol key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
                 {column.map((s) => (
-                  <li key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
+                  <RevealItem as="li" key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
                     <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full bg-green" />
                     <h3 className="text-h3 font-heading font-bold text-ink">{s.t}</h3>
                     <p className="mt-2 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{s.d}</p>
-                  </li>
+                  </RevealItem>
                 ))}
               </ol>
             ))}
-          </RevealItem>
+          </div>
         </RevealGroup>
       </section>
 
@@ -86,14 +86,14 @@ export default function OperatorGuide() {
             <h2 className="text-h2 font-heading font-extrabold text-ink">{manage.heading}</h2>
             <p className="mt-4 text-[15.5px] leading-relaxed text-ink-2 max-w-[34ch]">{manage.sub}</p>
           </RevealItem>
-          <RevealItem as="ul" className="lg:col-span-7 divide-y divide-line border-y border-line">
+          <ul className="lg:col-span-7 divide-y divide-line border-y border-line">
             {manage.items.map((it) => (
-              <li key={it.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-6">
+              <RevealItem as="li" key={it.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-6">
                 <h3 className="text-h3 font-heading font-bold text-ink">{it.t}</h3>
                 <p className="text-[15.5px] text-ink-2 leading-relaxed">{it.d}</p>
-              </li>
+              </RevealItem>
             ))}
-          </RevealItem>
+          </ul>
         </div>
       </RevealGroup>
 

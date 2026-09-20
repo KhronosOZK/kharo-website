@@ -203,8 +203,13 @@ export const FOR_DRIVERS = {
   },
   hero: {
     tag: "For drivers",
-    heading: "By the time you collect the keys, you are ready to earn.",
-    sub: "Insurance chosen, Uber and Bolt live, every document in your account. You drive.",
+    heading: "Rent a licensed car. Start earning this week.",
+    sub: "Pick a car, compare the insurance on it, and collect it with Uber and Bolt already set up.",
+    meta: [
+      { label: "Price", value: "Rent only, shown first" },
+      { label: "Insurance", value: "Three levels, compared on the car" },
+      { label: "Before you collect", value: "Uber and Bolt set up" },
+    ],
     img: IMG.priusLondon,
     imgAlt: "A white Toyota Prius, the most common private hire car in London",
     primaryCta: "Browse cars",
@@ -272,8 +277,13 @@ export const DRIVER_GUIDE = {
   },
   hero: {
     tag: "For drivers",
-    heading: "How renting works.",
-    sub: "Every step, in order, before you sign anything.",
+    heading: "How renting works, step by step.",
+    sub: "From finding a car to handing it back, in the order it happens. Read it before you sign anything.",
+    meta: [
+      { label: "Steps", value: "Nine, start to finish" },
+      { label: "Time to apply", value: "About four minutes" },
+      { label: "Cost to apply", value: "Nothing" },
+    ],
     img: IMG.corollaLondon,
     imgAlt: "A Toyota Corolla hybrid on a London street",
     cta: "Browse cars",
@@ -339,8 +349,13 @@ export const OPERATOR_GUIDE = {
   },
   hero: {
     tag: "For operators",
-    heading: "We manage the fleet. You collect the rent.",
-    sub: "Vetted applications with the insurance choice attached, and a console that watches every document, expiry and claim for you.",
+    heading: "Turn idle cars into weekly rent.",
+    sub: "List for free. Kharo checks the drivers, collects the rent every week and looks after the car while it is out.",
+    meta: [
+      { label: "To list", value: "Free" },
+      { label: "Drivers", value: "DVLA, identity and affordability checked" },
+      { label: "Rent", value: "Collected weekly, paid on schedule" },
+    ],
     img: IMG.showroom,
     imgAlt: "Cars lined up in a dealership",
     primaryCta: "List your fleet",
@@ -449,8 +464,13 @@ export const WHY = {
   },
   hero: {
     eyebrow: "Why Kharo",
-    heading: "Private hire rental, done properly.",
-    sub: "The car is the easy part. Kharo does the rest.",
+    heading: "Thousands of licensed drivers. Not enough cars.",
+    sub: "Kharo puts drivers who need a car together with operators whose cars are standing still, and handles everything in between.",
+    meta: [
+      { label: "For drivers", value: "A car you can afford, with nothing hidden" },
+      { label: "For operators", value: "Checked drivers and rent that arrives" },
+      { label: "For both", value: "One place for documents, payments and repairs" },
+    ],
     img: IMG.londonNight,
   },
   gap: {
@@ -547,8 +567,8 @@ export const LEGAL = {
 // ---------------------------------------------------------------------------
 export const CITY_PAGE = {
   tagTemplate: "Kharo in {city}",
-  heroHeadingTemplate: "Rent a private hire car in {city}.",
-  heroSubTemplate: "{count} cars in {city} from operators we have checked, with the rental price shown first and insurance chosen when you apply.",
+  heroHeadingTemplate: "Private hire cars to rent in {city}.",
+  heroSubTemplate: "{count} cars from operators we have checked. The weekly rent is shown first and the insurance is compared on each car.",
   seeAllCta: "See all {count} cars",
   accountCta: "Join the waitlist",
   listingsHeading: "Cars in {city}",

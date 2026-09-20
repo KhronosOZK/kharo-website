@@ -58,8 +58,8 @@
     --fs-lead:    clamp(1rem, 0.96rem + 0.25vw, 1.125rem);   /* 16 -> 18 */
 
     /* Fluid space */
-    --space-section: clamp(3rem, 2rem + 4.5vw, 5rem);        /* 48 -> 80 */
-    --space-block:   clamp(1.5rem, 1rem + 2vw, 2.5rem);      /* 24 -> 40 */
+    --space-section: clamp(2.25rem, 1rem + 4.5vw, 5rem);     /* 36 -> 80: tighter on a phone */
+    --space-block:   clamp(1.25rem, 0.75rem + 2vw, 2.5rem);  /* 20 -> 40 */
     --space-card:    clamp(1.125rem, 0.85rem + 1.4vw, 1.75rem); /* 18 -> 28 */
 
     /* Motion: crisp and quiet. Strong ease-out everywhere something arrives. */

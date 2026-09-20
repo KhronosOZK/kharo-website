@@ -66,7 +66,7 @@ export default function PageHero({
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night/70 to-transparent" />
       </motion.div>
 
-      <div className="wrap relative grid gap-8 pt-[calc(var(--header-h)+3rem)] pb-12 sm:pb-16 lg:min-h-[30rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-end">
+      <div className="wrap relative grid gap-8 pt-[calc(var(--header-h)+2rem)] pb-10 sm:pb-14 sm:pt-[calc(var(--header-h)+3rem)] lg:min-h-[27rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-end">
         <motion.div
           className="text-white"
           initial={reduce ? false : "hidden"}
@@ -77,14 +77,14 @@ export default function PageHero({
           {sub && <motion.p variants={RISE} className="mt-4 max-w-[50ch] text-lead leading-relaxed text-white/85">{sub}</motion.p>}
 
           {meta.length > 0 && (
-            <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-3 border-t border-white/20 pt-4">
+            <motion.dl variants={RISE} className="mt-6 grid gap-x-8 gap-y-3 border-t border-white/20 pt-4 sm:grid-cols-3">
               {meta.map((m) => (
                 <div key={m.label}>
                   <dt className="text-[12.5px] font-medium text-white/65">{m.label}</dt>
-                  <dd className="mt-0.5 text-[15px] font-semibold text-white">{m.value}</dd>
+                  <dd className="mt-0.5 text-[14.5px] font-semibold text-white">{m.value}</dd>
                 </div>
               ))}
-            </dl>
+            </motion.dl>
           )}
 
           {children && <motion.div variants={RISE} className="mt-7 flex flex-wrap gap-3">{children}</motion.div>}
