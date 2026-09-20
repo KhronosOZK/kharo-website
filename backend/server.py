@@ -225,6 +225,51 @@ class ResetIn(BaseModel):
     token: str = Field(..., min_length=1, max_length=256)
     password: str = Field(..., min_length=8, max_length=128)
 
+async def _issue(resp: Response, user_id: str, email: str, role: str):
+    token = create_access_token(user_id, email, role)
+    resp.set_cookie("access_token", token, httponly=True, secure=True,
+                    samesite="none", max_age=604800, path="/")
+    return token
+
+@api.post("/auth/register", dependencies=[Depends(rate_limit("register", 10))])
+async def register(body: RegisterIn, response: Response):
+    email = body.email.lower()
+    if await db.users.find_one({"email": email}):
+        raise HTTPException(status_code=400, detail="An account with this email already exists")
+    role = body.role if body.role in ("driver", "operator") else "driver"
+    doc = {
+        "name": body.name, "email": email, "phone": body.phone,
+        "password_hash": hash_password(body.password), "role": role,
+        "dob": body.dob, "dvla_licence": body.dvla_licence, "pco_licence": body.pco_licence,
+        "created_at": now_iso(),
+    }
+    res = await db.users.insert_one(doc)
+    uid = str(res.inserted_id)
+    await db.leads.insert_one({
+        "name": body.name, "email": email, "phone": body.phone,
+        "source": f"{role}_signup", "user_id": uid, "created_at": now_iso(),
+        "data": {"dvla_licence": body.dvla_licence, "pco_licence": body.pco_licence, "dob": body.dob},
+    })
+    token = await _issue(response, uid, email, role)
+    fire(send_welcome(role, email, body.name))
+    fire(send_alert(f"New {role} signup", {"Name": body.name, "Email": email, "Phone": body.phone}))
+    return {"id": uid, "name": body.name, "email": email, "phone": body.phone, "role": role, "token": token}
+
+@api.post("/auth/login", dependencies=[Depends(rate_limit("login", 20))])
+async def login(body: LoginIn, response: Response):
+    email = body.email.lower()
+    user = await db.users.find_one({"email": email})
+    if not user or not verify_password(body.password, user["password_hash"]):
+        raise HTTPException(status_code=401, detail="Wrong email or password")
+    uid = str(user["_id"])
+    token = await _issue(response, uid, email, user["role"])
+    return {"id": uid, "name": user.get("name", ""), "email": email, "phone": user.get("phone"), "role": user["role"], "token": token}
+
+@api.post("/auth/logout")
+async def logout(response: Response):
+    response.delete_cookie("access_token", path="/")
+    return {"ok": True}
+
 @api.post("/auth/forgot-password", dependencies=[Depends(rate_limit("forgot", 5))])
 async def forgot_password(body: ForgotIn):
     email = body.email.lower()
@@ -566,12 +611,41 @@ async def admin_analytics(_: dict = Depends(require_admin)):
     }
 
 
+    # What people searched for before they registered: the demand data for
+    # investors. One search_filters event per settled filter change.
+    async def top(field, limit=8, unwind=False):
+        pipeline = [{"$match": {"type": "search_filters", f"data.{field}": {"$nin": [None, "", 0, []]}}}]
+        if unwind:
+            pipeline.append({"$unwind": f"$data.{field}"})
+        pipeline += [{"$group": {"_id": f"$data.{field}", "n": {"$sum": 1}}}, {"$sort": {"n": -1}}, {"$limit": limit}]
+        rows = await db.events.aggregate(pipeline).to_list(limit)
+        return [{"label": str(r["_id"]), "count": r["n"]} for r in rows if r["_id"] not in (None, "")]
+
+    budget_rows = await db.events.aggregate([
+        {"$match": {"type": "search_filters", "data.budget_max": {"$type": "number"}}},
+        {"$bucket": {"groupBy": "$data.budget_max", "boundaries": [0, 100, 150, 200, 250, 300, 400, 501, 100000],
+                     "default": "other", "output": {"n": {"$sum": 1}}}},
+    ]).to_list(20)
+    band_label = {0: "Under £100", 100: "£100 to £149", 150: "£150 to £199", 200: "£200 to £249", 250: "£250 to £299", 300: "£300 to £399", 400: "£400 to £500", 501: "Over £500"}
+    demand = {
+        "searches": await db.events.count_documents({"type": "search_filters"}),
+        "call_backs": await db.leads.count_documents({"source": "call_back"}),
+        "budgets": [{"label": band_label.get(r["_id"], str(r["_id"])), "count": r["n"]} for r in budget_rows if r["_id"] != "other"],
+        "cities": await top("city"),
+        "councils": await top("councils", unwind=True),
+        "makes": await top("make"),
+        "fuel": await top("fuel"),
+        "sort": await top("sort", limit=5),
+        "cars_requested": await agg_city("city_requests", "vehicle_type"),
+    }
+
     return {
         "funnel": funnel,
         "trend": trend,
         "lead_sources": [{"label": r["_id"], "count": r["n"]} for r in lead_sources if r["_id"]],
         "city_demand": await agg_city("city_requests", "city"),
         "total_leads": await db.leads.count_documents({}),
+        "demand": demand,
     }
 
 @api.get("/admin/{collection}")
@@ -650,7 +724,7 @@ app.add_middleware(
     # browsers anyway, and leaving it as the default means an unset env var
     # silently opens the API to any site. Set CORS_ORIGINS in production.
     allow_origins=[o.strip() for o in os.environ.get('CORS_ORIGINS', 'http://localhost:3000').split(',') if o.strip()],
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"],
 )
 
@@ -672,6 +746,7 @@ async def seed_listings():
         await db.listings.update_one({"id": x["id"]}, {"$set": dict(x)}, upsert=True)
 
 
+@app.on_event("startup")
 async def startup():
     await db.users.create_index("email", unique=True)
     await db.listings.create_index("id")

@@ -228,6 +228,47 @@ export default function Admin() {
         </div>
       )}
 
+      {/* What drivers search for: the demand data investors ask about.
+          Every settled filter change on the browse page is one event. */}
+      {analytics?.demand && (
+        <div className="mt-4" data-testid="admin-demand">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h3 className="font-heading text-h3 font-bold text-ink">What drivers search for</h3>
+              <p className="mt-1 text-[13.5px] text-ink-3">{analytics.demand.searches.toLocaleString()} filtered searches recorded · {analytics.demand.call_backs.toLocaleString()} call-back requests</p>
+            </div>
+            <button type="button" onClick={() => window.open(`${API}/admin/export/events`, "_blank")} className="pressable text-[13px] font-medium text-green">Export events CSV</button>
+          </div>
+          <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              ["Weekly budget (top of range)", analytics.demand.budgets],
+              ["Cities searched", analytics.demand.cities],
+              ["Licensing councils chosen", analytics.demand.councils],
+              ["Makes searched", analytics.demand.makes],
+              ["Fuel chosen", analytics.demand.fuel],
+              ["Cars people registered for", analytics.demand.cars_requested],
+            ].map(([title, rows]) => (
+              <div key={title} className="panel rounded-lg p-5">
+                <h4 className="text-[13px] font-semibold text-ink">{title}</h4>
+                {rows.length === 0 ? <p className="mt-2 text-[13px] text-ink-3">Nothing yet.</p> : (
+                  <div className="mt-2 divide-y divide-line">
+                    {rows.map((r) => {
+                      const max = Math.max(...rows.map((x) => x.count), 1);
+                      return (
+                        <div key={r.label} className="py-2">
+                          <div className="flex justify-between text-[13.5px]"><span className="text-ink-2">{r.label}</span><span className="font-semibold text-ink tabular">{r.count}</span></div>
+                          <div className="mt-1 h-1 rounded-full bg-surface-2"><div className="h-1 rounded-full bg-green" style={{ width: `${Math.round((r.count / max) * 100)}%` }} /></div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <Tabs value={tab} onValueChange={setTab} className="mt-8">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <TabsList className="flex-wrap h-auto">

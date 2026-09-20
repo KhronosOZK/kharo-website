@@ -87,6 +87,14 @@ export default function Register() {
         <Check className="w-12 h-12 text-green mx-auto" strokeWidth={1.75} />
         <h1 className="text-h2 font-heading font-extrabold text-ink mt-6" data-testid="reg-success">{success.heading}</h1>
         <p className="text-ink-2 mt-3 text-[16px] leading-relaxed max-w-md">Thanks {f.name.split(" ")[0]}. We have saved your details and we will email you the moment cars are ready to rent in {f.city}. In the meantime, feel free to keep browsing the cars.</p>
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(`Kharo lets you rent a licensed private hire car from £90 a week, insurance compared on the car. It opens in ${f.city || "London"} soon. Join the list: https://kharo.co.uk/register`)}`}
+          target="_blank" rel="noopener noreferrer" data-testid="reg-share"
+          className="pressable mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-md bg-green px-6 text-[15px] font-semibold text-ink hover:bg-green-hover"
+        >
+          Send this to a driver you know
+        </a>
+        <p className="mt-2 text-[12.5px] text-ink-3">Opens WhatsApp with the message already written.</p>
         <div className="flex gap-3 justify-center mt-8 flex-wrap">
           <Button onClick={() => navigate("/search")} data-testid="reg-browse">{success.browse} <ArrowRight className="w-4 h-4" strokeWidth={1.75} /></Button>
           <Button onClick={() => navigate("/driver-guide")} variant="outline">{success.guide}</Button>

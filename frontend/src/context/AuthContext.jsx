@@ -1,10 +1,18 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { api, formatApiError } from "@/lib/api";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(false); // login removed; kept for shortlist state only
+  const [user, setUser] = useState(false); // false = signed out; an object = signed in
+  // The session lives in an httpOnly cookie, so on a fresh load the only way to
+  // know who is signed in is to ask. Without this, /admin and the consoles
+  // showed the sign-in form again on every reload even with a valid cookie.
+  useEffect(() => {
+    let alive = true;
+    api.get("/auth/me").then((r) => { if (alive) setUser(r.data); }).catch(() => {});
+    return () => { alive = false; };
+  }, []);
   const [saved, setSaved] = useState(() => {
     try { return JSON.parse(localStorage.getItem("caro_saved") || "[]"); } catch { return []; }
   });

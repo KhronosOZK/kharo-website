@@ -91,6 +91,16 @@ export default function OperatorInterest() {
       <Enter><Check className="w-12 h-12 text-green" strokeWidth={1.75} /></Enter>
       <Enter as="h1" delay={0.06} className="mt-6 text-h1 font-heading font-extrabold text-ink" data-testid="op-success">{success.heading}</Enter>
       <Enter as="p" delay={0.12} className="mt-4 text-lead text-ink-2 measure">{success.body}</Enter>
+      <Enter delay={0.15}>
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent("Kharo lists private hire cars for free and brings checked drivers who pay through the platform every week. If you have cars standing still: https://kharo.co.uk/list-your-fleet")}`}
+          target="_blank" rel="noopener noreferrer" data-testid="op-share"
+          className="pressable mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-md bg-green px-6 text-[15px] font-semibold text-ink hover:bg-green-hover"
+        >
+          Send this to another operator
+        </a>
+        <p className="mt-2 text-[12.5px] text-ink-3">Opens WhatsApp with the message already written.</p>
+      </Enter>
       <Enter delay={0.18} className="mt-8 flex flex-wrap gap-3 justify-center">
         <Button onClick={() => navigate("/")}>{T.success.home} <ArrowRight size={16} /></Button>
         <Button variant="outline" onClick={() => navigate("/operator-guide")}>{T.success.guide}</Button>

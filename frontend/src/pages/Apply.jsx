@@ -117,6 +117,14 @@ export default function Apply() {
             ))}
           </ul>
         </div>
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(`Found a ${v.make} ${v.model} to rent for private hire in ${v.city}, £${v.weekly_price} a week with insurance compared on the page: https://kharo.co.uk/vehicle/${v.id}`)}`}
+          target="_blank" rel="noopener noreferrer" data-testid="apply-share"
+          className="pressable mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-md bg-green px-6 text-[15px] font-semibold text-ink hover:bg-green-hover"
+        >
+          Send this car to a driver you know
+        </a>
+        <p className="mt-2 text-[12.5px] text-ink-3">Opens WhatsApp with the message already written.</p>
         <div className="flex gap-3 justify-center mt-8 flex-wrap">
           <Button onClick={() => navigate("/search")}>Browse cars</Button>
           <Button onClick={() => navigate("/")} variant="outline">Back to home</Button>

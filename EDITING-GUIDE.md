@@ -162,17 +162,19 @@ Three things are now data you can edit without code:
 - **Social links** in `BRAND.social` are empty on purpose (the guessed handles pointed at other people's pages). Paste the real profile URLs and the footer icons reappear.
 - **The operator fee example** (`OPERATOR_GUIDE.fee.example`) and the non-payment timeline (`OPERATOR_GUIDE.enforcement`) are plain data; the totals recalculate.
 
-Two new backend routes need the server restarted to appear: `POST /api/privacy/delete-request` (the form on the Legal page) and `DELETE /api/auth/me` (the "Delete my account" button in the driver console).
+The backend does not reload itself: after any change to `backend/server.py`, restart it (`cd backend && venv/bin/uvicorn server:app --host 127.0.0.1 --port 8001`).
 
-These are yours to action.
+**Admin dashboard.** `/admin` signs in with the account named by `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `backend/.env` (locally) or in Render's environment (live). The backend creates that account on start and resets its password to `ADMIN_PASSWORD`, so changing the value and restarting is how you rotate it. The dashboard shows the funnel, trend, demand by city and car, lead sources, "What drivers search for" (from every filtered browse) and a CSV export for each table.
 
-- Put a live `RESEND_API_KEY` in the backend environment and set `ADMIN_EMAIL` to a real address; both are placeholders now.
+The full launch checklist, in order, is in `GO-LIVE.md`. In short, these are yours to action.
+
+- Put a live `RESEND_API_KEY` in the backend environment (placeholder now).
 - Move MongoDB to Atlas with a database user and IP allow-list. Local Mongo runs without authentication.
 - Set `CORS_ORIGINS` to the real frontend domain. It fails closed, so an unset value blocks the site.
 - Generate a long random `JWT_SECRET` and a strong `ADMIN_PASSWORD`. This repository was public with secrets in its history; rotate everything before launch, then take the old repository offline as planned.
-- Add a data-deletion route and a real privacy policy naming the controller, retention and lawful basis. Register with the ICO.
+- Add a real privacy policy naming the controller, retention and lawful basis (the deletion routes exist: `POST /api/privacy/delete-request` and `DELETE /api/auth/me`). Register with the ICO.
 - Fill in `BRAND.social` with real profile URLs; the footer icons stay hidden until you do.
-- Replace the preview inventory with real operator stock and remove `PreviewNotice` from the listing pages.
+- Replace the preview inventory with real operator stock (GO-LIVE.md, step 9).
 
 ## 7. Copy style
 
