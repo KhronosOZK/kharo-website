@@ -361,7 +361,7 @@ export default function SearchResults() {
               className="pressable inline-flex items-center gap-1.5 h-10 px-3.5 rounded-md border border-line-strong bg-surface text-[13px] font-medium text-ink-2"
               data-testid="map-toggle"
             >
-              <MapIcon size={14} strokeWidth={1.75} /> {showMap ? SEARCH.map.hide : SEARCH.map.show}
+              <MapIcon size={14} strokeWidth={1.75} /> <span className="hidden sm:inline">{showMap ? SEARCH.map.hide : SEARCH.map.show}</span><span className="sm:hidden">Map</span>
             </button>
           </div>
         </div>

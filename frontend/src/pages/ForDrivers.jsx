@@ -4,7 +4,7 @@ import PageHero from "@/components/PageHero";
 import DashboardSnapshot from "@/components/DashboardSnapshot";
 import ApplicationFlow from "@/components/ApplicationFlow";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
-import ScrollTrack from "@/components/ScrollLine";
+import StepList from "@/components/StepList";
 import { Button } from "@/components/ui/button";
 import { useSeo } from "@/lib/seo";
 import { FOR_DRIVERS } from "@/content/site";
@@ -33,15 +33,7 @@ export default function ForDrivers() {
         <RevealItem><h2 className="text-h2 font-heading font-extrabold text-ink max-w-[22ch]">{steps.heading}</h2></RevealItem>
         <div className="mt-10 grid md:grid-cols-2 gap-x-block">
           {stepColumns.map((column, c) => (
-            <ScrollTrack key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
-              {column.map((s) => (
-                <RevealItem as="li" key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
-                  <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full border-2 border-green bg-surface" />
-                  <h3 className="text-h3 font-heading font-bold text-ink">{s.t}</h3>
-                  <p className="mt-2 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{s.d}</p>
-                </RevealItem>
-              ))}
-            </ScrollTrack>
+            <StepList key={c} items={column} start={c * half + 1} />
           ))}
         </div>
 
@@ -85,9 +77,12 @@ export default function ForDrivers() {
           <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure">{support.body}</p>
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {support.points.map((p) => (
-              <li key={p} className="flex items-start gap-3 py-3.5 text-[15px] text-ink">
-                <Check className="w-4 h-4 text-green shrink-0 mt-1" strokeWidth={2.25} /> {p}
-              </li>
+              <RevealItem as="li" key={p} className="flex items-start gap-3 py-3.5 text-[15px] text-ink">
+                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md bg-green text-ink">
+                  <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
+                </span>
+                {p}
+              </RevealItem>
             ))}
           </ul>
         </RevealItem>

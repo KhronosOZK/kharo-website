@@ -9,7 +9,7 @@ export const OPERATOR_STORY = {
     points: [
       {
         t: "A marketplace, not a booking form.",
-        d: "Kharo is the first platform of its kind in the UK, built to bring vetted private hire drivers to cars that are standing idle. You list a vehicle, and we bring you a driver who is ready to take it.",
+        d: "Kharo brings checked private hire drivers to cars that are standing still. You list a car. We bring you a driver who is ready to take it.",
       },
       {
         t: "The car, the rate and the final yes stay yours.",

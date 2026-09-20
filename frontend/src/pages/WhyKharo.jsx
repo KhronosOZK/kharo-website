@@ -85,7 +85,7 @@ export default function WhyKharo() {
       </RevealGroup>
 
       {/* ── FOR DRIVERS: photo left, argument right ─────────────────────── */}
-      <RevealGroup as="section" className="wrap py-section grid lg:grid-cols-12 gap-block items-center">
+      <RevealGroup as="section" className="wrap py-8 sm:py-10 grid lg:grid-cols-12 gap-block items-center">
         <RevealItem className="lg:col-span-5 lg:order-1">
           <img src={drivers.img} alt="" loading="lazy" className="w-full aspect-[4/3] object-cover rounded-lg border border-line" />
         </RevealItem>
@@ -108,7 +108,7 @@ export default function WhyKharo() {
       </RevealGroup>
 
       {/* ── FOR OPERATORS: mirrored, text left, photo right ─────────────── */}
-      <RevealGroup as="section" className="wrap py-section grid lg:grid-cols-12 gap-block items-center">
+      <RevealGroup as="section" className="wrap py-8 sm:py-10 grid lg:grid-cols-12 gap-block items-center">
         <RevealItem className="lg:col-span-7 lg:order-1">
           <h2 className="text-h2 font-heading font-extrabold text-ink max-w-[16ch]">{operators.heading}</h2>
           <ul className="mt-6 divide-y divide-line border-y border-line">

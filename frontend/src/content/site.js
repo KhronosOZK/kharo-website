@@ -270,7 +270,7 @@ export const FOR_DRIVERS = {
     note: "Some operators ask for more, for example a minimum age. The car's page tells you.",
   },
   closer: {
-    heading: "Ready when you are.",
+    heading: "Start with the cars.",
     sub: "Look at the cars, or join the waitlist and we will email you before we open in your city.",
     primaryCta: "Browse cars",
     secondaryCta: "Join the waitlist",
@@ -412,6 +412,15 @@ export const OPERATOR_GUIDE = {
     // A worked month, so the fee is a number, not a word. Edit the inputs
     // and the totals follow. The fee rate is the one in the demo console.
     example: { cars: 5, rent: 180, weeks: 4, feeRate: 0.10, payoutDay: "Friday, every two weeks" },
+  },
+  paid: {
+    heading: "How we make sure you get paid.",
+    sub: "Your car is your money. Here is what protects it, before a driver ever gets the keys and every week after.",
+    points: [
+      { t: "The driver is checked first", d: "Driving licence, identity, and whether they can afford the rent. You see the result before you say yes." },
+      { t: "Kharo holds the deposit", d: "The driver pays the deposit and the first week to Kharo, never to you in cash. It is settled against the photos from collection and return." },
+      { t: "Rent comes through Kharo", d: "We collect it from the driver on the same day every week and pay you on schedule. You see every payment in your console." },
+    ],
   },
   enforcement: {
     heading: "If a driver stops paying",

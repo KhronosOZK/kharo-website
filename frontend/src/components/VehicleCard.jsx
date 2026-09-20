@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { CARD } from "@/content/pages/marketplace";
 import { mileageLabel, hasOwnPhoto, INSURANCE_FROM_WEEKLY } from "@/lib/format";
+import { shortAuthority } from "@/lib/cities";
 
 const MAX_ZONES = 5;
 
@@ -67,7 +68,7 @@ export default function VehicleCard({ vehicle, compact = false }) {
   };
 
   const specs = [fuel, transmission, seats ? `${seats} seats` : null, mileageLabel(mileage_allowance)].filter(Boolean);
-  const plate = licence_type ? licence_type.replace(" private hire vehicle licence", "").replace(" PHV plate", "") : null;
+  const plate = licence_type ? shortAuthority(licence_type.replace(" private hire vehicle licence", "").replace(" PHV plate", "")) : null;
 
   return (
     <article
@@ -108,7 +109,7 @@ export default function VehicleCard({ vehicle, compact = false }) {
         )}
         {!hasOwnPhoto(vehicle) && <p className="mt-1 text-[11.5px] text-ink-3">Photo shows the same model, not this car</p>}
 
-        <div className="mt-auto flex items-end justify-between gap-3 pt-3">
+        <div className="mt-auto flex flex-col gap-3 pt-3 sm:flex-row sm:items-end sm:justify-between">
           <p className="tabular">
             <span className="font-heading text-[22px] font-bold tracking-tight text-ink">£{weekly_rent}</span>
             <span className="ml-1 text-[12px] text-ink-3">a week</span>
@@ -117,7 +118,7 @@ export default function VehicleCard({ vehicle, compact = false }) {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); navigate(`/apply/${id}`); }}
-            className="pressable group/cta relative z-[3] inline-flex h-8 shrink-0 items-center gap-1 text-[13px] font-semibold text-ink-2 transition-colors duration-hover hover:text-green"
+            className="pressable group/cta relative z-[3] inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-md border border-line-strong px-4 text-[13.5px] font-semibold text-ink transition-colors duration-hover hover:bg-ink hover:text-white sm:h-9 sm:px-3 sm:text-[13px]"
             data-testid="vehicle-card-apply"
           >
             {CARD.registerInterest}

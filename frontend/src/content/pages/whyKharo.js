@@ -7,13 +7,13 @@ import { FACTS } from "@/content/site";
 export const ONE_PLATFORM = {
   heading: "One platform, not five.",
   body:
-    "Today a driver puts a rental car, an insurance broker, a platform's own onboarding, a local garage and a separate claims line together themselves, one phone call at a time. Kharo is the first marketplace of its kind in the UK to put every one of those in a single place.",
+    "Today a driver has to find a rental firm, an insurance broker, the Uber and Bolt sign-up, a garage and a claims line, one phone call at a time. Kharo puts all of them in one place.",
   without: {
     heading: "Without Kharo",
     items: [
       "A rental firm for the car",
       "A broker for the insurance",
-      "Each platform's own onboarding",
+      "The Uber and Bolt sign-up",
       "A garage for the MOT and servicing",
       "A separate claims line if something goes wrong",
     ],

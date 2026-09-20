@@ -2,7 +2,7 @@
 // shared OPERATOR_INTEREST block in site.js.
 export const OPERATOR_INTEREST_PAGE = {
   // The three trust points, said once as a sentence under the form.
-  trustSentence: "Vetted drivers only, free to list, and a call within one working day.",
+  trustSentence: "Checked drivers only, free to list, and a call within one working day.",
   stepLabel: (n, total) => `Step ${n} of ${total}`,
   back: "Back",
   continueCta: "Continue",

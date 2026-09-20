@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { siToyota, siKia, siHyundai, siSkoda, siVolkswagen, siBmw, siVauxhall, siHonda, siNissan, siFord, siTesla } from "simple-icons";
 import { MOCK_LISTINGS } from "@/data/mockListings";
 import { MODELS_BY_MAKE } from "@/components/FiltersDialog";
 import { LIVE_CITIES } from "@/lib/cities";
-import { EASE, useMotionPrefs } from "@/lib/motion";
+import { useMotionPrefs } from "@/lib/motion";
 import PriceRangeFilter from "@/components/PriceRangeFilter";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
@@ -96,7 +96,9 @@ const WHAT = [
 const TICKER = VERIFIED.slice().sort((a, b) => a.weekly_rent - b.weekly_rent).slice(0, 12);
 
 // Each hero line settles up as it appears; the card follows a beat later.
-const RISE = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE.out } } };
+// CSS keyframes (tailwindcss-animate), so the text is present at rest and
+// the entrance never depends on the JavaScript frame loop.
+const ENTER = "motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:duration-500 motion-safe:fill-mode-both";
 
 const FIELD = "block w-full rounded-md border border-line-strong bg-surface px-3 h-11 text-[15px] font-medium text-ink outline-none focus:border-ink";
 const LABEL = "block text-[12.5px] font-medium text-ink-2 mb-1.5";
@@ -179,7 +181,7 @@ export default function HomeFunctional() {
       <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-bone lg:bg-night" data-hero-photo="true" onPointerDown={() => { interacted.current = true; }}>
         {/* On a phone the photograph is a band behind the copy and the search
             card sits below it on the page; on wide screens it fills the hero. */}
-        <div className="absolute inset-x-0 top-0 h-[28rem] bg-night lg:inset-0 lg:h-auto">
+        <div className="absolute inset-x-0 top-0 h-[23rem] bg-night lg:inset-0 lg:h-auto">
           <img key={hero.id} src={hero.photos[0]} alt="" aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-700 motion-safe:[animation:hero-drift_16s_ease-out_forwards]"
             fetchPriority="high" decoding="async" />
@@ -189,32 +191,33 @@ export default function HomeFunctional() {
         </div>
 
         <div className="wrap relative grid gap-5 pt-[calc(var(--header-h)+1.5rem)] pb-8 sm:gap-8 lg:min-h-[40rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:grid-rows-[1fr_auto] lg:items-center lg:pb-12 lg:pt-[calc(var(--header-h)+2.5rem)]">
-          <motion.div className="text-white max-lg:flex max-lg:min-h-[19rem] max-lg:flex-col max-lg:justify-end" initial={reduce ? false : "hidden"} animate="visible"
-            variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } }}>
-            <motion.p variants={RISE} className="font-heading text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]" data-testid="hero-price">
+          {/* The entrance is CSS, not JavaScript, so the words are on screen
+              even when a slow phone throttles animation frames. */}
+          <div className="text-white max-lg:flex max-lg:min-h-[14rem] max-lg:flex-col max-lg:justify-end">
+            <p className={`${ENTER} font-heading text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]`} data-testid="hero-price">
               £{hero.weekly_rent} <span className="text-[0.45em] font-medium text-white/75">a week</span>
-            </motion.p>
-            <motion.h1 variants={RISE} className="mt-3 font-heading text-[clamp(1.9rem,1.2rem+3.2vw,3.6rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+            </p>
+            <h1 className={`${ENTER} mt-3 font-heading text-[clamp(1.9rem,1.2rem+3.2vw,3.6rem)] font-extrabold leading-[1.05] tracking-[-0.02em] motion-safe:[animation-delay:90ms]`}>
               {hero.make} {hero.model}
-            </motion.h1>
+            </h1>
             {/* Phones: one text link under the name, so the car stays visible.
                 Wide screens: two proper buttons. */}
-            <motion.div variants={RISE} className="mt-4 lg:hidden">
+            <div className={`${ENTER} mt-4 lg:hidden motion-safe:[animation-delay:180ms]`}>
               <Link to={`/vehicle/${hero.id}`} className="pressable inline-flex items-center gap-1.5 text-[15px] font-semibold text-white underline-offset-4 hover:underline" data-testid="hero-see-car-mobile">
                 See this car <ArrowUpRight size={16} strokeWidth={2.25} />
               </Link>
-            </motion.div>
-            <motion.div variants={RISE} className="mt-10 hidden gap-4 lg:flex lg:items-center">
+            </div>
+            <div className={`${ENTER} mt-10 hidden gap-4 lg:flex lg:items-center motion-safe:[animation-delay:180ms]`}>
               <Link to={`/vehicle/${hero.id}`} className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-md bg-surface px-6 text-[15px] font-semibold text-ink hover:bg-bone" data-testid="hero-see-car">
                 See this car <ArrowUpRight size={16} strokeWidth={2.25} />
               </Link>
               <Link to="/search" className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-md border border-white/40 px-6 text-[15px] font-semibold text-white hover:bg-white/10">
                 Browse all cars <ArrowRight size={16} strokeWidth={2.25} />
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          <div className="flex items-center gap-3 lg:col-start-1 lg:row-start-2 lg:-mt-4" role="group" aria-label="Featured cars">
+          <div className="flex items-center gap-3 max-lg:-mt-1 lg:col-start-1 lg:row-start-2 lg:-mt-4" role="group" aria-label="Featured cars">
             <button type="button" onClick={() => go(slide - 1)} aria-label="Previous car" className="pressable grid h-9 w-9 place-items-center rounded-md border border-white/30 text-white hover:bg-white/10">
               <ChevronLeft size={18} strokeWidth={2} />
             </button>
@@ -231,12 +234,9 @@ export default function HomeFunctional() {
           </div>
 
           {/* The search card */}
-          <motion.form
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: EASE.out, delay: 0.3 }}
+          <form
             onSubmit={(e) => { e.preventDefault(); if (mode === "rent") search(); else listFleet(); }}
-            className="rounded-lg border border-line bg-surface p-5 text-ink shadow-2 max-lg:mt-2 sm:p-6 lg:row-span-2"
+            className={`${ENTER} rounded-lg border border-line bg-surface p-5 text-ink shadow-2 max-lg:mt-2 sm:p-6 lg:row-span-2 motion-safe:[animation-delay:260ms]`}
             data-testid="home-search"
           >
             <p className="font-heading text-[18px] font-bold text-ink">Find your car</p>
@@ -306,7 +306,7 @@ export default function HomeFunctional() {
                 <p className="text-[12px] leading-relaxed text-ink-3">Listing is free. A consultant calls within one working day and builds the listings with you.</p>
               </div>
             )}
-          </motion.form>
+          </form>
         </div>
       </section>
 
