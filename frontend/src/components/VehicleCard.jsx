@@ -185,7 +185,7 @@ export default function VehicleCard({ vehicle }) {
           <button
             type="button"
             onClick={handleApply}
-            className="pressable group/cta relative z-10 inline-flex shrink-0 items-center gap-1.5 rounded-full
+            className="pressable group/cta relative z-10 inline-flex shrink-0 items-center gap-1.5 rounded-md
                        border border-line-strong px-3.5 h-9 text-[13px] font-semibold text-ink
                        hover:border-ink hover:bg-ink hover:text-white active:scale-[0.98]
                        transition-[background-color,border-color,color,transform] duration-press"

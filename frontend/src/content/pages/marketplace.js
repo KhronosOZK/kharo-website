@@ -128,6 +128,10 @@ export const DETAIL = {
   },
   insuranceHeading: "Insurance",
   insuranceChosen: "Chosen when you apply",
+  coverHeading: "Compare insurance for this car",
+  coverSub: "Hire and reward cover is separate from the rent and paid to the insurer. Pick a level and how often you want to pay. You can change it when you apply.",
+  coverNote: "Indicative prices for a driver with a clean licence and two years of private hire experience. Your real quotes come from the insurers when you apply.",
+  coverPaidTo: "Paid to the insurer, not the operator.",
   insuranceHelper:
     "Comprehensive, third party fire and theft, or third party, paid monthly, six-monthly or yearly.",
   pricingHeading: "The longer you rent, the less you pay",

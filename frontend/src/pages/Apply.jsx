@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
@@ -28,6 +28,9 @@ const quoteFor = (level) => APPLICATION_FLOW.quotes.find((q) => q.id === level);
 export default function Apply() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const preCover = COVER[params.get("cover")] || COVER.comp;
+  const preTerm = APPLICATION_FLOW.terms.some((t) => t.id === params.get("term")) ? params.get("term") : "monthly";
 
   useSeo({
     title: "Register interest · Kharo",
@@ -39,7 +42,7 @@ export default function Apply() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
-  const [f, setF] = useState({ name: "", email: "", phone: "", start_when: APPLY.timeframes[0], dvla_licence: "", pco_licence: "", cover_level: COVER.comp, cover_term: "monthly" });
+  const [f, setF] = useState({ name: "", email: "", phone: "", start_when: APPLY.timeframes[0], dvla_licence: "", pco_licence: "", cover_level: preCover, cover_term: preTerm });
   const started = useRef(false);
   const set = (k) => (e) => { markStarted(); setF((p) => ({ ...p, [k]: e.target.value })); };
 

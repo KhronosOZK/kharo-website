@@ -11,6 +11,11 @@ import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
 import { getMockById, isPreviewId } from "@/data/mockListings";
 import { areaCoords } from "@/lib/geo";
 import { DETAIL } from "@/content/pages/marketplace";
+import { APPLY } from "@/content/site";
+import { APPLICATION_FLOW } from "@/content/pages/applicationFlow";
+
+const COVER_LEVELS = ["comp", "tpft", "tp"];
+const quoteFor = (level) => APPLICATION_FLOW.quotes.find((q) => q.id === level);
 
 function experienceLabel(months) {
   if (!months) return DETAIL.experienceOpen;
@@ -25,6 +30,8 @@ export default function VehicleDetail() {
   const [v, setV] = useState(null);
   const [photo, setPhoto] = useState(0);
   const [weeks, setWeeks] = useState(1);
+  const [coverLevel, setCoverLevel] = useState("comp");
+  const [coverTerm, setCoverTerm] = useState("monthly");
   const [copied, setCopied] = useState(false);
   // The sticky bar must get out of the way at the end of the page, or it
   // permanently covers the footer's legal links on a phone.
@@ -121,8 +128,8 @@ export default function VehicleDetail() {
   };
 
   const handleApply = () => {
-    trackEvent("apply_click", { listing_id: id, weeks });
-    navigate(`/apply/${v.id}?weeks=${weeks}`);
+    trackEvent("apply_click", { listing_id: id, weeks, cover: coverLevel, term: coverTerm });
+    navigate(`/apply/${v.id}?weeks=${weeks}&cover=${coverLevel}&term=${coverTerm}`);
   };
 
   return (
@@ -260,13 +267,14 @@ export default function VehicleDetail() {
               <div className="mt-6 pt-6 hairline">
                 <p className="text-[15px] text-ink-2 leading-relaxed measure">{v.description}</p>
                 {v.features?.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-4">
+                  <ul className="mt-4 grid gap-x-8 gap-y-1.5 text-[14px] text-ink-2 sm:grid-cols-2" data-testid="detail-features">
                     {v.features.map((f) => (
-                      <span key={f} className="text-[13px] text-ink-2 bg-surface-2 border border-line px-3 py-1.5 rounded-md">
+                      <li key={f} className="flex items-start gap-2">
+                        <Check className="mt-[3px] h-3.5 w-3.5 shrink-0 text-green" strokeWidth={2} />
                         {f}
-                      </span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 )}
               </div>
             </div>
@@ -320,6 +328,52 @@ export default function VehicleDetail() {
               </div>
             </section>
 
+            {/* Insurance comparison. The brief puts this on the car, before the
+                application: a driver needs the full weekly picture to decide. */}
+            <section className="hairline py-6" data-testid="detail-cover">
+              <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.coverHeading}</h2>
+              <p className="mt-2 text-[14.5px] text-ink-2 leading-relaxed measure">{DETAIL.coverSub}</p>
+
+              <div className="mt-5 flex gap-6 border-b border-line" role="radiogroup" aria-label="How you would pay">
+                {APPLICATION_FLOW.terms.map((t) => {
+                  const on = coverTerm === t.id;
+                  return (
+                    <button key={t.id} type="button" role="radio" aria-checked={on}
+                      onClick={() => setCoverTerm(t.id)}
+                      data-testid={`detail-term-${t.id}`}
+                      className={`pressable -mb-px border-b-2 pb-2.5 pt-1 text-[14px] font-semibold transition-colors duration-ui ${on ? "border-green text-ink" : "border-transparent text-ink-3 hover:text-ink"}`}>
+                      {t.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="divide-y divide-line border-b border-line" role="radiogroup" aria-label="Cover level">
+                {COVER_LEVELS.map((lvl) => {
+                  const q = quoteFor(lvl); const on = coverLevel === lvl;
+                  const suffix = APPLICATION_FLOW.terms.find((t) => t.id === coverTerm).suffix;
+                  return (
+                    <button key={lvl} type="button" role="radio" aria-checked={on}
+                      onClick={() => setCoverLevel(lvl)}
+                      data-testid={`detail-cover-${lvl}`}
+                      className="pressable grid w-full grid-cols-[1.25rem_1fr_auto] items-start gap-3 py-4 text-left">
+                      <span aria-hidden="true" className={`mt-1 h-4 w-4 rounded-full border-2 ${on ? "border-green bg-green" : "border-line-strong"}`} />
+                      <span>
+                        <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels[lvl]}</span>
+                        <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes[lvl]}</span>
+                        <span className="mt-1 block text-[12.5px] text-ink-3">{q.excess}</span>
+                      </span>
+                      <span className="text-right tabular">
+                        <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[coverTerm].toLocaleString()}</span>
+                        <span className="block text-[12px] text-ink-3">{suffix}</span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="mt-4 text-[12.5px] text-ink-3 leading-relaxed measure">{DETAIL.coverNote}</p>
+            </section>
+
             {uniquePhotoCount > 1 && (
               <section className="hairline py-6">
                 <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.moreAnglesHeading}</h2>
@@ -359,7 +413,7 @@ export default function VehicleDetail() {
 
           {/* ── COST PANEL (desktop) ─────────────────────────────────────── */}
           <div className="hidden lg:block lg:sticky top-below-header">
-            <CostPanel v={v} weeks={weeks} rentWeekly={rentWeekly} onApply={handleApply} />
+            <CostPanel v={v} weeks={weeks} rentWeekly={rentWeekly} coverLevel={coverLevel} coverTerm={coverTerm} onApply={handleApply} />
           </div>
         </div>
       </div>
@@ -387,7 +441,9 @@ export default function VehicleDetail() {
 
 /* ── Cost panel ─────────────────────────────────────── */
 
-function CostPanel({ v, weeks, rentWeekly, onApply }) {
+function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
+  const quote = quoteFor(coverLevel);
+  const term = APPLICATION_FLOW.terms.find((t) => t.id === coverTerm);
   return (
     <div className="panel p-card">
       <div className="flex items-baseline gap-1.5" data-testid="detail-headline-price">
@@ -404,15 +460,15 @@ function CostPanel({ v, weeks, rentWeekly, onApply }) {
           <span className="font-semibold text-ink tabular" data-testid="detail-weekly-rent">£{rentWeekly.toFixed(2)}</span>
         </div>
         <div className="flex justify-between py-3">
-          <span className="text-ink-2">{DETAIL.insuranceHeading}</span>
-          <span className="font-semibold text-ink">{DETAIL.insuranceChosen}</span>
+          <span className="text-ink-2">{DETAIL.insuranceHeading}<span className="block text-[12px] text-ink-3">{APPLY.stepCover.levels[coverLevel]}</span></span>
+          <span className="text-right font-semibold text-ink tabular" data-testid="detail-cover-price">£{quote.price[coverTerm].toLocaleString()}<span className="block text-[12px] font-normal text-ink-3">{term.suffix}</span></span>
         </div>
         <div className="flex justify-between py-3">
           <span className="text-ink-2">Breakdown cover</span>
           <span className="font-semibold text-ink">{v.breakdown_included ? "Included" : "£8 a week to add"}</span>
         </div>
       </div>
-      <p className="mt-3 text-[12.5px] text-ink-3 leading-relaxed">{DETAIL.insuranceHelper}</p>
+      <p className="mt-3 text-[12.5px] text-ink-3 leading-relaxed">{DETAIL.coverPaidTo}</p>
 
       <Button onClick={onApply} size="lg" className="w-full mt-5" data-testid="apply-to-rent-btn">
         {DETAIL.applyCta}

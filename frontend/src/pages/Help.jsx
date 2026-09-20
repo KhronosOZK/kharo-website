@@ -28,7 +28,7 @@ export default function Help() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={HELP.searchPlaceholder}
-              className="pl-11 rounded-full"
+              className="pl-11"
               data-testid="help-search"
             />
           </div>

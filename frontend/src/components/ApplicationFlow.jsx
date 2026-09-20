@@ -174,7 +174,7 @@ export default function ApplicationFlow({ className = "" }) {
                 ))}
               </dl>
               <button type="button" onClick={submit} disabled={sending} data-testid="flow-submit"
-                className="pressable mt-5 w-full h-12 rounded-full bg-green hover:bg-green-hover text-white font-semibold inline-flex items-center justify-center gap-2 disabled:opacity-80">
+                className="pressable mt-5 w-full h-12 rounded-md bg-green hover:bg-green-hover text-white font-semibold inline-flex items-center justify-center gap-2 disabled:opacity-80">
                 {sending ? (
                   <>
                     <motion.span aria-hidden className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white"

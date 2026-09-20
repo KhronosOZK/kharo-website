@@ -15,7 +15,7 @@ Functional clarity. The references are Auto Trader, Rightmove and Monzo: white g
 Cabinet Grotesk 800/700 for headings, Satoshi 400/500/700 for body. Fluid scale: display, h1, h2, h3, lead, stat. Headlines two lines maximum; tracking -0.02em to -0.035em; line-height never below 1.3 on body. Tabular numerals on every price and count. Body measure 65 to 75ch.
 
 ## Shape
-Tight by intent. Controls 4px (`rounded`), inputs 6px, cards 10px (`rounded-lg`), photo frames 12px. `rounded-full` only for the header CTA and removable chips. Borders carry structure; shadows are light and offset (`--shadow-1`, `--shadow-2`).
+Tight by intent. Buttons, inputs, chips and tabs 6px (`rounded-md`), cards and photo frames 10px (`rounded-lg`). `rounded-full` is reserved for things that are actually circles: radio dots, slider thumbs, the numbered step marker. No pill buttons anywhere, including the header CTA. Borders carry structure; shadows are light and offset (`--shadow-1`, `--shadow-2`).
 
 ## Components
 - Search instrument: white panel on a photograph, labels above fields, live result count on the button, price range with the distribution histogram visible.
