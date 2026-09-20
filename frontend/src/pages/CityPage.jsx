@@ -63,7 +63,7 @@ export default function CityPage() {
           img={heroImg}
           priority
         >
-          <div className="panel rounded-2xl p-5 sm:p-6 text-ink max-w-xl">
+          <div className="panel rounded-lg p-5 sm:p-6 text-ink max-w-xl">
             <CityInterestForm city={city} compact />
           </div>
         </PageHero>
@@ -77,7 +77,7 @@ export default function CityPage() {
                   key={c}
                   to={`/city/${c}`}
                   data-testid={`city-link-${c}`}
-                  className="pressable px-4 py-2 rounded-full bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
+                  className="pressable px-4 py-2 rounded-md bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
                 >
                   {c}
                 </Link>
@@ -102,7 +102,6 @@ export default function CityPage() {
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <PageHero
-        eyebrow={t(CITY_PAGE.tagTemplate, { city })}
         heading={t(CITY_PAGE.heroHeadingTemplate, { city })}
         sub={t(CITY_PAGE.heroSubTemplate, { count, city })}
         img={heroImg}
@@ -114,7 +113,7 @@ export default function CityPage() {
           <Button size="lg" onClick={() => navigate(`/search?city=${encodeURIComponent(city)}`)} data-testid="city-see-all">
             {t(CITY_PAGE.seeAllCta, { count })} <ArrowRight size={16} />
           </Button>
-          <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")}>{CITY_PAGE.accountCta}</Button>
+          <Button size="lg" variant="outline" onClick={() => navigate("/register")}>{CITY_PAGE.accountCta}</Button>
         </div>
       </PageHero>
 
@@ -179,7 +178,7 @@ export default function CityPage() {
                 key={c}
                 to={`/city/${c}`}
                 data-testid={`city-link-${c}`}
-                className="pressable px-4 py-2 rounded-full bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
+                className="pressable px-4 py-2 rounded-md bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
               >
                 {c}
               </Link>

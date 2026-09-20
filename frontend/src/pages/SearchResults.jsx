@@ -92,7 +92,7 @@ function ControlSegment({ label, value, children, className = "" }) {
 
 function FilterChip({ label, onRemove }) {
   return (
-    <span className="pressable inline-flex items-center gap-1.5 h-8 px-3 rounded-full border border-line-strong bg-surface text-[12.5px] font-medium text-ink">
+    <span className="pressable inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-line-strong bg-surface text-[12.5px] font-medium text-ink">
       {label}
       <button type="button" onClick={onRemove} aria-label={`Remove ${label} filter`} className="pressable text-ink-3 hover:text-ink">
         <X size={12} strokeWidth={2} />

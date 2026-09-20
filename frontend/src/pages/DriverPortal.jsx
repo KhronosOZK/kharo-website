@@ -54,8 +54,8 @@ export default function DriverPortal() {
 
       <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mt-7">
         {/* No car yet: a plain panel, no photo, no decorative badge */}
-        <motion.div variants={item} className="lg:col-span-8 panel rounded-2xl p-7 sm:p-9 flex flex-col justify-center" data-testid="portal-hero">
-          <p className="eyebrow">No car yet</p>
+        <motion.div variants={item} className="lg:col-span-8 panel rounded-lg p-7 sm:p-9 flex flex-col justify-center" data-testid="portal-hero">
+          <p className="text-[13px] font-semibold text-ink-3">No car yet</p>
           <h2 className="mt-2 text-h3 font-heading font-bold text-ink">Start earning this week.</h2>
           <p className="mt-3 text-[15px] text-ink-2 leading-relaxed max-w-md">Browse vetted cars with insurance chosen when you apply. Apply in minutes with your details saved.</p>
           <div className="mt-6">
@@ -64,7 +64,7 @@ export default function DriverPortal() {
         </motion.div>
 
         {/* Document vault */}
-        <motion.div variants={item} className="lg:col-span-4 panel rounded-2xl p-6" data-testid="portal-documents">
+        <motion.div variants={item} className="lg:col-span-4 panel rounded-lg p-6" data-testid="portal-documents">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-ink font-heading font-bold"><IdCard className="w-5 h-5 text-green" strokeWidth={1.75} /> Your documents</div>
             <span className="text-[12px] text-ink-3">{docsDone}/2 done</span>
@@ -79,7 +79,7 @@ export default function DriverPortal() {
         </motion.div>
 
         {/* Applications */}
-        <motion.div variants={item} className="lg:col-span-8 panel rounded-2xl p-6">
+        <motion.div variants={item} className="lg:col-span-8 panel rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2 text-ink font-heading font-bold"><FileText className="w-5 h-5 text-green" strokeWidth={1.75} /> Your applications</div>
             {apps.length > 0 && <span className="text-[12px] text-ink-3">{apps.length} total</span>}
@@ -106,7 +106,7 @@ export default function DriverPortal() {
         </motion.div>
 
         {/* Insurance & compliance */}
-        <motion.div variants={item} className="lg:col-span-4 panel rounded-2xl p-6" data-testid="portal-compliance">
+        <motion.div variants={item} className="lg:col-span-4 panel rounded-lg p-6" data-testid="portal-compliance">
           <div className="flex items-center gap-2 text-ink font-heading font-bold"><ShieldCheck className="w-5 h-5 text-green" strokeWidth={1.75} /> Cover and compliance</div>
           <p className="text-[13px] text-ink-3 mt-2">Once you are in a car, this is where your insurance, MOT and service dates live.</p>
           <div className="mt-4 divide-y divide-line text-[13.5px]">
@@ -117,7 +117,7 @@ export default function DriverPortal() {
         </motion.div>
 
         {/* Quick actions */}
-        <motion.div variants={item} className="lg:col-span-8 panel rounded-2xl p-6">
+        <motion.div variants={item} className="lg:col-span-8 panel rounded-lg p-6">
           <div className="flex items-center gap-2 text-ink font-heading font-bold mb-4"><Wrench className="w-5 h-5 text-green" strokeWidth={1.75} /> Quick actions</div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
@@ -126,7 +126,7 @@ export default function DriverPortal() {
               { i: Headphones, t: "Get support" },
               { i: CalendarClock, t: "Service booking" },
             ].map((a) => (
-              <button key={a.t} onClick={() => navigate("/help")} className="pressable rounded-2xl bg-surface-2 hover:bg-[#E6E6DF] border border-line p-4 text-left">
+              <button key={a.t} onClick={() => navigate("/help")} className="pressable rounded-lg bg-surface-2 hover:bg-[#E6E6DF] border border-line p-4 text-left">
                 <a.i className="w-5 h-5 text-green" strokeWidth={1.75} />
                 <div className="text-[13px] font-medium text-ink mt-2.5">{a.t}</div>
               </button>
@@ -136,7 +136,7 @@ export default function DriverPortal() {
         </motion.div>
 
         {/* Saved cars */}
-        <motion.div variants={item} className="lg:col-span-4 panel rounded-2xl p-6 flex flex-col justify-between" data-testid="portal-saved-card">
+        <motion.div variants={item} className="lg:col-span-4 panel rounded-lg p-6 flex flex-col justify-between" data-testid="portal-saved-card">
           <div>
             <Heart className="w-5 h-5 text-green" strokeWidth={1.75} />
             <div className="text-h3 font-heading font-extrabold text-ink mt-3 tabular">{saved.length}</div>
@@ -155,7 +155,7 @@ const DocRow = ({ label, ok, value }) => (
       <div className="text-[13.5px] text-ink">{label}</div>
       {ok && <div className="text-[11.5px] text-ink-3">{value}</div>}
     </div>
-    <span className={`inline-flex items-center gap-1 text-[11.5px] font-semibold px-2.5 py-1 rounded-full ${ok ? "text-green bg-green-soft" : "text-ink-3 bg-surface-2"}`}>
+    <span className={`inline-flex items-center gap-1 text-[11.5px] font-semibold px-2.5 py-1 rounded-md ${ok ? "text-green bg-green-soft" : "text-ink-3 bg-surface-2"}`}>
       {ok ? <><Check className="w-3 h-3" /> Added</> : "Not added"}
     </span>
   </div>

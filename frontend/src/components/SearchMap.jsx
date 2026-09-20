@@ -71,7 +71,7 @@ export default function SearchMap({ results, activeBorough, onAreaClick, visibil
       center={[52.9, -1.5]}
       zoom={6}
       scrollWheelZoom
-      className="w-full h-full rounded-2xl"
+      className="w-full h-full rounded-lg"
       ref={mapRef}
     >
       <TileLayer

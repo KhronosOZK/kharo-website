@@ -15,8 +15,8 @@ const MENU_ICONS = [User, Building2];
  * (border, shadow) once content is actually scrolling underneath it.
  */
 export default function Header() {
-  const { saved, savedSales } = useAuth();
-  const savedTotal = saved.length + savedSales.length;
+  const { saved } = useAuth();
+  const savedTotal = saved.length;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const sentinel = useRef(null);
@@ -57,14 +57,14 @@ export default function Header() {
 
           <div className="flex items-center gap-1.5 sm:gap-3">
             <button onClick={() => navigate("/saved")} aria-label={`Saved vehicles, ${savedTotal} items`}
-              className="pressable hidden sm:inline-flex items-center gap-1.5 h-10 px-2.5 rounded-full text-[14px] text-ink-2 hover:text-ink hover:bg-surface-2" data-testid="saved-count">
+              className="pressable hidden sm:inline-flex items-center gap-1.5 h-10 px-2.5 rounded-md text-[14px] text-ink-2 hover:text-ink hover:bg-surface-2" data-testid="saved-count">
               <Heart className="w-[18px] h-[18px]" strokeWidth={1.75} /> {savedTotal > 0 && <span className="tabular">{savedTotal}</span>}
             </button>
 
             <Link
               to={NAV.headerCta.to}
               data-testid="join-waitlist-link"
-              className="pressable hidden md:inline-flex items-center h-10 px-4 rounded-full bg-green hover:bg-green-hover text-white text-[13.5px] font-semibold whitespace-nowrap"
+              className="pressable hidden md:inline-flex items-center h-10 px-4 rounded-md bg-green hover:bg-green-hover text-white text-[13.5px] font-semibold whitespace-nowrap"
             >
               {NAV.headerCta.label}
             </Link>
@@ -72,12 +72,12 @@ export default function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button data-testid="account-menu-btn" aria-label="Account menu"
-                  className="pressable hidden md:inline-flex items-center gap-2 h-10 rounded-full border border-line-strong bg-surface px-3 hover:bg-surface-2">
+                  className="pressable hidden md:inline-flex items-center gap-2 h-10 rounded-md border border-line-strong bg-surface px-3 hover:bg-surface-2">
                   <Menu className="w-4 h-4 text-ink-2" strokeWidth={1.75} />
                   <User className="w-4 h-4 text-green" strokeWidth={1.75} />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-72 rounded-2xl bg-surface shadow-2 border-line p-1.5 duration-fast ease-out">
+              <DropdownMenuContent align="end" className="w-72 rounded-lg bg-surface shadow-2 border-line p-1.5 duration-fast ease-out">
                 {NAV.accountMenu.map((item, i) => {
                   const Icon = MENU_ICONS[i] || User;
                   return (

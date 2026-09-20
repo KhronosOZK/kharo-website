@@ -104,7 +104,6 @@ export default function OperatorInterest() {
     <main className="bg-bone min-h-page">
       <PageHero
         size="band"
-        eyebrow={OPERATOR_INTEREST.tag}
         heading={OPERATOR_INTEREST.heading}
         sub={OPERATOR_INTEREST.sub}
         img={IMG.handshakeDesk}
@@ -123,7 +122,7 @@ export default function OperatorInterest() {
 
         {/* ── The form: first on phones, the page's one hero object ─────── */}
         <Enter delay={0.06} className="w-full">
-          <motion.div layout transition={SPRING.ui} className="surface-raised rounded-hero p-card">
+          <motion.div layout transition={SPRING.ui} className="surface-raised rounded-lg p-card">
             <div className="mb-7">
               <p className="text-[13px] text-ink-3 mb-2.5" data-testid="op-step-label">{T.stepLabel(step + 1, STEPS.length)}</p>
               <div className="flex items-center gap-1.5" data-testid="op-progress">

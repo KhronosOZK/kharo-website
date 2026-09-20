@@ -105,7 +105,7 @@ export default function Apply() {
         <Check className="w-12 h-12 text-green mx-auto" strokeWidth={1.75} />
         <h1 className="text-h2 font-heading font-extrabold text-ink mt-6" data-testid="apply-success">{APPLY.success.heading}</h1>
         <p className="text-ink-2 mt-3 leading-relaxed">{APPLY.success.body}</p>
-        <div className="mt-8 text-left panel rounded-2xl p-6">
+        <div className="mt-8 text-left panel rounded-lg p-6">
           <p className="font-heading font-bold text-ink">{APPLY.success.nextHeading}</p>
           <ul className="mt-3 divide-y divide-line">
             {APPLY.success.next.map((n) => (
@@ -134,8 +134,8 @@ export default function Apply() {
       <div className="mt-6 grid lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] gap-block items-start">
         {/* Vehicle summary */}
         <div className="lg:sticky top-below-header">
-          <img src={photo} alt="" loading="lazy" className="w-full aspect-[16/9] rounded-2xl object-cover" />
-          <div className="panel rounded-2xl p-5 mt-4">
+          <img src={photo} alt="" loading="lazy" className="w-full aspect-[16/9] rounded-lg border border-line object-cover" />
+          <div className="panel rounded-lg p-5 mt-4">
             <h3 className="font-heading font-bold text-ink text-lg">{v.make} {v.model}</h3>
             <p className="text-ink-3 text-xs mt-0.5">{v.year}, {v.fuel}, {v.borough}</p>
             <div className="flex items-baseline gap-1 mt-4">
@@ -150,8 +150,9 @@ export default function Apply() {
         </div>
 
         {/* Interest form */}
-        <Enter className="order-first lg:order-none w-full panel rounded-hero p-6 sm:p-8">
-          <p className="eyebrow">Register interest</p>
+        <Enter className="order-first lg:order-none w-full panel rounded-lg p-6 sm:p-8">
+          <h1 className="text-h3 font-heading font-extrabold text-ink">Register interest in the {v.make} {v.model}</h1>
+          <p className="mt-1.5 text-[14.5px] text-ink-2">Four short steps. Nothing is charged, and a person reads every application.</p>
           <div className="mt-4 mb-6">
             <div className="text-[12.5px] text-ink-3 mb-2.5">Step {step + 1} of {STEP_KEYS.length}</div>
             <div className="flex items-center gap-1.5">
@@ -195,15 +196,20 @@ export default function Apply() {
                       <h2 className="text-h3 font-heading font-bold text-ink">{APPLY.stepCover.heading}</h2>
                       <p className="text-[15px] text-ink-2 mt-2 mb-5">{APPLY.stepCover.sub}</p>
 
-                      <div className="flex gap-1 rounded border border-line-strong p-1 mb-4" role="radiogroup" aria-label="How you would pay">
-                        {APPLICATION_FLOW.terms.map((t) => (
-                          <button key={t.id} type="button" role="radio" aria-checked={f.cover_term === t.id}
-                            onClick={() => setF((p) => ({ ...p, cover_term: t.id }))}
-                            data-testid={`apply-term-${t.id}`}
-                            className={`pressable flex-1 h-10 rounded text-[13.5px] font-semibold transition-colors duration-ui ${f.cover_term === t.id ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
-                            {t.label}
-                          </button>
-                        ))}
+                      {/* Underline tabs, not a boxed control: this already sits inside the
+                          form panel and a box in a box reads as clutter. */}
+                      <div className="flex gap-6 border-b border-line mb-1" role="radiogroup" aria-label="How you would pay">
+                        {APPLICATION_FLOW.terms.map((t) => {
+                          const on = f.cover_term === t.id;
+                          return (
+                            <button key={t.id} type="button" role="radio" aria-checked={on}
+                              onClick={() => setF((p) => ({ ...p, cover_term: t.id }))}
+                              data-testid={`apply-term-${t.id}`}
+                              className={`pressable -mb-px border-b-2 pb-2.5 pt-1 text-[14px] font-semibold transition-colors duration-ui ${on ? "border-green text-ink" : "border-transparent text-ink-3 hover:text-ink"}`}>
+                              {t.label}
+                            </button>
+                          );
+                        })}
                       </div>
 
                       <div className="divide-y divide-line border-y border-line" role="radiogroup" aria-label="Cover level">

@@ -79,7 +79,7 @@ export default function Footer() {
                     autoComplete="email"
                     inputMode="email"
                     data-testid="footer-newsletter-input"
-                    className="field flex-1 h-11 rounded-full bg-white/[0.08] border border-white/15 px-4 text-base sm:text-[14px] text-white placeholder:text-white/40 focus:outline-none focus:border-mint/60 focus:ring-[3px] focus:ring-mint/15"
+                    className="field flex-1 h-11 rounded-md bg-white/[0.08] border border-white/15 px-4 text-base sm:text-[14px] text-white placeholder:text-white/40 focus:outline-none focus:border-mint/60 focus:ring-[3px] focus:ring-mint/15"
                   />
                   <button
                     type="submit"
@@ -115,7 +115,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="wrap py-5 flex flex-col sm:flex-row items-center justify-between gap-3 pb-safe">
-          <span className="text-[12.5px] text-white/40 text-center sm:text-left">{BRAND.copyright}</span>
+          <span className="max-w-[60ch] text-[12.5px] leading-relaxed text-white/40 text-center sm:text-left">{BRAND.copyright}</span>
 
           <div className="flex items-center flex-wrap justify-center gap-x-5 gap-y-2">
             <div className="flex items-center flex-wrap justify-center gap-x-4 gap-y-2">

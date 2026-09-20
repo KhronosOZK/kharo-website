@@ -67,26 +67,26 @@ export default function CityInterestForm({ city: fixedCity, className = "", comp
           value={city}
           onChange={(e) => setCity(e.target.value)}
           placeholder="Your city or area"
-          className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-full bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
+          className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-md bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
         />
       )}
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Your name"
-        className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-full bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
+        className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-md bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
       />
       <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Your email"
-        className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-full bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
+        className="field flex-1 min-w-0 border border-line-strong text-base text-ink px-4 py-3 rounded-md bg-surface focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
       />
       <button
         type="submit"
         disabled={loading}
-        className="pressable flex items-center justify-center gap-2 bg-green hover:bg-green-hover text-white text-sm font-semibold px-6 py-3 rounded-full disabled:opacity-60 shrink-0"
+        className="pressable flex items-center justify-center gap-2 bg-green hover:bg-green-hover text-white text-sm font-semibold px-6 py-3 rounded-md disabled:opacity-60 shrink-0"
       >
         {loading ? "Sending" : "Register interest"} {!loading && <ArrowRight size={14} strokeWidth={1.75} />}
       </button>

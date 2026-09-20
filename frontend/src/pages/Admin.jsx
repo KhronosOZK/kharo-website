@@ -107,7 +107,7 @@ export default function Admin() {
 
   if (!isAdmin) return (
     <main className="min-h-page bg-bone grid place-items-center px-4 py-section">
-      <div className="w-full max-w-sm panel rounded-2xl p-7 sm:p-8">
+      <div className="w-full max-w-sm panel rounded-lg p-7 sm:p-8">
         <Lock className="w-7 h-7 text-green" strokeWidth={1.75} />
         <h1 className="text-h3 font-heading font-bold text-ink mt-4">Kharo Ops, admin</h1>
         <p className="text-[14px] text-ink-2 mt-1 mb-6">Sign in with your operations account to view captured leads.</p>
@@ -162,7 +162,7 @@ export default function Admin() {
 
       {/* Trend chart */}
       {analytics?.trend && (
-        <div className="panel rounded-2xl p-5 sm:p-6 mt-6">
+        <div className="panel rounded-lg p-5 sm:p-6 mt-6">
           <div className="flex items-center justify-between flex-wrap gap-2 mb-5">
             <h3 className="font-heading font-bold text-ink text-lg">Growth over the last 14 days</h3>
             <div className="flex gap-4 text-[12px]">
@@ -190,7 +190,7 @@ export default function Admin() {
 
       {/* Funnel */}
       {analytics && (
-        <div className="panel rounded-2xl p-5 sm:p-6 mt-4">
+        <div className="panel rounded-lg p-5 sm:p-6 mt-4">
           <h3 className="font-heading font-bold text-ink mb-5">Waitlist funnel</h3>
           <div className="space-y-3">
             {funnelSteps.map((s, i) => {
@@ -205,13 +205,13 @@ export default function Admin() {
       {/* Per-city and per-vehicle demand */}
       {analytics && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-          <div className="panel rounded-2xl p-5 sm:p-6">
+          <div className="panel rounded-lg p-5 sm:p-6">
             <h3 className="font-heading font-bold text-ink mb-3">Demand by city</h3>
             {analytics.city_demand.length === 0 ? <p className="text-[13px] text-ink-3">No city requests yet.</p> : (
               <div className="divide-y divide-line">{analytics.city_demand.map((c) => (<div key={c.label} className="flex justify-between text-[14px] py-2"><span className="text-ink-2">{c.label}</span><span className="font-semibold text-ink tabular">{c.count}</span></div>))}</div>
             )}
           </div>
-          <div className="panel rounded-2xl p-5 sm:p-6">
+          <div className="panel rounded-lg p-5 sm:p-6">
             <h3 className="font-heading font-bold text-ink mb-3">Demand by car</h3>
             {vehicleDemand.length === 0 ? <p className="text-[13px] text-ink-3">No vehicle requests yet.</p> : (
               <div className="divide-y divide-line">{vehicleDemand.map((c) => (<div key={c.label} className="flex justify-between text-[14px] py-2"><span className="text-ink-2">{c.label}</span><span className="font-semibold text-ink tabular">{c.count}</span></div>))}</div>
@@ -222,7 +222,7 @@ export default function Admin() {
 
       {/* Lead sources */}
       {analytics && (
-        <div className="panel rounded-2xl p-5 sm:p-6 mt-4">
+        <div className="panel rounded-lg p-5 sm:p-6 mt-4">
           <h3 className="font-heading font-bold text-ink mb-3">Lead sources</h3>
           <div className="divide-y divide-line">{analytics.lead_sources.map((c) => (<div key={c.label} className="flex justify-between text-[14px] py-2"><span className="text-ink-2 capitalize">{String(c.label).replace(/_/g, " ")}</span><span className="font-semibold text-ink tabular">{c.count}</span></div>))}</div>
         </div>
@@ -236,7 +236,7 @@ export default function Admin() {
           <Button onClick={exportCsv} variant="outline" data-testid="export-csv-btn"><Download className="w-4 h-4" strokeWidth={1.75} /> Export CSV</Button>
         </div>
 
-        <div className="mt-4 panel rounded-2xl p-3 flex flex-wrap items-center gap-2">
+        <div className="mt-4 panel rounded-lg p-3 flex flex-wrap items-center gap-2">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-4 h-4 text-ink-3 absolute left-3 top-1/2 -translate-y-1/2" strokeWidth={1.75} />
             <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search this table" data-testid="admin-filter-search" className="h-10 pl-9" />
@@ -253,7 +253,7 @@ export default function Admin() {
 
         {TABS.map((t) => (
           <TabsContent key={t} value={t} className="mt-4">
-            <div className="panel rounded-2xl overflow-x-auto">
+            <div className="panel rounded-lg overflow-x-auto">
               {rows.length === 0 ? (
                 <div className="p-8 text-center text-ink-2 text-sm">No records yet.</div>
               ) : filtered.length === 0 ? (

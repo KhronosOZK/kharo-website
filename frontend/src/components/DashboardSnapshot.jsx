@@ -223,7 +223,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                         <div className="flex gap-1 overflow-x-auto hide-scrollbar" role="group" aria-label="Filter">
                           {panel.filters.map((f) => (
                             <button key={f} type="button" onClick={() => { setFilter(f); setTouched(true); }}
-                              className={`pressable shrink-0 rounded-full h-9 px-3 text-[12.5px] font-medium ${filter === f ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
+                              className={`pressable shrink-0 rounded-md h-9 px-3 text-[12.5px] font-medium ${filter === f ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
                               {f}
                             </button>
                           ))}
@@ -246,7 +246,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                           <p className="text-[14px] font-medium text-ink leading-snug truncate">{r.t}</p>
                           <p className="text-[12.5px] text-ink-3 leading-snug truncate">{r.d}</p>
                         </div>
-                        <span className={`shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11.5px] font-semibold tabular ${TONE[r.tone] || TONE.muted}`}>
+                        <span className={`shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[11.5px] font-semibold tabular ${TONE[r.tone] || TONE.muted}`}>
                           {r.tone === "link" && r.status === "PDF" && <Download className="w-3 h-3" strokeWidth={2} />}
                           {r.v}
                         </span>

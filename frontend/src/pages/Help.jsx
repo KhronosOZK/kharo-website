@@ -42,7 +42,7 @@ export default function Help() {
           )}
         </RevealItem>
 
-        <RevealItem className="mt-12 panel rounded-2xl p-6 sm:p-8 grid sm:grid-cols-2 gap-6">
+        <RevealItem className="mt-12 panel rounded-lg p-6 sm:p-8 grid sm:grid-cols-2 gap-6">
           <div>
             <h2 className="text-h3 font-heading font-bold text-ink">{HELP.contact.heading}</h2>
             <p className="mt-2 text-[14.5px] text-ink-2 leading-relaxed">{HELP.contact.sub}</p>

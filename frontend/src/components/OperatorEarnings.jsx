@@ -21,7 +21,7 @@ export default function OperatorEarnings({ className = "" }) {
   const { loss } = OPERATOR_INTEREST;
 
   return (
-    <div className={`surface-raised rounded-2xl p-card max-w-md ${className}`} data-testid="operator-loss-card">
+    <div className={`surface-raised rounded-lg p-card max-w-md ${className}`} data-testid="operator-loss-card">
       <p className="text-[13.5px] font-medium text-ink-3">{loss.label}</p>
       <div className="flex items-end gap-2 mt-1.5">
         <AnimatedNumber value={weeklyLoss} prefix="£" data-testid="operator-loss-value" className="text-stat font-heading font-extrabold text-ink" />

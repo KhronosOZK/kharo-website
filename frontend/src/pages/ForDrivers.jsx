@@ -18,12 +18,12 @@ export default function ForDrivers() {
   return (
     <div className="bg-bone">
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <PageHero eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
+      <PageHero heading={hero.heading} sub={hero.sub}
         img={hero.img} imgAlt={hero.imgAlt} position="55% center" priority
       >
         <div className="flex flex-wrap gap-3">
           <Button size="lg" onClick={() => navigate("/search")} data-testid="for-drivers-browse">{hero.primaryCta} <ArrowRight size={16} /></Button>
-          <Button size="lg" variant="onDarkOutline" onClick={() => navigate("/register")} data-testid="for-drivers-register">{hero.secondaryCta}</Button>
+          <Button size="lg" variant="outline" onClick={() => navigate("/register")} data-testid="for-drivers-register">{hero.secondaryCta}</Button>
         </div>
       </PageHero>
 
@@ -91,7 +91,7 @@ export default function ForDrivers() {
           </ul>
         </RevealItem>
         <RevealItem className="lg:col-span-6 zoom-media">
-          <img src={support.img} alt={support.imgAlt} loading="lazy" className="w-full aspect-[4/3] lg:aspect-[4/5] object-cover rounded-2xl" data-zoom />
+          <img src={support.img} alt={support.imgAlt} loading="lazy" className="w-full aspect-[4/3] lg:aspect-[4/5] object-cover rounded-lg border border-line" data-zoom />
         </RevealItem>
       </RevealGroup>
 

@@ -33,7 +33,7 @@ export default function ResetPassword() {
 
   return (
     <main className="min-h-page bg-bone grid place-items-center px-4 py-section">
-      <div className="w-full max-w-sm panel rounded-2xl p-7 sm:p-8">
+      <div className="w-full max-w-sm panel rounded-lg p-7 sm:p-8">
         <Link to="/" className="caro-wordmark text-[22px] text-ink leading-none" aria-label="Kharo home">
           kharo<span className="text-green">.</span>
         </Link>

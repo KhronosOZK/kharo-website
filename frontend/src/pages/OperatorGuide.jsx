@@ -28,12 +28,12 @@ export default function OperatorGuide() {
   return (
     <div className="bg-bone">
       {/* ── HERO: fleet photograph, left-aligned copy, one panel card ───── */}
-      <PageHero eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
+      <PageHero heading={hero.heading} sub={hero.sub}
         img={hero.img} imgAlt={hero.imgAlt} position="50% center" priority
       >
         <div className="flex flex-wrap gap-3">
           <Button size="lg" onClick={() => navigate("/list-your-fleet")} data-testid="operator-guide-list">{hero.primaryCta} <ArrowRight size={16} /></Button>
-          <Button size="lg" variant="onDarkOutline" onClick={scrollToConsole} data-testid="operator-guide-console">{hero.secondaryCta}</Button>
+          <Button size="lg" variant="outline" onClick={scrollToConsole} data-testid="operator-guide-console">{hero.secondaryCta}</Button>
         </div>
       </PageHero>
 
@@ -46,8 +46,7 @@ export default function OperatorGuide() {
           {OPERATOR_STORY.intro.points.map((p, i) => (
             <li key={p.t} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 sm:gap-8 py-7">
               <div>
-                <p className="text-[12.5px] font-semibold text-ink-3 tabular">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="mt-1 text-h3 font-heading font-bold text-ink">{p.t}</h3>
+                <h3 className="text-h3 font-heading font-bold text-ink">{p.t}</h3>
               </div>
               <p className="text-[15.5px] text-ink-2 leading-relaxed measure">{p.d}</p>
             </li>
@@ -116,7 +115,7 @@ export default function OperatorGuide() {
       <RevealGroup as="section" className="wrap pb-section">
         <div className="grid lg:grid-cols-2 gap-block items-center">
           <RevealItem>
-            <img src={claims.img} alt={claims.imgAlt} loading="lazy" className="w-full rounded-2xl aspect-[4/3] object-cover bg-surface-2" />
+            <img src={claims.img} alt={claims.imgAlt} loading="lazy" className="w-full rounded-lg border border-line aspect-[4/3] object-cover bg-surface-2" />
           </RevealItem>
           <RevealItem>
             <h2 className="text-h2 font-heading font-extrabold text-ink">{claims.heading}</h2>
@@ -173,7 +172,7 @@ export default function OperatorGuide() {
       {/* ── CLOSER: quiet, one panel, one button ───────────────────────── */}
       <section className="bg-bone">
         <RevealGroup className="wrap py-section">
-          <RevealItem className="surface-raised rounded-hero p-card">
+          <RevealItem className="surface-raised rounded-lg p-card">
             <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-center">
               <div className="lg:col-span-8">
                 <h2 className="text-h2 font-heading font-extrabold text-ink">{closer.heading}</h2>

@@ -11,11 +11,6 @@ export function AuthProvider({ children }) {
   const [compare, setCompare] = useState(() => {
     try { return JSON.parse(localStorage.getItem("kharo_compare") || "[]"); } catch { return []; }
   });
-  // Sale listings are kept apart from rental saves. They are different objects
-  // with different fields, so merging the two lists would break both pages.
-  const [savedSales, setSavedSales] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("kharo_saved_sales") || "[]"); } catch { return []; }
-  });
 
   const login = async (email, password) => {
     try {
@@ -63,16 +58,9 @@ export function AuthProvider({ children }) {
 
   const clearCompare = () => { setCompare([]); localStorage.setItem("kharo_compare", "[]"); };
 
-  const toggleSavedSale = (id) => {
-    setSavedSales((prev) => {
-      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
-      localStorage.setItem("kharo_saved_sales", JSON.stringify(next));
-      return next;
-    });
-  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, register, logout, forgotPassword, resetPassword, saved, toggleSaved, compare, toggleCompare, clearCompare, savedSales, toggleSavedSale }}>
+    <AuthContext.Provider value={{ user, setUser, login, register, logout, forgotPassword, resetPassword, saved, toggleSaved, compare, toggleCompare, clearCompare }}>
       {children}
     </AuthContext.Provider>
   );

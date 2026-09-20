@@ -43,7 +43,7 @@ export default function WhyKharo() {
   return (
     <div className="bg-bone">
       {/* ── HERO: photograph, headline, sub. Nothing floating. ──────────── */}
-      <PageHero eyebrow={hero.eyebrow} heading={hero.heading} sub={hero.sub}
+      <PageHero heading={hero.heading} sub={hero.sub}
         img={hero.img} position="55% center" priority
       />
 
@@ -87,7 +87,7 @@ export default function WhyKharo() {
       {/* ── FOR DRIVERS: photo left, argument right ─────────────────────── */}
       <RevealGroup as="section" className="wrap py-section grid lg:grid-cols-12 gap-block items-center">
         <RevealItem className="lg:col-span-6 lg:order-1 zoom-media">
-          <img src={drivers.img} alt="" loading="lazy" className="w-full aspect-[4/5] object-cover rounded-2xl" data-zoom />
+          <img src={drivers.img} alt="" loading="lazy" className="w-full aspect-[4/5] object-cover rounded-lg border border-line" data-zoom />
         </RevealItem>
         <RevealItem className="lg:col-span-6 lg:order-2">
           <h2 className="text-h2 font-heading font-extrabold text-ink max-w-[16ch]">{drivers.heading}</h2>
@@ -126,7 +126,7 @@ export default function WhyKharo() {
           </div>
         </RevealItem>
         <RevealItem className="lg:col-span-6 lg:order-2 zoom-media">
-          <img src={operators.img} alt="" loading="lazy" className="w-full aspect-[4/5] object-cover rounded-2xl" data-zoom />
+          <img src={operators.img} alt="" loading="lazy" className="w-full aspect-[4/5] object-cover rounded-lg border border-line" data-zoom />
         </RevealItem>
       </RevealGroup>
 
@@ -152,14 +152,14 @@ export default function WhyKharo() {
           <h2 className="text-h2 font-heading font-extrabold text-ink mb-8">{closer.heading}</h2>
         </RevealItem>
         <RevealItem className="grid md:grid-cols-2 gap-4">
-          <div className="panel rounded-2xl p-6 sm:p-8">
+          <div className="panel rounded-lg p-6 sm:p-8">
             <h3 className="text-h3 font-heading font-bold text-ink">{CLOSER_PANELS.driver.heading}</h3>
             <p className="mt-2 text-[15px] text-ink-2 leading-relaxed">{CLOSER_PANELS.driver.body}</p>
             <div className="mt-6">
               <Button onClick={() => navigate(CLOSER_PANELS.driver.to)}>{closer.driverCta} <ArrowRight size={16} /></Button>
             </div>
           </div>
-          <div className="panel rounded-2xl p-6 sm:p-8">
+          <div className="panel rounded-lg p-6 sm:p-8">
             <h3 className="text-h3 font-heading font-bold text-ink">{CLOSER_PANELS.operator.heading}</h3>
             <p className="mt-2 text-[15px] text-ink-2 leading-relaxed">{CLOSER_PANELS.operator.body}</p>
             <div className="mt-6">

@@ -217,85 +217,6 @@ class LeadIn(BaseModel):
     source: str = Field("unknown", max_length=SHORT_LEN)
     data: Optional[dict] = None
 
-class MarketplaceInterestIn(BaseModel):
-    """Demand capture for the vehicle sales marketplace.
-
-    intent is 'sell', 'buy' or 'both'. Sellers describe the vehicle they want
-    to move; buyers describe what they are hunting for. Both sides land in the
-    same collection so the split can be read off directly.
-    """
-    intent: str = Field("buy", max_length=SHORT_LEN)
-    name: str = Field(..., min_length=1, max_length=NAME_LEN)
-    email: EmailStr
-    phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
-    city: Optional[str] = Field(None, max_length=MED_LEN)
-    # seller side
-    make: Optional[str] = Field(None, max_length=MED_LEN)
-    model: Optional[str] = Field(None, max_length=MED_LEN)
-    year: Optional[str] = Field(None, max_length=SHORT_LEN)
-    mileage: Optional[str] = Field(None, max_length=SHORT_LEN)
-    fuel: Optional[str] = Field(None, max_length=SHORT_LEN)
-    pco_expiry: Optional[str] = Field(None, max_length=20)
-    asking_price: Optional[str] = Field(None, max_length=SHORT_LEN)
-    condition: Optional[str] = Field(None, max_length=MED_LEN)
-    timeframe: Optional[str] = Field(None, max_length=MED_LEN)
-    vehicle_count: Optional[str] = Field(None, max_length=SHORT_LEN)
-    # buyer side
-    looking_for: Optional[str] = Field(None, max_length=MED_LEN)
-    budget: Optional[str] = Field(None, max_length=SHORT_LEN)
-    min_pco_months: Optional[str] = Field(None, max_length=SHORT_LEN)
-    finance_interest: Optional[str] = Field(None, max_length=SHORT_LEN)
-    # shared
-    seller_type: Optional[str] = Field(None, max_length=SHORT_LEN)
-    listing_id: Optional[str] = Field(None, max_length=SHORT_LEN)
-    notes: Optional[str] = Field(None, max_length=LONG_LEN)
-    heard_from: Optional[str] = Field(None, max_length=MED_LEN)
-
-# ---------------------------------------------------------------- Auth routes
-async def _issue(resp: Response, user_id: str, email: str, role: str):
-    token = create_access_token(user_id, email, role)
-    resp.set_cookie("access_token", token, httponly=True, secure=True,
-                    samesite="none", max_age=604800, path="/")
-    return token
-
-@api.post("/auth/register", dependencies=[Depends(rate_limit("register", 10))])
-async def register(body: RegisterIn, response: Response):
-    email = body.email.lower()
-    if await db.users.find_one({"email": email}):
-        raise HTTPException(status_code=400, detail="An account with this email already exists")
-    role = body.role if body.role in ("driver", "operator") else "driver"
-    doc = {
-        "name": body.name, "email": email, "phone": body.phone,
-        "password_hash": hash_password(body.password), "role": role,
-        "dob": body.dob, "dvla_licence": body.dvla_licence, "pco_licence": body.pco_licence,
-        "created_at": now_iso(),
-    }
-    res = await db.users.insert_one(doc)
-    uid = str(res.inserted_id)
-    await db.leads.insert_one({
-        "name": body.name, "email": email, "phone": body.phone,
-        "source": f"{role}_signup", "user_id": uid, "created_at": now_iso(),
-        "data": {"dvla_licence": body.dvla_licence, "pco_licence": body.pco_licence, "dob": body.dob},
-    })
-    token = await _issue(response, uid, email, role)
-    fire(send_welcome(role, email, body.name))
-    fire(send_alert(f"New {role} signup", {"Name": body.name, "Email": email, "Phone": body.phone}))
-    return {"id": uid, "name": body.name, "email": email, "phone": body.phone, "role": role, "token": token}
-
-@api.post("/auth/login", dependencies=[Depends(rate_limit("login", 20))])
-async def login(body: LoginIn, response: Response):
-    email = body.email.lower()
-    user = await db.users.find_one({"email": email})
-    if not user or not verify_password(body.password, user["password_hash"]):
-        raise HTTPException(status_code=401, detail="Wrong email or password")
-    uid = str(user["_id"])
-    token = await _issue(response, uid, email, user["role"])
-    return {"id": uid, "name": user["name"], "email": email, "phone": user.get("phone"), "role": user["role"], "token": token}
-
-@api.post("/auth/logout")
-async def logout(response: Response):
-    response.delete_cookie("access_token", path="/")
-    return {"ok": True}
 
 class ForgotIn(BaseModel):
     email: EmailStr
@@ -401,155 +322,10 @@ def _decorate_sale(doc: dict) -> dict:
     doc["mot_months_left"] = _months_left(doc.get("mot_expiry"))
     return doc
 
-@api.get("/marketplace")
-async def list_sale_listings(city: Optional[str] = None, vehicle_type: Optional[str] = None,
-                             fuel: Optional[str] = None, seller_type: Optional[str] = None,
-                             max_price: Optional[int] = None, min_price: Optional[int] = None,
-                             min_pco_months: Optional[int] = None, sort: Optional[str] = None,
-                             q: Optional[str] = None, ids: Optional[str] = None):
-    text = (q or "").strip()
-    q = {}
-    if ids:
-        q["id"] = {"$in": [i for i in ids.split(",") if i]}
-    if text:
-        # Match make, model or registration so a driver can search "prius" directly.
-        safe = re.escape(text)
-        q["$or"] = [
-            {"make": {"$regex": safe, "$options": "i"}},
-            {"model": {"$regex": safe, "$options": "i"}},
-            {"plate": {"$regex": safe, "$options": "i"}},
-        ]
-    if city and city != "all":
-        q["city"] = city
-    if vehicle_type and vehicle_type != "any":
-        q["vehicle_type"] = vehicle_type
-    if fuel and fuel != "any":
-        q["fuel"] = fuel
-    if seller_type and seller_type != "any":
-        q["seller_type"] = seller_type
-    price_q = {}
-    if min_price:
-        price_q["$gte"] = min_price
-    if max_price:
-        price_q["$lte"] = max_price
-    if price_q:
-        q["price"] = price_q
 
-    docs = await db.sale_listings.find(q, {"_id": 0}).to_list(300)
-    docs = [_decorate_sale(d) for d in docs]
 
-    if min_pco_months:
-        docs = [d for d in docs if (d.get("pco_months_left") or 0) >= min_pco_months]
 
-    if sort == "price_asc":
-        docs.sort(key=lambda d: d["price"])
-    elif sort == "price_desc":
-        docs.sort(key=lambda d: -d["price"])
-    elif sort == "mileage":
-        docs.sort(key=lambda d: d["mileage"])
-    elif sort == "pco":
-        docs.sort(key=lambda d: -(d.get("pco_months_left") or 0))
-    elif sort == "newest":
-        docs.sort(key=lambda d: d.get("listed_on", ""), reverse=True)
-    else:
-        # Default order rewards a long licence and a fresh listing, because
-        # those are the two things a working driver actually shops on.
-        docs.sort(key=lambda d: ((d.get("pco_months_left") or 0), d.get("listed_on", "")), reverse=True)
-    return docs
 
-@api.get("/marketplace/{listing_id}")
-async def get_sale_listing(listing_id: str):
-    doc = await db.sale_listings.find_one({"id": listing_id}, {"_id": 0})
-    if not doc:
-        raise HTTPException(status_code=404, detail="Listing not found")
-    await db.events.insert_one({"type": "sale_listing_view", "data": {"listing_id": listing_id},
-                                "created_at": now_iso()})
-    doc = _decorate_sale(doc)
-
-    # Price context, so a buyer can tell whether this is keenly priced.
-    peers = await db.sale_listings.find(
-        {"vehicle_type": doc["vehicle_type"], "fuel": doc["fuel"], "id": {"$ne": listing_id}},
-        {"_id": 0, "price": 1},
-    ).to_list(200)
-    prices = sorted(p["price"] for p in peers)
-    if len(prices) >= 4:
-        median = prices[len(prices) // 2]
-        cheaper_than = sum(1 for p in prices if p > doc["price"])
-        doc["price_context"] = {
-            "median": median,
-            "sample": len(prices),
-            "difference": doc["price"] - median,
-            "percentile": round(cheaper_than / len(prices) * 100),
-        }
-
-    # What the equivalent car costs to rent, which is the real alternative.
-    rentals = await db.listings.find(
-        {"vehicle_type": doc["vehicle_type"], "city": doc["city"]}, {"_id": 0, "weekly_rent": 1},
-    ).to_list(200)
-    rents = sorted(r["weekly_rent"] for r in rentals)
-    if rents:
-        doc["typical_weekly_rent"] = rents[len(rents) // 2]
-
-    # Similar vehicles, ranked by how close the price is.
-    pool = await db.sale_listings.find(
-        {"id": {"$ne": listing_id}, "vehicle_type": doc["vehicle_type"], "status": "available"},
-        {"_id": 0},
-    ).to_list(200)
-    if len(pool) < 3:
-        pool += await db.sale_listings.find(
-            {"id": {"$ne": listing_id}, "city": doc["city"], "status": "available"}, {"_id": 0},
-        ).to_list(200)
-    seen, similar = set(), []
-    for p in sorted(pool, key=lambda x: abs(x["price"] - doc["price"])):
-        if p["id"] in seen:
-            continue
-        seen.add(p["id"])
-        similar.append(_decorate_sale(p))
-        if len(similar) == 3:
-            break
-    doc["similar"] = similar
-    return doc
-
-@api.post("/marketplace-interest", dependencies=[Depends(rate_limit("marketplace_interest", 10))])
-async def create_marketplace_interest(body: MarketplaceInterestIn):
-    intent = body.intent if body.intent in ("sell", "buy", "both") else "buy"
-    doc = body.model_dump()
-    doc["intent"] = intent
-    doc["email"] = doc["email"].lower()
-    doc["created_at"] = now_iso()
-    await db.marketplace_interests.insert_one(doc)
-    await db.leads.insert_one({
-        "name": body.name, "email": body.email.lower(), "phone": body.phone,
-        "source": f"marketplace_{intent}", "created_at": now_iso(),
-        "data": {"city": body.city, "looking_for": body.looking_for,
-                 "make": body.make, "model": body.model, "budget": body.budget,
-                 "asking_price": body.asking_price, "listing_id": body.listing_id},
-    })
-    label = {"sell": "wants to sell", "buy": "wants to buy", "both": "wants to buy and sell"}[intent]
-    fire(send_alert(f"Marketplace, {label}", {
-        "Name": body.name, "Email": body.email.lower(), "Phone": body.phone,
-        "City": body.city, "Vehicle": f"{body.make or ''} {body.model or ''}".strip() or body.looking_for,
-        "Price": body.asking_price or body.budget, "Timeframe": body.timeframe,
-    }))
-    return {"ok": True, "intent": intent}
-
-@api.get("/marketplace-demand", dependencies=[Depends(rate_limit("marketplace_demand", 120))])
-async def marketplace_demand():
-    """Public counts so both sides can see the market filling up."""
-    async def n(intent):
-        return await db.marketplace_interests.count_documents({"intent": intent})
-    sellers = await n("sell")
-    buyers = await n("buy")
-    both = await n("both")
-    listings = await db.sale_listings.count_documents({})
-    return {
-        "sellers": sellers + both,
-        "buyers": buyers + both,
-        "total": sellers + buyers + both,
-        "listings": listings,
-    }
-
-# ---------------------------------------------------------------- Quote engine
 @api.post("/quote", dependencies=[Depends(rate_limit("quote", 30))])
 async def quote(body: QuoteIn):
     listing = None
@@ -714,9 +490,6 @@ async def admin_summary(_: dict = Depends(require_admin)):
         "searches": await db.events.count_documents({"type": "search"}),
         "city_requests": await db.city_requests.count_documents({}),
         "page_views": await db.events.count_documents({"type": "page_view"}),
-        "marketplace_sellers": await db.marketplace_interests.count_documents({"intent": {"$in": ["sell", "both"]}}),
-        "marketplace_buyers": await db.marketplace_interests.count_documents({"intent": {"$in": ["buy", "both"]}}),
-        "marketplace_interests": await db.marketplace_interests.count_documents({}),
     }
 
 @api.get("/admin/analytics")
@@ -769,17 +542,9 @@ async def admin_analytics(_: dict = Depends(require_admin)):
         "city_requests": await db.city_requests.count_documents({}),
     }
 
-    marketplace = {
-        "sellers": await db.marketplace_interests.count_documents({"intent": {"$in": ["sell", "both"]}}),
-        "buyers": await db.marketplace_interests.count_documents({"intent": {"$in": ["buy", "both"]}}),
-        "listings": await db.sale_listings.count_documents({}),
-        "views": await db.events.count_documents({"type": "sale_listing_view"}),
-        "by_city": await agg_city("marketplace_interests", "city"),
-    }
 
     return {
         "funnel": funnel,
-        "marketplace": marketplace,
         "trend": trend,
         "lead_sources": [{"label": r["_id"], "count": r["n"]} for r in lead_sources if r["_id"]],
         "city_demand": await agg_city("city_requests", "city"),
@@ -788,7 +553,7 @@ async def admin_analytics(_: dict = Depends(require_admin)):
 
 @api.get("/admin/{collection}")
 async def admin_list(collection: str, _: dict = Depends(require_admin)):
-    allowed = {"leads", "applications", "interests", "driver_interests", "events", "users", "city_requests", "marketplace_interests"}
+    allowed = {"leads", "applications", "interests", "driver_interests", "events", "users", "city_requests"}
     if collection not in allowed:
         raise HTTPException(status_code=404, detail="Unknown collection")
     proj = {"_id": 0, "password_hash": 0} if collection == "users" else {"_id": 0}
@@ -797,7 +562,7 @@ async def admin_list(collection: str, _: dict = Depends(require_admin)):
 
 @api.get("/admin/export/{collection}")
 async def admin_export(collection: str, _: dict = Depends(require_admin)):
-    allowed = {"leads", "applications", "interests", "driver_interests", "events", "users", "city_requests", "marketplace_interests"}
+    allowed = {"leads", "applications", "interests", "driver_interests", "events", "users", "city_requests"}
     if collection not in allowed:
         raise HTTPException(status_code=404, detail="Unknown collection")
     proj = {"_id": 0, "password_hash": 0} if collection == "users" else {"_id": 0}
@@ -883,21 +648,13 @@ async def seed_listings():
     for x in LISTINGS:
         await db.listings.update_one({"id": x["id"]}, {"$set": dict(x)}, upsert=True)
 
-async def seed_sale_listings():
-    """Refresh the demo sale inventory so licensing dates never go stale."""
-    from marketplace_data import build_sale_listings
-    for x in build_sale_listings():
-        await db.sale_listings.update_one({"id": x["id"]}, {"$set": dict(x)}, upsert=True)
 
-@app.on_event("startup")
 async def startup():
     await db.users.create_index("email", unique=True)
     await db.listings.create_index("id")
-    await db.sale_listings.create_index("id")
     await db.password_reset_tokens.create_index("expires_at", expireAfterSeconds=0)
     await seed_admin()
     await seed_listings()
-    await seed_sale_listings()
     await db.listings.update_many({"city": {"$exists": False}}, {"$set": {"city": "London"}})
 
 @app.on_event("shutdown")

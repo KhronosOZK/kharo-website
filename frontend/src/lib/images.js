@@ -27,6 +27,8 @@ export const IMG = {
   // people, distinct per page
   driverNight: "https://images.unsplash.com/photo-1762087366510-09a87a8e3f8b?crop=entropy&cs=srgb&fm=jpg&q=85&w=1400",
   driverMirror: "https://images.unsplash.com/photo-1529809857497-5a48e0ad5cbb?crop=entropy&cs=srgb&fm=jpg&q=85&w=1400",
+  priusLondon: "https://static.prod-images.emergentagent.com/jobs/919a8071-6528-4edd-abac-afdfaa8c910c/images/d60570def435f2400fae8a7f139a91dc2a9d86b4f7c8fecea49fb2f3578dbee8.jpeg",
+  corollaLondon: "https://static.prod-images.emergentagent.com/jobs/919a8071-6528-4edd-abac-afdfaa8c910c/images/bab48abc0acae7da94a0e5ffdda8db0beb84d02676a15bb1ec6be6f05bc282c2.jpeg",
   taxiDriver: "https://images.pexels.com/photos/5835016/pexels-photo-5835016.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1000&w=1400",
   vintageDriver: "https://images.pexels.com/photos/16912017/pexels-photo-16912017.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1000&w=1400",
   showroom: "https://images.unsplash.com/photo-1585390062628-be8608aa7d83?crop=entropy&cs=srgb&fm=jpg&q=85&w=1600",

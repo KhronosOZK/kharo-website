@@ -101,7 +101,6 @@ export default function Register() {
     <main className="bg-bone">
       <PageHero
         size="band"
-        eyebrow={tag}
         heading={heading}
         sub={sub}
         img={IMG.londonStreet}
@@ -113,7 +112,7 @@ export default function Register() {
       <div className="wrap py-section grid lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] gap-block items-start">
         <div>
 
-          <Enter delay={0.14} className="mt-8 panel rounded-2xl p-6 sm:p-7 max-w-md" data-testid="driver-take-home">
+          <Enter delay={0.14} className="mt-8 panel rounded-lg p-6 sm:p-7 max-w-md" data-testid="driver-take-home">
             <div className="text-[13px] text-ink-3">{estimator.label}</div>
             <div className="flex items-end gap-2 mt-1.5">
               <AnimatedNumber value={est.takeHome} prefix="£" data-testid="driver-takehome-value" className="text-[clamp(2.2rem,6vw,3rem)] font-heading font-extrabold text-ink leading-[0.9]" />
@@ -139,7 +138,7 @@ export default function Register() {
           </Enter>
         </div>
 
-        <Enter delay={0.1} className="w-full panel rounded-hero p-6 sm:p-8">
+        <Enter delay={0.1} className="w-full panel rounded-lg p-6 sm:p-8">
           <div className="mb-7">
             <div className="flex items-center justify-between text-[12.5px] text-ink-3 mb-2.5">
               <span data-testid="reg-step-label">Step {step + 1} of {STEPS.length}</span>

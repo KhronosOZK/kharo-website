@@ -41,7 +41,7 @@ const statusColor = (s) => s === "Rented" ? "text-green bg-green-soft" : s === "
 
 function TrackingNote() {
   return (
-    <div className="panel rounded-2xl p-6">
+    <div className="panel rounded-lg p-6">
       <div className="flex items-center gap-2 text-ink font-heading font-bold"><MapPin className="w-5 h-5 text-green" strokeWidth={1.75} /> Live vehicle tracking</div>
       <p className="mt-2 text-[14.5px] text-ink-2 leading-relaxed max-w-lg">Tracking arrives with your fleet at launch. Once a car is rented, its location will show here so you always know where your assets are.</p>
       <div className="mt-4 divide-y divide-line">
@@ -50,7 +50,7 @@ function TrackingNote() {
             <div><span className="font-medium text-ink">{v.name}</span> <span className="text-ink-3">, {v.driver}</span></div>
             <div className="flex items-center gap-3">
               <span className="text-ink-3">{v.area}</span>
-              <span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusColor(v.status)}`}>{v.status}</span>
+              <span className={`text-xs font-semibold px-2 py-1 rounded-md ${statusColor(v.status)}`}>{v.status}</span>
             </div>
           </div>
         ))}
@@ -78,10 +78,10 @@ export default function OperatorDashboard() {
 
       <div className="flex items-center justify-between flex-wrap gap-4 mt-3">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-ink text-white flex items-center justify-center font-heading font-bold text-lg">SF</div>
+          <div className="w-12 h-12 rounded-lg bg-ink text-white flex items-center justify-center font-heading font-bold text-lg">SF</div>
           <div>
             <h1 className="text-h3 font-heading font-extrabold text-ink">South Forest Rentals</h1>
-            <p className="text-sm text-ink-2">Newham and East London <span className="ml-2 text-xs bg-surface-2 text-ink-3 px-2 py-0.5 rounded-full">Preview</span></p>
+            <p className="text-sm text-ink-2">Newham and East London <span className="ml-2 text-xs bg-surface-2 text-ink-3 px-2 py-0.5 rounded-md">Preview</span></p>
           </div>
         </div>
         <Button><Plus className="w-4 h-4" strokeWidth={1.75} /> Add vehicle</Button>
@@ -113,7 +113,7 @@ export default function OperatorDashboard() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-4 mt-4">
-            <div className="lg:col-span-2 panel rounded-2xl p-5">
+            <div className="lg:col-span-2 panel rounded-lg p-5">
               <h3 className="font-heading font-bold text-ink mb-4">Net revenue by vehicle, this month</h3>
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={revChart}>
@@ -123,7 +123,7 @@ export default function OperatorDashboard() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="panel rounded-2xl p-5">
+            <div className="panel rounded-lg p-5">
               <h3 className="font-heading font-bold text-ink mb-3">Compliance alerts</h3>
               {compliance.slice(0, 3).map((c) => (<div key={c} className="flex items-start gap-2 py-2 text-sm text-ink-2 border-b border-line last:border-0"><AlertTriangle className="w-4 h-4 text-ink-3 shrink-0 mt-0.5" strokeWidth={1.75} /> {c}</div>))}
             </div>
@@ -136,11 +136,11 @@ export default function OperatorDashboard() {
         </TabsContent>
 
         <TabsContent value="fleet" className="mt-6">
-          <div className="panel rounded-2xl overflow-hidden divide-y divide-line">
+          <div className="panel rounded-lg overflow-hidden divide-y divide-line">
             {fleet.map((r) => (
               <div key={r[0]} className="flex items-center justify-between flex-wrap gap-3 p-4 hover:bg-surface-2">
                 <div className="flex items-center gap-3"><Car className="w-7 h-7 text-green shrink-0" strokeWidth={1.75} /><div><div className="font-medium text-ink text-sm">{r[0]}</div><div className="text-xs text-ink-3">{r[1]}</div></div></div>
-                <div className="flex items-center gap-3"><span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusColor(r[2])}`}>{r[2]}</span><span className="font-heading font-bold text-ink tabular">{r[3]}<span className="text-xs font-normal text-ink-3">/wk</span></span></div>
+                <div className="flex items-center gap-3"><span className={`text-xs font-semibold px-2 py-1 rounded-md ${statusColor(r[2])}`}>{r[2]}</span><span className="font-heading font-bold text-ink tabular">{r[3]}<span className="text-xs font-normal text-ink-3">/wk</span></span></div>
               </div>
             ))}
           </div>
@@ -148,7 +148,7 @@ export default function OperatorDashboard() {
 
         <TabsContent value="applications" className="mt-6 space-y-3">
           {apps.map((a) => (
-            <div key={a[0]} className="panel rounded-2xl p-4 flex items-center justify-between flex-wrap gap-3">
+            <div key={a[0]} className="panel rounded-lg p-4 flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center font-heading font-bold text-green">{a[0][0]}</div>
                 <div><div className="font-medium text-ink">{a[0]}</div><div className="text-xs text-ink-3">{a[1]}, <span className={a[3] ? "text-green" : "text-ink-3"}>{a[2]}</span></div></div>
@@ -164,7 +164,7 @@ export default function OperatorDashboard() {
             <Stat l="Deposits held (ring-fenced)" v="£4,400.00" hint="Released on return" />
             <Stat l="Kharo fee this month" v="£1,285.00" hint="Kharo fee" />
           </div>
-          <div className="panel rounded-2xl p-5 mt-4">
+          <div className="panel rounded-lg p-5 mt-4">
             <div className="flex items-center justify-between mb-3"><h3 className="font-heading font-bold text-ink">Revenue by vehicle, this month</h3><Button size="sm" variant="outline">Export CSV</Button></div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[420px]">
@@ -176,7 +176,7 @@ export default function OperatorDashboard() {
         </TabsContent>
 
         <TabsContent value="compliance" className="mt-6">
-          <div className="panel rounded-2xl p-5 divide-y divide-line">{compliance.map((c) => (<div key={c} className="flex items-center gap-2 py-3 text-sm text-ink-2"><AlertTriangle className="w-4 h-4 text-ink-3 shrink-0" strokeWidth={1.75} /> {c}</div>))}</div>
+          <div className="panel rounded-lg p-5 divide-y divide-line">{compliance.map((c) => (<div key={c} className="flex items-center gap-2 py-3 text-sm text-ink-2"><AlertTriangle className="w-4 h-4 text-ink-3 shrink-0" strokeWidth={1.75} /> {c}</div>))}</div>
         </TabsContent>
       </Tabs>
     </main>

@@ -60,13 +60,13 @@ export default function CookieConsent() {
             <div className="flex flex-wrap gap-2.5 w-full sm:w-auto sm:shrink-0">
               <button
                 onClick={() => choose("rejected")}
-                className="pressable flex-1 sm:flex-none min-w-[9.5rem] h-11 px-5 rounded-full border border-line-strong bg-surface text-ink font-semibold text-[13.5px] hover:bg-surface-2"
+                className="pressable flex-1 sm:flex-none min-w-[9.5rem] h-11 px-5 rounded-md border border-line-strong bg-surface text-ink font-semibold text-[13.5px] hover:bg-surface-2"
               >
                 Reject analytics
               </button>
               <button
                 onClick={() => choose("accepted")}
-                className="pressable flex-1 sm:flex-none min-w-[9.5rem] h-11 px-5 rounded-full border border-line-strong bg-surface text-ink font-semibold text-[13.5px] hover:bg-surface-2"
+                className="pressable flex-1 sm:flex-none min-w-[9.5rem] h-11 px-5 rounded-md border border-line-strong bg-surface text-ink font-semibold text-[13.5px] hover:bg-surface-2"
               >
                 Accept analytics
               </button>

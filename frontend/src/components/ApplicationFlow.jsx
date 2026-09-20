@@ -99,7 +99,7 @@ export default function ApplicationFlow({ className = "" }) {
                   <li key={c.id}>
                     <button type="button" onClick={() => { setCar(c.id); go(1); }} data-testid={`flow-car-${c.id}`}
                       className={`pressable w-full flex items-center gap-3 py-3 text-left ${car === c.id ? "" : ""}`}>
-                      <img src={c.img} alt="" loading="lazy" className="w-16 h-12 rounded-lg object-cover bg-surface-2 shrink-0" />
+                      <img src={c.img} alt="" loading="lazy" className="w-16 h-12 rounded-lg border border-line object-cover bg-surface-2 shrink-0" />
                       <span className="min-w-0 flex-1">
                         <span className="block font-heading font-bold text-[15px] text-ink truncate">{c.name}</span>
                         <span className="block text-[12.5px] text-ink-3 truncate">{c.meta}</span>
@@ -123,7 +123,7 @@ export default function ApplicationFlow({ className = "" }) {
                 <div className="flex gap-1" role="group" aria-label="Payment term">
                   {APPLICATION_FLOW.terms.map((t) => (
                     <button key={t.id} type="button" onClick={() => { setTerm(t.id); setTouched(true); }}
-                      className={`pressable rounded-full h-8 px-3 text-[12.5px] font-medium ${term === t.id ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
+                      className={`pressable rounded-md h-8 px-3 text-[12.5px] font-medium ${term === t.id ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
                       {t.label}
                     </button>
                   ))}
@@ -213,7 +213,7 @@ export default function ApplicationFlow({ className = "" }) {
                 ))}
               </ul>
               <button type="button" onClick={restart} data-testid="flow-restart"
-                className="pressable mt-5 inline-flex items-center gap-1.5 h-10 px-4 rounded-full text-[13.5px] font-semibold text-ink-2 hover:bg-surface-2">
+                className="pressable mt-5 inline-flex items-center gap-1.5 h-10 px-4 rounded-md text-[13.5px] font-semibold text-ink-2 hover:bg-surface-2">
                 <RotateCcw className="w-4 h-4" strokeWidth={1.75} /> {APPLICATION_FLOW.labels.replay}
               </button>
             </motion.div>

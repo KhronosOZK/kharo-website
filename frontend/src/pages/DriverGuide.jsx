@@ -45,7 +45,7 @@ function StepsIndex({ steps }) {
             key={s.t}
             type="button"
             onClick={() => scrollTo(i)}
-            className={`pressable shrink-0 rounded-full px-4 h-10 text-[13.5px] font-medium border ${
+            className={`pressable shrink-0 rounded-md px-4 h-10 text-[13.5px] font-medium border ${
               active === i ? "bg-green text-white border-green" : "bg-surface text-ink-2 border-line-strong"
             }`}
           >
@@ -84,11 +84,10 @@ function StepsIndex({ steps }) {
               className={withPhoto ? "grid sm:grid-cols-2 gap-6 items-center" : ""}
             >
               {withPhoto && (
-                <img src={s.img} alt="" loading="lazy" className="w-full aspect-[4/3] object-cover rounded-2xl order-1 sm:order-2" />
+                <img src={s.img} alt="" loading="lazy" className="w-full aspect-[4/3] object-cover rounded-lg border border-line order-1 sm:order-2" />
               )}
               <div className={withPhoto ? "order-2 sm:order-1" : "max-w-xl"}>
-                <p className="text-[12.5px] font-semibold text-ink-3 tabular">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="mt-1 text-h3 font-heading font-bold text-ink">{s.t}</h3>
+                <h3 className="text-h3 font-heading font-bold text-ink"><span className="tabular text-ink-3 mr-2.5">{i + 1}.</span>{s.t}</h3>
                 <p className="mt-2.5 text-[15.5px] text-ink-2 leading-relaxed measure">{s.d}</p>
               </div>
             </div>
@@ -107,7 +106,7 @@ export default function DriverGuide() {
   return (
     <div className="bg-bone">
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <PageHero eyebrow={hero.tag} heading={hero.heading} sub={hero.sub}
+      <PageHero heading={hero.heading} sub={hero.sub}
         img={hero.img} position="50% center" priority
       >
         <Button size="lg" onClick={() => navigate("/search")} data-testid="driver-guide-browse">{hero.cta} <ArrowRight size={16} /></Button>
@@ -149,8 +148,7 @@ export default function DriverGuide() {
           {damage.steps.map((s, i) => (
             <li key={s.when} className="relative pl-6 md:pl-0 md:pt-6 border-l md:border-l-0 md:border-t border-line">
               <span aria-hidden className="absolute -left-[5px] top-1 md:left-0 md:-top-[5px] w-[9px] h-[9px] rounded-full bg-green" />
-              <p className="text-[12.5px] font-semibold text-ink-3 tabular">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-1 text-h3 font-heading font-bold text-ink">{s.when}</h3>
+              <h3 className="text-h3 font-heading font-bold text-ink">{s.when}</h3>
               <p className="mt-2 text-[15px] text-ink-2 leading-relaxed">{s.d}</p>
             </li>
           ))}
