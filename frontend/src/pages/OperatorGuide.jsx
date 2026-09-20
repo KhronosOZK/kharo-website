@@ -124,20 +124,6 @@ export default function OperatorGuide() {
         </div>
       </RevealGroup>
 
-      {/* ── FEE AND FAQ ────────────────────────────────────────────────── */}
-      <section className="bg-surface border-y border-line">
-        <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14">
-          <RevealItem className="lg:col-span-4">
-            <h2 className="text-h2 font-heading font-extrabold text-ink">{fee.heading}</h2>
-            <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{fee.body}</p>
-            <h2 className="mt-10 text-h2 font-heading font-extrabold text-ink">{OPERATOR_GUIDE_PAGE.faqHeading}</h2>
-          </RevealItem>
-          <RevealItem className="lg:col-span-8 lg:pt-1">
-            <Faq items={faq} testId="operator-faq" />
-          </RevealItem>
-        </RevealGroup>
-      </section>
-
       {/* ── EARNINGS: the number that makes an operator sign up ────────── */}
       <section id="earnings" className="bg-surface border-y border-line">
         <RevealGroup className="wrap py-section">
@@ -169,6 +155,19 @@ export default function OperatorGuide() {
         </RevealGroup>
       </section>
 
+      {/* ── FEE AND FAQ: after the number, what it costs and what people ask ── */}
+      <section>
+        <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14">
+          <RevealItem className="lg:col-span-4">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{fee.heading}</h2>
+            <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{fee.body}</p>
+            <h2 className="mt-10 text-h2 font-heading font-extrabold text-ink">{OPERATOR_GUIDE_PAGE.faqHeading}</h2>
+          </RevealItem>
+          <RevealItem className="lg:col-span-8 lg:pt-1 rounded-lg border border-line bg-surface px-5">
+            <Faq items={faq} testId="operator-faq" />
+          </RevealItem>
+        </RevealGroup>
+      </section>
     </div>
   );
 }

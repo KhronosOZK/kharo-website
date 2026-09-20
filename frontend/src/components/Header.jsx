@@ -1,7 +1,6 @@
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Menu, Heart, User, Building2, ArrowRight } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { Menu, User, Building2, ArrowRight } from "lucide-react";
 import { BRAND, NAV } from "@/content/site";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import {
@@ -15,8 +14,6 @@ const MENU_ICONS = [User, Building2];
  * (border, shadow) once content is actually scrolling underneath it.
  */
 export default function Header() {
-  const { saved } = useAuth();
-  const savedTotal = saved.length;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const sentinel = useRef(null);
@@ -66,11 +63,6 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-1.5 sm:gap-3">
-            <button onClick={() => navigate("/saved")} aria-label={`Saved vehicles, ${savedTotal} items`}
-              className={`pressable hidden sm:inline-flex items-center gap-1.5 h-10 px-2.5 rounded-md text-[14px] ${clear ? "text-white/85 hover:text-white hover:bg-white/10" : "text-ink-2 hover:text-ink hover:bg-surface-2"}`} data-testid="saved-count">
-              <Heart className="w-[18px] h-[18px]" strokeWidth={1.75} /> {savedTotal > 0 && <span className="tabular">{savedTotal}</span>}
-            </button>
-
             <Link
               to={NAV.headerCta.to}
               data-testid="join-waitlist-link"
@@ -123,11 +115,6 @@ export default function Header() {
                       {l.label}
                     </NavLink>
                   ))}
-                  <button onClick={() => { setOpen(false); navigate("/saved"); }} data-testid="mobile-saved-link"
-                    className="pressable py-3 px-3 -mx-3 text-[17px] font-medium text-ink hover:bg-surface-2 rounded-xl flex items-center justify-between">
-                    <span className="flex items-center gap-2.5"><Heart className="w-[18px] h-[18px] text-ink-3" strokeWidth={1.75} /> Saved cars</span>
-                    {savedTotal > 0 && <span className="text-[12px] font-semibold text-green bg-green-soft rounded-full w-6 h-6 grid place-items-center tabular">{savedTotal}</span>}
-                  </button>
                   <div className="hairline my-3" />
                   {NAV.mobileCtas.map((c) => (
                     <Link key={c.to} to={c.to} onClick={() => setOpen(false)}

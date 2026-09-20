@@ -252,5 +252,40 @@ export const OPERATOR_DASHBOARD = {
       ],
       foot: "Rent is collected from drivers through Kharo and paid to you on schedule.",
     },
+    {
+      id: "notifications",
+      label: "Notifications",
+      icon: "BellRing",
+      filters: ["All", "Applications", "Payments", "Faults"],
+      headline: { label: "Things that need you today", value: 3 },
+      kpis: [
+        { label: "Applications waiting", value: "3" },
+        { label: "Faults open", value: "1" },
+      ],
+      rows: [
+        { t: "New application for the Skoda Octavia", d: "Ravi K. · checks passed · reply within two days", v: "25 min", tone: "link", status: "Applications" },
+        { t: "Rent collected from Amara O.", d: "£165 · paid on time · in Friday's payout", v: "06:00", tone: "ok", status: "Payments" },
+        { t: "Warning light reported on SK20 OCT", d: "Garage booked for Thursday 8am · driver told", v: "Yesterday", tone: "warn", status: "Faults" },
+        { t: "MOT due in 12 days, LK22 CAR", d: "Book it now so the car stays on the road", v: "2 days", tone: "muted", status: "Faults" },
+      ],
+      foot: "Applications, payments and faults reach you here first, then by email.",
+    },
+    {
+      id: "chat",
+      label: "Chat",
+      icon: "MessageSquare",
+      searchLabel: "Search conversations",
+      headline: { label: "Open conversations", value: 3 },
+      kpis: [
+        { label: "Kharo desk", value: "Replies in minutes" },
+        { label: "Drivers", value: "2 threads" },
+      ],
+      rows: [
+        { t: "Kharo operator desk", d: "Ravi's application is with you. Want the checks in detail?", v: "09:15", tone: "link", status: "Kharo" },
+        { t: "Amara O. · LK22 CAR", d: "Thank you, I will drop it at the garage Thursday morning.", v: "Yesterday", tone: "muted", status: "Driver" },
+        { t: "Daniel M. · KN23 EVE", d: "Paid. Cheers.", v: "Mon", tone: "muted", status: "Driver" },
+      ],
+      foot: "One thread per driver and one with Kharo, so nothing lives in a phone you cannot find.",
+    },
   ],
 };

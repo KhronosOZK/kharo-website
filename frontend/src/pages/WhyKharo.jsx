@@ -86,10 +86,10 @@ export default function WhyKharo() {
 
       {/* ── FOR DRIVERS: photo left, argument right ─────────────────────── */}
       <RevealGroup as="section" className="wrap py-section grid lg:grid-cols-12 gap-block items-center">
-        <RevealItem className="lg:col-span-6 lg:order-1 zoom-media">
-          <img src={drivers.img} alt="" loading="lazy" className="w-full aspect-[4/5] object-cover rounded-lg border border-line" data-zoom />
+        <RevealItem className="lg:col-span-5 lg:order-1">
+          <img src={drivers.img} alt="" loading="lazy" className="w-full aspect-[4/3] object-cover rounded-lg border border-line" />
         </RevealItem>
-        <RevealItem className="lg:col-span-6 lg:order-2">
+        <RevealItem className="lg:col-span-7 lg:order-2">
           <h2 className="text-h2 font-heading font-extrabold text-ink max-w-[16ch]">{drivers.heading}</h2>
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {drivers.points.map((p) => (
@@ -109,7 +109,7 @@ export default function WhyKharo() {
 
       {/* ── FOR OPERATORS: mirrored, text left, photo right ─────────────── */}
       <RevealGroup as="section" className="wrap py-section grid lg:grid-cols-12 gap-block items-center">
-        <RevealItem className="lg:col-span-6 lg:order-1">
+        <RevealItem className="lg:col-span-7 lg:order-1">
           <h2 className="text-h2 font-heading font-extrabold text-ink max-w-[16ch]">{operators.heading}</h2>
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {operators.points.map((p) => (
@@ -125,8 +125,8 @@ export default function WhyKharo() {
             </Button>
           </div>
         </RevealItem>
-        <RevealItem className="lg:col-span-6 lg:order-2 zoom-media">
-          <img src={operators.img} alt="" loading="lazy" className="w-full aspect-[4/5] object-cover rounded-lg border border-line" data-zoom />
+        <RevealItem className="lg:col-span-5 lg:order-2">
+          <img src={operators.img} alt="" loading="lazy" className="w-full aspect-[4/3] object-cover rounded-lg border border-line" />
         </RevealItem>
       </RevealGroup>
 

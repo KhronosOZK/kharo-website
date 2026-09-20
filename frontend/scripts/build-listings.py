@@ -233,7 +233,9 @@ def main():
                           f"{rnd.randint(1, 9)}{rnd.choice(letters)}{rnd.choice(letters)}"),
                 weekly_rent=weekly,
                 deposit=rnd.choice([300, 350, 400, 450, 500, 600]),
-                mileage_allowance=rnd.choice([1500, 2000, 2500, 3000]),
+                # Yearly allowance. 0 means unlimited, which most operators
+                # offer; the rest cap at 10, 15 or 20 thousand miles a year.
+                mileage_allowance=rnd.choice([0, 0, 0, 0, 0, 0, 0, 10000, 15000, 20000]),
                 mileage=mileage, mpg=mpg, body_type=body,
                 breakdown_included="Breakdown cover" in features,
                 licensing_authority=cfg["authority"],

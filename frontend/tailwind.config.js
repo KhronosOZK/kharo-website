@@ -21,7 +21,7 @@ module.exports = {
         "surface-2": "#EAEAE5",
         line: "rgba(17, 19, 18, 0.10)",
         "line-strong": "rgba(17, 19, 18, 0.20)",
-        green: { DEFAULT: "#0E3B2C", hover: "#0A2C20", soft: "#EBF0ED" },
+        green: { DEFAULT: "#7FD8B0", hover: "#66CFA0", soft: "#E8F7EF", deep: "#1E7F55" },
         mint: "#7FD8B0",
         gold: { DEFAULT: "#111312", soft: "#FDF6E7", ink: "#6E4A10" },
         night: "#111312",
@@ -109,6 +109,8 @@ module.exports = {
       keyframes: {
         // Slow drift on the homepage photograph, one direction, never loops.
         "hero-drift": { from: { transform: "scale(1)" }, to: { transform: "scale(1.06)" } },
+        // A row of car chips gliding left; the row is duplicated so the loop is seamless.
+        marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
         "accordion-down": {
           from: { height: "0", opacity: "0" },
           to: { height: "var(--radix-accordion-content-height)", opacity: "1" },
@@ -121,6 +123,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down var(--dur-ui) var(--ease-out)",
         "accordion-up": "accordion-up var(--dur-ui) var(--ease-out)",
+        marquee: "marquee 48s linear infinite",
       },
     },
   },

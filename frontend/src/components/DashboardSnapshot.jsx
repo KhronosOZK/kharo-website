@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, LayoutGroup, useInView } from "framer-motion";
 import {
-  Wallet, Radio, History, Receipt, FileText, Wrench, LifeBuoy, Car, UserCheck, BellRing, Landmark, Download, Search,
+  Wallet, Radio, History, Receipt, FileText, Wrench, LifeBuoy, Car, UserCheck, BellRing, Landmark, Download, Search, MessageSquare,
 } from "lucide-react";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { DRIVER_DASHBOARD, OPERATOR_DASHBOARD } from "@/content/dashboardDemo";
 import { EASE, SPRING, useMotionPrefs } from "@/lib/motion";
 
-const ICONS = { Wallet, Radio, History, Receipt, FileText, Wrench, LifeBuoy, Car, UserCheck, BellRing, Landmark };
+const ICONS = { Wallet, Radio, History, Receipt, FileText, Wrench, LifeBuoy, Car, UserCheck, BellRing, Landmark, MessageSquare };
 
 const TONE = {
   ok:    "text-green bg-green-soft",
@@ -109,7 +109,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
               <p className="text-[12.5px] font-semibold text-ink leading-tight truncate">{data.user.name}</p>
               <p className="text-[11.5px] text-ink-3 leading-tight truncate">{data.user.sub}</p>
             </div>
-            <span className="grid place-items-center w-8 h-8 rounded-full bg-green text-white text-[11px] font-bold tabular">{data.user.initials}</span>
+            <span className="grid place-items-center w-8 h-8 rounded-md bg-green text-ink text-[11px] font-bold tabular">{data.user.initials}</span>
           </div>
         </div>
 
@@ -135,12 +135,12 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => select(p.id)}
                   data-testid={`dashboard-tab-${p.id}`}
-                  className={`pressable relative shrink-0 snap-start flex items-center gap-2.5 px-3 h-10 sm:h-auto sm:py-2.5 rounded-lg text-[13.5px] font-medium text-left whitespace-nowrap ${isActive ? "text-white" : "text-ink-2 hover:bg-surface-2"}`}
+                  className={`pressable relative shrink-0 snap-start flex items-center gap-2.5 px-3 h-10 sm:h-auto sm:py-2.5 rounded-md text-[13.5px] font-medium text-left whitespace-nowrap ${isActive ? "text-white" : "text-ink-2 hover:bg-surface-2"}`}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="indicator"
-                      className="absolute inset-0 rounded-lg bg-green"
+                      className="absolute inset-0 rounded-md bg-ink"
                       transition={reduce ? { duration: 0 } : SPRING.ui}
                     />
                   )}

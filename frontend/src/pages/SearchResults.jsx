@@ -417,9 +417,10 @@ export default function SearchResults() {
         onClear={clearAll}
       />
 
-      <div className="wrap py-5 lg:grid lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-8 lg:py-8">
-        {/* The filter sidebar, wide screens only. Sticky, scrolls on its own. */}
-        <aside className="hidden lg:block lg:sticky lg:top-below-header lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto rounded-lg border border-line bg-surface p-5" data-testid="filter-sidebar">
+      <div className="wrap py-5 lg:grid lg:grid-cols-[19rem_minmax(0,1fr)] lg:gap-8 lg:py-8">
+        {/* The filter sidebar, wide screens only. It scrolls with the page
+            rather than inside its own box, so nothing is ever clipped. */}
+        <aside className="hidden lg:block lg:self-start rounded-lg border border-line bg-surface p-5" data-testid="filter-sidebar">
           <FilterPanel
             fuelOptions={FUEL_OPTIONS}
             city={city} setCity={setCity} cityOptions={ALL_CITIES}
@@ -492,6 +493,7 @@ export default function SearchResults() {
             {councils.map((c) => <FilterChip key={c} label={c} onRemove={() => toggleCouncil(c)} />)}
             {yearTouched && <FilterChip label={ageValueLabel} onRemove={() => setYearRange([YEAR_BOUNDS[0], YEAR_BOUNDS[1]])} />}
             {mileageMin > 0 && <FilterChip label={SEARCH.filters.mileageAtLeast(mileageMin)} onRemove={() => setMileageMin(0)} />}
+            {mileageMin === -1 && <FilterChip label={SEARCH.filters.mileageUnlimited} onRemove={() => setMileageMin(0)} />}
             {breakdownOnly && <FilterChip label="Breakdown cover included" onRemove={() => setBreakdownOnly(false)} />}
             {priceTouched && <FilterChip label={`£${Math.round(effectiveRange[0])} to £${Math.round(effectiveRange[1])}/wk`} onRemove={() => setPriceRange([priceMin, priceMax])} />}
             {nearMe && <FilterChip label="Near me" onRemove={() => { setNearMe(null); setNearMeStatus("idle"); }} />}

@@ -30,19 +30,19 @@ export default function ForDrivers() {
       {/* ── STEPS: the whole arc, browsing to earning ───────────────────── */}
       <RevealGroup as="section" className="wrap py-section">
         <RevealItem><h2 className="text-h2 font-heading font-extrabold text-ink max-w-[22ch]">{steps.heading}</h2></RevealItem>
-        <RevealItem className="mt-10 grid md:grid-cols-2 gap-x-block">
+        <div className="mt-10 grid md:grid-cols-2 gap-x-block">
           {stepColumns.map((column, c) => (
             <ol key={c} className={`border-l border-line ${c > 0 ? "mt-8 md:mt-0" : ""}`} start={c * half + 1}>
               {column.map((s) => (
-                <li key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
+                <RevealItem as="li" key={s.t} className="relative pl-7 sm:pl-8 pb-8 last:pb-0">
                   <span aria-hidden="true" className="absolute -left-[5px] top-2 block w-2.5 h-2.5 rounded-full bg-green" />
                   <h3 className="text-h3 font-heading font-bold text-ink">{s.t}</h3>
                   <p className="mt-2 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{s.d}</p>
-                </li>
+                </RevealItem>
               ))}
             </ol>
           ))}
-        </RevealItem>
+        </div>
 
         <RevealItem className="mt-2">
           <Link to="/driver-guide" data-testid="driver-guide-link" className="pressable inline-flex items-center gap-1.5 text-[14.5px] font-semibold text-green hover:underline underline-offset-4">
@@ -79,7 +79,7 @@ export default function ForDrivers() {
 
       {/* ── SUPPORT: one split with photography ───────────────────────── */}
       <RevealGroup as="section" className="wrap py-section grid lg:grid-cols-12 gap-block items-center">
-        <RevealItem className="lg:col-span-6">
+        <RevealItem className="lg:col-span-7">
           <h2 className="text-h2 font-heading font-extrabold text-ink max-w-[20ch]">{support.heading}</h2>
           <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure">{support.body}</p>
           <ul className="mt-6 divide-y divide-line border-y border-line">
@@ -90,8 +90,8 @@ export default function ForDrivers() {
             ))}
           </ul>
         </RevealItem>
-        <RevealItem className="lg:col-span-6 zoom-media">
-          <img src={support.img} alt={support.imgAlt} loading="lazy" className="w-full aspect-[4/3] lg:aspect-[4/5] object-cover rounded-lg border border-line" data-zoom />
+        <RevealItem className="lg:col-span-5">
+          <img src={support.img} alt={support.imgAlt} loading="lazy" className="w-full aspect-[4/3] object-cover rounded-lg border border-line" />
         </RevealItem>
       </RevealGroup>
 

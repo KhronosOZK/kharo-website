@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { COMPARE } from "@/content/pages/marketplace";
+import { mileageLabel } from "@/lib/format";
 
 export default function CompareTable({ items, onRemove }) {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function CompareTable({ items, onRemove }) {
     { label: COMPARE.rows.fuel, get: (v) => v.fuel, cap: true },
     { label: COMPARE.rows.transmission, get: (v) => v.transmission },
     { label: COMPARE.rows.seats, get: (v) => v.seats, num: true },
-    { label: COMPARE.rows.mileage, get: (v) => `${v.mileage_allowance} mi`, num: true },
+    { label: COMPARE.rows.mileage, get: (v) => mileageLabel(v.mileage_allowance, true), num: true },
     { label: COMPARE.rows.area, get: (v) => `${v.borough}${v.city ? `, ${v.city}` : ""}` },
   ];
 

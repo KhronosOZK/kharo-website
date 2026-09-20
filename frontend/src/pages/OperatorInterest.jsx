@@ -7,8 +7,6 @@ import { api, trackEvent } from "@/lib/api";
 import { useSeo } from "@/lib/seo";
 import { EASE, SPRING } from "@/lib/motion";
 import { Enter } from "@/components/Reveal";
-import PageHero from "@/components/PageHero";
-import { IMG } from "@/lib/images";
 import OperatorEarnings from "@/components/OperatorEarnings";
 import { BRAND, OPERATOR_INTEREST } from "@/content/site";
 import { OPERATOR_INTEREST_PAGE } from "@/content/pages/operatorInterest";
@@ -102,20 +100,14 @@ export default function OperatorInterest() {
 
   return (
     <main className="bg-bone min-h-page">
-      <PageHero
-        size="band"
-        heading={OPERATOR_INTEREST.heading}
-        sub={OPERATOR_INTEREST.sub}
-        img={IMG.handshakeDesk}
-        imgAlt="An operator going through paperwork at a desk"
-        position="50% 40%"
-        priority
-      />
-
-      <div className="wrap py-section grid lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] gap-block items-start">
-        {/* ── The loss calculator ───────────────────────────────────────── */}
+      <div className="wrap grid items-start gap-8 pt-[calc(var(--header-h)+1.5rem)] pb-section lg:min-h-[calc(100dvh-var(--header-h))] lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] lg:gap-block lg:pt-[calc(var(--header-h)+2.5rem)]">
+        {/* ── Heading and the loss calculator ─────────────────────────── */}
         <div>
           <Enter>
+            <h1 className="font-heading text-h2 font-extrabold tracking-[-0.02em] leading-[1.05] text-ink max-w-[22ch]">{OPERATOR_INTEREST.heading}</h1>
+            <p className="mt-3 max-w-[50ch] text-lead leading-relaxed text-ink-2">{OPERATOR_INTEREST.sub}</p>
+          </Enter>
+          <Enter delay={0.14} className="mt-8">
             <OperatorEarnings />
           </Enter>
         </div>

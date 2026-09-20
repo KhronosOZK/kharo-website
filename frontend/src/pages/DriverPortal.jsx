@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Car, ShieldCheck, FileText, AlertTriangle, Wrench, Clock, Check, X, Heart,
+  Car, ShieldCheck, FileText, AlertTriangle, Wrench, Clock, Check, X,
   CalendarClock, ArrowRight, Headphones, IdCard, Home, Bell, MessageSquare, LifeBuoy,
 } from "lucide-react";
 import { api } from "@/lib/api";
@@ -34,7 +34,7 @@ const THREADS = [
 ];
 
 export default function DriverPortal() {
-  const { user, saved } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [apps, setApps] = useState([]);
   const [view, setView] = useState("home");
@@ -57,14 +57,12 @@ export default function DriverPortal() {
     { id: "home", label: "Home", icon: Home },
     { id: "applications", label: "Applications", icon: FileText, count: apps.length },
     { id: "documents", label: "Documents", icon: IdCard },
-    { id: "saved", label: "Saved cars", icon: Heart, count: saved.length },
     { id: "notifications", label: "Notifications", icon: Bell, count: unread },
     { id: "chat", label: "Chat", icon: MessageSquare },
     { id: "help", label: "Help", icon: LifeBuoy },
   ];
 
   const onSelect = (id) => {
-    if (id === "saved") { navigate(saved.length ? "/saved" : "/search"); return; }
     if (id === "help") { navigate("/help"); return; }
     setView(id);
   };
@@ -129,10 +127,9 @@ export default function DriverPortal() {
             <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink-2">Browse checked cars, compare insurance on the car, and register interest in minutes with your details saved.</p>
             <div className="mt-6"><Button onClick={() => navigate("/search")}>Browse cars <ArrowRight className="h-4 w-4" strokeWidth={1.75} /></Button></div>
           </Panel>
-          <Panel className="lg:col-span-4 flex flex-col justify-between" title="Saved cars">
-            <div className="font-heading text-h3 font-extrabold text-ink tabular">{saved.length}</div>
-            <p className="text-[13px] text-ink-3">cars saved to compare later</p>
-            <Button onClick={() => navigate(saved.length ? "/saved" : "/search")} variant="outline" className="mt-5 w-full">{saved.length ? "View saved cars" : "Start saving cars"}</Button>
+          <Panel className="lg:col-span-4 flex flex-col justify-between" title="Next step">
+            <p className="text-[14.5px] leading-relaxed text-ink-2">Add your PCO badge number under Documents. Applications with it attached are answered first.</p>
+            <Button onClick={() => setView("documents")} variant="outline" className="mt-5 w-full">Open documents</Button>
           </Panel>
           <div className="lg:col-span-8">{applications}</div>
           <Panel className="lg:col-span-4" title="Quick actions">

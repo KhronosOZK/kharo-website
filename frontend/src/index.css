@@ -20,9 +20,13 @@
     --ink-3:         #6A6F6C;   /* muted text, 5.3:1 on --bg */
     --line:          rgba(17, 19, 18, 0.14);
     --line-strong:   rgba(17, 19, 18, 0.28);
-    --green:         #0E3B2C;
-    --green-hover:   #0A2C20;
-    --green-soft:    #EBF0ED;
+    /* The brand green is the light one from the emblem. It fills buttons,
+       bars and selected states with ink type on top; for text on white it
+       is too pale, so text uses --green-deep (4.6:1 on white). */
+    --green:         #7FD8B0;
+    --green-hover:   #66CFA0;
+    --green-soft:    #E8F7EF;
+    --green-deep:    #1E7F55;
     --mint:          #7FD8B0;
     --gold:          #111312;
     --gold-soft:     #FDF6E7;
@@ -282,6 +286,14 @@
   .measure { max-width: 65ch; }
   .measure-narrow { max-width: 44ch; }
   .eyebrow { font-size: 0.8125rem; font-weight: 600; color: var(--green); letter-spacing: 0.01em; }
+}
+
+/* Text set in the brand green reads in the deep shade; a button filled with
+   it always carries ink type. One place, every component follows. */
+@layer utilities {
+  .text-green { color: var(--green-deep); }
+  .bg-green.text-white, .bg-green .text-white\/70 { color: var(--ink); }
+  .bg-green.text-white .text-white\/70 { color: var(--ink-2); }
 }
 
 /* ── Brand pieces kept from the previous build ─────────────────────────── */

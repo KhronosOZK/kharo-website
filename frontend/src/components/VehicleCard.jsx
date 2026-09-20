@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, Heart } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { ArrowUpRight } from "lucide-react";
 import { CARD } from "@/content/pages/marketplace";
+import { mileageLabel } from "@/lib/format";
 
 const MAX_ZONES = 5;
 
@@ -16,7 +16,6 @@ const MAX_ZONES = 5;
  */
 export default function VehicleCard({ vehicle, compact = false }) {
   const navigate = useNavigate();
-  const { saved, toggleSaved } = useAuth();
   const [hasHover] = useState(() => typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -26,7 +25,6 @@ export default function VehicleCard({ vehicle, compact = false }) {
   } = vehicle;
 
   const href = `/vehicle/${id}`;
-  const isSaved = saved.includes(id);
   const uniquePhotos = Array.isArray(photos) ? [...new Set(photos)] : [photos].filter(Boolean);
   const zoneCount = Math.min(uniquePhotos.length, MAX_ZONES);
   const canScrub = zoneCount > 1;
@@ -68,7 +66,7 @@ export default function VehicleCard({ vehicle, compact = false }) {
     else navigate(href);
   };
 
-  const specs = [fuel, transmission, seats ? `${seats} seats` : null, mileage_allowance ? `${mileage_allowance.toLocaleString()} mi a month` : null].filter(Boolean);
+  const specs = [fuel, transmission, seats ? `${seats} seats` : null, mileageLabel(mileage_allowance)].filter(Boolean);
   const plate = licence_type ? licence_type.replace(" private hire vehicle licence", "").replace(" PHV plate", "") : null;
 
   return (
@@ -101,17 +99,6 @@ export default function VehicleCard({ vehicle, compact = false }) {
           </div>
         )}
       </div>
-
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); toggleSaved(id); }}
-        aria-pressed={isSaved}
-        aria-label={isSaved ? "Remove from saved" : "Save this car"}
-        data-testid="vehicle-card-save"
-        className="pressable absolute right-5 top-5 z-[3] grid h-9 w-9 place-items-center rounded-md bg-surface/95 text-ink shadow-1 hover:bg-surface"
-      >
-        <Heart size={16} strokeWidth={2} className={isSaved ? "fill-ink" : ""} />
-      </button>
 
       <div className="flex flex-1 flex-col pt-3">
         <h3 className="truncate font-heading text-[16px] font-bold leading-tight text-ink">{make} {model}</h3>

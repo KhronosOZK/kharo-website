@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Heart, Share2, MapPin, Check, RotateCw, Shield, Zap } from "lucide-react";
+import { ChevronLeft, ChevronRight, Share2, MapPin, Check, RotateCw, Shield, Zap } from "lucide-react";
 import { api, trackEvent } from "@/lib/api";
-import { useAuth } from "@/context/AuthContext";
 import { PRICING_TIERS, weeklyForWeeks } from "@/lib/pricing";
 import PreviewNotice from "@/components/PreviewNotice";
 import ApproxAreaMap from "@/components/ApproxAreaMap";
@@ -11,6 +10,7 @@ import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
 import { getMockById, isPreviewId } from "@/data/mockListings";
 import { areaCoords } from "@/lib/geo";
 import { DETAIL } from "@/content/pages/marketplace";
+import { mileageLabel } from "@/lib/format";
 import { APPLY } from "@/content/site";
 import { APPLICATION_FLOW } from "@/content/pages/applicationFlow";
 
@@ -26,7 +26,6 @@ function experienceLabel(months) {
 export default function VehicleDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { saved, toggleSaved } = useAuth();
   const [v, setV] = useState(null);
   const [photo, setPhoto] = useState(0);
   const [weeks, setWeeks] = useState(1);
@@ -91,7 +90,6 @@ export default function VehicleDetail() {
   }
 
   const rentWeekly = weeklyForWeeks(v.weekly_rent, weeks);
-  const isSaved = saved.includes(v.id);
   const [lat, lon] = areaCoords(v.borough, v.city);
 
   const isElectric = (v.fuel || "").toLowerCase() === "electric";
@@ -104,7 +102,7 @@ export default function VehicleDetail() {
     { label: DETAIL.specs.fuel, value: v.fuel, capitalize: true },
     { label: DETAIL.specs.seats, value: v.seats },
     ...(v.mpg ? [{ label: DETAIL.specs.economy, value: `${v.mpg} mpg` }] : []),
-    { label: DETAIL.specs.mileage, value: `${v.mileage_allowance} miles` },
+    { label: DETAIL.specs.mileage, value: mileageLabel(v.mileage_allowance) },
     { label: DETAIL.specs.experience, value: experienceLabel(v.min_experience) },
     { label: DETAIL.specs.deposit, value: `£${v.deposit}, returned at end` },
     { label: DETAIL.specs.servicing, value: v.designated_garage },
@@ -157,15 +155,6 @@ export default function VehicleDetail() {
             {DETAIL.back}
           </button>
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => { toggleSaved(v.id); trackEvent("save", { listing_id: id }); }}
-              className="pressable inline-flex items-center gap-1.5 text-[13px] text-ink-2 hover:text-green"
-              data-testid="detail-save"
-              aria-pressed={isSaved}
-            >
-              <Heart className={`w-4 h-4 ${isSaved ? "fill-ink text-ink" : ""}`} strokeWidth={1.75} />
-              {isSaved ? DETAIL.saved : DETAIL.save}
-            </button>
             <button
               onClick={handleShare}
               className="pressable inline-flex items-center gap-1.5 text-[13px] text-ink-2 hover:text-green"
