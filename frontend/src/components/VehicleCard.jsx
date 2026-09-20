@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { shortAuthority } from "@/lib/cities";
 import { CARD } from "@/content/pages/marketplace";
 
 const MAX_ZONES = 5;
@@ -24,7 +23,7 @@ export default function VehicleCard({ vehicle }) {
   const {
     id, make, model, year, fuel, weekly_rent, borough, seats,
     photos, mileage_allowance, insurance_included,
-    licence_type, cross_border, licensing_authority,
+    licence_type, cross_border,
   } = vehicle;
 
   const uniquePhotos = Array.isArray(photos) ? [...new Set(photos)] : [photos].filter(Boolean);
@@ -90,15 +89,6 @@ export default function VehicleCard({ vehicle }) {
     mileage_allowance ? `${mileage_allowance.toLocaleString()} mi/mo` : null,
   ].filter(Boolean);
 
-  // Status pills. Only claims the record actually supports: an "insurance
-  // included" pill appears solely where the operator has said so, because
-  // every listing here is rent-only unless flagged otherwise.
-  const EV_FUELS = ["Electric", "Plug-in Hybrid", "Hybrid"];
-  const pills = [
-    EV_FUELS.includes(fuel) ? (fuel === "Electric" ? "EV" : fuel) : null,
-    licensing_authority ? `${shortAuthority(licensing_authority)} licensed` : null,
-    insurance_included ? "Insurance included" : null,
-  ].filter(Boolean);
   // The plate is the first thing a driver checks: a car on the wrong licence
   // is no use to them whatever it costs.
   const plate = licence_type ? licence_type.replace(" private hire vehicle licence", "").replace(" PHV plate", "") : null;
@@ -133,21 +123,6 @@ export default function VehicleCard({ vehicle }) {
           />
         ))}
         </div>
-
-        {pills.length > 0 && (
-          <div className="pointer-events-none absolute inset-x-2 top-4 z-10 flex flex-wrap items-start justify-between gap-1.5">
-            <span className="flex flex-wrap gap-1.5">
-              {pills.slice(0, 2).map((p) => (
-                <span key={p} className="rounded-full bg-ink/72 px-2.5 py-1 text-[12px] font-semibold text-white backdrop-blur-sm">
-                  {p}
-                </span>
-              ))}
-            </span>
-            {pills[2] && (
-              <span className="rounded-full bg-green px-2.5 py-1 text-[12px] font-semibold text-white">{pills[2]}</span>
-            )}
-          </div>
-        )}
 
         {canScrub && (
           <div className="absolute top-2 left-2 right-2 z-10 flex gap-1 pointer-events-none">

@@ -13,6 +13,7 @@ import PreviewNotice from "@/components/PreviewNotice";
 import { EASE, SPRING } from "@/lib/motion";
 import { useSeo } from "@/lib/seo";
 import { APPLY } from "@/content/site";
+import { APPLICATION_FLOW } from "@/content/pages/applicationFlow";
 
 const stepVariants = {
   enter: (dir) => ({ opacity: 0, x: 12 * dir }),
@@ -20,7 +21,9 @@ const stepVariants = {
   exit: (dir) => ({ opacity: 0, x: -12 * dir, transition: { duration: 0.15, ease: EASE.out } }),
 };
 
-const STEP_KEYS = ["about", "licence", "review"];
+const STEP_KEYS = ["about", "licence", "cover", "review"];
+const COVER = { comp: "comp", tpft: "tpft", tp: "tp" };
+const quoteFor = (level) => APPLICATION_FLOW.quotes.find((q) => q.id === level);
 
 export default function Apply() {
   const { id } = useParams();
@@ -36,7 +39,7 @@ export default function Apply() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
-  const [f, setF] = useState({ name: "", email: "", phone: "", start_when: APPLY.timeframes[0], dvla_licence: "", pco_licence: "" });
+  const [f, setF] = useState({ name: "", email: "", phone: "", start_when: APPLY.timeframes[0], dvla_licence: "", pco_licence: "", cover_level: COVER.comp, cover_term: "monthly" });
   const started = useRef(false);
   const set = (k) => (e) => { markStarted(); setF((p) => ({ ...p, [k]: e.target.value })); };
 
@@ -81,7 +84,9 @@ export default function Apply() {
         email: f.email,
         phone: f.phone,
         vehicle_type: `${v.make} ${v.model}`,
-        note,
+        cover_level: APPLY.stepCover.levels[f.cover_level],
+        cover_term: f.cover_term,
+        note: `${note} Cover: ${APPLY.stepCover.levels[f.cover_level]}, ${f.cover_term}, indicative £${quoteFor(f.cover_level).price[f.cover_term]}.`,
       });
       trackEvent("apply_complete", { listing_id: v.id, city: v.borough, weekly_rent: v.weekly_rent });
       setDone(true);
@@ -185,6 +190,48 @@ export default function Apply() {
                       <p className="text-[12.5px] text-ink-3 mt-4 leading-relaxed">{APPLY.step2.privacy}</p>
                     </>
                   )}
+                  {cur === "cover" && (
+                    <>
+                      <h2 className="text-h3 font-heading font-bold text-ink">{APPLY.stepCover.heading}</h2>
+                      <p className="text-[15px] text-ink-2 mt-2 mb-5">{APPLY.stepCover.sub}</p>
+
+                      <div className="flex gap-1 rounded border border-line-strong p-1 mb-4" role="radiogroup" aria-label="How you would pay">
+                        {APPLICATION_FLOW.terms.map((t) => (
+                          <button key={t.id} type="button" role="radio" aria-checked={f.cover_term === t.id}
+                            onClick={() => setF((p) => ({ ...p, cover_term: t.id }))}
+                            data-testid={`apply-term-${t.id}`}
+                            className={`pressable flex-1 h-10 rounded text-[13.5px] font-semibold transition-colors duration-ui ${f.cover_term === t.id ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
+                            {t.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="divide-y divide-line border-y border-line" role="radiogroup" aria-label="Cover level">
+                        {["comp", "tpft", "tp"].map((lvl) => {
+                          const q = quoteFor(lvl); const on = f.cover_level === lvl;
+                          const suffix = APPLICATION_FLOW.terms.find((t) => t.id === f.cover_term).suffix;
+                          return (
+                            <button key={lvl} type="button" role="radio" aria-checked={on}
+                              onClick={() => setF((p) => ({ ...p, cover_level: lvl }))}
+                              data-testid={`apply-cover-${lvl}`}
+                              className="pressable grid w-full grid-cols-[1.25rem_1fr_auto] items-start gap-3 py-4 text-left">
+                              <span aria-hidden="true" className={`mt-1 h-4 w-4 rounded-full border-2 ${on ? "border-green bg-green" : "border-line-strong"}`} />
+                              <span>
+                                <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels[lvl]}</span>
+                                <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes[lvl]}</span>
+                                <span className="mt-1 block text-[12.5px] text-ink-3">{q.excess}</span>
+                              </span>
+                              <span className="text-right tabular">
+                                <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[f.cover_term].toLocaleString()}</span>
+                                <span className="block text-[12px] text-ink-3">{suffix}</span>
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <p className="text-[12.5px] text-ink-3 mt-4 leading-relaxed">{APPLY.stepCover.note}</p>
+                    </>
+                  )}
                   {cur === "review" && (
                     <>
                       <h2 className="text-h3 font-heading font-bold text-ink">{APPLY.step3.heading}</h2>
@@ -195,6 +242,7 @@ export default function Apply() {
                         <Row l="Email" v={f.email} />
                         {f.phone && <Row l="Phone" v={f.phone} />}
                         <Row l="Start" v={f.start_when} />
+                        <Row l="Cover" v={`${APPLY.stepCover.levels[f.cover_level]}, £${quoteFor(f.cover_level).price[f.cover_term].toLocaleString()} ${APPLICATION_FLOW.terms.find((t) => t.id === f.cover_term).suffix} (indicative)`} />
                       </div>
                       <ul className="mt-5 space-y-2.5">
                         {APPLY.reassure.items.map((it) => (

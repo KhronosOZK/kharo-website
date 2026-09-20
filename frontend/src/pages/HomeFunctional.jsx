@@ -26,7 +26,12 @@ const COUNCILS = uniq(MOCK_LISTINGS.map((v) => v.licensing_authority)).sort((a, 
 const FUELS = uniq(MOCK_LISTINGS.map((v) => v.fuel)).sort();
 const RENTS = MOCK_LISTINGS.map((v) => v.weekly_rent);
 const BOUNDS = [Math.min(...RENTS), Math.max(...RENTS)];
-const verified = (v) => typeof v.photos?.[0] === "string" && v.photos[0].startsWith("/images/listings/");
+// A listing is "verified" when its first photograph genuinely shows that
+// car: the matched CDN catalogue or one of the five local photographs.
+const verified = (v) => {
+  const p = v.photos?.[0];
+  return typeof p === "string" && (p.startsWith("/images/listings/") || p.includes("prod-images.emergentagent.com"));
+};
 
 const DRIVER_POINTS = [
   "Licensed cars from operators we have checked against the licensing register",
@@ -95,10 +100,7 @@ export default function HomeFunctional() {
           >
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
               <span className="text-[13.5px] font-semibold text-ink">Where do you drive?</span>
-              <span className="inline-flex items-center gap-1.5 rounded bg-surface-2 px-2.5 py-1 text-[12.5px] font-medium text-ink-2" data-testid="home-preview-badge">
-                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-green" />
-                Pre-launch preview. Cars are not bookable yet.
-              </span>
+              <span className="text-[12.5px] text-ink-3" data-testid="home-preview-badge">Pre-launch preview. Cars are not bookable yet.</span>
             </div>
 
             <div className="grid gap-5 lg:grid-cols-[1fr_1fr_1.6fr_auto] lg:items-end">

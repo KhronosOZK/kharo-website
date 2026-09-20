@@ -628,6 +628,21 @@ export const CITY_PAGE = {
 // REGISTERING INTEREST IN A CAR
 // ---------------------------------------------------------------------------
 export const APPLY = {
+  stepCover: {
+    heading: "Choose your cover",
+    sub: "Hire and reward insurance is separate from the rent. Pick the level and how you would pay, and it goes to the operator with your application.",
+    note: "A guide, not a quote. When you apply we gather real quotes from insurers Uber accepts and show them side by side. Paying yearly is usually 10 to 15 percent cheaper than monthly.",
+    levels: {
+      comp: "Comprehensive",
+      tpft: "Third party, fire and theft",
+      tp: "Third party",
+    },
+    levelNotes: {
+      comp: "Covers damage to the car you rent as well as other people. What most operators ask for.",
+      tpft: "Other people, plus fire and theft of the car. Not accidental damage to it.",
+      tp: "Other people only. The lowest premium and the largest risk to your deposit.",
+    },
+  },
   timeframes: ["As soon as possible", "Within a month", "Within three months", "Just looking"],
   step1: { heading: "About you", sub: "So we know who to come back to, and where you drive." },
   step2: {

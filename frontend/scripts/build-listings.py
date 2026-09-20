@@ -72,8 +72,19 @@ LOCAL = {
     "passat": "/images/listings/vw-passat-gte.jpg",
     "tucson": "/images/listings/hyundai-tucson.jpg",
 }
-PXF = "https://images.pexels.com/photos/{0}/pexels-photo-{0}.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=900&h=675"
-USF = "https://images.unsplash.com/photo-{0}?crop=entropy&cs=srgb&fm=jpg&q=82&w=1100"
+# Matched catalogue: 36 make/model/colour entries, each with a front, rear and
+# segment interior that genuinely show that car. Generated once, hosted on a
+# CDN, HTTP-verified live. This is what ends the "a Hyundai labelled BMW"
+# problem: a listing's photographs now come from its own model's entry, and
+# the listing's colour is the colour in the picture.
+import json, os
+with open(os.path.join(os.path.dirname(__file__), "matched_photos.json")) as fh:
+    _CAT = json.load(fh)
+CATALOGUE = {}
+for _e in _CAT:
+    CATALOGUE.setdefault(f"{_e['make']} {_e['model']}", []).append(_e)
+CDN_BASE = "https://static.prod-images.emergentagent.com/"
+_FUEL = {"hybrid": "Hybrid", "ev": "Electric", "petrol": "Petrol", "diesel": "Diesel", "phev": "Plug-in Hybrid"}
 
 INTERIOR = ["https://images.unsplash.com/photo-1625690180114-5530b1304127?crop=entropy&cs=srgb&fm=jpg&q=80&w=900",
             "https://images.unsplash.com/photo-1520046045453-547e1175391e?crop=entropy&cs=srgb&fm=jpg&q=80&w=900",
@@ -85,25 +96,26 @@ HANDOVER = "https://images.pexels.com/photos/7144207/pexels-photo-7144207.jpeg?a
 # Bands sit under the bundled weekly figures the incumbents advertise, because
 # Kharo's number excludes insurance, which the driver chooses at application.
 FLEET = [
-    # make, model, fuel, body, seats, mpg, years, rent, photo
-    ("Toyota", "Prius", "Hybrid", "Hatchback", 5, 62, (2019, 2023), (135, 175), LOCAL["prius"]),
-    ("Toyota", "Corolla", "Hybrid", "Hatchback", 5, 58, (2020, 2024), (140, 180), LOCAL["corolla"]),
-    ("Toyota", "Camry", "Hybrid", "Saloon", 5, 53, (2019, 2023), (160, 200), USF.format("1623869675781-80aa31012a5a")),
-    ("Skoda", "Octavia", "Petrol", "Hatchback", 5, 45, (2019, 2023), (140, 175), LOCAL["octavia"]),
-    ("Skoda", "Superb", "Diesel", "Saloon", 5, 52, (2019, 2022), (165, 205), USF.format("1764090317825-9b76e437c8d8")),
-    ("Volkswagen", "Passat GTE", "Plug-in Hybrid", "Saloon", 5, 60, (2020, 2023), (170, 210), LOCAL["passat"]),
-    ("Volkswagen", "Touran", "Diesel", "MPV", 7, 47, (2019, 2022), (195, 235), USF.format("1585390062628-be8608aa7d83")),
-    ("Kia", "Niro EV", "Electric", "SUV", 5, None, (2021, 2024), (185, 230), PXF.format(27286179)),
-    ("Kia", "Sportage", "Hybrid", "SUV", 5, 44, (2021, 2024), (190, 230), PXF.format(2036544)),
+    # make, model, fuel, body, seats, mpg, years, rent, photos (catalogue key or local path)
+    ("Toyota", "Prius", "Hybrid", "Hatchback", 5, 62, (2019, 2023), (135, 175), "Toyota Prius"),
+    ("Toyota", "Corolla", "Hybrid", "Hatchback", 5, 58, (2020, 2024), (140, 180), "Toyota Corolla"),
+    ("Toyota", "Corolla Touring", "Hybrid", "Estate", 5, 56, (2020, 2024), (150, 190), "Toyota Corolla Touring"),
+    ("Toyota", "Camry", "Hybrid", "Saloon", 5, 53, (2019, 2023), (160, 200), "Toyota Camry"),
+    ("Skoda", "Octavia", "Petrol", "Hatchback", 5, 45, (2019, 2023), (140, 175), "Skoda Octavia"),
+    ("Volkswagen", "Passat", "Diesel", "Saloon", 5, 55, (2019, 2023), (165, 205), "Volkswagen Passat"),
+    ("Volkswagen", "Sharan", "Diesel", "MPV", 7, 46, (2019, 2022), (195, 235), "Volkswagen Sharan"),
+    ("Kia", "e-Niro", "Electric", "SUV", 5, None, (2021, 2024), (185, 230), "Kia e-Niro"),
+    ("Kia", "Niro", "Hybrid", "SUV", 5, 58, (2020, 2023), (170, 210), "Kia Niro"),
+    ("Hyundai", "Ioniq", "Hybrid", "Hatchback", 5, 60, (2019, 2022), (140, 180), "Hyundai Ioniq"),
     ("Hyundai", "Tucson", "Hybrid", "SUV", 5, 47, (2021, 2024), (190, 230), LOCAL["tucson"]),
-    ("Ford", "Focus", "Petrol", "Hatchback", 5, 44, (2019, 2022), (135, 170), PXF.format(27138933)),
-    ("Ford", "Galaxy", "Diesel", "MPV", 7, 45, (2019, 2022), (205, 245), PXF.format(29566906)),
-    ("Mercedes-Benz", "E-Class", "Diesel", "Executive", 5, 50, (2019, 2023), (245, 300), PXF.format(17185083)),
-    ("Mercedes-Benz", "C-Class", "Hybrid", "Executive", 5, 52, (2020, 2023), (225, 275), PXF.format(18837778)),
-    ("BMW", "5 Series", "Hybrid", "Executive", 5, 50, (2020, 2023), (240, 295), PXF.format(33125984)),
-    ("BMW", "3 Series", "Diesel", "Saloon", 5, 54, (2019, 2022), (195, 240), PXF.format(8332625)),
-    ("Tesla", "Model 3", "Electric", "Saloon", 5, None, (2021, 2024), (215, 265), USF.format("1565043666747-69f6646db940")),
-    ("Nissan", "Leaf", "Electric", "Hatchback", 5, None, (2020, 2023), (165, 205), PXF.format(13733818)),
+    ("Honda", "Insight", "Hybrid", "Saloon", 5, 60, (2019, 2022), (150, 190), "Honda Insight"),
+    ("Ford", "Galaxy", "Diesel", "MPV", 7, 45, (2019, 2022), (205, 245), "Ford Galaxy"),
+    ("Mercedes-Benz", "E-Class", "Diesel", "Executive", 5, 50, (2019, 2023), (245, 300), "Mercedes-Benz E-Class"),
+    ("Mercedes-Benz", "C-Class", "Hybrid", "Executive", 5, 52, (2020, 2023), (225, 275), "Mercedes-Benz C-Class"),
+    ("Vauxhall", "Insignia", "Diesel", "Saloon", 5, 54, (2018, 2021), (125, 160), "Vauxhall Insignia"),
+    ("BMW", "3 Series", "Diesel", "Saloon", 5, 54, (2019, 2022), (195, 240), "BMW 3 Series"),
+    ("Tesla", "Model 3", "Electric", "Saloon", 5, None, (2021, 2024), (215, 265), "Tesla Model 3"),
+    ("Nissan", "Leaf", "Electric", "Hatchback", 5, None, (2020, 2023), (165, 205), "Nissan Leaf"),
 ]
 
 COLOURS = ["Pearl White", "Storm Grey", "Midnight Black", "Silver", "Deep Blue", "Graphite",
@@ -125,16 +137,22 @@ CITY_ADJ = {"London": 1.0, "Birmingham": 0.92, "Manchester": 0.93, "Leeds": 0.90
             "Wolverhampton": 0.88, "Sheffield": 0.88, "Liverpool": 0.90}
 
 
-def pick_photos(exterior, fuel, rnd):
-    """The model's own exterior, then cabin frames in a rotated order, then a
-    fuel-appropriate closing shot. Five per listing."""
-    shots = [exterior] + rnd.sample(INTERIOR, k=3)
-    shots.append(CHARGING if fuel in ("Electric", "Plug-in Hybrid") else HANDOVER)
-    out = []
-    for x in shots:
-        if x not in out:
-            out.append(x)
-    return out
+def pick_variant(key, fuel, rnd):
+    """A catalogue entry for this model, preferring one whose fuel matches."""
+    opts = CATALOGUE[key]
+    same = [e for e in opts if _FUEL.get(e["fuel"]) == fuel]
+    return rnd.choice(same or opts)
+
+
+def pick_photos(key_or_path, fuel, rnd):
+    """Front, rear and interior of the actual car, then one closing shot.
+    Returns (photos, colour): the colour is whatever the photograph shows."""
+    closing = CHARGING if fuel in ("Electric", "Plug-in Hybrid") else HANDOVER
+    if key_or_path.startswith("/"):
+        seg = next(e for e in _CAT if e["fuel"] == "hybrid")["interior"]
+        return [key_or_path, seg, closing], None
+    v = pick_variant(key_or_path, fuel, rnd)
+    return [v["front"], v["rear"], v["interior"], closing], v["colour"]
 
 
 def description(make, model, year, fuel, body, area, cfg, mileage, rnd):
@@ -186,7 +204,8 @@ def main():
     for city, cfg in CITIES.items():
         for _ in range(cfg["n"]):
             n += 1
-            make, model, fuel, body, seats, mpg, yrs, rent, exterior = rnd.choice(FLEET)
+            make, model, fuel, body, seats, mpg, yrs, rent, photo_key = rnd.choice(FLEET)
+            photos, shot_colour = pick_photos(photo_key, fuel, rnd)
             year = rnd.randint(*yrs)
             weekly = int(round(rnd.randint(*rent) * CITY_ADJ[city] / 5.0) * 5)
             area = rnd.choice(AREAS[city])
@@ -209,7 +228,7 @@ def main():
             rows.append(dict(
                 id=f"KH-{1000 + n}", make=make, model=model, year=year, fuel=fuel,
                 transmission="Automatic" if auto else "Manual",
-                seats=seats, colour=rnd.choice(COLOURS), borough=area, city=city,
+                seats=seats, colour=shot_colour or rnd.choice(COLOURS), borough=area, city=city,
                 postcode=(f"{rnd.choice(POSTCODE_PREFIX[city])}{rnd.randint(1, 29)} "
                           f"{rnd.randint(1, 9)}{rnd.choice(letters)}{rnd.choice(letters)}"),
                 weekly_rent=weekly,
@@ -225,7 +244,7 @@ def main():
                 restrictions=rnd.choice(RESTRICTIONS),
                 description=description(make, model, year, fuel, body, area, cfg, mileage, rnd),
                 features=features,
-                photos=pick_photos(exterior, fuel, rnd),
+                photos=photos,
             ))
 
     assert len(rows) == TOTAL, f"expected {TOTAL}, built {len(rows)}"
@@ -244,6 +263,9 @@ def main():
         out.append("  },")
     out += ["];", "",
             "export const getMockById = (id) => MOCK_LISTINGS.find((l) => l.id === id) || null;", "",
+            "/** Preview inventory carries a KH- reference; anything else is a real",
+            " * listing held server side, so callers know which source resolves an id. */",
+            "export const isPreviewId = (id) => typeof id === \"string\" && id.startsWith(\"KH-\");", "",
             "export const MOCK_CITIES = " + js(list(CITIES.keys())) + ";", "",
             "export const LICENSING_AUTHORITIES = {"]
     for c, cfg in CITIES.items():

@@ -1,42 +1,34 @@
-# KHARO Marketplace — System Design Specification (`DESIGN.md`)
+# DESIGN.md
 
-> **Product:** KHARO (`kharo.co.uk`) — Next-Generation London PHV Vehicle Marketplace & Fleet Management Platform.  
-> **Visual Identity:** *Industrial Utility meets Luxury Modern Tech* (Inspired by modern EV automotive dashboards, sleek dark/light Dribbble UI patterns, and hyper-legible utility design).
+Kharo visual system. Committed 2026-09-20 after the critique loop. Replaces the earlier obsidian/glassmorphism spec, which the owner rejected.
 
----
+## Register
+Functional clarity. The references are Auto Trader, Rightmove and Monzo: white ground, the instrument first, price before everything, dense information delivered calmly. Trust in this category comes from looking like a tool people already use with money, not from cinema.
 
-## 1. Visual Strategy & Aesthetic Direction
+## Tokens (see `frontend/src/index.css` and `tailwind.config.js`)
+- Ground `--bg` #F3F3F0 (bone), surfaces #FFFFFF, secondary surface #EAEAE5.
+- Ink #111312, secondary #454A47, muted #6A6F6C. Lines rgba(17,19,18,.14) and .28.
+- Green #0E3B2C (primary actions, links, status), hover #0A2C20, soft #EBF0ED. Mint #7FD8B0 only on dark surfaces (footer). Night #111312 for dark bands and scrims.
+- One accent. No gold, no purple, no gradients as decoration.
 
-### Key Inspiration & Aesthetic Themes
-* **Automotive Glassmorphism & High Contrast:** Deep dark surfaces (`#0B0D12`), ultra-clean light backgrounds (`#F8F9FB`), translucent frosted cards, subtle accent glows, and sharp vector car visual cutouts.
-* **Hyper-Scannable Commercial Utility:** Bold pricing tags (`£240/wk`), clear visual spec badges (*TfL Approved*, *EV 280 mi*, *Zero Deposit*), and high-contrast primary call-to-actions.
-* **Dual-Mode UX Architecture:**
-  1. **Driver Marketplace (Mobile-First):** Card-driven feed, instant floating filters, low-friction priority bottom-sheet lead flows.
-  2. **Operator Fleet Dashboard (Desktop-Optimized):** Data-dense analytics cards, live vehicle availability tables, real-time revenue loss indicators, and lead pipeline tracking.
+## Type
+Cabinet Grotesk 800/700 for headings, Satoshi 400/500/700 for body. Fluid scale: display, h1, h2, h3, lead, stat. Headlines two lines maximum; tracking -0.02em to -0.035em; line-height never below 1.3 on body. Tabular numerals on every price and count. Body measure 65 to 75ch.
 
----
+## Shape
+Tight by intent. Controls 4px (`rounded`), inputs 6px, cards 10px (`rounded-lg`), photo frames 12px. `rounded-full` only for the header CTA and removable chips. Borders carry structure; shadows are light and offset (`--shadow-1`, `--shadow-2`).
 
-## 2. Design Tokens & Palette
+## Components
+- Search instrument: white panel on a photograph, labels above fields, live result count on the button, price range with the distribution histogram visible.
+- Vehicle card: 16/10 photograph, name, area and licensing authority, spec row (seats, fuel, mileage allowance), price prominent with "a week" small, deposit, "Register interest" as a real button. No pills over the photograph.
+- Lists: `divide-y` with real row inset; never a hairline under every row of a long table. More than five items means a different component.
+- FAQ: accordion rows with inset.
+- Forms: label above input, helper text below, errors below in plain language.
 
-### Color System (Tailwind Compatible)
+## Motion
+Intensity 3. Ease-out `cubic-bezier(0.23,1,0.32,1)`, UI durations 120 to 260ms, press feedback `scale(.97)`, hover gated to `(hover:hover) and (pointer:fine)`, staggered grid reveal 30 to 80ms, one authored moment per page. Reduced motion keeps opacity and colour, drops movement.
 
-```text
-├── Dark Theme Backgrounds (Operator / Hero Details)
-│   ├── Surface Base:    #0B0D12 (Obsidian)
-│   ├── Surface Card:    #13161F (Deep Navy Gray)
-│   └── Surface Elevated:#1B202D (Elevated Dark Slate)
-│
-├── Light Theme Backgrounds (Driver Feed / Listings)
-│   ├── Canvas Base:     #F8F9FB (Off-white Frost)
-│   ├── Container Card:  #FFFFFF (Pure White)
-│   └── Accent Subdued:  #F1F3F7 (Neutral Gray Fill)
-│
-├── Brand Accent Colors (High Contrast Conversion)
-│   ├── Primary Action:  #00E676 (Electric Mint — "Apply / Check Availability")
-│   ├── Secondary Accent:#FFD600 (Cyber Gold — "Priority / High Demand")
-│   └── B2B Fleet Blue:  #3B82F6 (Hyper Blue — "Operator Portal")
-│
-└── Status & Badge Indicators
-    ├── EV / Clean Air:  #00E676 (Emerald Green)
-    ├── Low Stock/Drop:  #FF3D00 (Vibrant Red-Orange)
-    └── Border Stroke:   rgba(255, 255, 255, 0.08) [Dark] / #E5E7EB [Light]
+## Photography
+Only photographs that show the car they are labelled as: the matched catalogue on the CDN and the five verified local assets. London photography for place. No product renders, no studio CGI, no unrelated stock.
+
+## Banned
+Glassmorphism, glow, blobs, floating hero cards, badges/pills/icon-in-circle, eyebrow labels, uppercase tracked labels, mono as a costume, em dashes, "Ready to..." closers, three-equal-card rows, four-box stat grids, fake screenshots built from divs, invented numbers, testimonials.
