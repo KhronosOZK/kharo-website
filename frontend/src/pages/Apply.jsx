@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Enter } from "@/components/Reveal";
 import { EASE, SPRING } from "@/lib/motion";
 import { useSeo } from "@/lib/seo";
-import { APPLY } from "@/content/site";
+import { APPLY, FACTS, BRAND } from "@/content/site";
 import { APPLICATION_FLOW } from "@/content/pages/applicationFlow";
 
 const stepVariants = {
@@ -63,13 +63,13 @@ export default function Apply() {
   const isLast = step === STEP_KEYS.length - 1;
 
   const canNext = () => {
-    if (cur === "about") return f.name.trim() && f.email.trim();
+    if (cur === "about") return f.name.trim() && f.phone.trim();
     return true;
   };
 
   const goToStep = (nextStep, direction) => { setDir(direction); setStep(nextStep); };
   const nextStep = () => {
-    if (!canNext()) { toast.error("Please add your name and email so we can reach you."); return; }
+    if (!canNext()) { toast.error("Please add your phone number and your name, so we can call you."); return; }
     if (!isLast) goToStep(step + 1, 1); else submit();
   };
   const back = () => goToStep(Math.max(0, step - 1), -1);
@@ -106,7 +106,7 @@ export default function Apply() {
       <div className="max-w-xl">
         <Check className="w-12 h-12 text-green mx-auto" strokeWidth={1.75} />
         <h1 className="text-h2 font-heading font-extrabold text-ink mt-6" data-testid="apply-success">{APPLY.success.heading}</h1>
-        <p className="text-ink-2 mt-3 leading-relaxed">{APPLY.success.body}</p>
+        <p className="text-ink-2 mt-3 leading-relaxed">{APPLY.success.body} We plan to open in {v.city} in {FACTS.launch[v.city] || "2027"}.</p>
         <div className="mt-8 text-left panel rounded-lg p-6">
           <p className="font-heading font-bold text-ink">{APPLY.success.nextHeading}</p>
           <ul className="mt-3 divide-y divide-line">
@@ -144,7 +144,11 @@ export default function Apply() {
               <span className="font-heading font-bold text-ink text-h3 tabular">£{v.weekly_rent}</span>
               <span className="text-ink-3 text-sm">/ week</span>
             </div>
-            <p className="text-ink-3 text-xs mt-1">Rental only. Insurance chosen when you apply.</p>
+            <p className="text-ink-3 text-xs mt-1">Rent only. You choose the insurance in step 3.</p>
+            <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(`Hi Kharo, I have a question about the ${v.make} ${v.model} (${v.id}).`)}`} target="_blank" rel="noopener noreferrer"
+              className="pressable mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-line-strong bg-surface text-[13.5px] font-semibold text-ink hover:bg-surface-2" data-testid="apply-whatsapp">
+              Ask a question on WhatsApp
+            </a>
           </div>
         </div>
 
@@ -168,9 +172,9 @@ export default function Apply() {
                       <h2 className="text-h3 font-heading font-bold text-ink">{APPLY.step1.heading}</h2>
                       <p className="text-[15px] text-ink-2 mt-2 mb-6">{APPLY.step1.sub}</p>
                       <div className="space-y-4">
-                        <Field label="Your name"><Input autoFocus value={f.name} onChange={set("name")} placeholder="Your full name" data-testid="apply-name" /></Field>
-                        <Field label="Email"><Input type="email" value={f.email} onChange={set("email")} data-testid="apply-email" /></Field>
-                        <Field label="Phone"><Input value={f.phone} onChange={set("phone")} placeholder="07700 900 000" data-testid="apply-phone" /></Field>
+                        <Field label="Your phone number"><Input autoFocus type="tel" inputMode="tel" value={f.phone} onChange={set("phone")} placeholder="07700 900 000" data-testid="apply-phone" /></Field>
+                        <Field label="Your name"><Input value={f.name} onChange={set("name")} placeholder="Your full name" data-testid="apply-name" /></Field>
+                        <Field label="Email (if you have one)"><Input type="email" value={f.email} onChange={set("email")} data-testid="apply-email" /></Field>
                         <Field label="When do you want to start driving?">
                           <select value={f.start_when} onChange={set("start_when")} className="select-field w-full" data-testid="apply-start-when">
                             {APPLY.timeframes.map((t) => <option key={t} value={t}>{t}</option>)}

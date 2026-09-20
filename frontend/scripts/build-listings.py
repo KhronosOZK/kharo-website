@@ -247,6 +247,11 @@ def main():
                 licence_type=cfg["licence"],
                 cross_border=cfg["cross_border"],
                 designated_garage=f"{area.split(' &')[0].split(' ')[0]} {rnd.choice(GARAGE_WORDS)}",
+                # A first name and a fleet size for the listing page: an
+                # anonymous operator reads as a scam to this audience. Sample
+                # data until real operators are on.
+                operator_name=rnd.choice(["Ahmed", "Tariq", "Daniel", "Priya", "Marek", "Yusuf", "Grace", "Hassan", "Elena", "Tomasz"]),
+                operator_fleet=rnd.choice([3, 4, 6, 8, 12, 15, 24]),
                 min_experience=rnd.choice([0, 0, 6, 12, 12, 24]),
                 restrictions=rnd.choice(RESTRICTIONS),
                 description=description(make, model, year, fuel, body, area, cfg, mileage, rnd),

@@ -34,7 +34,7 @@ const THREADS = [
 ];
 
 export default function DriverPortal() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [apps, setApps] = useState([]);
   const [view, setView] = useState("home");
@@ -98,6 +98,19 @@ export default function DriverPortal() {
         <DocRow label="PCO / TfL badge" ok={hasPco} value={user.pco_licence} />
       </div>
       {docsDone < 2 && <Button onClick={() => navigate("/help")} variant="outline" className="mt-4 w-full text-[13px]">Get help adding your documents</Button>}
+      <div className="mt-6 border-t border-line pt-5">
+        <p className="text-[13.5px] font-semibold text-ink">Delete my account</p>
+        <p className="mt-1 text-[13px] text-ink-3">This removes your details and everything you sent us. It cannot be undone.</p>
+        <Button variant="outline" className="mt-3 text-[13px]" data-testid="delete-account"
+          onClick={async () => {
+            if (!window.confirm("Delete your Kharo account and all your details? This cannot be undone.")) return;
+            try { await api.delete("/auth/me"); } catch { /* already gone or offline; sign out anyway */ }
+            await logout();
+            navigate("/");
+          }}>
+          Delete my account
+        </Button>
+      </div>
       <div className="mt-6 border-t border-line pt-5">
         <div className="flex items-center gap-2 font-heading font-bold text-ink"><ShieldCheck className="h-5 w-5 text-green" strokeWidth={1.75} /> Cover and compliance</div>
         <p className="mt-2 text-[13px] text-ink-3">Once you are in a car, this is where your insurance, MOT and service dates live.</p>

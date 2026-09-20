@@ -10,7 +10,7 @@ import PageHero from "@/components/PageHero";
 import CityInterestForm from "@/components/CityInterestForm";
 import Faq from "@/components/Faq";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
-import { CITY_PAGE } from "@/content/site";
+import { CITY_PAGE, FACTS } from "@/content/site";
 import { useSeo, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 const CITY_SEO = CITY_PAGE.cities;
@@ -58,7 +58,7 @@ export default function CityPage() {
       <main data-testid={`city-page-${city}-coming-soon`}>
         <PageHero
           heading={t(CITY_PAGE.comingSoon.heading, { city })}
-          sub={t(CITY_PAGE.comingSoon.sub, { city })}
+          sub={t(CITY_PAGE.comingSoon.sub, { city, launch: FACTS.launch[city] || "2027" })}
           img={heroImg}
           priority
         >
@@ -101,7 +101,7 @@ export default function CityPage() {
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <PageHero
         heading={t(CITY_PAGE.heroHeadingTemplate, { city })}
-        sub={t(CITY_PAGE.heroSubTemplate, { count, city })}
+        sub={t(CITY_PAGE.heroSubTemplate, { count, city, launch: FACTS.launch[city] || "2027" })}
         img={heroImg}
         imgAlt={`${city} skyline`}
         meta={authority ? [{ label: "Licensing authority", value: authority }] : []}

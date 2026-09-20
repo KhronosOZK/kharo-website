@@ -9,7 +9,8 @@ import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
 import { getMockById, isPreviewId } from "@/data/mockListings";
 import { areaCoords } from "@/lib/geo";
 import { DETAIL } from "@/content/pages/marketplace";
-import { mileageLabel } from "@/lib/format";
+import { mileageLabel, hasOwnPhoto, weeklyInsurance } from "@/lib/format";
+import { BRAND } from "@/content/site";
 import { APPLY } from "@/content/site";
 import { APPLICATION_FLOW } from "@/content/pages/applicationFlow";
 
@@ -210,6 +211,9 @@ export default function VehicleDetail() {
           </div>
         )}
         </figure>
+        {!hasOwnPhoto(v) && (
+          <p className="mt-2.5 text-[12.5px] text-ink-3" data-testid="same-model-note">Photo shows the same model, not this exact car. The operator adds their own photos before launch.</p>
+        )}
         {isElectric && (
           <p className="flex items-center gap-1.5 text-[13px] font-medium text-green mt-2.5">
             <Zap className="w-3.5 h-3.5" strokeWidth={1.75} /> Electric, ULEZ exempt
@@ -224,13 +228,14 @@ export default function VehicleDetail() {
               <p className="mt-2 text-[14px] text-ink-3">{v.colour}, {v.mileage?.toLocaleString()} miles on the clock</p>
 
               <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-ink-2">
+                {v.operator_name && (
+                  <span data-testid="detail-operator">
+                    <span className="font-semibold text-ink">{v.operator_name}</span>, {v.borough} · {v.operator_fleet} cars on Kharo
+                  </span>
+                )}
                 <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-green" strokeWidth={1.75} />
-                  Operator licence checked
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-green" strokeWidth={1.75} />
-                  Companies House checked
+                  <Check className="w-4 h-4 text-green-deep" strokeWidth={1.75} />
+                  Licence and company checked
                 </span>
                 <span className="flex items-center gap-1.5 text-ink-3">
                   <MapPin className="w-3.5 h-3.5" strokeWidth={1.75} />
@@ -432,6 +437,22 @@ export default function VehicleDetail() {
 function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
   const quote = quoteFor(coverLevel);
   const term = APPLICATION_FLOW.terms.find((t) => t.id === coverTerm);
+  // "Call me back": a phone number and nothing else. Stored as a lead so
+  // nobody has to type an email to get a person to ring them.
+  const [callback, setCallback] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [callbackDone, setCallbackDone] = useState(false);
+  const requestCallback = async (e) => {
+    e.preventDefault();
+    if (!phone.trim()) return;
+    try {
+      await api.post("/leads", { phone: phone.trim(), source: "call_back", data: { listing_id: v.id, vehicle: `${v.make} ${v.model}`, city: v.city } });
+      trackEvent("call_back", { listing_id: v.id });
+      setCallbackDone(true);
+    } catch {
+      setCallbackDone(true);
+    }
+  };
   return (
     <div className="panel p-card">
       <div className="flex items-baseline gap-1.5" data-testid="detail-headline-price">
@@ -455,10 +476,44 @@ function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
           <span className="text-ink-2">Breakdown cover</span>
           <span className="font-semibold text-ink">{v.breakdown_included ? "Included" : "£8 a week to add"}</span>
         </div>
+        <div className="flex justify-between py-3">
+          <span className="font-semibold text-ink">Total a week, about</span>
+          <span className="font-heading text-[17px] font-bold text-ink tabular" data-testid="detail-total-week">£{Math.round(rentWeekly + weeklyInsurance(quote, coverTerm))}</span>
+        </div>
       </div>
+      <p className="mt-2 text-[12px] text-ink-3">Rent plus your insurance, worked out per week. Fuel is not included.</p>
+
       <Button onClick={onApply} size="lg" className="w-full mt-5" data-testid="apply-to-rent-btn">
         {DETAIL.applyCta}
       </Button>
+
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <button type="button" onClick={() => setCallback((c) => !c)} aria-expanded={callback}
+          className="pressable inline-flex h-11 items-center justify-center rounded-md border border-line-strong bg-surface text-[13.5px] font-semibold text-ink hover:bg-surface-2" data-testid="call-me-back">
+          Call me back
+        </button>
+        <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(`Hi Kharo, I am asking about the ${v.make} ${v.model} (${v.id}).`)}`} target="_blank" rel="noopener noreferrer"
+          className="pressable inline-flex h-11 items-center justify-center rounded-md border border-line-strong bg-surface text-[13.5px] font-semibold text-ink hover:bg-surface-2" data-testid="whatsapp-ask">
+          Ask on WhatsApp
+        </a>
+      </div>
+      {callback && (
+        <form onSubmit={requestCallback} className="mt-3 rounded-md border border-line bg-bone p-3" data-testid="callback-form">
+          {callbackDone ? (
+            <p className="text-[13.5px] text-ink">Thank you. A person will call you within one working day.</p>
+          ) : (
+            <>
+              <label htmlFor="cb-phone" className="block text-[12.5px] font-medium text-ink-2">Your phone number</label>
+              <div className="mt-1.5 flex gap-2">
+                <input id="cb-phone" type="tel" inputMode="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="07700 900 000"
+                  className="field h-11 min-w-0 flex-1 rounded-md border border-line-strong bg-surface px-3 text-[15px] text-ink outline-none focus:border-ink" />
+                <Button type="submit" className="shrink-0">Call me</Button>
+              </div>
+              <p className="mt-2 text-[12px] text-ink-3">We call within one working day. No email needed.</p>
+            </>
+          )}
+        </form>
+      )}
     </div>
   );
 }

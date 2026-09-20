@@ -156,6 +156,14 @@ Design checks run from a Claude Code session with the impeccable skill installed
 
 ## 6. Before going live
 
+Three things are now data you can edit without code:
+
+- **Launch months per city** live in `FACTS.launch` in `content/site.js`. They drive the top banner, the city pages and the message after someone registers. Change a month there and every page follows.
+- **Social links** in `BRAND.social` are empty on purpose (the guessed handles pointed at other people's pages). Paste the real profile URLs and the footer icons reappear.
+- **The operator fee example** (`OPERATOR_GUIDE.fee.example`) and the non-payment timeline (`OPERATOR_GUIDE.enforcement`) are plain data; the totals recalculate.
+
+Two new backend routes need the server restarted to appear: `POST /api/privacy/delete-request` (the form on the Legal page) and `DELETE /api/auth/me` (the "Delete my account" button in the driver console).
+
 These are yours to action.
 
 - Put a live `RESEND_API_KEY` in the backend environment and set `ADMIN_EMAIL` to a real address; both are placeholders now.

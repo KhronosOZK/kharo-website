@@ -100,7 +100,7 @@ export default function OperatorInterest() {
 
   return (
     <main className="bg-bone min-h-page">
-      <div className="wrap grid items-start gap-8 pt-[calc(var(--header-h)+1.25rem)] pb-section lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] lg:gap-block lg:pt-[calc(var(--header-h)+1.5rem)]">
+      <div className="wrap grid items-start gap-8 pt-6 pb-section lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] lg:gap-block lg:pt-10">
         {/* ── Heading and the loss calculator ─────────────────────────── */}
         <div>
           <Enter>

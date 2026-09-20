@@ -97,7 +97,7 @@ export default function Register() {
 
   return (
     <main className="bg-bone">
-      <div className="wrap grid items-start gap-8 pt-[calc(var(--header-h)+1.25rem)] pb-section lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] lg:gap-block lg:pt-[calc(var(--header-h)+1.5rem)]">
+      <div className="wrap grid items-start gap-8 pt-6 pb-section lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,26rem)] lg:gap-block lg:pt-10">
         <div>
           <Enter>
             <h1 className="font-heading text-h2 font-extrabold tracking-[-0.02em] leading-[1.05] text-ink max-w-[22ch]">{heading}</h1>

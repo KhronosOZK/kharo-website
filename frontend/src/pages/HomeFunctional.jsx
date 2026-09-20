@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { siToyota, siKia, siHyundai, siSkoda, siVolkswagen, siBmw, siVauxhall, siHonda, siNissan, siFord, siTesla } from "simple-icons";
 import { MOCK_LISTINGS } from "@/data/mockListings";
+import { MODELS_BY_MAKE } from "@/components/FiltersDialog";
 import { LIVE_CITIES } from "@/lib/cities";
 import { EASE, useMotionPrefs } from "@/lib/motion";
 import PriceRangeFilter from "@/components/PriceRangeFilter";
@@ -26,10 +27,11 @@ import { useSeo } from "@/lib/seo";
  * are no ratings, reviews or testimonials until real ones exist.
  */
 
-const uniq = (a) => Array.from(new Set(a));
-const FUELS = uniq(MOCK_LISTINGS.map((v) => v.fuel)).sort();
 const RENTS = MOCK_LISTINGS.map((v) => v.weekly_rent);
-const BOUNDS = [Math.min(...RENTS), Math.max(...RENTS)];
+// The slider runs £0 to £500 whatever the stock, so it reads the same on the
+// homepage and the browse page.
+const BOUNDS = [0, Math.max(500, ...RENTS)];
+const CHEAPEST = Math.min(...RENTS);
 const MEDIAN_RENT = RENTS.slice().sort((a, b) => a - b)[Math.floor(RENTS.length / 2)];
 // A listing is "verified" when its first photograph genuinely shows that
 // car: the matched CDN catalogue or one of the five local photographs.
@@ -62,11 +64,15 @@ const TYPES = [
 ].map((t) => ({ ...t, n: count(t.pred), img: firstPhotoWhere(t.pred) }));
 
 // Make marks from simple-icons, used the way Auto Trader uses them: to
-// identify the make, never to imply endorsement. Mercedes-Benz has no icon
-// in the set, so its tile falls back to an initial.
+// identify the make, never to imply endorsement. The set has no Mercedes
+// star, so that one is drawn here: a ring and three arms from the centre.
+const MERCEDES = {
+  path: "M12 1a11 11 0 1 0 0 22 11 11 0 0 0 0-22zm0 1.6a9.4 9.4 0 1 1 0 18.8 9.4 9.4 0 0 1 0-18.8zM11.25 3.4h1.5v7.9l6.85 3.96-.75 1.3L12 12.6l-6.85 3.96-.75-1.3 6.85-3.96z",
+};
 const MAKE_ICONS = {
   Toyota: siToyota, Kia: siKia, Hyundai: siHyundai, Skoda: siSkoda, Volkswagen: siVolkswagen,
   BMW: siBmw, Vauxhall: siVauxhall, Honda: siHonda, Nissan: siNissan, Ford: siFord, Tesla: siTesla,
+  "Mercedes-Benz": MERCEDES,
 };
 const MAKES = Object.entries(MOCK_LISTINGS.reduce((acc, v) => { acc[v.make] = (acc[v.make] || 0) + 1; return acc; }, {}))
   .sort((a, b) => b[1] - a[1]);
@@ -140,15 +146,17 @@ export default function HomeFunctional() {
   // Search card
   const [mode, setMode] = useState("rent");
   const [city, setCity] = useState("");
-  const [fuel, setFuel] = useState("");
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
   const [range, setRange] = useState(BOUNDS);
   const [fleet, setFleet] = useState("1-5");
-  const scoped = useMemo(() => MOCK_LISTINGS.filter((v) => (!city || v.city === city) && (!fuel || v.fuel === fuel)), [city, fuel]);
+  const scoped = useMemo(() => MOCK_LISTINGS.filter((v) => (!city || v.city === city) && (!make || v.make === make) && (!model || v.model === model)), [city, make, model]);
 
   const search = () => {
     const p = new URLSearchParams();
     if (city) p.set("city", city);
-    if (fuel) p.set("engine", fuel);
+    if (make) p.set("make", make);
+    if (model) p.set("model", model);
     if (range[0] > BOUNDS[0]) p.set("minBudget", String(range[0]));
     if (range[1] < BOUNDS[1]) p.set("budget", String(range[1]));
     navigate(`/search?${p.toString()}`);
@@ -171,7 +179,7 @@ export default function HomeFunctional() {
       <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-bone lg:bg-night" data-hero-photo="true" onPointerDown={() => { interacted.current = true; }}>
         {/* On a phone the photograph is a band behind the copy and the search
             card sits below it on the page; on wide screens it fills the hero. */}
-        <div className="absolute inset-x-0 top-0 h-[30rem] bg-night lg:inset-0 lg:h-auto">
+        <div className="absolute inset-x-0 top-0 h-[28rem] bg-night lg:inset-0 lg:h-auto">
           <img key={hero.id} src={hero.photos[0]} alt="" aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-700 motion-safe:[animation:hero-drift_16s_ease-out_forwards]"
             fetchPriority="high" decoding="async" />
@@ -181,7 +189,7 @@ export default function HomeFunctional() {
         </div>
 
         <div className="wrap relative grid gap-5 pt-[calc(var(--header-h)+1.5rem)] pb-8 sm:gap-8 lg:min-h-[40rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:grid-rows-[1fr_auto] lg:items-center lg:pb-12 lg:pt-[calc(var(--header-h)+2.5rem)]">
-          <motion.div className="text-white max-lg:min-h-[17rem]" initial={reduce ? false : "hidden"} animate="visible"
+          <motion.div className="text-white max-lg:flex max-lg:min-h-[19rem] max-lg:flex-col max-lg:justify-end" initial={reduce ? false : "hidden"} animate="visible"
             variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } }}>
             <motion.p variants={RISE} className="font-heading text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]" data-testid="hero-price">
               £{hero.weekly_rent} <span className="text-[0.45em] font-medium text-white/75">a week</span>
@@ -189,7 +197,14 @@ export default function HomeFunctional() {
             <motion.h1 variants={RISE} className="mt-3 font-heading text-[clamp(1.9rem,1.2rem+3.2vw,3.6rem)] font-extrabold leading-[1.05] tracking-[-0.02em]">
               {hero.make} {hero.model}
             </motion.h1>
-            <motion.div variants={RISE} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 lg:mt-10">
+            {/* Phones: one text link under the name, so the car stays visible.
+                Wide screens: two proper buttons. */}
+            <motion.div variants={RISE} className="mt-4 lg:hidden">
+              <Link to={`/vehicle/${hero.id}`} className="pressable inline-flex items-center gap-1.5 text-[15px] font-semibold text-white underline-offset-4 hover:underline" data-testid="hero-see-car-mobile">
+                See this car <ArrowUpRight size={16} strokeWidth={2.25} />
+              </Link>
+            </motion.div>
+            <motion.div variants={RISE} className="mt-10 hidden gap-4 lg:flex lg:items-center">
               <Link to={`/vehicle/${hero.id}`} className="pressable inline-flex h-12 items-center justify-center gap-2 rounded-md bg-surface px-6 text-[15px] font-semibold text-ink hover:bg-bone" data-testid="hero-see-car">
                 See this car <ArrowUpRight size={16} strokeWidth={2.25} />
               </Link>
@@ -241,12 +256,21 @@ export default function HomeFunctional() {
                     {LIVE_CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
-                <div>
-                  <label htmlFor="hf-fuel" className={LABEL}>Vehicle type</label>
-                  <select id="hf-fuel" value={fuel} onChange={(e) => setFuel(e.target.value)} className={FIELD}>
-                    <option value="">Any type</option>
-                    {FUELS.map((f) => <option key={f} value={f}>{f}</option>)}
-                  </select>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="hf-make" className={LABEL}>Make</label>
+                    <select id="hf-make" value={make} onChange={(e) => { setMake(e.target.value); setModel(""); }} className={FIELD}>
+                      <option value="">Any make</option>
+                      {MAKES.map(([m]) => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="hf-model" className={LABEL}>Model</label>
+                    <select id="hf-model" value={model} onChange={(e) => setModel(e.target.value)} disabled={!make} className={`${FIELD} disabled:opacity-50`}>
+                      <option value="">{make ? "Any model" : "Pick a make"}</option>
+                      {(MODELS_BY_MAKE[make] || []).map((m) => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
                 </div>
                 <div>
                   <span className={LABEL}>Weekly budget</span>
@@ -368,7 +392,7 @@ export default function HomeFunctional() {
           </Link>
           <div className="mt-7 border-t border-white/10 pt-5">
             <p className="font-heading text-[clamp(2.5rem,1.8rem+2.6vw,3.75rem)] font-extrabold leading-none tabular tracking-[-0.02em] text-white">
-              £{BOUNDS[0]}<span className="ml-2 text-[0.4em] font-medium text-white/70">a week, the cheapest car this week</span>
+              £{CHEAPEST}<span className="ml-2 text-[0.4em] font-medium text-white/70">a week, the cheapest car this week</span>
             </p>
             <p className="mt-2 text-[12.5px] text-white/60">Rent only. Insurance is compared on the car, and you choose the level.</p>
           </div>

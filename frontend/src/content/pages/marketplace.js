@@ -66,8 +66,8 @@ export const SEARCH = {
   resultsCount: (n) => `${n} car${n === 1 ? "" : "s"} to rent`,
   map: { show: "Show map", hide: "Hide map", backToList: "Back to list" },
   emptyFilters: {
-    heading: "No cars match those filters",
-    sub: "Try a wider budget, or clear a filter and start again.",
+    heading: "No cars match",
+    sub: "Try a bigger budget, or take one filter off.",
     cta: "Clear all filters",
   },
   emptyCity: {

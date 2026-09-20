@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { SlidersHorizontal, X, Map as MapIcon, List as ListIcon, ArrowUp } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, ENGINE_OPTIONS } from "@/data/mockListings";
+import { trackEvent } from "@/lib/api";
 import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
 import { areaCoords } from "@/lib/geo";
 import VehicleCard from "@/components/VehicleCard";
@@ -10,8 +11,6 @@ import SearchMap from "@/components/SearchMap";
 import CityInterestForm from "@/components/CityInterestForm";
 import FiltersDialog, { FilterPanel, applyFilters, YEAR_BOUNDS } from "@/components/FiltersDialog";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Close as PopoverClose } from "@radix-ui/react-popover";
 import { useSeo } from "@/lib/seo";
 import { SPRING } from "@/lib/motion";
 import { SEARCH } from "@/content/pages/marketplace";
@@ -19,10 +18,7 @@ import { SEARCH } from "@/content/pages/marketplace";
 const FUEL_OPTIONS = ENGINE_OPTIONS.filter((o) => o.value);
 // The true, filter-independent rent bounds across every listing, used to
 // reset the slider on "Clear all" without racing the filtered pool's bounds.
-const FULL_PRICE_BOUNDS = [
-  Math.min(...MOCK_LISTINGS.map((v) => v.weekly_rent)),
-  Math.max(...MOCK_LISTINGS.map((v) => v.weekly_rent)),
-];
+const FULL_PRICE_BOUNDS = [0, Math.max(500, ...MOCK_LISTINGS.map((v) => v.weekly_rent))];
 const MAKE_OPTIONS = MOCK_MAKES.filter((m) => m !== "All Makes");
 
 function haversineKm([lat1, lon1], [lat2, lon2]) {
@@ -38,36 +34,6 @@ function haversineKm([lat1, lon1], [lat2, lon2]) {
    gets unmounted and remounted by React, which was silently resetting any
    local UI state (open sections, popover position) on every filter edit. ── */
 
-function optionCls(active) {
-  return `pressable w-full text-left rounded-md px-2.5 py-2 text-[13.5px] ${active ? "text-green font-semibold bg-green-soft" : "text-ink hover:bg-surface-2"}`;
-}
-
-function OptionList({ options, value, onChange }) {
-  return (
-    <div className="max-h-64 overflow-y-auto -m-1 p-1">
-      {options.map((o) => (
-        <PopoverClose asChild key={o.value}>
-          <button type="button" className={optionCls(value === o.value)} onClick={() => onChange(o.value)}>{o.label}</button>
-        </PopoverClose>
-      ))}
-    </div>
-  );
-}
-
-function ControlSegment({ label, value, children, className = "" }) {
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <button type="button" className={`control-seg pressable ${className}`}>
-          <span className="control-seg-label">{label}</span>
-          <span className="control-seg-value">{value}</span>
-        </button>
-      </PopoverTrigger>
-      <PopoverContent align="start">{children}</PopoverContent>
-    </Popover>
-  );
-}
-
 function FilterChip({ label, onRemove }) {
   return (
     <span className="pressable inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-line-strong bg-surface text-[12.5px] font-medium text-ink">
@@ -76,84 +42,6 @@ function FilterChip({ label, onRemove }) {
         <X size={12} strokeWidth={2} />
       </button>
     </span>
-  );
-}
-
-/** The weekly rent range, always visible and always live, never behind a
- * click. This is a compact companion to the full histogram slider used in
- * the filters dialog: same track and handle language, no bars, sized to sit
- * inside a control-bar segment. */
-function InlineRentTrack({ id, min, max, value, onChange }) {
-  const trackRef = useRef(null);
-  const [dragging, setDragging] = useState(null); // "lo" | "hi" | null
-  const span = Math.max(1, max - min);
-  const [lo, hi] = value;
-  const pct = useCallback((v) => ((v - min) / span) * 100, [min, span]);
-
-  const valueFromClientX = useCallback((clientX) => {
-    const el = trackRef.current;
-    if (!el) return lo;
-    const r = el.getBoundingClientRect();
-    const ratio = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
-    return Math.round(min + ratio * span);
-  }, [lo, min, span]);
-
-  useEffect(() => {
-    if (!dragging) return undefined;
-    const move = (e) => {
-      const v = valueFromClientX(e.clientX);
-      if (dragging === "lo") onChange([Math.min(v, hi - 5), hi]);
-      else onChange([lo, Math.max(v, lo + 5)]);
-    };
-    const up = () => setDragging(null);
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", up);
-    window.addEventListener("pointercancel", up);
-    return () => {
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerup", up);
-      window.removeEventListener("pointercancel", up);
-    };
-  }, [dragging, hi, lo, onChange, valueFromClientX]);
-
-  const onKey = (which) => (e) => {
-    const step = e.shiftKey ? 25 : 5;
-    let next = which === "lo" ? lo : hi;
-    if (e.key === "ArrowLeft" || e.key === "ArrowDown") next -= step;
-    else if (e.key === "ArrowRight" || e.key === "ArrowUp") next += step;
-    else if (e.key === "Home") next = min;
-    else if (e.key === "End") next = max;
-    else return;
-    e.preventDefault();
-    next = Math.min(max, Math.max(min, next));
-    if (which === "lo") onChange([Math.min(next, hi - 5), hi]);
-    else onChange([lo, Math.max(next, lo + 5)]);
-  };
-
-  const handle = (which, v) => (
-    <button
-      type="button"
-      role="slider"
-      aria-label={which === "lo" ? "Minimum weekly rent" : "Maximum weekly rent"}
-      aria-valuemin={min}
-      aria-valuemax={max}
-      aria-valuenow={v}
-      aria-valuetext={`£${v} a week`}
-      data-testid={`${id}-${which}`}
-      onPointerDown={(e) => { e.preventDefault(); setDragging(which); }}
-      onKeyDown={onKey(which)}
-      style={{ left: `${pct(v)}%` }}
-      className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-5 w-5 rounded-full bg-surface border-2 border-ink shadow-1 cursor-grab active:cursor-grabbing touch-none focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-green/30 after:absolute after:-inset-3 after:content-['']"
-    />
-  );
-
-  return (
-    <div ref={trackRef} className="relative h-5 w-full select-none" data-testid={id}>
-      <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[3px] rounded-full bg-surface-2" />
-      <span className="absolute top-1/2 -translate-y-1/2 h-[3px] rounded-full bg-ink" style={{ left: `${pct(lo)}%`, right: `${100 - pct(hi)}%` }} />
-      {handle("lo", lo)}
-      {handle("hi", hi)}
-    </div>
   );
 }
 
@@ -188,7 +76,7 @@ export default function SearchResults() {
   const [sortBy, setSortBy] = useState("recommended");
   const [showTop, setShowTop] = useState(false);
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 900);
+    const onScroll = () => setShowTop(window.scrollY > 500);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -217,8 +105,10 @@ export default function SearchResults() {
   const basePool = useMemo(() => applyFilters(MOCK_LISTINGS, filtersExceptPrice, ["price"]), [filtersExceptPrice]);
 
   const priceValues = useMemo(() => basePool.map((v) => v.weekly_rent), [basePool]);
-  const priceMin = priceValues.length ? Math.min(...priceValues) : 0;
-  const priceMax = priceValues.length ? Math.max(...priceValues) : 0;
+  // A fixed £0 to £500 scale, so the slider means the same thing on every
+  // visit and a driver can type a budget below the cheapest car.
+  const priceMin = FULL_PRICE_BOUNDS[0];
+  const priceMax = FULL_PRICE_BOUNDS[1];
 
   const [initialBudget] = useState(() => searchParams.get("budget") || "");
   const [initialMinBudget] = useState(() => searchParams.get("minBudget") || "");
@@ -277,6 +167,23 @@ export default function SearchResults() {
       return next;
     }, { replace: true });
   }, [city, borough, make, model, fuelFilter, transmission, colour, bodyFilters, seatsFilters, councils, yearRange, mileageMin, breakdownOnly, setSearchParams]);
+
+  // What people filter on is the demand signal investors ask for: which
+  // councils, which budgets, hybrid or electric. Logged once per settled
+  // change, never per keystroke.
+  const filterLogTimer = useRef(null);
+  useEffect(() => {
+    if (!priceRange) return undefined;
+    if (filterLogTimer.current) clearTimeout(filterLogTimer.current);
+    filterLogTimer.current = setTimeout(() => {
+      trackEvent("search_filters", {
+        city, borough, make, model, fuel: fuelFilter, transmission, body: bodyFilters, colour, seats: seatsFilters,
+        councils, year_min: yearRange[0], year_max: yearRange[1], mileage_min: mileageMin, breakdown: breakdownOnly,
+        budget_min: Math.round(priceRange[0]), budget_max: Math.round(priceRange[1]), sort: sortBy,
+      });
+    }, 1200);
+    return () => clearTimeout(filterLogTimer.current);
+  }, [city, borough, make, model, fuelFilter, transmission, bodyFilters, colour, seatsFilters, councils, yearRange, mileageMin, breakdownOnly, priceRange, sortBy]);
 
   // Price bound sync, debounced against drag events.
   const budgetSyncTimer = useRef(null);
@@ -354,55 +261,11 @@ export default function SearchResults() {
 
   const animateLayout = results.length <= 24;
   const cityHasNoCars = results.length === 0 && city && !LIVE_CITIES.includes(city);
-  const priceValueLabel = priceValues.length ? `£${Math.round(effectiveRange[0])} to £${Math.round(effectiveRange[1])}` : "Any budget";
   const fuelValueLabel = fuelFilter ? (FUEL_OPTIONS.find((o) => o.value === fuelFilter)?.label ?? fuelFilter) : "Any fuel";
   const ageValueLabel = yearTouched ? SEARCH.filters.ageRange(yearRange[0], yearRange[1]) : SEARCH.filters.ageRange(YEAR_BOUNDS[0], YEAR_BOUNDS[1]);
 
   return (
     <div className="min-h-page bg-bone">
-
-      {/* Narrow screens: a sticky bar with the city, the filters button and
-          the live rent slider. On wide screens the filters live in the
-          sidebar beside the results, so this bar disappears. */}
-      <div className="border-b border-line lg:hidden">
-        <div className="wrap py-2.5">
-          <div className="control-bar">
-            <ControlSegment label={SEARCH.filters.cityLabel} value={city || "Any city"} className="flex-1">
-              <OptionList
-                options={[{ label: "Any city", value: "" }, ...ALL_CITIES.map((c) => ({ label: c, value: c }))]}
-                value={city}
-                onChange={setCity}
-              />
-            </ControlSegment>
-            <button
-              type="button"
-              onClick={() => setFiltersOpen(true)}
-              className="control-seg pressable"
-              data-testid="mobile-filters-btn"
-            >
-              <span className="control-seg-label">&nbsp;</span>
-              <span className="control-seg-value inline-flex items-center gap-1.5">
-                <SlidersHorizontal size={13} strokeWidth={1.75} /> {SEARCH.filters.filtersButton}
-                {mobileActiveCount > 0 && <span className="tabular h-4 min-w-4 px-1 rounded-full bg-green text-white text-[10px] font-semibold grid place-items-center">{mobileActiveCount}</span>}
-              </span>
-            </button>
-          </div>
-
-          {/* Weekly rent, always inline on mobile too: never a control you
-              must open first, even in the collapsed bar. */}
-          <div className="mt-2.5 control-bar">
-            <div className="control-seg w-full" data-testid="rent-slider-bar-mobile">
-              <div className="flex items-baseline justify-between gap-2">
-                <span className="control-seg-label">{SEARCH.filters.budgetLabel}</span>
-                <span className="control-seg-value">{priceValueLabel}</span>
-              </div>
-              <div className="mt-2 px-0.5">
-                <InlineRentTrack id="price-range-bar-mobile" min={priceMin} max={priceMax} value={effectiveRange} onChange={setPriceRange} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Phone: a shortcut back to the top of the listings once you are deep in them. */}
       <button
@@ -471,6 +334,16 @@ export default function SearchResults() {
             {SEARCH.resultsCount(results.length)}
           </h1>
           <div className="flex items-center gap-2">
+            {/* Phones: the filters live behind one button, beside the sort. */}
+            <button
+              type="button"
+              onClick={() => setFiltersOpen(true)}
+              className="pressable inline-flex h-10 items-center gap-1.5 rounded-md border border-line-strong bg-surface px-3.5 text-[13px] font-medium text-ink lg:hidden"
+              data-testid="mobile-filters-btn"
+            >
+              <SlidersHorizontal size={14} strokeWidth={1.75} /> {SEARCH.filters.filtersButton}
+              {mobileActiveCount > 0 && <span className="tabular text-ink-3">({mobileActiveCount})</span>}
+            </button>
             <label className="sr-only" htmlFor="search-sort">{SEARCH.sort.label}</label>
             <select
               id="search-sort"
@@ -568,7 +441,16 @@ export default function SearchResults() {
               <button
                 type="button"
                 onClick={() => setShowMap(false)}
-                className="pressable lg:hidden bottom-safe absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-2 h-11 px-5 rounded-md bg-ink text-white text-[13px] font-semibold shadow-2"
+                aria-label="Close the map"
+                className="pressable lg:hidden absolute right-3 top-3 z-[500] grid h-10 w-10 place-items-center rounded-md bg-surface text-ink shadow-2"
+                data-testid="close-map"
+              >
+                <X size={18} strokeWidth={2} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowMap(false)}
+                className="pressable lg:hidden absolute bottom-6 left-1/2 z-[500] -translate-x-1/2 inline-flex items-center gap-2 h-11 px-5 rounded-md bg-ink text-white text-[13px] font-semibold shadow-2"
                 data-testid="back-to-list"
               >
                 <ListIcon size={16} strokeWidth={1.75} /> {SEARCH.map.backToList}

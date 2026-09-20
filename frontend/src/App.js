@@ -5,6 +5,7 @@ import { motion, MotionConfig } from "framer-motion";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import Header from "@/components/Header";
+import LaunchBanner from "@/components/LaunchBanner";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import HomeFunctional from "@/pages/HomeFunctional";
@@ -19,7 +20,8 @@ import { EASE } from "@/lib/motion";
 // page holds the old chunk names). Reload once to pick up the new build,
 // then let the error surface if it still fails.
 const lazyRetry = (load) => lazy(() => load().catch((err) => {
-  if (!sessionStorage.getItem("kharo_chunk_retry")) {
+  const isChunkError = err?.name === "ChunkLoadError" || /Loading chunk|Failed to fetch dynamically imported module/i.test(err?.message || "");
+  if (isChunkError && !sessionStorage.getItem("kharo_chunk_retry")) {
     sessionStorage.setItem("kharo_chunk_retry", "1");
     window.location.reload();
     return new Promise(() => {});
@@ -83,7 +85,24 @@ function RouteShell({ children }) {
 // Header and footer stay mounted outside Suspense, so a route chunk loading
 // only blanks the content area rather than flashing the whole page.
 function RouteFallback() {
-  return <div className="min-h-[60vh] bg-bone" />;
+  // The shape of a browse page, greyed, so a chunk loading never looks like
+  // a broken page: a heading bar and six card outlines.
+  return (
+    <div className="min-h-[60vh] bg-bone" aria-busy="true" aria-label="Loading">
+      <div className="wrap pt-10">
+        <div className="h-7 w-48 rounded-md bg-surface-2 motion-safe:animate-pulse" />
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="rounded-lg border border-line bg-surface p-3">
+              <div className="aspect-[16/10] rounded-md bg-surface-2 motion-safe:animate-pulse" />
+              <div className="mt-3 h-4 w-2/3 rounded bg-surface-2" />
+              <div className="mt-2 h-3 w-1/2 rounded bg-surface-2" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function App() {
@@ -93,6 +112,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <RouteTracker />
+            <LaunchBanner />
             <Header />
             <Suspense fallback={<RouteFallback />}>
               <RouteShell>

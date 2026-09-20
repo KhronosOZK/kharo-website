@@ -162,9 +162,42 @@ export default function OperatorGuide() {
           <RevealItem className="lg:col-span-4">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{fee.heading}</h2>
             <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{fee.body}</p>
-            <h2 className="mt-10 text-h2 font-heading font-extrabold text-ink">{OPERATOR_GUIDE_PAGE.faqHeading}</h2>
           </RevealItem>
-          <RevealItem className="lg:col-span-8 lg:pt-1 rounded-lg border border-line bg-surface px-5">
+          <RevealItem className="lg:col-span-8 rounded-lg border border-line bg-surface p-5 sm:p-6" data-testid="fee-example">
+            {(() => {
+              const { cars, rent, weeks, feeRate, payoutDay } = fee.example;
+              const gross = cars * rent * weeks; const feeAmt = Math.round(gross * feeRate); const net = gross - feeAmt;
+              return (
+                <>
+                  <p className="text-[13px] font-semibold text-ink">One month, worked out: {cars} cars at £{rent} a week</p>
+                  <dl className="mt-3 divide-y divide-line border-y border-line text-[14.5px]">
+                    <div className="flex justify-between py-3"><dt className="text-ink-2">Rent collected ({cars} × £{rent} × {weeks} weeks)</dt><dd className="tabular font-semibold text-ink">£{gross.toLocaleString()}</dd></div>
+                    <div className="flex justify-between py-3"><dt className="text-ink-2">Kharo fee ({Math.round(feeRate * 100)}%)</dt><dd className="tabular text-ink">- £{feeAmt.toLocaleString()}</dd></div>
+                    <div className="flex justify-between py-3"><dt className="font-semibold text-ink">Paid to you</dt><dd className="tabular font-heading text-[18px] font-bold text-ink">£{net.toLocaleString()}</dd></div>
+                  </dl>
+                  <p className="mt-3 text-[12.5px] text-ink-3">Paid {payoutDay}. Insurance is paid by the driver to the insurer and is not part of this.</p>
+                </>
+              );
+            })()}
+          </RevealItem>
+
+          <RevealItem className="lg:col-span-4">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{OPERATOR_GUIDE.enforcement.heading}</h2>
+            <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">This is what happens, and when. It is in the operator agreement before you list.</p>
+          </RevealItem>
+          <RevealItem as="ol" className="lg:col-span-8 grid gap-4 sm:grid-cols-4" data-testid="enforcement-timeline">
+            {OPERATOR_GUIDE.enforcement.steps.map((s) => (
+              <li key={s.day} className="border-t-2 border-green pt-3">
+                <p className="font-heading text-[15px] font-bold text-ink">{s.day}</p>
+                <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-2">{s.d}</p>
+              </li>
+            ))}
+          </RevealItem>
+
+          <RevealItem className="lg:col-span-4">
+            <h2 className="text-h2 font-heading font-extrabold text-ink">{OPERATOR_GUIDE_PAGE.faqHeading}</h2>
+          </RevealItem>
+          <RevealItem className="lg:col-span-8 rounded-lg border border-line bg-surface px-5">
             <Faq items={faq} testId="operator-faq" />
           </RevealItem>
         </RevealGroup>

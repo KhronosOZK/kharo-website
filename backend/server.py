@@ -264,6 +264,29 @@ async def me(user: dict = Depends(get_current_user)):
     return user
 
 # ---------------------------------------------------------------- Listings
+class DeleteRequestIn(BaseModel):
+    email: EmailStr
+    reason: Optional[str] = Field(None, max_length=LONG_LEN)
+
+@api.post("/privacy/delete-request", dependencies=[Depends(rate_limit("delete_request", 5))])
+async def privacy_delete_request(body: DeleteRequestIn):
+    """The UK GDPR right to erasure, for people without an account: logged
+    for a human to action within a month, and the admin alerted."""
+    email = body.email.lower()
+    await db.deletion_requests.insert_one({"email": email, "reason": body.reason, "status": "open", "created_at": now_iso()})
+    fire(send_alert("Data deletion request", {"Email": email, "Reason": body.reason}))
+    return {"ok": True}
+
+@api.delete("/auth/me")
+async def delete_me(user: dict = Depends(get_current_user)):
+    """Erase a signed-in user and everything they submitted."""
+    email = user["email"].lower()
+    for coll in ("applications", "city_requests", "driver_interests", "leads", "interests", "password_reset_tokens"):
+        await db[coll].delete_many({"email": email})
+    await db.applications.delete_many({"user_id": user["id"]})
+    await db.users.delete_one({"_id": ObjectId(user["id"])})
+    return {"ok": True}
+
 @api.get("/listings")
 async def list_listings(city: Optional[str] = None, borough: Optional[str] = None, vehicle_type: Optional[str] = None,
                         fuel: Optional[str] = None, max_budget: Optional[int] = None,

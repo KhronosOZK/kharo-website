@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { CARD } from "@/content/pages/marketplace";
-import { mileageLabel } from "@/lib/format";
+import { mileageLabel, hasOwnPhoto, INSURANCE_FROM_WEEKLY } from "@/lib/format";
 
 const MAX_ZONES = 5;
 
@@ -106,11 +106,13 @@ export default function VehicleCard({ vehicle, compact = false }) {
         {!compact && specs.length > 0 && (
           <p className="mt-1.5 truncate text-[12.5px] text-ink-3">{specs.join(" · ")}</p>
         )}
+        {!hasOwnPhoto(vehicle) && <p className="mt-1 text-[11.5px] text-ink-3">Photo shows the same model, not this car</p>}
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-3">
           <p className="tabular">
             <span className="font-heading text-[22px] font-bold tracking-tight text-ink">£{weekly_rent}</span>
             <span className="ml-1 text-[12px] text-ink-3">a week</span>
+            <span className="block text-[12px] text-ink-3">+ insurance from £{INSURANCE_FROM_WEEKLY} a week</span>
           </p>
           <button
             type="button"

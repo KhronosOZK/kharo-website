@@ -28,6 +28,13 @@ export const FACTS = {
   fee: "Listing is free. Kharo takes a small fee from the operator when a rental completes. Drivers never pay Kharo.",
   support: "If something goes wrong, a real person calls you. After an accident, we give you another car while we deal with the claim.",
   prelaunch: "Kharo is pre-launch. The cars shown are the kind our launch operators rent out and are not bookable yet.",
+  // Planned opening month per city. Shown in the top banner, on city pages
+  // and after someone registers. Change these here and every page follows.
+  launch: {
+    London: "November 2026", Birmingham: "December 2026", Manchester: "December 2026",
+    Leeds: "January 2027", Sheffield: "January 2027", Wolverhampton: "January 2027", Liverpool: "February 2027",
+  },
+  launchOrder: ["London", "Birmingham", "Manchester", "Leeds", "Sheffield", "Wolverhampton", "Liverpool"],
 };
 
 // ---------------------------------------------------------------------------
@@ -45,10 +52,13 @@ export const BRAND = {
   copyright: `© 2026 Kharo. Launching in ${FACTS.citiesSentence}.`,
   // Social profiles. Correct these to the real handles if they differ; the
   // footer hides any icon whose value is empty.
+  // Left empty on purpose: the guessed handles pointed at pages that are not
+  // Kharo's. The footer hides an icon whose value is empty. Fill these in
+  // with the real profile links and the icons come back.
   social: {
-    instagram: "https://www.instagram.com/kharo.uk",
-    facebook: "https://www.facebook.com/kharo.uk",
-    linkedin: "https://www.linkedin.com/company/kharo",
+    instagram: "",
+    facebook: "",
+    linkedin: "",
   },
 };
 
@@ -399,6 +409,18 @@ export const OPERATOR_GUIDE = {
   fee: {
     heading: "What it costs",
     body: FACTS.fee,
+    // A worked month, so the fee is a number, not a word. Edit the inputs
+    // and the totals follow. The fee rate is the one in the demo console.
+    example: { cars: 5, rent: 180, weeks: 4, feeRate: 0.10, payoutDay: "Friday, every two weeks" },
+  },
+  enforcement: {
+    heading: "If a driver stops paying",
+    steps: [
+      { day: "Day 1", d: "The payment fails. We tell you and we tell the driver. We try again the next day." },
+      { day: "Day 3", d: "A person from Kharo calls the driver to arrange payment." },
+      { day: "Day 7", d: "Still unpaid. We ask Uber and Bolt to pause the driver's account." },
+      { day: "Day 14", d: "We arrange the return of the car and settle the deposit against what is owed." },
+    ],
   },
   earnings: {
     heading: "What idle cars are costing you.",
@@ -568,7 +590,7 @@ export const LEGAL = {
 export const CITY_PAGE = {
   tagTemplate: "Kharo in {city}",
   heroHeadingTemplate: "Private hire cars to rent in {city}.",
-  heroSubTemplate: "{count} cars from operators we have checked. The weekly rent is shown first. You choose the insurance.",
+  heroSubTemplate: "{count} cars from operators we have checked. We plan to open in {city} in {launch}. Register now and we call you first.",
   seeAllCta: "See all {count} cars",
   accountCta: "Join the waitlist",
   listingsHeading: "Cars in {city}",
@@ -578,7 +600,7 @@ export const CITY_PAGE = {
   otherCitiesHeading: "Other cities",
   comingSoon: {
     heading: "We are not live in {city} yet.",
-    sub: "Kharo is built for the whole UK and we are bringing checked operators to every city. Join the waitlist and we will email you the moment {city} has cars.",
+    sub: "Kharo is for the whole UK. We plan to open in {city} in {launch}. Join the waitlist and we email you the moment {city} has cars.",
     liveHeading: "Already live",
   },
   stats: {

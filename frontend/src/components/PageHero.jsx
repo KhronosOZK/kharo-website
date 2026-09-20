@@ -34,7 +34,7 @@ export default function PageHero({
   if (band) {
     return (
       <section className={`border-b border-line bg-surface ${className}`} data-testid="page-hero">
-        <div className="wrap pt-[calc(var(--header-h)+2rem)] pb-8 sm:pb-10">
+        <div className="wrap pt-8 pb-8 sm:pt-10 sm:pb-10">
           <div className="max-w-[58ch]">
             <h1 className="font-heading text-h2 font-extrabold tracking-[-0.02em] leading-[1.05] text-ink max-w-[24ch]">{heading}</h1>
             {sub && <p className="mt-3 max-w-[52ch] text-lead leading-relaxed text-ink-2">{sub}</p>}
