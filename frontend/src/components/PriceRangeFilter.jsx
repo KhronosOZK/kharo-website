@@ -110,7 +110,7 @@ export default function PriceRangeFilter({
 
   return (
     <div className={className} data-testid={id}>
-      <div className={`flex items-baseline justify-between gap-3 ${compact ? "" : "mb-2"}`}>
+      <div className={`flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 ${compact ? "" : "mb-2"}`}>
         <span className={`font-medium text-ink tabular ${compact ? "text-[13.5px]" : "text-[13.5px]"}`}>£{lo} to £{hi}</span>
         {!compact && (
           <span className="text-[12.5px] text-ink-3 tabular" data-testid={`${id}-count`} aria-live="polite">

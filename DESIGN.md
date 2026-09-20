@@ -8,7 +8,7 @@ Dealership clarity, committed 2026-09-20 (second pass) from two references the o
 ## Tokens (see `frontend/src/index.css` and `tailwind.config.js`)
 - Ground `--bg` #F3F3F0 (bone), surfaces #FFFFFF, secondary surface #EAEAE5.
 - Ink #111312, secondary #454A47, muted #6A6F6C. Lines rgba(17,19,18,.14) and .28.
-- Green #0E3B2C (primary actions, links, status), hover #0A2C20, soft #EBF0ED. Mint #7FD8B0 only on dark surfaces (footer). Night #111312 for dark bands and scrims.
+- Green #7FD8B0, the light green from the emblem (button fills, bars, selected states, always carrying ink type), hover #66CFA0, soft #E8F7EF. Text set in green uses the deep shade #1E7F55 so it reads on white. Ink #111312 is the other button colour (search, "list your fleet"). Night #111312 for dark bands and scrims.
 - One accent. No gold, no purple, no gradients as decoration.
 
 ## Type

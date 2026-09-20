@@ -98,9 +98,10 @@ Tokens are in `frontend/src/index.css` under `:root` and mirrored in `frontend/t
 
 | Token | Value | Used for |
 |---|---|---|
-| `--green` | `#0E3B2C` | Buttons, links, the active state of controls |
-| `--green-hover` | `#0A2C20` | Hover on green |
-| `--green-soft` | `#EBF0ED` | Selected rows |
+| `--green` | `#7FD8B0` | The brand green from the emblem: button fills, bars, selected states, always with ink type on top |
+| `--green-hover` | `#66CFA0` | Hover on green |
+| `--green-soft` | `#E8F7EF` | Selected rows |
+| `--green-deep` | `#1E7F55` | The same green for text on white (`text-green` resolves to this) |
 | `--ink` / `--ink-2` / `--ink-3` | `#111312` / `#454A47` / `#6A6F6C` | Headings, body, muted text |
 | `--bone` / `--surface-2` | `#F3F3F0` / `#EAEAE5` | Page ground, quiet panels |
 | `--line` / `--line-strong` | 14% / 28% ink | Hairlines and control borders |
