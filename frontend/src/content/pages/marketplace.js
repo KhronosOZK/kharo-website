@@ -4,6 +4,7 @@
 
 export const CARD = {
   registerInterest: "Register interest",
+  preview: "Preview listing, not bookable yet.",
   rentalOnly: "Rental only. Insurance chosen when you apply.",
   insuranceIncluded: "Insurance included by the operator.",
 };

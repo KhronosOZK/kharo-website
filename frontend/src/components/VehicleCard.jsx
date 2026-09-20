@@ -138,13 +138,13 @@ export default function VehicleCard({ vehicle }) {
           <div className="pointer-events-none absolute inset-x-2 top-4 z-10 flex flex-wrap items-start justify-between gap-1.5">
             <span className="flex flex-wrap gap-1.5">
               {pills.slice(0, 2).map((p) => (
-                <span key={p} className="rounded-full bg-ink/72 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
+                <span key={p} className="rounded-full bg-ink/72 px-2.5 py-1 text-[12px] font-semibold text-white backdrop-blur-sm">
                   {p}
                 </span>
               ))}
             </span>
             {pills[2] && (
-              <span className="rounded-full bg-green px-2.5 py-1 text-[11px] font-semibold text-white">{pills[2]}</span>
+              <span className="rounded-full bg-green px-2.5 py-1 text-[12px] font-semibold text-white">{pills[2]}</span>
             )}
           </div>
         )}
@@ -236,8 +236,8 @@ export default function VehicleCard({ vehicle }) {
           </div>
         )}
 
-        <p className="mt-1.5 text-[12px] text-ink-3 leading-relaxed">
-          {insurance_included ? CARD.insuranceIncluded : CARD.rentalOnly}
+        <p className="mt-1.5 text-[12.5px] text-ink-3 leading-relaxed">
+          {insurance_included ? CARD.insuranceIncluded : CARD.rentalOnly} {CARD.preview}
         </p>
       </div>
     </article>

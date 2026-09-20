@@ -96,7 +96,7 @@ export default function Footer() {
 
           {NAV.footerColumns.map((col) => (
             <div key={col.heading}>
-              <h4 className="text-[13px] font-semibold text-white/50 mb-4">{col.heading}</h4>
+              <h3 className="text-[13px] font-semibold text-white/50 mb-4">{col.heading}</h3>
               <ul className="space-y-2.5">
                 {/* No public sign in for operators pre-launch: the account routes stay
                     mounted for the backend's email links but are never linked from here. */}
