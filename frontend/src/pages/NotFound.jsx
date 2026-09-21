@@ -17,7 +17,7 @@ export default function NotFound() {
     <div className="min-h-page wrap wrap-narrow flex items-center">
       <Enter>
         <h1 className="text-h1 font-heading font-extrabold text-ink">That page has gone missing.</h1>
-        <p className="mt-3 text-[15.5px] text-ink-2 leading-relaxed measure">
+        <p className="mt-3 text-[15px] text-ink-2 leading-relaxed measure">
           The link might be out of date, or the page may have moved.
         </p>
         <div className="mt-7 flex flex-wrap gap-3">

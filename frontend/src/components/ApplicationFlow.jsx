@@ -73,7 +73,7 @@ export default function ApplicationFlow({ className = "" }) {
                 className={`pressable relative w-full h-full px-2 sm:px-4 py-3 text-left disabled:cursor-default ${state === "todo" ? "opacity-45" : ""}`}
               >
                 <span className="flex items-center gap-2 min-w-0">
-                  <span className={`grid place-items-center w-5 h-5 shrink-0 rounded-full text-[10.5px] font-bold tabular ${state === "done" ? "bg-green text-white" : state === "current" ? "bg-ink text-white" : "bg-surface-2 text-ink-3"}`}>
+                  <span className={`grid place-items-center w-5 h-5 shrink-0 rounded-full text-[12px] font-bold tabular ${state === "done" ? "bg-green text-white" : state === "current" ? "bg-ink text-white" : "bg-surface-2 text-ink-3"}`}>
                     {state === "done" ? <Check className="w-3 h-3" strokeWidth={3} /> : i + 1}
                   </span>
                   <span className="hidden sm:block text-[13px] font-medium text-ink truncate">{s}</span>
@@ -102,11 +102,11 @@ export default function ApplicationFlow({ className = "" }) {
                       <img src={c.img} alt="" loading="lazy" className="w-16 h-12 rounded-lg border border-line object-cover bg-surface-2 shrink-0" />
                       <span className="min-w-0 flex-1">
                         <span className="block font-heading font-bold text-[15px] text-ink truncate">{c.name}</span>
-                        <span className="block text-[12.5px] text-ink-3 truncate">{c.meta}</span>
+                        <span className="block text-[13px] text-ink-3 truncate">{c.meta}</span>
                       </span>
                       <span className="shrink-0 text-right">
                         <span className="block font-heading font-extrabold text-ink tabular">£{c.rent}</span>
-                        <span className="block text-[11.5px] text-ink-3">a week</span>
+                        <span className="block text-[12px] text-ink-3">a week</span>
                       </span>
                     </button>
                   </li>
@@ -123,7 +123,7 @@ export default function ApplicationFlow({ className = "" }) {
                 <div className="flex gap-1" role="group" aria-label="Payment term">
                   {APPLICATION_FLOW.terms.map((t) => (
                     <button key={t.id} type="button" onClick={() => { setTerm(t.id); setTouched(true); }}
-                      className={`pressable rounded-md h-8 px-3 text-[12.5px] font-medium ${term === t.id ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
+                      className={`pressable rounded-md h-8 px-3 text-[13px] font-medium ${term === t.id ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
                       {t.label}
                     </button>
                   ))}
@@ -141,8 +141,8 @@ export default function ApplicationFlow({ className = "" }) {
                           {active && <span className="w-1.5 h-1.5 rounded-full bg-green" />}
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block font-medium text-[14.5px] text-ink truncate">{q.cover}</span>
-                          <span className="block text-[12.5px] text-ink-3 truncate">{q.insurer} · {q.excess}</span>
+                          <span className="block font-medium text-[15px] text-ink truncate">{q.cover}</span>
+                          <span className="block text-[13px] text-ink-3 truncate">{q.insurer} · {q.excess}</span>
                         </span>
                         <span className="shrink-0 font-heading font-bold text-ink tabular">£{q.price[term]}</span>
                       </button>
@@ -150,7 +150,7 @@ export default function ApplicationFlow({ className = "" }) {
                   );
                 })}
               </ul>
-              <p className="mt-3 text-[12.5px] text-ink-3">{APPLICATION_FLOW.labels.quoteNote}</p>
+              <p className="mt-3 text-[13px] text-ink-3">{APPLICATION_FLOW.labels.quoteNote}</p>
             </motion.div>
           )}
 
@@ -167,8 +167,8 @@ export default function ApplicationFlow({ className = "" }) {
                   <div key={k} className="flex items-baseline justify-between gap-4 py-3.5">
                     <dt className="text-[13px] text-ink-3 shrink-0">{k}</dt>
                     <dd className="text-right min-w-0">
-                      <span className="block text-[14.5px] font-medium text-ink truncate">{v}</span>
-                      {extra && <span className="block text-[12.5px] text-ink-3 tabular">{extra}</span>}
+                      <span className="block text-[15px] font-medium text-ink truncate">{v}</span>
+                      {extra && <span className="block text-[13px] text-ink-3 tabular">{extra}</span>}
                     </dd>
                   </div>
                 ))}
@@ -204,16 +204,16 @@ export default function ApplicationFlow({ className = "" }) {
                 </motion.svg>
               </motion.div>
               <h3 className="mt-5 text-h3 font-heading font-extrabold text-ink">{sent.heading}</h3>
-              <p className="mt-2 text-[14.5px] text-ink-2 leading-relaxed max-w-[38ch] mx-auto">{sent.body}</p>
+              <p className="mt-2 text-[15px] text-ink-2 leading-relaxed max-w-[38ch] mx-auto">{sent.body}</p>
               <ul className="mt-5 text-left divide-y divide-line border-y border-line max-w-sm mx-auto">
                 {sent.next.map((n) => (
-                  <li key={n} className="flex items-start gap-2.5 py-3 text-[13.5px] text-ink-2">
+                  <li key={n} className="flex items-start gap-2.5 py-3 text-[14px] text-ink-2">
                     <Check className="w-4 h-4 text-green shrink-0 mt-0.5" strokeWidth={2.25} /> {n}
                   </li>
                 ))}
               </ul>
               <button type="button" onClick={restart} data-testid="flow-restart"
-                className="pressable mt-5 inline-flex items-center gap-1.5 h-10 px-4 rounded-md text-[13.5px] font-semibold text-ink-2 hover:bg-surface-2">
+                className="pressable mt-5 inline-flex items-center gap-1.5 h-10 px-4 rounded-md text-[14px] font-semibold text-ink-2 hover:bg-surface-2">
                 <RotateCcw className="w-4 h-4" strokeWidth={1.75} /> {APPLICATION_FLOW.labels.replay}
               </button>
             </motion.div>
@@ -221,7 +221,7 @@ export default function ApplicationFlow({ className = "" }) {
         </AnimatePresence>
       </div>
 
-      <p className="px-card py-2.5 border-t border-line bg-surface-2/50 text-[11.5px] text-ink-3">{APPLICATION_FLOW.labels.footnote}</p>
+      <p className="px-card py-2.5 border-t border-line bg-surface-2/50 text-[12px] text-ink-3">{APPLICATION_FLOW.labels.footnote}</p>
     </div>
   );
 }

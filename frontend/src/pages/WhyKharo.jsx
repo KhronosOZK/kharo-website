@@ -28,7 +28,7 @@ function GapFigure({ value, label, source }) {
         className="block text-[clamp(2.75rem,2rem+3vw,4rem)] font-heading font-extrabold text-green tabular leading-[0.95] tracking-[-0.02em]"
       />
       <p className="mt-4 text-[16px] text-ink max-w-[30ch] leading-snug">{label}</p>
-      <p className="mt-2.5 text-[12.5px] text-ink-3">{source}</p>
+      <p className="mt-2.5 text-[13px] text-ink-3">{source}</p>
     </div>
   );
 }
@@ -94,8 +94,8 @@ export default function WhyKharo() {
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {drivers.points.map((p) => (
               <li key={p.t} className="py-4">
-                <p className="text-[15.5px] font-semibold text-ink">{p.t}</p>
-                <p className="mt-1.5 text-[14.5px] text-ink-2 leading-relaxed">{p.d}</p>
+                <p className="text-[15px] font-semibold text-ink">{p.t}</p>
+                <p className="mt-1.5 text-[15px] text-ink-2 leading-relaxed">{p.d}</p>
               </li>
             ))}
           </ul>
@@ -114,8 +114,8 @@ export default function WhyKharo() {
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {operators.points.map((p) => (
               <li key={p.t} className="py-4">
-                <p className="text-[15.5px] font-semibold text-ink">{p.t}</p>
-                <p className="mt-1.5 text-[14.5px] text-ink-2 leading-relaxed">{p.d}</p>
+                <p className="text-[15px] font-semibold text-ink">{p.t}</p>
+                <p className="mt-1.5 text-[15px] text-ink-2 leading-relaxed">{p.d}</p>
               </li>
             ))}
           </ul>
@@ -138,7 +138,7 @@ export default function WhyKharo() {
           </RevealItem>
           <RevealItem as="ul" className="mt-8 divide-y divide-line border-y border-line">
             {honesty.items.map((it) => (
-              <li key={it} className="flex items-start gap-3 py-4 text-[15.5px] text-ink">
+              <li key={it} className="flex items-start gap-3 py-4 text-[15px] text-ink">
                 <Check className="w-4 h-4 text-green shrink-0 mt-1" strokeWidth={1.75} /> {it}
               </li>
             ))}
@@ -168,8 +168,8 @@ export default function WhyKharo() {
           </div>
         </RevealItem>
         <RevealItem className="mt-7 flex flex-wrap gap-x-6 gap-y-2">
-          <Link to="/driver-guide" className="pressable text-[14.5px] font-semibold text-green hover:underline underline-offset-4">How renting works</Link>
-          <Link to="/list-your-fleet" className="pressable text-[14.5px] font-semibold text-green hover:underline underline-offset-4">List your fleet</Link>
+          <Link to="/driver-guide" className="pressable text-[15px] font-semibold text-green hover:underline underline-offset-4">How renting works</Link>
+          <Link to="/list-your-fleet" className="pressable text-[15px] font-semibold text-green hover:underline underline-offset-4">List your fleet</Link>
         </RevealItem>
       </RevealGroup>
     </div>

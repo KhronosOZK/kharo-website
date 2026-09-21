@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { SlidersHorizontal, X, Map as MapIcon, List as ListIcon, ArrowUp } from "lucide-react";
+import { SlidersHorizontal, X, Map as MapIcon, List as ListIcon, ArrowUp, Search, ChevronDown } from "lucide-react";
 import { MOCK_LISTINGS, MOCK_MAKES, AREAS_BY_CITY, ENGINE_OPTIONS } from "@/data/mockListings";
 import { trackEvent } from "@/lib/api";
 import { ALL_CITIES, LIVE_CITIES } from "@/lib/cities";
@@ -36,7 +36,7 @@ function haversineKm([lat1, lon1], [lat2, lon2]) {
 
 function FilterChip({ label, onRemove }) {
   return (
-    <span className="pressable inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-line-strong bg-surface text-[12.5px] font-medium text-ink">
+    <span className="pressable inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-line-strong bg-surface text-[13px] font-medium text-ink">
       {label}
       <button type="button" onClick={onRemove} aria-label={`Remove ${label} filter`} className="pressable text-ink-3 hover:text-ink">
         <X size={12} strokeWidth={2} />
@@ -82,6 +82,10 @@ export default function SearchResults() {
   }, []);
   const [showMap, setShowMap] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  // One search box above the results, the way Turo leads with search: it
+  // matches make, model, area, city, colour or fuel, so "prius croydon" works
+  // without opening a single filter.
+  const [query, setQuery] = useState(searchParams.get("q") || "");
   const [nearMe, setNearMe] = useState(null); // { lat, lon } | null
   const [nearMeStatus, setNearMeStatus] = useState("idle"); // idle | loading | denied | unsupported
 
@@ -215,6 +219,13 @@ export default function SearchResults() {
   const results = useMemo(() => {
     const filters = { ...filtersExceptPrice, priceRange: effectiveRange };
     let data = applyFilters(MOCK_LISTINGS, filters, []);
+    const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+    if (terms.length) {
+      data = data.filter((v) => {
+        const hay = `${v.make} ${v.model} ${v.borough} ${v.city} ${v.colour} ${v.fuel} ${v.body_type} ${v.year}`.toLowerCase();
+        return terms.every((t) => hay.includes(t));
+      });
+    }
     if (nearMe) {
       data = [...data].sort((a, b) => {
         const da = haversineKm([nearMe.lat, nearMe.lon], areaCoords(a.borough, a.city));
@@ -235,13 +246,13 @@ export default function SearchResults() {
       data = [...data].sort((a, b) => (shown(b) - shown(a)) || (a.weekly_rent - b.weekly_rent));
     }
     return data;
-  }, [filtersExceptPrice, effectiveRange, sortBy, nearMe]);
+  }, [filtersExceptPrice, effectiveRange, sortBy, nearMe, query]);
 
   const priceTouched = priceRange != null && (priceRange[0] > priceMin || priceRange[1] < priceMax);
   const yearTouched = yearRange[0] > YEAR_BOUNDS[0] || yearRange[1] < YEAR_BOUNDS[1];
   const hasFilters = Boolean(
     city || borough || make || model || fuelFilter || bodyFilters.length || transmission || colour
-    || seatsFilters.length || councils.length || yearTouched || mileageMin || breakdownOnly || priceTouched || nearMe
+    || seatsFilters.length || councils.length || yearTouched || mileageMin || breakdownOnly || priceTouched || nearMe || query.trim()
   );
   const extraActiveCount = [make, model, colour].filter(Boolean).length + (transmission ? 1 : 0)
     + bodyFilters.length + seatsFilters.length + councils.length + (yearTouched ? 1 : 0) + (mileageMin ? 1 : 0) + (breakdownOnly ? 1 : 0);
@@ -257,6 +268,7 @@ export default function SearchResults() {
     // narrowed bounds instead of the true full range.
     setPriceRange(FULL_PRICE_BOUNDS);
     setNearMe(null); setNearMeStatus("idle");
+    setQuery("");
   };
 
   const animateLayout = results.length <= 24;
@@ -329,6 +341,34 @@ export default function SearchResults() {
         </aside>
 
         <div className="min-w-0">
+        {/* Search first, then the filters, the way Turo does it. */}
+        <form role="search" onSubmit={(e) => e.preventDefault()} className="relative mb-4">
+          <Search size={16} strokeWidth={1.75} aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
+          <input
+            type="search" value={query} onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search make, model or area" aria-label="Search cars" autoComplete="off"
+            className="field h-12 w-full rounded-md border border-line-strong bg-surface pl-10 pr-4 text-[16px] text-ink outline-none placeholder:text-ink-3 focus:border-ink"
+            data-testid="search-query"
+          />
+        </form>
+        {/* Phones: the filters people reach for most, one tap each. Each
+            opens the full filter sheet; the label shows what is set. */}
+        <div className="mb-4 flex gap-2 overflow-x-auto hide-scrollbar lg:hidden" data-testid="quick-filters">
+          {[
+            [city || "Where", Boolean(city)],
+            [priceTouched ? `£${Math.round(effectiveRange[0])} to £${Math.round(effectiveRange[1])}` : "Price", priceTouched],
+            [make || "Make", Boolean(make)],
+            [fuelFilter ? fuelValueLabel : "Fuel", Boolean(fuelFilter)],
+            [councils.length ? `${councils.length} council${councils.length > 1 ? "s" : ""}` : "Council", councils.length > 0],
+          ].map(([label, on], i) => (
+            <button
+              key={i} type="button" onClick={() => setFiltersOpen(true)}
+              className={`pressable inline-flex h-9 shrink-0 items-center gap-1 rounded-md border px-3 text-[13px] font-medium ${on ? "border-ink bg-ink text-white" : "border-line-strong bg-surface text-ink"}`}
+            >
+              {label} <ChevronDown size={14} strokeWidth={1.75} aria-hidden="true" />
+            </button>
+          ))}
+        </div>
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h1 className="text-h3 font-heading font-extrabold text-ink" data-testid="results-count">
             {SEARCH.resultsCount(results.length)}
@@ -391,7 +431,7 @@ export default function SearchResults() {
         )}
 
         <div className="mt-6 flex flex-col lg:flex-row gap-6 items-start">
-          <div className={`flex-1 min-w-0 ${showMap ? "hidden lg:block" : ""}`}>
+          <div className={`w-full flex-1 min-w-0 ${showMap ? "hidden lg:block" : ""}`}>
             {results.length === 0 && cityHasNoCars ? (
               <div className="py-14 max-w-lg" data-testid="empty-city-state">
                 <h2 className="text-h3 font-heading font-bold text-ink">{SEARCH.emptyCity.heading(city)}</h2>

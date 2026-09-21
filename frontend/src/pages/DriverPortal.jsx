@@ -99,7 +99,7 @@ export default function DriverPortal() {
       </div>
       {docsDone < 2 && <Button onClick={() => navigate("/help")} variant="outline" className="mt-4 w-full text-[13px]">Get help adding your documents</Button>}
       <div className="mt-6 border-t border-line pt-5">
-        <p className="text-[13.5px] font-semibold text-ink">Delete my account</p>
+        <p className="text-[14px] font-semibold text-ink">Delete my account</p>
         <p className="mt-1 text-[13px] text-ink-3">This removes your details and everything you sent us. It cannot be undone.</p>
         <Button variant="outline" className="mt-3 text-[13px]" data-testid="delete-account"
           onClick={async () => {
@@ -114,7 +114,7 @@ export default function DriverPortal() {
       <div className="mt-6 border-t border-line pt-5">
         <div className="flex items-center gap-2 font-heading font-bold text-ink"><ShieldCheck className="h-5 w-5 text-green" strokeWidth={1.75} /> Cover and compliance</div>
         <p className="mt-2 text-[13px] text-ink-3">Once you are in a car, this is where your insurance, MOT and service dates live.</p>
-        <div className="mt-3 divide-y divide-line text-[13.5px]">
+        <div className="mt-3 divide-y divide-line text-[14px]">
           <div className="flex items-center justify-between py-2"><span className="text-ink-2">Hire and reward insurance</span><span className="text-ink-3">Chosen when you apply</span></div>
           <div className="flex items-center justify-between py-2"><span className="text-ink-2">MOT and servicing</span><span className="font-medium text-green">Handled by operator</span></div>
           <div className="flex items-center justify-between py-2"><span className="text-ink-2">Breakdown cover</span><span className="font-medium text-green">Shown on the listing</span></div>
@@ -141,7 +141,7 @@ export default function DriverPortal() {
             <div className="mt-6"><Button onClick={() => navigate("/search")}>Browse cars <ArrowRight className="h-4 w-4" strokeWidth={1.75} /></Button></div>
           </Panel>
           <Panel className="lg:col-span-4 flex flex-col justify-between" title="Next step">
-            <p className="text-[14.5px] leading-relaxed text-ink-2">Add your PCO badge number under Documents. Applications with it attached are answered first.</p>
+            <p className="text-[15px] leading-relaxed text-ink-2">Add your PCO badge number under Documents. Applications with it attached are answered first.</p>
             <Button onClick={() => setView("documents")} variant="outline" className="mt-5 w-full">Open documents</Button>
           </Panel>
           <div className="lg:col-span-8">{applications}</div>
@@ -174,10 +174,10 @@ export default function DriverPortal() {
 const DocRow = ({ label, ok, value }) => (
   <div className="flex items-center justify-between py-2.5">
     <div>
-      <div className="text-[13.5px] text-ink">{label}</div>
-      {ok && <div className="text-[11.5px] text-ink-3">{value}</div>}
+      <div className="text-[14px] text-ink">{label}</div>
+      {ok && <div className="text-[12px] text-ink-3">{value}</div>}
     </div>
-    <span className={`inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[11.5px] font-semibold ${ok ? "text-green bg-green-soft" : "text-ink-3 bg-surface-2"}`}>
+    <span className={`inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[12px] font-semibold ${ok ? "text-green bg-green-soft" : "text-ink-3 bg-surface-2"}`}>
       {ok ? <><Check className="h-3 w-3" /> Added</> : "Not added"}
     </span>
   </div>

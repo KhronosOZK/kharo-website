@@ -68,7 +68,7 @@ export default function Footer() {
             <div className="mt-7">
               <p className="text-[13px] font-semibold text-white/70 mb-2.5">{NAV.newsletter.heading}</p>
               {sent ? (
-                <p className="text-[13.5px] text-mint">{NAV.newsletter.success}</p>
+                <p className="text-[14px] text-mint">{NAV.newsletter.success}</p>
               ) : (
                 <form onSubmit={subscribe} className="flex items-center gap-2 max-w-[19rem]">
                   <input
@@ -115,15 +115,15 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="wrap py-5 flex flex-col sm:flex-row items-center justify-between gap-3 pb-safe">
-          <span className="max-w-[60ch] text-[12.5px] leading-relaxed text-white/40 text-center sm:text-left">{BRAND.copyright}</span>
+          <span className="max-w-[60ch] text-[13px] leading-relaxed text-white/40 text-center sm:text-left">{BRAND.copyright}</span>
 
           <div className="flex items-center flex-wrap justify-center gap-x-5 gap-y-2">
             <div className="flex items-center flex-wrap justify-center gap-x-4 gap-y-2">
-              <Link to="/legal" className="text-[12.5px] text-white/40 hover:text-white/70 transition-colors">Privacy</Link>
-              <Link to="/legal" className="text-[12.5px] text-white/40 hover:text-white/70 transition-colors">Terms</Link>
+              <Link to="/legal" className="text-[13px] text-white/40 hover:text-white/70 transition-colors">Privacy</Link>
+              <Link to="/legal" className="text-[13px] text-white/40 hover:text-white/70 transition-colors">Terms</Link>
               <button
                 onClick={() => window.dispatchEvent(new Event("kharo:open-cookie-preferences"))}
-                className="text-[12.5px] text-white/40 hover:text-white/70 transition-colors"
+                className="text-[13px] text-white/40 hover:text-white/70 transition-colors"
               >
                 Cookie preferences
               </button>

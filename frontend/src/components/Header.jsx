@@ -66,7 +66,7 @@ export default function Header() {
             <Link
               to={NAV.headerCta.to}
               data-testid="join-waitlist-link"
-              className={`pressable hidden md:inline-flex items-center h-10 px-4 rounded-md text-[13.5px] font-semibold whitespace-nowrap transition-colors duration-ui ${clear ? "bg-white text-ink hover:bg-bone" : "bg-green hover:bg-green-hover text-white"}`}
+              className={`pressable hidden md:inline-flex items-center h-10 px-4 rounded-md text-[14px] font-semibold whitespace-nowrap transition-colors duration-ui ${clear ? "bg-white text-ink hover:bg-bone" : "bg-green hover:bg-green-hover text-white"}`}
             >
               {NAV.headerCta.label}
             </Link>
@@ -88,7 +88,7 @@ export default function Header() {
                       <Icon className="w-5 h-5 text-green shrink-0 mt-0.5" strokeWidth={1.75} />
                       <span>
                         <span className="block font-semibold text-ink text-[14px]">{item.title}</span>
-                        <span className="block text-[12.5px] text-ink-3">{item.sub}</span>
+                        <span className="block text-[13px] text-ink-3">{item.sub}</span>
                       </span>
                     </button>
                   );

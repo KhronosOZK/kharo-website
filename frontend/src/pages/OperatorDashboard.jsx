@@ -77,9 +77,9 @@ function Tracking({ compact = false }) {
                 className={`pressable -mx-2 block w-[calc(100%+1rem)] rounded-md px-2 py-3 text-left ${selected === v.plate ? "bg-green-soft" : "hover:bg-surface-2"}`}>
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-[14px] font-semibold text-ink">{v.name}</span>
-                  <span className={`shrink-0 rounded-md px-2 py-0.5 text-[11.5px] font-semibold ${statusColor(v.status)}`}>{v.status}</span>
+                  <span className={`shrink-0 rounded-md px-2 py-0.5 text-[12px] font-semibold ${statusColor(v.status)}`}>{v.status}</span>
                 </div>
-                <div className="mt-1 grid grid-cols-2 gap-x-3 text-[12.5px] text-ink-3">
+                <div className="mt-1 grid grid-cols-2 gap-x-3 text-[13px] text-ink-3">
                   <span>{v.plate} · {v.driver}</span>
                   <span className="text-right">{v.borough}, {v.seen}</span>
                   <span>{v.ignition}</span>

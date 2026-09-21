@@ -35,7 +35,7 @@ export default function Compare() {
         <div className="flex items-end justify-between gap-3 mb-8 flex-wrap">
           <div>
             <h1 className="text-h1 font-heading font-extrabold text-ink">{COMPARE.heading}</h1>
-            <p className="mt-1.5 text-[14.5px] text-ink-3">{COMPARE.count(items.length)}</p>
+            <p className="mt-1.5 text-[15px] text-ink-3">{COMPARE.count(items.length)}</p>
           </div>
           {items.length > 0 && (
             <Button onClick={clearCompare} variant="outline" data-testid="compare-clear">{COMPARE.clearAll}</Button>

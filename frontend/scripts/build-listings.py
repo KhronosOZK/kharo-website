@@ -180,8 +180,7 @@ def description(make, model, year, fuel, body, area, cfg, mileage, rnd):
         f"{mileage:,} miles, serviced every 10,000 and valeted between drivers.",
         f"Main dealer serviced, {mileage:,} miles, tyres and brakes checked before handover.",
     ])
-    parts = [opener, care, econ, seats_line, lic,
-             "Weekly price is rent only; you choose your own hire and reward cover when you apply."]
+    parts = [opener, care, econ, seats_line, lic]
     return " ".join(p for p in parts if p)
 
 
@@ -216,7 +215,10 @@ def main():
             area = rnd.choice(AREAS[city])
             mileage = rnd.randrange(24000, 122000, 137)
 
-            features = [cfg["licence"], "Uber and Bolt ready", "Maintenance included"]
+            # Plain, non-obvious features only. The licence is already shown
+            # under "Licensed by", and every car on Kharo works with Uber and
+            # Bolt, so neither is a feature.
+            features = ["Servicing, MOT and repairs included"]
             if rnd.random() < 0.8:
                 features.append("Breakdown cover")
             if fuel in ("Electric", "Plug-in Hybrid"):
@@ -237,7 +239,10 @@ def main():
                 postcode=(f"{rnd.choice(POSTCODE_PREFIX[city])}{rnd.randint(1, 29)} "
                           f"{rnd.randint(1, 9)}{rnd.choice(letters)}{rnd.choice(letters)}"),
                 weekly_rent=weekly,
-                deposit=rnd.choice([300, 350, 400, 450, 500, 600]),
+                # Two and a half weeks' rent, to the nearest £5. The same
+                # rule is stated in FACTS.deposit, so the number and the
+                # sentence never disagree.
+                deposit=int(round(weekly * 2.5 / 5.0) * 5),
                 # Yearly allowance. 0 means unlimited, which most operators
                 # offer; the rest cap at 10, 15 or 20 thousand miles a year.
                 mileage_allowance=rnd.choice([0, 0, 0, 0, 0, 0, 0, 10000, 15000, 20000]),

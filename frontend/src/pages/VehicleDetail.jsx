@@ -104,15 +104,14 @@ export default function VehicleDetail() {
     ...(v.mpg ? [{ label: DETAIL.specs.economy, value: `${v.mpg} mpg` }] : []),
     { label: DETAIL.specs.mileage, value: mileageLabel(v.mileage_allowance) },
     { label: DETAIL.specs.experience, value: experienceLabel(v.min_experience) },
-    { label: DETAIL.specs.deposit, value: `£${v.deposit}, returned at end` },
-    { label: DETAIL.specs.servicing, value: v.designated_garage },
+    { label: DETAIL.specs.deposit, value: `£${v.deposit}` },
     { label: DETAIL.specs.restrictions, value: v.restrictions || DETAIL.specs.none },
   ];
 
   const included = [
     DETAIL.covers.compliance,
+    DETAIL.covers.servicing,
     v.breakdown_included ? DETAIL.covers.breakdownIncluded : DETAIL.covers.breakdownAvailable,
-    DETAIL.covers.servicingAt(v.designated_garage),
   ];
 
   const handleShare = async () => {
@@ -168,7 +167,9 @@ export default function VehicleDetail() {
         {/* Gallery: one bordered object holding the photo, the counter and
             the thumbnail strip, rather than three loose elements stacked. */}
         <div className="grid lg:grid-cols-[minmax(0,1fr)_21rem] gap-8 mt-4 items-start">
-        <div>
+        {/* min-w-0: without it the thumbnail strip's natural width sets the
+            column width on phones and the whole page runs off the right edge. */}
+        <div className="min-w-0">
         <figure className="rounded-lg border border-line bg-surface p-2">
         <div className="relative rounded-md overflow-hidden aspect-[16/10] bg-surface-2" data-testid="gallery-main">
           <img src={v.photos?.[photo]} alt={`${v.make} ${v.model}`} className="w-full h-full object-cover" />
@@ -212,7 +213,7 @@ export default function VehicleDetail() {
         )}
         </figure>
         {!hasOwnPhoto(v) && (
-          <p className="mt-2.5 text-[12.5px] text-ink-3" data-testid="same-model-note">Photo shows the same model, not this exact car. The operator adds their own photos before launch.</p>
+          <p className="mt-2.5 text-[13px] text-ink-3" data-testid="same-model-note">Photo shows the same model, not this exact car. The operator adds their own photos before launch.</p>
         )}
         {isElectric && (
           <p className="flex items-center gap-1.5 text-[13px] font-medium text-green mt-2.5">
@@ -248,8 +249,8 @@ export default function VehicleDetail() {
                 <div className="mt-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-4">
                   {specs.map((sp) => (
                     <div key={sp.label}>
-                      <div className="text-[12.5px] text-ink-3">{sp.label}</div>
-                      <div className={`mt-1 font-medium text-ink text-[15px] ${sp.capitalize ? "capitalize" : ""}`}>{sp.value}</div>
+                      <div className="text-[13px] text-ink-3">{sp.label}</div>
+                      <div className={`mt-0.5 text-[15px] font-medium text-ink ${sp.capitalize ? "capitalize" : ""}`}>{sp.value}</div>
                     </div>
                   ))}
                 </div>
@@ -304,14 +305,14 @@ export default function VehicleDetail() {
                         />
                         <span>
                           <span className="block font-heading font-bold text-ink text-[15px]">{t.label}</span>
-                          <span className="block text-[12.5px] text-ink-3">{t.sub}</span>
+                          <span className="block text-[13px] text-ink-3">{t.sub}</span>
                         </span>
                       </span>
                       <span className="text-right shrink-0">
                         <span className="block font-heading font-extrabold text-ink text-[17px] tabular">
                           £{wk.toFixed(0)}<span className="text-[12px] font-normal text-ink-3"> a week</span>
                         </span>
-                        {i > 0 && <span className="block text-[11px] font-semibold text-green">{i === 1 ? DETAIL.save3 : DETAIL.save6}</span>}
+                        {i > 0 && <span className="block text-[12px] font-semibold text-green">{i === 1 ? DETAIL.save3 : DETAIL.save6}</span>}
                       </span>
                     </label>
                   );
@@ -323,7 +324,7 @@ export default function VehicleDetail() {
                 application: a driver needs the full weekly picture to decide. */}
             <section className="hairline py-6" data-testid="detail-cover">
               <h2 className="text-h3 font-heading font-bold text-ink">{DETAIL.coverHeading}</h2>
-              <p className="mt-2 text-[14.5px] text-ink-2 leading-relaxed measure">{DETAIL.coverSub}</p>
+              <p className="mt-2 text-[15px] text-ink-2 leading-relaxed measure">{DETAIL.coverSub}</p>
 
               <p className="mt-5 text-[13px] font-semibold text-ink">How often you pay</p>
               <div className="mt-2 divide-y divide-line border-y border-line" role="radiogroup" aria-label="How often you pay">
@@ -334,7 +335,7 @@ export default function VehicleDetail() {
                       className={`pressable flex cursor-pointer items-center gap-3 px-1 py-3.5 ${on ? "bg-green-soft" : ""}`}>
                       <input type="radio" name="cover-term" checked={on} onChange={() => setCoverTerm(t.id)} className="h-4 w-4 accent-[#111312]" />
                       <span className="font-heading text-[15px] font-bold text-ink">{t.label}</span>
-                      <span className="ml-auto text-[12.5px] text-ink-3">{t.suffix}</span>
+                      <span className="ml-auto text-[13px] text-ink-3">{t.suffix}</span>
                     </label>
                   );
                 })}
@@ -354,7 +355,7 @@ export default function VehicleDetail() {
                       <span>
                         <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels[lvl]}</span>
                         <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes[lvl]}</span>
-                        <span className="mt-1 block text-[12.5px] text-ink-3">{q.excess}</span>
+                        <span className="mt-1 block text-[13px] text-ink-3">{q.excess}</span>
                       </span>
                       <span className="text-right tabular">
                         <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[coverTerm].toLocaleString()}</span>
@@ -364,7 +365,7 @@ export default function VehicleDetail() {
                   );
                 })}
               </div>
-              <p className="mt-4 text-[12.5px] text-ink-3 leading-relaxed measure">{DETAIL.coverNote}</p>
+              <p className="mt-4 text-[13px] text-ink-3 leading-relaxed measure">{DETAIL.coverNote}</p>
             </section>
 
             {uniquePhotoCount > 1 && (
@@ -386,7 +387,7 @@ export default function VehicleDetail() {
                 <MapPin className="w-4 h-4 text-green-deep shrink-0" strokeWidth={1.75} />
                 {DETAIL.collectionNote(v.borough, v.postcode)}
               </p>
-              <p className="mt-1 text-[11px] text-ink-3">Map © OpenStreetMap contributors, © CARTO</p>
+              <p className="mt-1 text-[12px] text-ink-3">Map © OpenStreetMap contributors, © CARTO</p>
             </section>
 
             <section className="hairline py-6">
@@ -419,7 +420,7 @@ export default function VehicleDetail() {
           style={{ transform: barHidden ? "translateY(110%)" : "translateY(0)" }}>
         <div className="flex items-center justify-between gap-3">
           <div>
-            <div className="text-[11px] text-ink-3">{DETAIL.mobileRentPrefix}</div>
+            <div className="text-[12px] text-ink-3">{DETAIL.mobileRentPrefix}</div>
             <div className="text-[20px] font-heading font-extrabold text-ink tabular">
               £{v.weekly_rent} <span className="text-[13px] font-normal text-ink-3">{DETAIL.mobileRentSuffix}</span>
             </div>
@@ -460,10 +461,6 @@ function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
         <span className="font-heading font-extrabold text-ink text-[32px] tabular">£{rentWeekly.toFixed(0)}</span>
         <span className="text-[15px] text-ink-3">a week</span>
       </div>
-      <p className="mt-1 text-[12px] text-ink-3">
-        Over {weeks} {weeks === 1 ? "week" : "weeks"}, rental only. £{v.deposit} deposit, returned at end.
-      </p>
-
       <div className="mt-5 divide-y divide-line border-y border-line text-[14px]">
         <div className="flex justify-between py-3">
           <span className="text-ink-2">Weekly rent</span>
@@ -481,8 +478,11 @@ function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
           <span className="font-semibold text-ink">Total a week, about</span>
           <span className="font-heading text-[17px] font-bold text-ink tabular" data-testid="detail-total-week">£{Math.round(rentWeekly + weeklyInsurance(quote, coverTerm))}</span>
         </div>
+        <div className="flex justify-between py-3">
+          <span className="text-ink-2">Deposit<span className="block text-[12px] text-ink-3">Two and a half weeks' rent</span></span>
+          <span className="font-semibold text-ink tabular" data-testid="detail-deposit">£{v.deposit}</span>
+        </div>
       </div>
-      <p className="mt-2 text-[12px] text-ink-3">Rent plus your insurance, worked out per week. Fuel is not included.</p>
 
       <Button onClick={onApply} size="lg" className="w-full mt-5" data-testid="apply-to-rent-btn">
         {DETAIL.applyCta}
@@ -490,21 +490,21 @@ function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
 
       <div className="mt-3 grid grid-cols-2 gap-2">
         <button type="button" onClick={() => setCallback((c) => !c)} aria-expanded={callback}
-          className="pressable inline-flex h-11 items-center justify-center rounded-md border border-line-strong bg-surface text-[13.5px] font-semibold text-ink hover:bg-surface-2" data-testid="call-me-back">
+          className="pressable inline-flex h-11 items-center justify-center rounded-md border border-line-strong bg-surface text-[14px] font-semibold text-ink hover:bg-surface-2" data-testid="call-me-back">
           Call me back
         </button>
         <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(`Hi Kharo, I am asking about the ${v.make} ${v.model} (${v.id}).`)}`} target="_blank" rel="noopener noreferrer"
-          className="pressable inline-flex h-11 items-center justify-center rounded-md border border-line-strong bg-surface text-[13.5px] font-semibold text-ink hover:bg-surface-2" data-testid="whatsapp-ask">
+          className="pressable inline-flex h-11 items-center justify-center rounded-md border border-line-strong bg-surface text-[14px] font-semibold text-ink hover:bg-surface-2" data-testid="whatsapp-ask">
           Ask on WhatsApp
         </a>
       </div>
       {callback && (
         <form onSubmit={requestCallback} className="mt-3 rounded-md border border-line bg-bone p-3" data-testid="callback-form">
           {callbackDone ? (
-            <p className="text-[13.5px] text-ink">Thank you. A person will call you within one working day.</p>
+            <p className="text-[14px] text-ink">Thank you. A person will call you within one working day.</p>
           ) : (
             <>
-              <label htmlFor="cb-phone" className="block text-[12.5px] font-medium text-ink-2">Your phone number</label>
+              <label htmlFor="cb-phone" className="block text-[13px] font-medium text-ink-2">Your phone number</label>
               <div className="mt-1.5 flex gap-2">
                 <input id="cb-phone" type="tel" inputMode="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="07700 900 000"
                   className="field h-11 min-w-0 flex-1 rounded-md border border-line-strong bg-surface px-3 text-[15px] text-ink outline-none focus:border-ink" />

@@ -37,13 +37,13 @@ export default function ForgotPassword() {
           <div className="mt-6 text-center" data-testid="forgot-success">
             <Check className="w-10 h-10 text-green mx-auto" strokeWidth={1.75} />
             <h1 className="text-h2 font-heading font-extrabold text-ink mt-4">Check your inbox</h1>
-            <p className="text-ink-2 mt-2 text-[14.5px] leading-relaxed">If an account exists for that email, we have sent a link to reset your password. It is valid for one hour.</p>
-            <Link to="/login" className="inline-block mt-6 text-green font-semibold text-[14.5px]">Back to sign in</Link>
+            <p className="text-ink-2 mt-2 text-[15px] leading-relaxed">If an account exists for that email, we have sent a link to reset your password. It is valid for one hour.</p>
+            <Link to="/login" className="inline-block mt-6 text-green font-semibold text-[15px]">Back to sign in</Link>
           </div>
         ) : (
           <>
             <h1 className="mt-5 text-h2 font-heading font-extrabold text-ink">Forgot your password?</h1>
-            <p className="mt-1.5 text-[14.5px] text-ink-2">Enter your email and we will send you a link to set a new one.</p>
+            <p className="mt-1.5 text-[15px] text-ink-2">Enter your email and we will send you a link to set a new one.</p>
             <form onSubmit={submit} className="mt-6 space-y-4">
               <div>
                 <Label className="text-[13px] font-medium text-ink-2 mb-1.5 block">Email</Label>

@@ -94,7 +94,7 @@ export default function Register() {
         >
           Send this to a driver you know
         </a>
-        <p className="mt-2 text-[12.5px] text-ink-3">Opens WhatsApp with the message already written.</p>
+        <p className="mt-2 text-[13px] text-ink-3">Opens WhatsApp with the message already written.</p>
         <div className="flex gap-3 justify-center mt-8 flex-wrap">
           <Button onClick={() => navigate("/search")} data-testid="reg-browse">{success.browse} <ArrowRight className="w-4 h-4" strokeWidth={1.75} /></Button>
           <Button onClick={() => navigate("/driver-guide")} variant="outline">{success.guide}</Button>
@@ -124,7 +124,7 @@ export default function Register() {
                 <button key={c.key} type="button" onClick={() => setCarKey(c.key)} data-testid={`driver-car-${c.key}`}
                   className={`pressable rounded-xl px-3 py-3 text-left border ${carKey === c.key ? "border-green bg-green-soft" : "border-line hover:bg-surface-2"}`}>
                   <div className="text-[13px] font-semibold text-ink">{c.label}</div>
-                  <div className="text-[10.5px] text-ink-3 leading-tight mt-0.5">{c.sub}</div>
+                  <div className="text-[12px] text-ink-3 leading-tight mt-0.5">{c.sub}</div>
                 </button>
               ))}
             </div>
@@ -133,14 +133,14 @@ export default function Register() {
               <Line l={estimator.rentInsurance} v={`- £${est.carCost}`} />
               <Line l={estimator.fuel} v={`- £${est.fuel}`} />
             </div>
-            <p className="text-[11.5px] text-ink-3 mt-4 leading-relaxed">{estimator.note}</p>
-            <p className="text-[11.5px] text-ink-3 mt-1.5 leading-relaxed">{estimator.insuranceNote}</p>
+            <p className="text-[12px] text-ink-3 mt-4 leading-relaxed">{estimator.note}</p>
+            <p className="text-[12px] text-ink-3 mt-1.5 leading-relaxed">{estimator.insuranceNote}</p>
           </Enter>
         </div>
 
         <Enter delay={0.1} className="w-full panel rounded-lg p-6 sm:p-8">
           <div className="mb-7">
-            <div className="flex items-center justify-between text-[12.5px] text-ink-3 mb-2.5">
+            <div className="flex items-center justify-between text-[13px] text-ink-3 mb-2.5">
               <span data-testid="reg-step-label">Step {step + 1} of {STEPS.length}</span>
             </div>
             <div className="flex items-center gap-1.5" data-testid="reg-progress">

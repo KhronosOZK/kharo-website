@@ -101,7 +101,7 @@ export function NotificationsPanel({ items: initial }) {
               className="pressable grid w-full grid-cols-[0.75rem_1fr_auto] items-start gap-3 py-3.5 text-left">
               <span aria-hidden="true" className={`mt-2 h-2 w-2 rounded-full ${n.read ? "bg-transparent" : "bg-green"}`} />
               <span>
-                <span className={`block text-[14.5px] ${n.read ? "font-medium text-ink-2" : "font-semibold text-ink"}`}>{n.t}</span>
+                <span className={`block text-[15px] ${n.read ? "font-medium text-ink-2" : "font-semibold text-ink"}`}>{n.t}</span>
                 <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-3">{n.d}</span>
               </span>
               <span className="shrink-0 text-[12px] text-ink-3">{n.when}</span>
@@ -140,7 +140,7 @@ export function ChatPanel({ threads: initial, me = "You" }) {
               className={`pressable block w-full px-4 py-3.5 text-left ${t.id === openId ? "bg-green-soft" : "hover:bg-surface-2"}`}>
               <span className="flex items-baseline justify-between gap-2">
                 <span className="truncate text-[14px] font-semibold text-ink">{t.name}</span>
-                <span className="shrink-0 text-[11.5px] text-ink-3">{t.when}</span>
+                <span className="shrink-0 text-[12px] text-ink-3">{t.when}</span>
               </span>
               <span className="block text-[12px] text-ink-3">{t.role}</span>
               <span className="mt-1 block truncate text-[13px] text-ink-2">{t.last}</span>
@@ -156,7 +156,7 @@ export function ChatPanel({ threads: initial, me = "You" }) {
               <ChevronLeft size={18} strokeWidth={2} />
             </button>
             <div>
-              <p className="text-[14.5px] font-semibold text-ink">{open.name}</p>
+              <p className="text-[15px] font-semibold text-ink">{open.name}</p>
               <p className="text-[12px] text-ink-3">{open.role}</p>
             </div>
           </div>
@@ -165,7 +165,7 @@ export function ChatPanel({ threads: initial, me = "You" }) {
               <li key={i} className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[75%] rounded-lg px-3.5 py-2.5 text-[14px] leading-relaxed ${m.from === "me" ? "bg-green text-white" : "bg-surface-2 text-ink"}`}>
                   {m.text}
-                  <span className={`mt-1 block text-[11px] ${m.from === "me" ? "text-white/70" : "text-ink-3"}`}>{m.from === "me" ? me : open.name} · {m.at}</span>
+                  <span className={`mt-1 block text-[12px] ${m.from === "me" ? "text-white/70" : "text-ink-3"}`}>{m.from === "me" ? me : open.name} · {m.at}</span>
                 </div>
               </li>
             ))}

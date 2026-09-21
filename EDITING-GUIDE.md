@@ -188,3 +188,10 @@ Most readers, drivers and operators alike, do not have strong English. Write for
 - Say what the check is, not that something is "verified".
 - Say what happens next after every button.
 - Never state a number you cannot stand behind.
+- If a line only decorates (a subline that restates the heading, a "four short steps" reassurance, a garage name), delete it rather than rewrite it.
+
+Facts fixed by the owner on 21 September 2026, all in `FACTS` in `content/site.js`: rent is quoted per week and paid monthly (taken two weeks before the next month); the deposit is two and a half weeks' rent (the listing generator computes it); operators are checked against Companies House only, never "the licensing register"; insurance is described as quotes from leading insurers, and the three cover levels stay until the comprehensive-only decision is made.
+
+## 8. Text sizes
+
+Small text uses four sizes only: 12px for captions under a price, 13px for labels and meta lines, 14px for buttons and table rows, 15px for body copy. Headings use the `text-h1`, `text-h2`, `text-h3` and `text-lead` tokens. Do not introduce half sizes (12.5px, 13.5px, 14.5px); the mix of sizes was what made the car page look inconsistent.

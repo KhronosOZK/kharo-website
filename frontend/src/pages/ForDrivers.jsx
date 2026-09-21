@@ -32,7 +32,7 @@ export default function ForDrivers() {
         <StepList items={steps.items} className="mt-10" />
 
         <RevealItem className="mt-2">
-          <Link to="/driver-guide" data-testid="driver-guide-link" className="pressable inline-flex items-center gap-1.5 text-[14.5px] font-semibold text-green hover:underline underline-offset-4">
+          <Link to="/driver-guide" data-testid="driver-guide-link" className="pressable inline-flex items-center gap-1.5 text-[15px] font-semibold text-green hover:underline underline-offset-4">
             {steps.guideCta} <ArrowRight size={16} strokeWidth={1.75} />
           </Link>
         </RevealItem>
@@ -68,7 +68,7 @@ export default function ForDrivers() {
       <RevealGroup as="section" className="wrap py-section grid lg:grid-cols-12 gap-block items-center">
         <RevealItem className="lg:col-span-7">
           <h2 className="text-h2 font-heading font-extrabold text-ink max-w-[20ch]">{support.heading}</h2>
-          <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure">{support.body}</p>
+          <p className="mt-4 text-[15px] text-ink-2 leading-relaxed measure">{support.body}</p>
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {support.points.map((p) => (
               <RevealItem as="li" key={p} className="flex items-start gap-3 py-3.5 text-[15px] text-ink">
@@ -90,17 +90,17 @@ export default function ForDrivers() {
         <RevealGroup className="wrap py-section grid lg:grid-cols-12 gap-8 lg:gap-14">
           <RevealItem className="lg:col-span-5">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{requirements.heading}</h2>
-            <p className="mt-4 text-[15.5px] text-ink-2 leading-relaxed measure-narrow">{requirements.sub}</p>
+            <p className="mt-4 text-[15px] text-ink-2 leading-relaxed measure-narrow">{requirements.sub}</p>
           </RevealItem>
           <RevealItem className="lg:col-span-7">
             <ul className="divide-y divide-line border-y border-line">
               {requirements.items.map((r) => (
-                <li key={r} className="flex items-start gap-3 py-4 text-[15.5px] text-ink">
+                <li key={r} className="flex items-start gap-3 py-4 text-[15px] text-ink">
                   <Check className="w-4 h-4 text-green shrink-0 mt-1" strokeWidth={2.25} /> {r}
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-[13.5px] text-ink-3 leading-relaxed">{requirements.note}</p>
+            <p className="mt-4 text-[14px] text-ink-3 leading-relaxed">{requirements.note}</p>
           </RevealItem>
         </RevealGroup>
       </section>
@@ -110,7 +110,7 @@ export default function ForDrivers() {
         <RevealItem className="grid lg:grid-cols-12 gap-6 items-end">
           <div className="lg:col-span-8">
             <h2 className="text-h2 font-heading font-extrabold text-ink">{closer.heading}</h2>
-            <p className="mt-3 text-[15.5px] text-ink-2 leading-relaxed measure">{closer.sub}</p>
+            <p className="mt-3 text-[15px] text-ink-2 leading-relaxed measure">{closer.sub}</p>
           </div>
           <div className="lg:col-span-4 flex flex-wrap gap-3 lg:justify-end">
             <Button size="lg" onClick={() => navigate("/search")}>{closer.primaryCta}</Button>

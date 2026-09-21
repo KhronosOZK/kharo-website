@@ -76,7 +76,7 @@ function RentInputs({ value, min, max, onChange }) {
 
   const field = (i, label) => (
     <label className="flex min-w-0 flex-1 items-center gap-1.5 rounded-md border border-line-strong bg-surface px-2.5 h-10 focus-within:border-ink">
-      <span className="text-[12px] text-ink-3">{label}</span>
+      <span className="text-[13px] text-ink-3">{label}</span>
       <span className="ml-auto text-[13px] text-ink-3">£</span>
       <input
         type="text" inputMode="numeric" pattern="[0-9]*"
@@ -109,7 +109,7 @@ function SegRow({ options, value, onChange, label }) {
 
 function CheckRow({ checked, onChange, children, count }) {
   return (
-    <label className="pressable flex min-h-9 cursor-pointer items-center justify-between gap-3 rounded-md px-1.5 text-[13.5px] text-ink hover:bg-surface-2">
+    <label className="pressable flex min-h-9 cursor-pointer items-center justify-between gap-3 rounded-md px-1.5 text-[14px] text-ink hover:bg-surface-2">
       <span className="flex min-w-0 items-center gap-2.5">
         <input type="checkbox" checked={checked} onChange={onChange} className="h-4 w-4 shrink-0 rounded border-line-strong accent-[#111312]" />
         <span className="truncate">{children}</span>
@@ -262,7 +262,7 @@ export function FilterPanel({
           <ul className="mt-2 flex flex-wrap gap-1.5">
             {councils.map((c) => (
               <li key={c}>
-                <button type="button" onClick={() => toggleCouncil(c)} className="pressable inline-flex items-center gap-1.5 rounded-md border border-line-strong bg-surface px-2.5 py-1 text-[12.5px] font-medium text-ink" aria-label={`Remove ${c}`}>
+                <button type="button" onClick={() => toggleCouncil(c)} className="pressable inline-flex items-center gap-1.5 rounded-md border border-line-strong bg-surface px-2.5 py-1 text-[13px] font-medium text-ink" aria-label={`Remove ${c}`}>
                   {c} <span aria-hidden="true" className="text-ink-3">×</span>
                 </button>
               </li>

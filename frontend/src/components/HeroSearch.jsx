@@ -155,7 +155,7 @@ export default function HeroSearch() {
           {locating ? <Loader2 size={14} className="animate-spin" strokeWidth={2} /> : <LocateFixed size={14} strokeWidth={2} />}
           {HERO_SEARCH.near.label}
         </button>
-        {nearNote && <span className="text-[12.5px] text-white/70">{nearNote}</span>}
+        {nearNote && <span className="text-[13px] text-white/70">{nearNote}</span>}
       </div>
 
       <AnimatePresence>
@@ -165,16 +165,16 @@ export default function HeroSearch() {
             {open === "city" && (
               <div className="grid grid-cols-2 gap-1" role="group" aria-label={HERO_SEARCH.city}>
                 <button type="button" onClick={() => { setCity(""); setArea(""); setOpen(null); }}
-                  className={`pressable text-left rounded-md px-3 h-10 text-[13.5px] ${!city ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
+                  className={`pressable text-left rounded-md px-3 h-10 text-[14px] ${!city ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
                   {HERO_SEARCH.anyCity}
                 </button>
                 {ALL_CITIES.map((c) => {
                   const n = MOCK_LISTINGS.filter((v) => v.city === c).length;
                   return (
                     <button key={c} type="button" onClick={() => { setCity(c); setArea(""); setOpen(null); }}
-                      className={`pressable flex items-center justify-between gap-2 rounded-md px-3 h-10 text-[13.5px] ${city === c ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
+                      className={`pressable flex items-center justify-between gap-2 rounded-md px-3 h-10 text-[14px] ${city === c ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
                       <span className="truncate">{c}</span>
-                      <span className={`tabular text-[11.5px] ${city === c ? "text-white/60" : "text-ink-3"}`}>
+                      <span className={`tabular text-[12px] ${city === c ? "text-white/60" : "text-ink-3"}`}>
                         {n || (LIVE_CITIES.includes(c) ? 0 : "")}
                       </span>
                     </button>
@@ -187,17 +187,17 @@ export default function HeroSearch() {
               city ? (
                 <div className="grid grid-cols-2 gap-1 max-h-64 overflow-y-auto">
                   <button type="button" onClick={() => { setArea(""); setOpen(null); }}
-                    className={`pressable text-left rounded-md px-3 h-10 text-[13.5px] ${!area ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
+                    className={`pressable text-left rounded-md px-3 h-10 text-[14px] ${!area ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
                     {HERO_SEARCH.anyArea}
                   </button>
                   {areaOptions.map((a) => (
                     <button key={a} type="button" onClick={() => { setArea(a); setOpen(null); }}
-                      className={`pressable text-left truncate rounded-md px-3 h-10 text-[13.5px] ${area === a ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
+                      className={`pressable text-left truncate rounded-md px-3 h-10 text-[14px] ${area === a ? "bg-ink text-white" : "hover:bg-surface-2"}`}>
                       {a}
                     </button>
                   ))}
                 </div>
-              ) : <p className="text-[13.5px] text-ink-3">{HERO_SEARCH.pickCityFirst}</p>
+              ) : <p className="text-[14px] text-ink-3">{HERO_SEARCH.pickCityFirst}</p>
             )}
 
             {open === "fuel" && (
@@ -213,7 +213,7 @@ export default function HeroSearch() {
                   </button>
                 ))}
                 <div className="w-full mt-2 pt-2 border-t border-line">
-                  <p className="text-[11px] font-semibold text-ink-3 mb-1.5">{HERO_SEARCH.make}</p>
+                  <p className="text-[12px] font-semibold text-ink-3 mb-1.5">{HERO_SEARCH.make}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {MOCK_MAKES.slice(1, 8).map((m) => (
                       <button key={m} type="button" onClick={() => { setMake(make === m ? "" : m); setOpen(null); }}

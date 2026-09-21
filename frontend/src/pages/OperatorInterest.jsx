@@ -99,7 +99,7 @@ export default function OperatorInterest() {
         >
           Send this to another operator
         </a>
-        <p className="mt-2 text-[12.5px] text-ink-3">Opens WhatsApp with the message already written.</p>
+        <p className="mt-2 text-[13px] text-ink-3">Opens WhatsApp with the message already written.</p>
       </Enter>
       <Enter delay={0.18} className="mt-8 flex flex-wrap gap-3 justify-center">
         <Button onClick={() => navigate("/")}>{T.success.home} <ArrowRight size={16} /></Button>
@@ -176,7 +176,7 @@ export default function OperatorInterest() {
                   href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(T.whatsappMessage)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="pressable mt-5 flex items-center justify-center gap-2 min-h-11 text-[13.5px] font-medium text-ink-2 hover:text-green"
+                  className="pressable mt-5 flex items-center justify-center gap-2 min-h-11 text-[14px] font-medium text-ink-2 hover:text-green"
                 >
                   <MessageCircle size={16} strokeWidth={1.75} />
                   {T.whatsapp}
@@ -184,7 +184,7 @@ export default function OperatorInterest() {
               )}
             </form>
           </motion.div>
-          <p className="mt-4 text-[13.5px] text-ink-3 leading-relaxed text-center lg:text-left">{T.trustSentence}</p>
+          <p className="mt-4 text-[14px] text-ink-3 leading-relaxed text-center lg:text-left">{T.trustSentence}</p>
         </Enter>
       </div>
     </main>
@@ -193,7 +193,7 @@ export default function OperatorInterest() {
 
 const Field = ({ label, children }) => (
   <div>
-    <Label className="text-[13.5px] font-medium text-ink-2 mb-1.5 block">{label}</Label>
+    <Label className="text-[14px] font-medium text-ink-2 mb-1.5 block">{label}</Label>
     {children}
   </div>
 );

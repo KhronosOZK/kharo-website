@@ -235,7 +235,7 @@ export default function Admin() {
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <h3 className="font-heading text-h3 font-bold text-ink">What drivers search for</h3>
-              <p className="mt-1 text-[13.5px] text-ink-3">{analytics.demand.searches.toLocaleString()} filtered searches recorded · {analytics.demand.call_backs.toLocaleString()} call-back requests</p>
+              <p className="mt-1 text-[14px] text-ink-3">{analytics.demand.searches.toLocaleString()} filtered searches recorded · {analytics.demand.call_backs.toLocaleString()} call-back requests</p>
             </div>
             <button type="button" onClick={() => window.open(`${API}/admin/export/events`, "_blank")} className="pressable text-[13px] font-medium text-green">Export events CSV</button>
           </div>
@@ -256,7 +256,7 @@ export default function Admin() {
                       const max = Math.max(...rows.map((x) => x.count), 1);
                       return (
                         <div key={r.label} className="py-2">
-                          <div className="flex justify-between text-[13.5px]"><span className="text-ink-2">{r.label}</span><span className="font-semibold text-ink tabular">{r.count}</span></div>
+                          <div className="flex justify-between text-[14px]"><span className="text-ink-2">{r.label}</span><span className="font-semibold text-ink tabular">{r.count}</span></div>
                           <div className="mt-1 h-1 rounded-full bg-surface-2"><div className="h-1 rounded-full bg-green" style={{ width: `${Math.round((r.count / max) * 100)}%` }} /></div>
                         </div>
                       );
@@ -289,7 +289,7 @@ export default function Admin() {
             <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} data-testid="admin-filter-to" className="h-10 w-full sm:w-auto" />
           </div>
           {(q || from || to) && <Button variant="ghost" onClick={() => { setQ(""); setFrom(""); setTo(""); }} data-testid="admin-filter-clear" className="text-green">Clear</Button>}
-          <span className="text-[12.5px] text-ink-3 ml-auto" data-testid="admin-filter-count">{filtered.length} of {rows.length}</span>
+          <span className="text-[13px] text-ink-3 ml-auto" data-testid="admin-filter-count">{filtered.length} of {rows.length}</span>
         </div>
 
         {TABS.map((t) => (

@@ -36,7 +36,7 @@ export default function PageHero({
             <h1 className="font-heading text-h2 font-extrabold tracking-[-0.02em] leading-[1.05] text-ink max-w-[24ch]">{heading}</h1>
             {sub && <p className="mt-3 max-w-[52ch] text-lead leading-relaxed text-ink-2">{sub}</p>}
             {children && <div className="mt-6">{children}</div>}
-            {caption && <p className="mt-5 max-w-[48ch] text-[12.5px] leading-relaxed text-ink-3">{caption}</p>}
+            {caption && <p className="mt-5 max-w-[48ch] text-[13px] leading-relaxed text-ink-3">{caption}</p>}
           </div>
         </div>
       </section>
@@ -67,15 +67,15 @@ export default function PageHero({
             <dl className={`${ENTER} mt-6 grid gap-x-8 gap-y-3 border-t border-white/20 pt-4 sm:grid-cols-3 motion-safe:[animation-delay:150ms]`}>
               {meta.map((m) => (
                 <div key={m.label}>
-                  <dt className="text-[12.5px] font-medium text-white/65">{m.label}</dt>
-                  <dd className="mt-0.5 text-[14.5px] font-semibold text-white">{m.value}</dd>
+                  <dt className="text-[13px] font-medium text-white/65">{m.label}</dt>
+                  <dd className="mt-0.5 text-[15px] font-semibold text-white">{m.value}</dd>
                 </div>
               ))}
             </dl>
           )}
 
           {children && <div className={`${ENTER} mt-7 flex flex-wrap gap-3 motion-safe:[animation-delay:200ms]`}>{children}</div>}
-          {caption && <p className={`${ENTER} mt-6 max-w-[48ch] text-[12.5px] leading-relaxed text-white/65 motion-safe:[animation-delay:240ms]`}>{caption}</p>}
+          {caption && <p className={`${ENTER} mt-6 max-w-[48ch] text-[13px] leading-relaxed text-white/65 motion-safe:[animation-delay:240ms]`}>{caption}</p>}
         </div>
 
         {aside && (

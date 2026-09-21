@@ -111,7 +111,7 @@ export default function Apply() {
           <p className="font-heading font-bold text-ink">{APPLY.success.nextHeading}</p>
           <ul className="mt-3 divide-y divide-line">
             {APPLY.success.next.map((n) => (
-              <li key={n} className="flex items-start gap-2.5 py-2.5 text-[14.5px] text-ink-2">
+              <li key={n} className="flex items-start gap-2.5 py-2.5 text-[15px] text-ink-2">
                 <Check className="w-4 h-4 text-green shrink-0 mt-0.5" strokeWidth={2} /> {n}
               </li>
             ))}
@@ -124,7 +124,7 @@ export default function Apply() {
         >
           Send this car to a driver you know
         </a>
-        <p className="mt-2 text-[12.5px] text-ink-3">Opens WhatsApp with the message already written.</p>
+        <p className="mt-2 text-[13px] text-ink-3">Opens WhatsApp with the message already written.</p>
         <div className="flex gap-3 justify-center mt-8 flex-wrap">
           <Button onClick={() => navigate("/search")}>Browse cars</Button>
           <Button onClick={() => navigate("/")} variant="outline">Back to home</Button>
@@ -152,9 +152,8 @@ export default function Apply() {
               <span className="font-heading font-bold text-ink text-h3 tabular">£{v.weekly_rent}</span>
               <span className="text-ink-3 text-sm">/ week</span>
             </div>
-            <p className="text-ink-3 text-xs mt-1">Rent only. You choose the insurance in step 3.</p>
             <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(`Hi Kharo, I have a question about the ${v.make} ${v.model} (${v.id}).`)}`} target="_blank" rel="noopener noreferrer"
-              className="pressable mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-line-strong bg-surface text-[13.5px] font-semibold text-ink hover:bg-surface-2" data-testid="apply-whatsapp">
+              className="pressable mt-4 inline-flex h-10 w-full items-center justify-center rounded-md border border-line-strong bg-surface text-[14px] font-semibold text-ink hover:bg-surface-2" data-testid="apply-whatsapp">
               Ask a question on WhatsApp
             </a>
           </div>
@@ -163,9 +162,8 @@ export default function Apply() {
         {/* Interest form */}
         <Enter className="order-first lg:order-none w-full panel rounded-lg p-6 sm:p-8">
           <h1 className="text-h3 font-heading font-extrabold text-ink">Register interest in the {v.make} {v.model}</h1>
-          <p className="mt-1.5 text-[14.5px] text-ink-2">Four short steps. Nothing is charged, and a person reads every application.</p>
           <div className="mt-4 mb-6">
-            <div className="text-[12.5px] text-ink-3 mb-2.5">Step {step + 1} of {STEP_KEYS.length}</div>
+            <div className="text-[13px] text-ink-3 mb-2.5">Step {step + 1} of {STEP_KEYS.length}</div>
             <div className="flex items-center gap-1.5">
               {STEP_KEYS.map((k) => (<div key={k} className={`h-1.5 rounded-full flex-1 transition-colors duration-ui ease-out ${STEP_KEYS.indexOf(k) <= step ? "bg-green" : "bg-surface-2"}`} />))}
             </div>
@@ -199,7 +197,7 @@ export default function Apply() {
                         <Field label="DVLA licence number (optional)"><Input value={f.dvla_licence} onChange={set("dvla_licence")} placeholder="SMITH901284JS9AB" data-testid="apply-dvla" /></Field>
                         <Field label="PCO / TfL badge number (optional)"><Input value={f.pco_licence} onChange={set("pco_licence")} placeholder="123456" data-testid="apply-pco" /></Field>
                       </div>
-                      <p className="text-[12.5px] text-ink-3 mt-4 leading-relaxed">{APPLY.step2.privacy}</p>
+                      <p className="text-[13px] text-ink-3 mt-4 leading-relaxed">{APPLY.step2.privacy}</p>
                     </>
                   )}
                   {cur === "cover" && (
@@ -236,7 +234,7 @@ export default function Apply() {
                               <span>
                                 <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels[lvl]}</span>
                                 <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes[lvl]}</span>
-                                <span className="mt-1 block text-[12.5px] text-ink-3">{q.excess}</span>
+                                <span className="mt-1 block text-[13px] text-ink-3">{q.excess}</span>
                               </span>
                               <span className="text-right tabular">
                                 <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[f.cover_term].toLocaleString()}</span>
@@ -246,7 +244,7 @@ export default function Apply() {
                           );
                         })}
                       </div>
-                      <p className="text-[12.5px] text-ink-3 mt-4 leading-relaxed">{APPLY.stepCover.note}</p>
+                      <p className="text-[13px] text-ink-3 mt-4 leading-relaxed">{APPLY.stepCover.note}</p>
                     </>
                   )}
                   {cur === "review" && (
@@ -263,7 +261,7 @@ export default function Apply() {
                       </div>
                       <ul className="mt-5 space-y-2.5">
                         {APPLY.reassure.items.map((it) => (
-                          <li key={it} className="flex items-start gap-2.5 text-[13.5px] text-ink-2">
+                          <li key={it} className="flex items-start gap-2.5 text-[14px] text-ink-2">
                             <Check className="w-3.5 h-3.5 text-green shrink-0 mt-0.5" strokeWidth={2.25} /> {it}
                           </li>
                         ))}

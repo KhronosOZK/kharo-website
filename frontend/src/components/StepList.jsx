@@ -23,7 +23,7 @@ function Step({ n, title, body, last, right }) {
   const badge = (
     <span
       aria-hidden="true"
-      className={`grid h-9 w-9 shrink-0 place-items-center rounded-md border text-[13.5px] font-bold tabular transition-[background-color,border-color,color,transform] duration-300 ease-out sm:h-11 sm:w-11 sm:text-[15px] ${done ? "border-green bg-green text-ink" : "border-line-strong bg-surface text-ink-3"} ${active ? "scale-105" : ""}`}
+      className={`grid h-9 w-9 shrink-0 place-items-center rounded-md border text-[14px] font-bold tabular transition-[background-color,border-color,color,transform] duration-300 ease-out sm:h-11 sm:w-11 sm:text-[15px] ${done ? "border-green bg-green text-ink" : "border-line-strong bg-surface text-ink-3"} ${active ? "scale-105" : ""}`}
     >
       {n}
     </span>
@@ -31,7 +31,7 @@ function Step({ n, title, body, last, right }) {
   const text = (
     <div className={`transition-opacity duration-300 ease-out ${active ? "opacity-100" : done ? "opacity-85" : "opacity-55"}`}>
       <h3 className="font-heading text-h3 font-bold text-ink">{title}</h3>
-      <p className="mt-2 text-[15.5px] leading-relaxed text-ink-2 measure-narrow">{body}</p>
+      <p className="mt-2 text-[15px] leading-relaxed text-ink-2 measure-narrow">{body}</p>
     </div>
   );
 

@@ -105,9 +105,9 @@ export default function VehicleCard({ vehicle, compact = false }) {
         <h3 className="truncate font-heading text-[16px] font-bold leading-tight text-ink">{make} {model}</h3>
         <p className="mt-0.5 text-[13px] text-ink-3">{year} · {borough}{plate ? ` · ${plate}` : ""}</p>
         {!compact && specs.length > 0 && (
-          <p className="mt-1.5 truncate text-[12.5px] text-ink-3">{specs.join(" · ")}</p>
+          <p className="mt-1.5 truncate text-[13px] text-ink-3">{specs.join(" · ")}</p>
         )}
-        {!hasOwnPhoto(vehicle) && <p className="mt-1 text-[11.5px] text-ink-3">Photo shows the same model, not this car</p>}
+        {!hasOwnPhoto(vehicle) && <p className="mt-1 text-[12px] text-ink-3">Photo shows the same model, not this car</p>}
 
         <div className="mt-auto flex flex-col gap-3 pt-3 sm:flex-row sm:items-end sm:justify-between">
           <p className="tabular">
@@ -118,7 +118,7 @@ export default function VehicleCard({ vehicle, compact = false }) {
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); navigate(`/apply/${id}`); }}
-            className="pressable group/cta relative z-[3] inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-md border border-line-strong px-4 text-[13.5px] font-semibold text-ink transition-colors duration-hover hover:bg-ink hover:text-white sm:h-9 sm:px-3 sm:text-[13px]"
+            className="pressable group/cta relative z-[3] inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-md border border-line-strong px-4 text-[14px] font-semibold text-ink transition-colors duration-hover hover:bg-ink hover:text-white sm:h-9 sm:px-3 sm:text-[13px]"
             data-testid="vehicle-card-apply"
           >
             {CARD.registerInterest}

@@ -83,8 +83,8 @@ const FEATURED_TABS = [
 ];
 
 const WHAT = [
-  { t: "Operators checked before they list", d: "Every operator is checked against Companies House and the licensing register, and every car carries a valid private hire plate." },
-  { t: "Insurance compared, never bundled", d: "Comprehensive, third party fire and theft, or third party; monthly, six-monthly or yearly. The prices sit on the car before you apply." },
+  { t: "Operators checked before they list", d: "Every operator is checked against Companies House before their cars go up." },
+  { t: "Insurance quotes on every car", d: "We get quotes from leading insurers and pass the best prices on to you." },
   { t: "Aftercare while you drive", d: "Report a fault once. Kharo books the garage, chases the operator and arranges a replacement car if yours is off the road." },
   { t: "Inspection at collection and return", d: "Photographs and mileage recorded with the operator at handover and again at return, so the deposit is settled on evidence." },
 ];
@@ -99,7 +99,7 @@ const TICKER = VERIFIED.slice().sort((a, b) => a.weekly_rent - b.weekly_rent).sl
 const ENTER = "motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:duration-500 motion-safe:fill-mode-both";
 
 const FIELD = "block w-full rounded-md border border-line-strong bg-surface px-3 h-11 text-[15px] font-medium text-ink outline-none focus:border-ink";
-const LABEL = "block text-[12.5px] font-medium text-ink-2 mb-1.5";
+const LABEL = "block text-[13px] font-medium text-ink-2 mb-1.5";
 const SECTION_LINK = "pressable inline-flex shrink-0 items-center gap-1 text-[14px] font-semibold text-ink hover:text-green-deep";
 
 function SectionHead({ title, sub, to, label = "View all" }) {
@@ -178,10 +178,9 @@ export default function HomeFunctional() {
   return (
     <div className="bg-bone">
       {/* ── HERO: the featured car on a photograph, the search beside it ── */}
-      <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-bone lg:bg-night" data-hero-photo="true" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-        {/* On a phone the photograph is a band behind the copy and the search
-            card sits below it on the page; on wide screens it fills the hero. */}
-        <div className="absolute inset-x-0 top-0 h-[23rem] bg-night lg:inset-0 lg:h-auto">
+      <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-night" data-hero-photo="true" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        {/* Wide screens: the photograph fills the hero behind the copy. */}
+        <div className="absolute inset-0 hidden lg:block">
           <img key={hero.id} src={hero.photos[0]} alt="" aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-700 motion-safe:[animation:hero-drift_16s_ease-out_forwards]"
             fetchPriority="high" decoding="async" />
@@ -189,14 +188,28 @@ export default function HomeFunctional() {
           <div className="absolute inset-0 bg-gradient-to-r from-night/85 via-night/50 to-night/20" />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night/75 to-transparent" />
           {/* Tap the edges of the photograph to move between cars. */}
-          <button type="button" onClick={() => go(slide - 1)} aria-label="Previous car" className="absolute inset-y-0 left-0 w-1/5 cursor-w-resize lg:w-1/6" />
-          <button type="button" onClick={() => go(slide + 1)} aria-label="Next car" className="absolute inset-y-0 right-0 w-1/5 cursor-e-resize lg:w-1/3" />
+          <button type="button" onClick={() => go(slide - 1)} aria-label="Previous car" className="absolute inset-y-0 left-0 w-1/6 cursor-w-resize" />
+          <button type="button" onClick={() => go(slide + 1)} aria-label="Next car" className="absolute inset-y-0 right-0 w-1/3 cursor-e-resize" />
         </div>
 
-        <div className="wrap relative grid gap-5 pt-[calc(var(--header-h)+1.5rem)] pb-8 sm:gap-8 lg:min-h-[40rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:grid-rows-[1fr_auto] lg:items-center lg:pb-12 lg:pt-[calc(var(--header-h)+2.5rem)]">
+        {/* Phones: the photograph is its own block and the words sit under
+            it, so nothing is written across the car. */}
+        <div className="relative lg:hidden">
+          <div className="relative aspect-[4/3] overflow-hidden bg-night">
+            <img key={hero.id} src={hero.photos[0]} alt="" aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-700"
+              fetchPriority="high" decoding="async" />
+            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-night/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-night to-transparent" />
+            <button type="button" onClick={() => go(slide - 1)} aria-label="Previous car" className="absolute inset-y-0 left-0 w-1/4" />
+            <button type="button" onClick={() => go(slide + 1)} aria-label="Next car" className="absolute inset-y-0 right-0 w-1/4" />
+          </div>
+        </div>
+
+        <div className="wrap relative grid gap-5 pb-8 pt-1 sm:gap-8 lg:min-h-[40rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:grid-rows-[1fr_auto] lg:items-center lg:pb-12 lg:pt-[calc(var(--header-h)+2.5rem)]">
           {/* The entrance is CSS, not JavaScript, so the words are on screen
               even when a slow phone throttles animation frames. */}
-          <div className="relative z-10 text-white max-lg:flex max-lg:min-h-[14rem] max-lg:flex-col max-lg:justify-end lg:pointer-events-none lg:[&_a]:pointer-events-auto">
+          <div className="relative z-10 text-white lg:pointer-events-none lg:[&_a]:pointer-events-auto">
             <p className={`${ENTER} font-heading text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] font-extrabold leading-none tabular tracking-[-0.02em]`} data-testid="hero-price">
               £{hero.weekly_rent} <span className="text-[0.45em] font-medium text-white/75">a week</span>
             </p>
@@ -342,7 +355,7 @@ export default function HomeFunctional() {
                 ) : (
                   <span className="grid h-[34px] place-items-center font-heading text-[22px] font-bold leading-none text-ink">{make.slice(0, 1)}</span>
                 )}
-                <span className="text-[13.5px] font-semibold leading-tight text-ink">{make}</span>
+                <span className="text-[14px] font-semibold leading-tight text-ink">{make}</span>
               </Link>
             );
           })}
@@ -371,14 +384,14 @@ export default function HomeFunctional() {
       <section className="wrap grid gap-8 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-5">
           <h2 className="font-heading text-h2 font-extrabold tracking-[-0.01em] text-ink">What Kharo does between you and the operator</h2>
-          <p className="mt-3 max-w-[46ch] text-[15.5px] leading-relaxed text-ink-2">Drivers rent licensed cars from operators we have checked. Kharo holds the deposit, collects the rent, compares the insurance and looks after the car while it is out.</p>
+          <p className="mt-3 max-w-[46ch] text-[15px] leading-relaxed text-ink-2">Drivers rent licensed cars from operators we have checked. Kharo holds the deposit, collects the rent, compares the insurance and looks after the car while it is out.</p>
           <Link to="/for-drivers" className={`${SECTION_LINK} mt-5`}>How renting works <ArrowUpRight size={15} strokeWidth={2.25} /></Link>
         </div>
         <dl className="grid gap-x-8 sm:grid-cols-2 lg:col-span-7">
           {WHAT.map(({ t, d }) => (
             <div key={t} className="border-t border-line py-5">
               <dt className="font-heading text-[17px] font-bold text-ink">{t}</dt>
-              <dd className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{d}</dd>
+              <dd className="mt-2 text-[15px] leading-relaxed text-ink-2">{d}</dd>
             </div>
           ))}
         </dl>
@@ -388,7 +401,7 @@ export default function HomeFunctional() {
       <section className="wrap grid gap-4 pt-10 sm:pt-16 md:grid-cols-2">
         <div className="group relative flex flex-col overflow-hidden rounded-lg bg-ink p-6 text-white sm:p-8" data-testid="home-banner-drivers">
           <h2 className="font-heading text-[26px] font-extrabold leading-tight tracking-[-0.01em]">Looking for a car to drive?</h2>
-          <p className="mt-2 max-w-[38ch] text-[14.5px] text-white/80">Rent only, insurance compared on the car, Uber and Bolt set up before you collect.</p>
+          <p className="mt-2 max-w-[38ch] text-[15px] text-white/80">Licensed cars from checked operators, with insurance quotes on every car.</p>
           <Link to="/search" className="pressable mt-5 inline-flex h-11 w-fit items-center gap-2 rounded-md bg-green px-5 text-[14px] font-semibold text-ink hover:bg-green-hover">
             Find a car <ArrowUpRight size={15} strokeWidth={2.25} />
           </Link>
@@ -396,12 +409,12 @@ export default function HomeFunctional() {
             <p className="font-heading text-[clamp(2.5rem,1.8rem+2.6vw,3.75rem)] font-extrabold leading-none tabular tracking-[-0.02em] text-white">
               £{CHEAPEST}<span className="ml-2 text-[0.4em] font-medium text-white/70">a week, the cheapest car this week</span>
             </p>
-            <p className="mt-2 text-[12.5px] text-white/60">Rent only. Insurance is compared on the car, and you choose the level.</p>
+            <p className="mt-2 text-[13px] text-white/60">The cheapest car on Kharo right now.</p>
           </div>
           <div className="relative -mx-6 mt-5 overflow-hidden border-t border-white/10 pt-4 sm:-mx-8" aria-hidden="true">
             <div className="flex w-max gap-2 pl-6 motion-safe:animate-marquee motion-safe:group-hover:[animation-play-state:paused] sm:pl-8">
               {[...TICKER, ...TICKER].map((v, i) => (
-                <span key={`${v.id}-${i}`} className="shrink-0 rounded-md border border-white/15 px-3 py-1.5 text-[12.5px] text-white/85">
+                <span key={`${v.id}-${i}`} className="shrink-0 rounded-md border border-white/15 px-3 py-1.5 text-[13px] text-white/85">
                   {v.make} {v.model} <span className="text-white/55">· </span><span className="tabular font-semibold text-white">£{v.weekly_rent}</span><span className="text-white/55"> a week</span>
                 </span>
               ))}
@@ -411,13 +424,13 @@ export default function HomeFunctional() {
 
         <div className="flex flex-col rounded-lg bg-green p-6 text-ink sm:p-8" data-testid="home-banner-operators">
           <h2 className="font-heading text-[26px] font-extrabold leading-tight tracking-[-0.01em]">Own cars standing idle?</h2>
-          <p className="mt-2 max-w-[38ch] text-[14.5px] text-ink/75">List for free. Checked drivers, rent collected weekly, one console for the whole fleet.</p>
+          <p className="mt-2 max-w-[38ch] text-[15px] text-ink/75">List your cars for free. Checked drivers apply, and we collect the rent.</p>
           <Link to="/list-your-fleet" className="pressable mt-5 inline-flex h-11 w-fit items-center gap-2 rounded-md bg-ink px-5 text-[14px] font-semibold text-white hover:bg-[#2A2D2B]">
             List your fleet <ArrowUpRight size={15} strokeWidth={2.25} />
           </Link>
           <div className="mt-7 border-t border-ink/15 pt-5">
             <IdleFigure reduce={reduce} />
-            <p className="mt-2 text-[12.5px] text-ink/65">The median rent on Kharo, times four weeks. Every week a car sits, that is what it does not earn.</p>
+            <p className="mt-2 text-[13px] text-ink/65">What one car earns in a month at the typical rent on Kharo.</p>
           </div>
         </div>
       </section>
@@ -435,11 +448,11 @@ export default function HomeFunctional() {
         <div className="grid gap-6 rounded-lg border border-line bg-surface p-6 sm:p-8 lg:grid-cols-12 lg:items-center lg:gap-12" data-testid="home-contact">
           <div className="lg:col-span-5">
             <h2 className="font-heading text-h2 font-extrabold leading-tight tracking-[-0.01em] text-ink">Can't see the car you want?</h2>
-            <p className="mt-3 max-w-[42ch] text-[15px] leading-relaxed text-ink-2">Tell us what you are after and where. We match you the moment it comes up, and your request tells operators what drivers in your city actually want.</p>
+            <p className="mt-3 max-w-[42ch] text-[15px] leading-relaxed text-ink-2">Tell us what car you want and where. We tell you when it comes up.</p>
           </div>
           <div className="lg:col-span-7">
             <CityInterestForm compact mode="request" />
-            <p className="mt-3 text-[12.5px] text-ink-3">A person replies within one working day.</p>
+            <p className="mt-3 text-[13px] text-ink-3">A person replies within one working day.</p>
           </div>
         </div>
       </section>
@@ -450,7 +463,7 @@ export default function HomeFunctional() {
           <div className="lg:col-span-5">
             <p className="font-heading text-[clamp(3rem,2.2rem+3.4vw,4.75rem)] font-extrabold leading-none tabular tracking-[-0.03em] text-ink">{WHY.gap.number}</p>
             <p className="mt-3 max-w-[30ch] text-[16px] leading-snug text-ink">{WHY.gap.label}</p>
-            <p className="mt-2 text-[12.5px] text-ink-3">{WHY.gap.source}</p>
+            <p className="mt-2 text-[13px] text-ink-3">{WHY.gap.source}</p>
           </div>
           <div className="lg:col-span-7 lg:border-l lg:border-line lg:pl-14">
             <p className="text-lead leading-relaxed text-ink-2">{WHY.gap.body}</p>

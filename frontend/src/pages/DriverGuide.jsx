@@ -45,7 +45,7 @@ function StepsIndex({ steps }) {
             key={s.t}
             type="button"
             onClick={() => scrollTo(i)}
-            className={`pressable shrink-0 rounded-md px-4 h-10 text-[13.5px] font-medium border ${
+            className={`pressable shrink-0 rounded-md px-4 h-10 text-[14px] font-medium border ${
               active === i ? "bg-green text-white border-green" : "bg-surface text-ink-2 border-line-strong"
             }`}
           >
@@ -88,7 +88,7 @@ function StepsIndex({ steps }) {
               )}
               <div className={withPhoto ? "order-2 sm:order-1" : "max-w-xl"}>
                 <h3 className="text-h3 font-heading font-bold text-ink"><span className="tabular text-ink-3 mr-2.5">{i + 1}.</span>{s.t}</h3>
-                <p className="mt-2.5 text-[15.5px] text-ink-2 leading-relaxed measure">{s.d}</p>
+                <p className="mt-2.5 text-[15px] text-ink-2 leading-relaxed measure">{s.d}</p>
               </div>
             </div>
           );
@@ -131,7 +131,7 @@ export default function DriverGuide() {
           <RevealItem as="dl" className="mt-8 divide-y divide-line border-y border-line">
             {money.rows.map(([term, desc]) => (
               <div key={term} className="grid sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-1 sm:gap-8 py-5">
-                <dt className="text-[15.5px] font-semibold text-ink">{term}</dt>
+                <dt className="text-[15px] font-semibold text-ink">{term}</dt>
                 <dd className="text-[15px] text-ink-2 leading-relaxed">{desc}</dd>
               </div>
             ))}

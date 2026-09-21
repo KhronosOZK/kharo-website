@@ -37,7 +37,7 @@ export default function Saved() {
         <div className="flex items-end justify-between gap-3 mb-8 flex-wrap">
           <div>
             <h1 className="text-h1 font-heading font-extrabold text-ink">{SAVED.heading}</h1>
-            <p className="mt-1.5 text-[14.5px] text-ink-3">{SAVED.count(items.length)}</p>
+            <p className="mt-1.5 text-[15px] text-ink-3">{SAVED.count(items.length)}</p>
           </div>
           {items.length >= 2 && (
             <Button onClick={() => setCompare((c) => !c)} variant={compare ? "outline" : "default"} data-testid="compare-toggle">

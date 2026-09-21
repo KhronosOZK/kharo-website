@@ -20,7 +20,7 @@ export default function Legal() {
       <RevealItem className="lg:col-span-4">
         <div className="lg:sticky top-below-header">
           <h1 className="text-h1 font-heading font-extrabold text-ink">{LEGAL.heading}</h1>
-          <p className="mt-3 text-[13.5px] text-ink-3 leading-relaxed">{LEGAL.updated}</p>
+          <p className="mt-3 text-[14px] text-ink-3 leading-relaxed">{LEGAL.updated}</p>
           <nav className="mt-8 hidden lg:block" aria-label="Sections">
             <ol className="border-l border-line space-y-0.5">
               {sections.map((s) => (

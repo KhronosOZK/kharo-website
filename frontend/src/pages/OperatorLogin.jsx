@@ -34,7 +34,7 @@ export default function OperatorLogin() {
           kharo<span className="text-green">.</span>
         </Link>
         <h1 className="mt-5 text-h2 font-heading font-extrabold text-ink">Sign in to your fleet</h1>
-        <p className="mt-1.5 text-[14.5px] text-ink-2">Manage your cars, applications and payouts in one place.</p>
+        <p className="mt-1.5 text-[15px] text-ink-2">Manage your cars, applications and payouts in one place.</p>
         <form onSubmit={submit} className="mt-6 space-y-4">
           <div>
             <Label className="text-[13px] font-medium text-ink-2 mb-1.5 block">Email</Label>
@@ -43,7 +43,7 @@ export default function OperatorLogin() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <Label className="text-[13px] font-medium text-ink-2">Password</Label>
-              <Link to="/forgot-password" className="text-[12.5px] text-green font-medium hover:underline underline-offset-4" data-testid="oplogin-forgot">Forgot password?</Link>
+              <Link to="/forgot-password" className="text-[13px] text-green font-medium hover:underline underline-offset-4" data-testid="oplogin-forgot">Forgot password?</Link>
             </div>
             <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="oplogin-password" required />
           </div>

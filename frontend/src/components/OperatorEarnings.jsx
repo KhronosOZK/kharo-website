@@ -22,7 +22,7 @@ export default function OperatorEarnings({ className = "" }) {
 
   return (
     <div className={`surface-raised rounded-lg p-card max-w-md ${className}`} data-testid="operator-loss-card">
-      <p className="text-[13.5px] font-medium text-ink-3">{loss.label}</p>
+      <p className="text-[14px] font-medium text-ink-3">{loss.label}</p>
       <div className="flex items-end gap-2 mt-1.5">
         <AnimatedNumber value={weeklyLoss} prefix="£" data-testid="operator-loss-value" className="text-stat font-heading font-extrabold text-ink" />
         <span className="text-ink-3 text-[15px] pb-1.5">a week</span>
@@ -31,7 +31,7 @@ export default function OperatorEarnings({ className = "" }) {
 
       <div className="mt-5">
         <div className="flex items-center justify-between mb-2.5">
-          <span className="text-[13.5px] font-medium text-ink-2">{loss.idle}</span>
+          <span className="text-[14px] font-medium text-ink-2">{loss.idle}</span>
           <span className="text-[15px] font-heading font-bold text-ink tabular">{idleCount} {idleCount === 1 ? "car" : "cars"}</span>
         </div>
         <Slider value={[idleCount]} onValueChange={([v]) => setIdleCount(v)} min={1} max={20} step={1} aria-label={loss.idle} data-testid="operator-idle-slider" />
@@ -39,7 +39,7 @@ export default function OperatorEarnings({ className = "" }) {
 
       <div className="mt-5">
         <div className="flex items-center justify-between mb-2.5">
-          <span className="text-[13.5px] font-medium text-ink-2">{loss.rate}</span>
+          <span className="text-[14px] font-medium text-ink-2">{loss.rate}</span>
           <span className="text-[15px] font-heading font-bold text-ink tabular">£{weeklyRate}</span>
         </div>
         <Slider value={[weeklyRate]} onValueChange={([v]) => setWeeklyRate(v)} min={100} max={300} step={5} aria-label={loss.rate} data-testid="operator-rate-slider" />
@@ -50,7 +50,7 @@ export default function OperatorEarnings({ className = "" }) {
         <Line l={loss.perMonth} v={monthlyLoss} />
         <Line l={loss.perYear} v={yearlyLoss} />
       </dl>
-      <p className="mt-4 text-[12.5px] text-ink-3 leading-relaxed">{loss.note}</p>
+      <p className="mt-4 text-[13px] text-ink-3 leading-relaxed">{loss.note}</p>
     </div>
   );
 }

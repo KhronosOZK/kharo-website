@@ -102,14 +102,14 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
         <div className="flex items-center justify-between gap-3 px-4 sm:px-5 h-14 border-b border-line bg-surface">
           <div className="flex items-center gap-3 min-w-0">
             <span className="caro-wordmark text-[20px] text-ink leading-none">kharo<span className="text-green">.</span></span>
-            <span className="hidden xs:inline text-[12.5px] text-ink-3 truncate">{data.title}</span>
+            <span className="hidden xs:inline text-[13px] text-ink-3 truncate">{data.title}</span>
           </div>
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="text-right min-w-0 hidden sm:block">
-              <p className="text-[12.5px] font-semibold text-ink leading-tight truncate">{data.user.name}</p>
-              <p className="text-[11.5px] text-ink-3 leading-tight truncate">{data.user.sub}</p>
+              <p className="text-[13px] font-semibold text-ink leading-tight truncate">{data.user.name}</p>
+              <p className="text-[12px] text-ink-3 leading-tight truncate">{data.user.sub}</p>
             </div>
-            <span className="grid place-items-center w-8 h-8 rounded-md bg-green text-ink text-[11px] font-bold tabular">{data.user.initials}</span>
+            <span className="grid place-items-center w-8 h-8 rounded-md bg-green text-ink text-[12px] font-bold tabular">{data.user.initials}</span>
           </div>
         </div>
 
@@ -135,7 +135,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                   tabIndex={isActive ? 0 : -1}
                   onClick={() => select(p.id)}
                   data-testid={`dashboard-tab-${p.id}`}
-                  className={`pressable relative shrink-0 snap-start flex items-center gap-2.5 px-3 h-10 sm:h-auto sm:py-2.5 rounded-md text-[13.5px] font-medium text-left whitespace-nowrap ${isActive ? "text-white" : "text-ink-2 hover:bg-surface-2"}`}
+                  className={`pressable relative shrink-0 snap-start flex items-center gap-2.5 px-3 h-10 sm:h-auto sm:py-2.5 rounded-md text-[14px] font-medium text-left whitespace-nowrap ${isActive ? "text-white" : "text-ink-2 hover:bg-surface-2"}`}
                 >
                   {isActive && (
                     <motion.span
@@ -197,8 +197,8 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                         variants={{ hidden: { opacity: 0, y: 6 }, visible: { opacity: 1, y: 0, transition: { duration: 0.22, ease: EASE.out } } }}
                         className="rounded-lg bg-surface-2/70 px-3.5 py-3 min-w-0"
                       >
-                        <p className="text-[11.5px] text-ink-3 truncate">{k.label}</p>
-                        <p className="mt-0.5 font-heading font-bold text-ink text-[15.5px] leading-tight truncate tabular">{k.value}</p>
+                        <p className="text-[12px] text-ink-3 truncate">{k.label}</p>
+                        <p className="mt-0.5 font-heading font-bold text-ink text-[15px] leading-tight truncate tabular">{k.value}</p>
                       </motion.div>
                     ))}
                   </div>
@@ -215,7 +215,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                             placeholder={panel.searchLabel}
                             aria-label={panel.searchLabel}
                             data-testid={`dashboard-search-${panel.id}`}
-                            className="field w-full h-10 rounded-lg border border-line-strong bg-surface pl-9 pr-3 text-base sm:text-[13.5px] text-ink placeholder:text-ink-3 focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
+                            className="field w-full h-10 rounded-lg border border-line-strong bg-surface pl-9 pr-3 text-base sm:text-[14px] text-ink placeholder:text-ink-3 focus:outline-none focus:border-green focus:ring-[3px] focus:ring-green/20"
                           />
                         </div>
                       )}
@@ -223,7 +223,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                         <div className="flex gap-1 overflow-x-auto hide-scrollbar" role="group" aria-label="Filter">
                           {panel.filters.map((f) => (
                             <button key={f} type="button" onClick={() => { setFilter(f); setTouched(true); }}
-                              className={`pressable shrink-0 rounded-md h-9 px-3 text-[12.5px] font-medium ${filter === f ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
+                              className={`pressable shrink-0 rounded-md h-9 px-3 text-[13px] font-medium ${filter === f ? "bg-ink text-white" : "text-ink-2 hover:bg-surface-2"}`}>
                               {f}
                             </button>
                           ))}
@@ -234,7 +234,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
 
                   <ul className="mt-3 divide-y divide-line">
                     {rows.length === 0 && (
-                      <li className="py-6 text-[13.5px] text-ink-3">Nothing matches that. Try another vehicle or plate.</li>
+                      <li className="py-6 text-[14px] text-ink-3">Nothing matches that. Try another vehicle or plate.</li>
                     )}
                     {rows.map((r, i) => (
                       <motion.li
@@ -244,9 +244,9 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
                       >
                         <div className="min-w-0">
                           <p className="text-[14px] font-medium text-ink leading-snug truncate">{r.t}</p>
-                          <p className="text-[12.5px] text-ink-3 leading-snug truncate">{r.d}</p>
+                          <p className="text-[13px] text-ink-3 leading-snug truncate">{r.d}</p>
                         </div>
-                        <span className={`shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[11.5px] font-semibold tabular ${TONE[r.tone] || TONE.muted}`}>
+                        <span className={`shrink-0 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[12px] font-semibold tabular ${TONE[r.tone] || TONE.muted}`}>
                           {r.tone === "link" && r.status === "PDF" && <Download className="w-3 h-3" strokeWidth={2} />}
                           {r.v}
                         </span>
@@ -261,7 +261,7 @@ export default function DashboardSnapshot({ variant = "driver", className = "", 
           </div>
         </div>
 
-        <div className="px-4 sm:px-5 py-2.5 border-t border-line bg-surface-2/60 text-[11.5px] text-ink-3">
+        <div className="px-4 sm:px-5 py-2.5 border-t border-line bg-surface-2/60 text-[12px] text-ink-3">
           Sample account. Names and figures are illustrative.
         </div>
       </div>

@@ -12,7 +12,7 @@ export default function Faq({ items, className = "", testId = "faq" }) {
           <AccordionTrigger className="py-5 text-left font-heading text-[17px] sm:text-[18px] font-semibold text-ink hover:no-underline [&>svg]:text-green [&>svg]:h-5 [&>svg]:w-5">
             {item.q}
           </AccordionTrigger>
-          <AccordionContent className="pb-6 pt-0 text-[15.5px] leading-relaxed text-ink-2 measure">
+          <AccordionContent className="pb-6 pt-0 text-[15px] leading-relaxed text-ink-2 measure">
             {item.a}
           </AccordionContent>
         </AccordionItem>

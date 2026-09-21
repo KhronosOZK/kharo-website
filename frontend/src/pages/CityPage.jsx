@@ -76,7 +76,7 @@ export default function CityPage() {
                   key={c}
                   to={`/city/${c}`}
                   data-testid={`city-link-${c}`}
-                  className="pressable px-4 py-2 rounded-md bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
+                  className="pressable px-4 py-2 rounded-md bg-surface border border-line-strong text-ink text-[14px] font-medium hover:border-green hover:text-green"
                 >
                   {c}
                 </Link>
@@ -138,7 +138,7 @@ export default function CityPage() {
       <RevealGroup as="section" className="wrap pb-section">
         <RevealItem className="mb-7">
           <h2 className="text-h2 font-heading font-extrabold text-ink">{t(CITY_PAGE.listingsHeading, { city })}</h2>
-          <p className="mt-1.5 text-[14.5px] text-ink-3">{t(CITY_PAGE.greenNote, { green: greenCount })}</p>
+          <p className="mt-1.5 text-[15px] text-ink-3">{t(CITY_PAGE.greenNote, { green: greenCount })}</p>
         </RevealItem>
         <RevealItem>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-9">
@@ -176,7 +176,7 @@ export default function CityPage() {
                 key={c}
                 to={`/city/${c}`}
                 data-testid={`city-link-${c}`}
-                className="pressable px-4 py-2 rounded-md bg-surface border border-line-strong text-ink text-[13.5px] font-medium hover:border-green hover:text-green"
+                className="pressable px-4 py-2 rounded-md bg-surface border border-line-strong text-ink text-[14px] font-medium hover:border-green hover:text-green"
               >
                 {c}
               </Link>

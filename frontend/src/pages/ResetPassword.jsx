@@ -40,13 +40,13 @@ export default function ResetPassword() {
         {!token ? (
           <div className="mt-6">
             <h1 className="text-h2 font-heading font-extrabold text-ink">This link looks incomplete</h1>
-            <p className="text-ink-2 mt-2 text-[14.5px] leading-relaxed">Please use the full link from your email, or request a new one.</p>
-            <Link to="/forgot-password" className="inline-block mt-5 text-green font-semibold text-[14.5px]">Request a new link</Link>
+            <p className="text-ink-2 mt-2 text-[15px] leading-relaxed">Please use the full link from your email, or request a new one.</p>
+            <Link to="/forgot-password" className="inline-block mt-5 text-green font-semibold text-[15px]">Request a new link</Link>
           </div>
         ) : (
           <>
             <h1 className="mt-5 text-h2 font-heading font-extrabold text-ink">Choose a new password</h1>
-            <p className="mt-1.5 text-[14.5px] text-ink-2">Make it something you will remember.</p>
+            <p className="mt-1.5 text-[15px] text-ink-2">Make it something you will remember.</p>
             <form onSubmit={submit} className="mt-6 space-y-4">
               <div>
                 <Label className="text-[13px] font-medium text-ink-2 mb-1.5 block">New password</Label>

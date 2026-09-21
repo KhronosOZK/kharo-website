@@ -16,8 +16,8 @@ export default function PreviewNotice({ variant = "banner", className = "" }) {
   return (
     <div className={`bg-surface border-b border-line ${className}`} data-testid="preview-notice">
       <div className="wrap py-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <span className="text-[12.5px] font-semibold text-ink">{PREVIEW.label}</span>
-        <span className="text-[12.5px] text-ink-3 leading-relaxed">{PREVIEW.short}</span>
+        <span className="text-[13px] font-semibold text-ink">{PREVIEW.label}</span>
+        <span className="text-[13px] text-ink-3 leading-relaxed">{PREVIEW.short}</span>
       </div>
     </div>
   );

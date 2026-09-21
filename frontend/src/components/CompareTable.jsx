@@ -46,10 +46,10 @@ export default function CompareTable({ items, onRemove }) {
                     <img src={v.photos[0]} alt={`${v.make} ${v.model}`} data-zoom className="w-full h-full object-cover" />
                   </div>
                   <div className="font-heading font-bold text-ink leading-snug">{v.make} {v.model}</div>
-                  <div className="text-[12.5px] text-ink-3 capitalize">{v.year}, {v.colour}</div>
+                  <div className="text-[13px] text-ink-3 capitalize">{v.year}, {v.colour}</div>
                   <div className="mt-2 h-6">
                     {cheapest === v.id && (
-                      <span className="inline-block text-[11px] font-semibold text-green bg-green-soft rounded-md px-2 py-0.5">
+                      <span className="inline-block text-[12px] font-semibold text-green bg-green-soft rounded-md px-2 py-0.5">
                         {COMPARE.lowestRent}
                       </span>
                     )}

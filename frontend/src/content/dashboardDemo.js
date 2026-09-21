@@ -24,7 +24,7 @@ export const DRIVER_DASHBOARD = {
         { t: "Rent and insurance", d: "Fri 5 Sep · paid on time", v: "£203", tone: "ok", status: "Paid" },
         { t: "Deposit", d: "Held for the rental · returned at handback", v: "£500", tone: "muted", status: "Held" },
       ],
-      foot: "Payments are collected through Kharo on the same day each week. You see every one here.",
+      foot: "Rent is collected through Kharo every month. You see every payment here.",
     },
     {
       id: "platforms",
