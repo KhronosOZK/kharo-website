@@ -192,6 +192,13 @@ Most readers, drivers and operators alike, do not have strong English. Write for
 
 Facts fixed by the owner on 21 September 2026, all in `FACTS` in `content/site.js`: rent is quoted per week and paid monthly (taken two weeks before the next month); the deposit is two and a half weeks' rent (the listing generator computes it); operators are checked against Companies House only, never "the licensing register"; insurance is described as quotes from leading insurers, and the three cover levels stay until the comprehensive-only decision is made.
 
+## 7a. Forms, insurance and the About page
+
+- **Every form asks the same way**: phone first and required, then name, then email as an option. This is the waitlist (`content/pages/register.js`), the car application (`pages/Apply.jsx`), the fleet form (`pages/OperatorInterest.jsx`) and the small city form (`components/CityInterestForm.jsx`). The API accepts a missing email on all of them.
+- **Insurance is comprehensive only** (owner's decision, 24 September 2026). The single sample quote lives in `content/pages/applicationFlow.js`; the wording in `APPLY.stepCover`. To offer more levels again, add quotes there and restore the radio lists in `VehicleDetail.jsx` and `Apply.jsx` from git history.
+- **About page** (`/about`): text in `ABOUT` in `content/site.js`. Founder photos go in `frontend/public/images/team/` as `omed-khan.jpg` and `walid-kamal.jpg`; the card shows initials until the file exists. Add a sentence to `bio` to show it under the name.
+- **Support bubble**: both consoles show "Need support?" bottom-right (`SupportBubble` in `components/ConsoleShell.jsx`). Call-back requests land in the admin Leads table with source `console_support`.
+
 ## 8. Text sizes
 
 Small text uses four sizes only: 12px for captions under a price, 13px for labels and meta lines, 14px for buttons and table rows, 15px for body copy. Headings use the `text-h1`, `text-h2`, `text-h3` and `text-lead` tokens. Do not introduce half sizes (12.5px, 13.5px, 14.5px); the mix of sizes was what made the car page look inconsistent.

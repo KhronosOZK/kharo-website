@@ -107,10 +107,17 @@ The site is written in plain English for readers with limited English (one idea 
 - Remove the demo account `demo.driver@kharodemo.co.uk` and the test leads from the database (Atlas, Browse Collections, delete the documents).
 - Turn on Vercel Analytics (free) in the Vercel project for real page-view numbers alongside the site's own events.
 
-## 10. Monitoring (20 minutes, optional but cheap)
+## 10. Monitoring (10 minutes)
 
-- Sentry free tier: `npm i @sentry/react` in `frontend`, initialise it in `src/index.js` with the DSN Sentry gives you. You then get an email when a page breaks for a real user.
+Both are already wired into the code; each needs one switch from you.
+
+- **Vercel Web Analytics.** In the Vercel dashboard open the `kharo` project, then the **Analytics** tab, and click **Enable**. Page views start counting from the next deploy. Nothing else to do.
+- **Sentry.** Create a free account at sentry.io, add a React project, copy the DSN it shows you. In Vercel, project **Settings → Environment Variables**, add `REACT_APP_SENTRY_DSN` with that value and redeploy. From then on every crash on a visitor's screen appears in Sentry. Until the variable exists the code does nothing.
 - Render sends deploy-failure emails on its own; make sure they go to an inbox someone reads.
+
+## 10a. Make the repository private (2 minutes)
+
+The code is still public on GitHub. Go to github.com/KhronosOZK/kharo-website → **Settings** → scroll to **Danger Zone** → **Change repository visibility** → **Make private**, and type the repository name to confirm. Vercel keeps deploying from a private repository without any change.
 
 ## 11. Growth loop already in the site
 

@@ -14,21 +14,22 @@ export const REGISTER = {
     note: "A guide based on typical London minicab fares at full-time hours. Your figure moves with the hours you put in.",
     insuranceNote: "Insurance is a guide figure; you choose your own policy when you apply.",
   },
+  // Same order and the same rules as every other form on the site: phone
+  // first and required, then name, then email as an option.
   steps: [
     {
+      key: "phone", q: "Your phone number", sub: "We call or message you when cars are ready.",
+      fields: [{ label: "Phone number", name: "phone", type: "tel", placeholder: "07700 900 000", testid: "reg-phone" }],
+      required: ["phone"],
+    },
+    {
       key: "name", q: "What's your name?", sub: "So we know who to keep in touch with.",
-      fields: [{ label: "Full name", name: "name", placeholder: "Your full name", testid: "reg-name" }],
+      fields: [{ label: "Your name", name: "name", placeholder: "Your full name", testid: "reg-name" }],
       required: ["name"],
     },
     {
-      key: "email", q: "What's your email?", sub: "We'll email you the moment we go live in your area.",
-      fields: [{ label: "Email", name: "email", type: "email", placeholder: "you@email.com", testid: "reg-email" }],
-      required: ["email"],
-    },
-    {
-      key: "phone", q: "Your mobile number", sub: "So we can reach you quickly when cars are ready.",
-      fields: [{ label: "Mobile number", name: "phone", placeholder: "07700 900 000", testid: "reg-phone" }],
-      required: ["phone"],
+      key: "email", q: "Your email, if you have one", sub: "Optional. We can also email you when we go live in your area.",
+      fields: [{ label: "Email (if you have one)", name: "email", type: "email", placeholder: "you@email.com", testid: "reg-email" }],
     },
     {
       key: "city", q: "Where do you drive?", sub: "Tell us your city so we match you to local cars first.",

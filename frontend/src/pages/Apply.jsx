@@ -21,8 +21,8 @@ const stepVariants = {
 };
 
 const STEP_KEYS = ["about", "licence", "cover", "review"];
-const COVER = { comp: "comp", tpft: "tpft", tp: "tp" };
-const quoteFor = (level) => APPLICATION_FLOW.quotes.find((q) => q.id === level);
+const COVER = { comp: "comp" }; // comprehensive only
+const quoteFor = (level) => APPLICATION_FLOW.quotes.find((q) => q.id === level) || APPLICATION_FLOW.quotes[0];
 
 export default function Apply() {
   const { id } = useParams();
@@ -221,29 +221,23 @@ export default function Apply() {
                         })}
                       </div>
 
-                      <div className="divide-y divide-line border-y border-line" role="radiogroup" aria-label="Cover level">
-                        {["comp", "tpft", "tp"].map((lvl) => {
-                          const q = quoteFor(lvl); const on = f.cover_level === lvl;
-                          const suffix = APPLICATION_FLOW.terms.find((t) => t.id === f.cover_term).suffix;
-                          return (
-                            <button key={lvl} type="button" role="radio" aria-checked={on}
-                              onClick={() => setF((p) => ({ ...p, cover_level: lvl }))}
-                              data-testid={`apply-cover-${lvl}`}
-                              className="pressable grid w-full grid-cols-[1.25rem_1fr_auto] items-start gap-3 py-4 text-left">
-                              <span aria-hidden="true" className={`mt-1 h-4 w-4 rounded-full border-2 ${on ? "border-green bg-green" : "border-line-strong"}`} />
-                              <span>
-                                <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels[lvl]}</span>
-                                <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes[lvl]}</span>
-                                <span className="mt-1 block text-[13px] text-ink-3">{q.excess}</span>
-                              </span>
-                              <span className="text-right tabular">
-                                <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[f.cover_term].toLocaleString()}</span>
-                                <span className="block text-[12px] text-ink-3">{suffix}</span>
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
+                      {(() => {
+                        const q = quoteFor("comp");
+                        const suffix = APPLICATION_FLOW.terms.find((t) => t.id === f.cover_term).suffix;
+                        return (
+                          <div className="mt-4 grid grid-cols-[1fr_auto] items-start gap-3 rounded-md border border-line bg-surface p-4" data-testid="apply-cover-comp">
+                            <span>
+                              <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels.comp}</span>
+                              <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes.comp}</span>
+                              <span className="mt-1 block text-[13px] text-ink-3">{q.excess}</span>
+                            </span>
+                            <span className="text-right tabular">
+                              <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[f.cover_term].toLocaleString()}</span>
+                              <span className="block text-[12px] text-ink-3">{suffix}</span>
+                            </span>
+                          </div>
+                        );
+                      })()}
                       <p className="text-[13px] text-ink-3 mt-4 leading-relaxed">{APPLY.stepCover.note}</p>
                     </>
                   )}

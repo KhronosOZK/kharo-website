@@ -122,6 +122,7 @@ export default function OperatorDashboard() {
       subtitle="Newham and East London · preview console"
       note="Demo account. Figures are illustrative until launch."
       city="London"
+      who="operator"
       actions={<Button><Plus className="h-4 w-4" strokeWidth={1.75} /> Add vehicle</Button>}
     >
       {view === "overview" && (

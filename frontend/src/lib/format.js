@@ -19,6 +19,11 @@ export function weeklyInsurance(quote, term = "monthly") {
 /** The cheapest sample cover, per week: what "insurance from" means on a card. */
 export const INSURANCE_FROM_WEEKLY = Math.min(...APPLICATION_FLOW.quotes.map((q) => weeklyInsurance(q, "monthly")));
 
+/** Rent is quoted per week and paid monthly: 52 weeks spread over 12 months. */
+export function monthlyFromWeekly(weekly) {
+  return Math.round((weekly * 52) / 12);
+}
+
 /** A listing's yearly mileage allowance. 0 means unlimited. */
 export function mileageLabel(n, short = false) {
   if (!n) return short ? "Unlimited" : "Unlimited mileage";

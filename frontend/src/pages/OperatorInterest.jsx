@@ -17,9 +17,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const STEPS = [
   { key: "company", q: "What's your company name?", sub: "So we know who we're speaking with.", fields: [{ label: "Company name", name: "company_name", placeholder: "e.g. London PHV Ltd", testid: "op-company" }], required: ["company_name"] },
-  { key: "contact", q: "What's your name?", sub: "Your point of contact for this fleet.", fields: [{ label: "Your name", name: "contact_name", placeholder: "Your full name", testid: "op-contact" }] },
-  { key: "email", q: "What's your email?", sub: "We'll send confirmation here.", fields: [{ label: "Email", name: "email", type: "email", placeholder: "you@company.com", testid: "op-email" }], required: ["email"] },
-  { key: "phone", q: "Your phone number", sub: "So we can call you within 1 working day.", fields: [{ label: "Phone number", name: "phone", type: "tel", placeholder: "07700 900 000", testid: "op-phone" }], required: ["phone"] },
+  { key: "phone", q: "Your phone number", sub: "A person calls you within one working day.", fields: [{ label: "Phone number", name: "phone", type: "tel", placeholder: "07700 900 000", testid: "op-phone" }], required: ["phone"] },
+  { key: "contact", q: "What's your name?", sub: "Your point of contact for this fleet.", fields: [{ label: "Your name", name: "contact_name", placeholder: "Your full name", testid: "op-contact" }], required: ["contact_name"] },
+  { key: "email", q: "Your email, if you have one", sub: "Optional. We send the confirmation here.", fields: [{ label: "Email (if you have one)", name: "email", type: "email", placeholder: "you@company.com", testid: "op-email" }] },
   { key: "areas", q: "Which areas do you operate in?", sub: "Boroughs or areas your fleet covers.", fields: [{ label: "Areas", name: "areas", placeholder: "e.g. East London, Barking, Ilford", testid: "op-areas" }], required: ["areas"] },
   { key: "fleet", q: "How big is your fleet?", sub: "A rough number is fine.", select: { name: "fleet_size", testid: "op-fleet", options: ["1 to 5 vehicles", "6 to 15 vehicles", "16 to 30 vehicles", "30+ vehicles"] } },
   { key: "idle", q: "How many cars are sitting idle?", sub: "This is what we'll help you fill first.", select: { name: "current_idle", testid: "op-idle", options: ["1 car", "2 to 3 cars", "4 to 5 cars", "5+ cars"] } },

@@ -21,7 +21,7 @@ export const FACTS = {
   citiesSentence: "London, Birmingham, Manchester, Leeds, Sheffield, Wolverhampton and Liverpool",
   price: "The weekly price is the rent for the car. The operator sets it.",
   insurance:
-    "We get quotes from leading insurers and pass the best prices on to you. You pick the cover and how long for when you apply.",
+    "We get comprehensive cover quotes from leading insurers and pass the best prices on to you. You pick how long for when you apply.",
   payments: "You pay rent monthly through Kharo. Each payment is taken two weeks before the next month is due.",
   platforms: "Once your collection is confirmed, we upload your documents to Uber and Bolt for you. When they approve them, you can start earning from day one.",
   vetting: "We run checks before an operator sees your application, to make sure you can afford the rent.",
@@ -69,6 +69,7 @@ export const NAV = {
     { to: "/for-drivers", label: "For drivers" },
     { to: "/operator-guide", label: "For operators" },
     { to: "/why-kharo", label: "Why Kharo" },
+    { to: "/about", label: "About" },
   ],
   headerCta: { to: "/register", label: "Join the waitlist" },
   accountMenu: [
@@ -105,6 +106,7 @@ export const NAV = {
       heading: "Company",
       links: [
         ["Why Kharo", "/why-kharo"],
+        ["About us", "/about"],
         ["Help", "/help"],
         ["Legal and privacy", "/legal"],
       ],
@@ -235,7 +237,7 @@ export const FOR_DRIVERS = {
     items: [
       { t: "Find the right car for you", d: "Search by city, price, fuel and make." },
       { t: "Apply for it", d: "Fill in one short form. We save your details for next time." },
-      { t: "Get the right insurance for you", d: "Compare quotes from leading insurers. Pick the cover and how long for." },
+      { t: "Get the right insurance for you", d: "Compare comprehensive quotes from leading insurers. Pick how long for." },
       { t: "We check you", d: FACTS.vetting },
       { t: "The operator says yes", d: "The operator checks your application and replies. We push them to reply quickly. If yes, you pay the deposit and the first month's rent through Kharo. It is only taken when you collect the car." },
       { t: "We set up Uber and Bolt", d: FACTS.platforms },
@@ -338,7 +340,7 @@ export const DRIVER_GUIDE = {
   },
   faq: [
     { q: "How much is the deposit?", a: `${FACTS.deposit} You see the exact amount on the car's page.` },
-    { q: "Can I choose any insurer?", a: "You choose from the quotes we show you. You pick the cover and how long for." },
+    { q: "Can I choose any insurer?", a: "You choose from the comprehensive quotes we show you. You pick how long for." },
     { q: "Who sets up Uber and Bolt?", a: "We do, before you collect the car. If you drive for another app, tell us and we add that too." },
     { q: "What if I miss a payment?", a: "We tell you straight away and try again the next day. If you need more time, a person calls you to arrange it. If you keep missing payments, Kharo asks Uber and Bolt to pause your account until it is sorted." },
     { q: "Does the operator track the car?", a: "Yes. Every car has a tracker, for theft and for servicing. Your hire agreement tells you what the operator can see." },
@@ -515,7 +517,7 @@ export const WHY = {
     heading: "For drivers",
     points: [
       { t: "One price, shown first", d: FACTS.price },
-      { t: "Insurance you choose", d: "Quotes from leading insurers, side by side. You pick one." },
+      { t: "Insurance you choose", d: "Comprehensive quotes from leading insurers, side by side. You pick one." },
       { t: "Uber and Bolt ready before you collect", d: FACTS.platforms },
       { t: "Someone to call", d: "When something goes wrong, a real person calls you. No forms, no waiting." },
     ],
@@ -546,6 +548,58 @@ export const WHY = {
     heading: "Two sides, one platform.",
     driverCta: "For drivers",
     operatorCta: "For operators",
+  },
+};
+
+// ---------------------------------------------------------------------------
+// ABOUT US
+// Photos: drop omed-khan.jpg and walid-kamal.jpg into
+// frontend/public/images/team/ (square or 4:5, at least 800px wide). Until a
+// file is there the card shows the person's initials. Bios are optional;
+// leave "" to show only the name and role.
+// ---------------------------------------------------------------------------
+export const ABOUT = {
+  seo: {
+    title: "About us · Kharo",
+    description: "Who is behind Kharo, what we stand for, and why we are building a fairer way for private hire drivers to rent a car.",
+  },
+  heading: "About us",
+  sub: "Who we are, what we stand for, and why we are building this.",
+  // Place and car photography only: the streets the cars work and the cars
+  // themselves. No stock people.
+  strip: [IMG.londonStreet, IMG.priusLondon, IMG.londonBus, IMG.showroom, IMG.corollaLondon, IMG.londonNight],
+  story: {
+    heading: "Why we started Kharo",
+    body: [
+      "Thousands of licensed drivers in London cannot find a car. At the same time, operators have cars standing still.",
+      "The rental firms in between have a bad name. Deposits kept. Fees nobody mentioned. Rent due on a car that will not start.",
+      "Kharo is the middle piece done properly. Drivers rent from operators we have checked. The money goes through Kharo. Both sides can see everything.",
+    ],
+    img: IMG.rowCars,
+  },
+  values: {
+    heading: "What we stand for",
+    items: [
+      { t: "Nothing hidden", d: "The rent is the rent. The deposit is two and a half weeks of it. Every fee is on the page before you apply." },
+      { t: "Checked, not promised", d: "Operators are checked against Companies House. Drivers are checked before an operator sees them." },
+      { t: "A person answers", d: "A warning light, a crash, a question about money: someone calls you back. Not a form." },
+      { t: "Built for both sides", d: "Drivers need cars. Operators need rent that arrives. Kharo only works if both are treated fairly." },
+    ],
+  },
+  team: {
+    heading: "Meet the founders",
+    sub: "Two people you can call. Not a form.",
+    photoToFollow: "Photo to follow",
+    people: [
+      { name: "Omed Khan", role: "Co-founder", img: "/images/team/omed-khan.jpg", bio: "" },
+      { name: "Walid Kamal", role: "Co-founder", img: "/images/team/walid-kamal.jpg", bio: "" },
+    ],
+  },
+  closer: {
+    heading: "Talk to us.",
+    sub: "Drivers and operators both start with a short form. A person replies.",
+    driverCta: "Join the waitlist",
+    operatorCta: "List your fleet",
   },
 };
 
@@ -581,7 +635,7 @@ export const LEGAL = {
     { t: "About Kharo", b: "Kharo connects private hire drivers with rental operators we have checked. Kharo operates the platform, the matching process and the payment flow, and works with specialist partners for insurance, claims and support. Kharo is not an insurer and does not provide credit." },
     { t: "How your data is used", b: "We collect the details you provide, including your name, contact details, licence and driving information, to verify your eligibility, gather insurance quotes and match you to vehicles. Your data is used to operate the service and, where you have agreed, to keep you informed about launch and relevant offers. We never sell your personal data." },
     { t: "Identity and affordability checks", b: "Where we run a liveness identity check, that involves biometric data used to confirm you are who you say you are. We only run this check with your explicit consent, given at the point you apply, and you can withdraw that consent by not proceeding with the check. Where we review Open Banking transaction data for affordability, that review is read only, cannot move money, and a human always makes the final decision on your application." },
-    { t: "Insurance", b: "The weekly price shown on a listing is the rental only. When you apply, we gather hire and reward insurance quotes from specialist partners and you choose the cover level and payment term. The insurance contract is between you and the insurer; Kharo arranges the quotes and passes your choice to the operator with your application. Where an operator includes their own fleet cover, the listing says so; that cover is declared by the operator and the operator is responsible for keeping it valid." },
+    { t: "Insurance", b: "The weekly price shown on a listing is the rental only. When you apply, we gather hire and reward insurance quotes from specialist partners and you choose how long the comprehensive cover runs for. The insurance contract is between you and the insurer; Kharo arranges the quotes and passes your choice to the operator with your application. Where an operator includes their own fleet cover, the listing says so; that cover is declared by the operator and the operator is responsible for keeping it valid." },
     { t: "Payments and deposits", b: "Rent is collected monthly through Kharo and paid to the operator. The deposit is two and a half weeks' rent, shown on the listing, and returned after the agreed handover condition record is compared. Paying an operator directly outside the platform removes the protections we offer." },
     { t: "Platform set-up", b: "With your consent, we add the rented vehicle to your Uber, Bolt and other ride-hailing accounts before collection. We use only the vehicle and licence details needed to do so and do not access your earnings or trip history." },
     { t: "Operator verification", b: "Rental operators are checked against Companies House before listing. Operator identity is disclosed to a driver once their application is approved." },
@@ -684,18 +738,16 @@ export const CITY_PAGE = {
 // ---------------------------------------------------------------------------
 export const APPLY = {
   stepCover: {
-    heading: "Choose your insurance",
-    sub: "Pick a level of cover and how long for. Your choice goes to the operator with your application.",
+    heading: "Your insurance",
+    sub: "Comprehensive cover from leading insurers. Pick how long for. Your choice goes to the operator with your application.",
     note: "These prices are a guide. You get exact quotes from insurers once you send your application.",
+    // Comprehensive only, by decision of the owner (24 Sep 2026). The key
+    // stays "comp" so saved links with ?cover=comp keep working.
     levels: {
       comp: "Comprehensive",
-      tpft: "Third party, fire and theft",
-      tp: "Third party",
     },
     levelNotes: {
-      comp: "Covers damage to your car and to other people. Most operators ask for this.",
-      tpft: "Covers other people, and fire or theft of your car. Not damage from a crash.",
-      tp: "Covers other people only. The cheapest, but you risk your deposit.",
+      comp: "Covers damage to your car and to other people. Every operator on Kharo asks for this.",
     },
   },
   timeframes: ["As soon as possible", "Within a month", "Within three months", "Just looking"],

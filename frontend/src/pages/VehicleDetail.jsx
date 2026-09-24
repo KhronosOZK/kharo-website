@@ -9,13 +9,12 @@ import { useSeo, breadcrumbJsonLd } from "@/lib/seo";
 import { getMockById, isPreviewId } from "@/data/mockListings";
 import { areaCoords } from "@/lib/geo";
 import { DETAIL } from "@/content/pages/marketplace";
-import { mileageLabel, hasOwnPhoto, weeklyInsurance } from "@/lib/format";
+import { mileageLabel, hasOwnPhoto, weeklyInsurance, monthlyFromWeekly } from "@/lib/format";
 import { BRAND } from "@/content/site";
 import { APPLY } from "@/content/site";
 import { APPLICATION_FLOW } from "@/content/pages/applicationFlow";
 
-const COVER_LEVELS = ["comp", "tpft", "tp"];
-const quoteFor = (level) => APPLICATION_FLOW.quotes.find((q) => q.id === level);
+const quoteFor = (level) => APPLICATION_FLOW.quotes.find((q) => q.id === level) || APPLICATION_FLOW.quotes[0];
 
 function experienceLabel(months) {
   if (!months) return DETAIL.experienceOpen;
@@ -29,7 +28,7 @@ export default function VehicleDetail() {
   const [v, setV] = useState(null);
   const [photo, setPhoto] = useState(0);
   const [weeks, setWeeks] = useState(1);
-  const [coverLevel, setCoverLevel] = useState("comp");
+  const coverLevel = "comp"; // comprehensive only
   const [coverTerm, setCoverTerm] = useState("monthly");
   const [copied, setCopied] = useState(false);
   // The sticky bar must get out of the way at the end of the page, or it
@@ -341,30 +340,25 @@ export default function VehicleDetail() {
                 })}
               </div>
 
-              <p className="mt-5 text-[13px] font-semibold text-ink">Level of cover</p>
-              <div className="mt-2 divide-y divide-line border-y border-line" role="radiogroup" aria-label="Cover level">
-                {COVER_LEVELS.map((lvl) => {
-                  const q = quoteFor(lvl); const on = coverLevel === lvl;
-                  const suffix = APPLICATION_FLOW.terms.find((t) => t.id === coverTerm).suffix;
-                  return (
-                    <button key={lvl} type="button" role="radio" aria-checked={on}
-                      onClick={() => setCoverLevel(lvl)}
-                      data-testid={`detail-cover-${lvl}`}
-                      className="pressable grid w-full grid-cols-[1.25rem_1fr_auto] items-start gap-3 py-4 text-left">
-                      <span aria-hidden="true" className={`mt-1 h-4 w-4 rounded-full border-2 ${on ? "border-green bg-green" : "border-line-strong"}`} />
-                      <span>
-                        <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels[lvl]}</span>
-                        <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes[lvl]}</span>
-                        <span className="mt-1 block text-[13px] text-ink-3">{q.excess}</span>
-                      </span>
-                      <span className="text-right tabular">
-                        <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[coverTerm].toLocaleString()}</span>
-                        <span className="block text-[12px] text-ink-3">{suffix}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+              {/* One level of cover, comprehensive, so this is a summary row,
+                  not a choice. */}
+              {(() => {
+                const q = quoteFor(coverLevel);
+                const suffix = APPLICATION_FLOW.terms.find((t) => t.id === coverTerm).suffix;
+                return (
+                  <div className="mt-5 grid grid-cols-[1fr_auto] items-start gap-3 rounded-md border border-line bg-surface p-4" data-testid="detail-cover-comp">
+                    <span>
+                      <span className="block text-[15px] font-semibold text-ink">{APPLY.stepCover.levels.comp}</span>
+                      <span className="mt-0.5 block text-[13px] leading-relaxed text-ink-2">{APPLY.stepCover.levelNotes.comp}</span>
+                      <span className="mt-1 block text-[13px] text-ink-3">{q.excess}</span>
+                    </span>
+                    <span className="text-right tabular">
+                      <span className="block font-heading text-[19px] font-bold text-ink">£{q.price[coverTerm].toLocaleString()}</span>
+                      <span className="block text-[12px] text-ink-3">{suffix}</span>
+                    </span>
+                  </div>
+                );
+              })()}
               <p className="mt-4 text-[13px] text-ink-3 leading-relaxed measure">{DETAIL.coverNote}</p>
             </section>
 
@@ -461,6 +455,11 @@ function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
         <span className="font-heading font-extrabold text-ink text-[32px] tabular">£{rentWeekly.toFixed(0)}</span>
         <span className="text-[15px] text-ink-3">a week</span>
       </div>
+      {/* Rent is paid monthly, so the monthly figure sits right under the
+          weekly one: no surprise later. 52 weeks over 12 months. */}
+      <p className="mt-1 text-[14px] text-ink-2 tabular" data-testid="detail-monthly">
+        About £{monthlyFromWeekly(rentWeekly).toLocaleString()} a month, paid monthly
+      </p>
       <div className="mt-5 divide-y divide-line border-y border-line text-[14px]">
         <div className="flex justify-between py-3">
           <span className="text-ink-2">Weekly rent</span>
@@ -481,6 +480,10 @@ function CostPanel({ v, weeks, rentWeekly, coverLevel, coverTerm, onApply }) {
         <div className="flex justify-between py-3">
           <span className="text-ink-2">Deposit<span className="block text-[12px] text-ink-3">Two and a half weeks' rent</span></span>
           <span className="font-semibold text-ink tabular" data-testid="detail-deposit">£{v.deposit}</span>
+        </div>
+        <div className="flex justify-between py-3">
+          <span className="text-ink-2">To collect the car<span className="block text-[12px] text-ink-3">Deposit plus the first month's rent</span></span>
+          <span className="font-semibold text-ink tabular" data-testid="detail-to-collect">£{(v.deposit + monthlyFromWeekly(rentWeekly)).toLocaleString()}</span>
         </div>
       </div>
 

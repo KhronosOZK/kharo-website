@@ -26,10 +26,10 @@ export const APPLICATION_FLOW = {
     { id: "niro", name: "Kia e-Niro 2023", meta: "Electric · automatic · Hackney", rent: 190, img: "https://static.prod-images.emergentagent.com/jobs/919a8071-6528-4edd-abac-afdfaa8c910c/images/0a50d6c30b6c456328bd9895783aa8526a97aefda8cb0ed728b882547e8f5a82.jpeg" },
     { id: "passat", name: "VW Passat GTE 2021", meta: "Plug-in hybrid · automatic · Leeds", rent: 180, img: "/images/listings/vw-passat-gte.jpg" },
   ],
+  // Comprehensive only (owner's decision, 24 Sep 2026). One sample quote;
+  // the insurer name and prices are illustrative until real quotes arrive.
   quotes: [
-    { id: "tp", cover: "Third party", insurer: "Coverline PHV", excess: "£750 excess", price: { monthly: 148, sixMonthly: 840, annual: 1595 } },
     { id: "comp", cover: "Comprehensive", insurer: "Ryde Mutual", excess: "£500 excess", price: { monthly: 176, sixMonthly: 995, annual: 1880 } },
-    { id: "tpft", cover: "Third party, fire and theft", insurer: "Hackney and Shaw", excess: "£650 excess", price: { monthly: 161, sixMonthly: 915, annual: 1730 } },
   ],
   sent: {
     heading: "Application sent",

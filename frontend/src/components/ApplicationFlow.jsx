@@ -15,7 +15,7 @@ export default function ApplicationFlow({ className = "" }) {
   const { cars, quotes, steps, sent } = APPLICATION_FLOW;
   const [step, setStep] = useState(0);
   const [car, setCar] = useState(cars[0].id);
-  const [quote, setQuote] = useState(quotes[1].id);
+  const [quote, setQuote] = useState(quotes[0].id);
   const [term, setTerm] = useState("monthly");
   const [sending, setSending] = useState(false);
   const [touched, setTouched] = useState(false);
@@ -24,7 +24,7 @@ export default function ApplicationFlow({ className = "" }) {
   const { reduce } = useMotionPrefs();
 
   const chosenCar = cars.find((c) => c.id === car) || cars[0];
-  const chosenQuote = quotes.find((q) => q.id === quote) || quotes[1];
+  const chosenQuote = quotes.find((q) => q.id === quote) || quotes[0];
 
   const go = useCallback((next, fromUser = true) => {
     if (fromUser) setTouched(true);

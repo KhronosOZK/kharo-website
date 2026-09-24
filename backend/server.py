@@ -178,14 +178,14 @@ class InterestIn(BaseModel):
     areas: str = Field(..., max_length=MED_LEN)
     contact_name: str = Field(..., min_length=1, max_length=NAME_LEN)
     role: Optional[str] = Field(None, max_length=SHORT_LEN)
-    email: EmailStr
+    email: Optional[EmailStr] = None
     phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
     heard_from: Optional[str] = Field(None, max_length=MED_LEN)
     vehicle_types: Optional[str] = Field(None, max_length=MED_LEN)
 
 class DriverInterestIn(BaseModel):
     name: str = Field(..., min_length=1, max_length=NAME_LEN)
-    email: EmailStr
+    email: Optional[EmailStr] = None
     phone: str = Field(..., min_length=1, max_length=SHORT_LEN)
     dob: Optional[str] = Field(None, max_length=20)
     dvla_licence: Optional[str] = Field(None, max_length=SHORT_LEN)
@@ -204,7 +204,7 @@ class EventIn(BaseModel):
 class CityInterestIn(BaseModel):
     city: str = Field(..., min_length=1, max_length=MED_LEN)
     name: Optional[str] = Field(None, max_length=NAME_LEN)
-    email: EmailStr
+    email: Optional[EmailStr] = None
     phone: Optional[str] = Field(None, max_length=SHORT_LEN)
     vehicle_type: Optional[str] = Field(None, max_length=MED_LEN)
     budget: Optional[str] = Field(None, max_length=SHORT_LEN)
@@ -455,7 +455,7 @@ async def create_application(body: ApplicationIn, request: Request):
         if profile:
             await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": profile})
     await db.leads.insert_one({
-        "name": body.full_name, "email": body.email.lower(), "phone": body.phone,
+        "name": body.full_name, "email": (body.email or "").lower(), "phone": body.phone,
         "source": "vehicle_application", "user_id": user_id, "created_at": now_iso(),
         "data": {"listing_id": body.listing_id, "vehicle": doc["vehicle"]},
     })
@@ -472,37 +472,37 @@ async def create_interest(body: InterestIn):
     doc["created_at"] = now_iso()
     await db.interests.insert_one(doc)
     await db.leads.insert_one({
-        "name": body.contact_name, "email": body.email.lower(), "phone": body.phone,
+        "name": body.contact_name, "email": (body.email or "").lower(), "phone": body.phone,
         "source": "operator_interest", "created_at": now_iso(),
         "data": {"company_name": body.company_name, "fleet_size": body.fleet_size, "areas": body.areas},
     })
     fire(send_alert("Operator fleet interest", {"Company": body.company_name, "Contact": body.contact_name,
-                                                "Email": body.email.lower(), "Phone": body.phone, "Fleet size": body.fleet_size, "Areas": body.areas}))
-    fire(send_interest_thanks("operator", body.email.lower(), body.contact_name or body.company_name, body.areas or ""))
+                                                "Email": (body.email or "").lower(), "Phone": body.phone, "Fleet size": body.fleet_size, "Areas": body.areas}))
+    if body.email: fire(send_interest_thanks("operator", (body.email or "").lower(), body.contact_name or body.company_name, body.areas or ""))
     return {"ok": True}
 
 @api.post("/driver-interest", dependencies=[Depends(rate_limit("driver_interest", 10))])
 async def create_driver_interest(body: DriverInterestIn):
     doc = body.model_dump()
-    doc["email"] = doc["email"].lower()
+    doc["email"] = (doc.get("email") or "").lower() or None
     doc["created_at"] = now_iso()
     await db.driver_interests.insert_one(doc)
     await db.leads.insert_one({
-        "name": body.name, "email": body.email.lower(), "phone": body.phone,
+        "name": body.name, "email": (body.email or "").lower(), "phone": body.phone,
         "source": "driver_interest", "created_at": now_iso(),
         "data": {"city": body.city, "car_type": body.car_type, "years_experience": body.years_experience,
                  "dvla_licence": body.dvla_licence, "pco_licence": body.pco_licence, "availability": body.availability},
     })
-    fire(send_alert("New driver interest", {"Name": body.name, "Email": body.email.lower(), "Phone": body.phone,
+    fire(send_alert("New driver interest", {"Name": body.name, "Email": (body.email or "").lower(), "Phone": body.phone,
                                             "City": body.city, "Wants": body.car_type, "Experience": body.years_experience}))
-    fire(send_interest_thanks("driver", body.email.lower(), body.name, body.city or ""))
+    if body.email: fire(send_interest_thanks("driver", (body.email or "").lower(), body.name, body.city or ""))
     return {"ok": True}
 
 @api.post("/leads", dependencies=[Depends(rate_limit("leads", 15))])
 async def create_lead(body: LeadIn):
     doc = body.model_dump()
     if doc.get("email"):
-        doc["email"] = doc["email"].lower()
+        doc["email"] = (doc.get("email") or "").lower() or None
     doc["created_at"] = now_iso()
     await db.leads.insert_one(doc)
     return {"ok": True}
@@ -515,17 +515,17 @@ async def create_event(body: EventIn):
 @api.post("/city-interest", dependencies=[Depends(rate_limit("city_interest", 10))])
 async def city_interest(body: CityInterestIn):
     doc = body.model_dump()
-    doc["email"] = doc["email"].lower()
+    doc["email"] = (doc.get("email") or "").lower() or None
     doc["created_at"] = now_iso()
     await db.city_requests.insert_one(doc)
     await db.leads.insert_one({
-        "name": body.name, "email": body.email.lower(), "phone": body.phone,
+        "name": body.name, "email": (body.email or "").lower(), "phone": body.phone,
         "source": "city_request", "created_at": now_iso(),
         "data": {"city": body.city, "vehicle_type": body.vehicle_type},
     })
     fire(send_alert("Car / city request", {"City": body.city, "Wants": body.vehicle_type, "Budget": body.budget,
-                                           "Note": body.note, "Email": body.email.lower(), "Phone": body.phone}))
-    fire(send_interest_thanks("driver", body.email.lower(), body.name, body.city or ""))
+                                           "Note": body.note, "Email": (body.email or "").lower(), "Phone": body.phone}))
+    if body.email: fire(send_interest_thanks("driver", (body.email or "").lower(), body.name, body.city or ""))
     return {"ok": True}
 
 @api.get("/city-demand", dependencies=[Depends(rate_limit("city_demand", 120))])

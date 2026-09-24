@@ -2,8 +2,71 @@ import { useEffect, useMemo, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { Clock, MapPin, Send, ChevronLeft } from "lucide-react";
+import { Clock, MapPin, Send, ChevronLeft, LifeBuoy, X, MessageCircle, Phone } from "lucide-react";
 import { areaCoords } from "@/lib/geo";
+import { api, trackEvent } from "@/lib/api";
+import { BRAND } from "@/content/site";
+
+/**
+ * "Need support?" bubble, fixed bottom-right of both consoles. Opens a small
+ * card with three ways to reach a person: WhatsApp, a call-back request
+ * (stored as a lead with source "console_support") and email.
+ */
+export function SupportBubble({ who = "driver" }) {
+  const [open, setOpen] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [what, setWhat] = useState("");
+  const [sent, setSent] = useState(false);
+
+  const send = async (e) => {
+    e.preventDefault();
+    if (!phone.trim()) return;
+    try {
+      await api.post("/leads", { phone: phone.trim(), source: "console_support", data: { who, message: what.trim() } });
+      trackEvent("console_support", { who });
+    } catch { /* offline: still confirm, the WhatsApp link is right there */ }
+    setSent(true);
+  };
+
+  return (
+    <div className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-4 z-40 flex flex-col items-end gap-3 sm:right-6" data-testid="support-bubble">
+      {open && (
+        <div className="w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-line bg-surface p-5 shadow-2" role="dialog" aria-label="Need support?">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-heading text-[16px] font-bold text-ink">Need support?</p>
+              <p className="mt-1 text-[13px] text-ink-2">A person replies. Pick whichever is easiest.</p>
+            </div>
+            <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="pressable -m-1 rounded-md p-1 text-ink-3 hover:text-ink"><X size={18} strokeWidth={1.75} /></button>
+          </div>
+          <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(`Hi Kharo, I need help with my ${who} account.`)}`} target="_blank" rel="noopener noreferrer"
+            className="pressable mt-4 flex h-11 items-center justify-center gap-2 rounded-md bg-green text-[14px] font-semibold text-ink hover:bg-green-hover" data-testid="support-whatsapp">
+            <MessageCircle size={16} strokeWidth={1.75} /> Message us on WhatsApp
+          </a>
+          {sent ? (
+            <p className="mt-4 text-[14px] text-ink" data-testid="support-sent">Thank you. A person will call you within one working day.</p>
+          ) : (
+            <form onSubmit={send} className="mt-4">
+              <label htmlFor="support-phone" className="block text-[13px] font-medium text-ink-2">Or ask us to call you</label>
+              <input id="support-phone" type="tel" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Your phone number"
+                className="field mt-1.5 h-11 w-full rounded-md border border-line-strong bg-surface px-3 text-[16px] text-ink outline-none focus:border-ink" data-testid="support-phone" />
+              <textarea value={what} onChange={(e) => setWhat(e.target.value)} placeholder="What is it about? (optional)" rows={2}
+                className="field mt-2 w-full rounded-md border border-line-strong bg-surface px-3 py-2 text-[16px] text-ink outline-none focus:border-ink" />
+              <button type="submit" className="pressable mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-md border border-line-strong bg-surface text-[14px] font-semibold text-ink hover:bg-surface-2" data-testid="support-callback">
+                <Phone size={16} strokeWidth={1.75} /> Call me back
+              </button>
+            </form>
+          )}
+          <p className="mt-3 text-[12px] text-ink-3">Or email <a href={`mailto:${BRAND.supportEmail}`} className="underline underline-offset-2">{BRAND.supportEmail}</a></p>
+        </div>
+      )}
+      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}
+        className="pressable inline-flex h-12 items-center gap-2 rounded-md bg-ink px-4 text-[14px] font-semibold text-white shadow-2 hover:bg-ink/90" data-testid="support-toggle">
+        <LifeBuoy size={18} strokeWidth={1.75} /> {open ? "Close" : "Need support?"}
+      </button>
+    </div>
+  );
+}
 
 /**
  * The frame both consoles share: a top strip with the time and the city,
@@ -14,7 +77,7 @@ import { areaCoords } from "@/lib/geo";
  * figure rendered through these panels is demo data, labelled as such by
  * the pages that pass it in.
  */
-export function ConsoleShell({ nav, active, onSelect, title, subtitle, actions, city = "London", children, note }) {
+export function ConsoleShell({ nav, active, onSelect, title, subtitle, actions, city = "London", children, note, who = "driver" }) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 30000);
@@ -63,6 +126,7 @@ export function ConsoleShell({ nav, active, onSelect, title, subtitle, actions, 
 
         <section className="min-w-0" data-testid={`console-view-${active}`}>{children}</section>
       </div>
+      <SupportBubble who={who} />
     </main>
   );
 }

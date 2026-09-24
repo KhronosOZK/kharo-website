@@ -86,7 +86,7 @@ export default function Register() {
       <div>
         <Check className="w-12 h-12 text-green mx-auto" strokeWidth={1.75} />
         <h1 className="text-h2 font-heading font-extrabold text-ink mt-6" data-testid="reg-success">{success.heading}</h1>
-        <p className="text-ink-2 mt-3 text-[16px] leading-relaxed max-w-md">Thanks {f.name.split(" ")[0]}. We have saved your details and we will email you the moment cars are ready to rent in {f.city}. In the meantime, feel free to keep browsing the cars.</p>
+        <p className="text-ink-2 mt-3 text-[16px] leading-relaxed max-w-md">Thanks {f.name.split(" ")[0]}. We have saved your details and we will call or message you the moment cars are ready to rent in {f.city}. In the meantime, feel free to keep browsing the cars.</p>
         <a
           href={`https://wa.me/?text=${encodeURIComponent(`Kharo lets you rent a licensed private hire car from £90 a week, insurance compared on the car. It opens in ${f.city || "London"} soon. Join the list: https://kharo.co.uk/register`)}`}
           target="_blank" rel="noopener noreferrer" data-testid="reg-share"

@@ -39,6 +39,7 @@ const ForDrivers = lazyRetry(() => import("@/pages/ForDrivers"));
 const OperatorGuide = lazyRetry(() => import("@/pages/OperatorGuide"));
 const Admin = lazyRetry(() => import("@/pages/Admin"));
 const WhyKharo = lazyRetry(() => import("@/pages/WhyKharo"));
+const About = lazyRetry(() => import("@/pages/About"));
 const Help = lazyRetry(() => import("@/pages/Help"));
 const Legal = lazyRetry(() => import("@/pages/Legal"));
 const Saved = lazyRetry(() => import("@/pages/Saved"));
@@ -128,6 +129,7 @@ function App() {
                   <Route path="/operator-guide" element={<OperatorGuide />} />
                   <Route path="/why-kharo" element={<WhyKharo />} />
                   <Route path="/why-caro" element={<Navigate to="/why-kharo" replace />} />
+                  <Route path="/about" element={<About />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/legal" element={<Legal />} />
                   <Route path="/saved" element={<Saved />} />
