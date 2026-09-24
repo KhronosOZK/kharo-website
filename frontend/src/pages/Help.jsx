@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Search, Mail, MessageCircle } from "lucide-react";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Faq from "@/components/Faq";
+import ContactWays from "@/components/ContactWays";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
-import { HELP, BRAND } from "@/content/site";
+import { HELP } from "@/content/site";
 import { useSeo } from "@/lib/seo";
 
 export default function Help() {
@@ -42,29 +43,10 @@ export default function Help() {
           )}
         </RevealItem>
 
-        <RevealItem className="mt-12 panel rounded-lg p-6 sm:p-8 grid sm:grid-cols-2 gap-6">
-          <div>
-            <h2 className="text-h3 font-heading font-bold text-ink">{HELP.contact.heading}</h2>
-            <p className="mt-2 text-[15px] text-ink-2 leading-relaxed">{HELP.contact.sub}</p>
-          </div>
-          <div className="flex flex-col gap-3 sm:items-end sm:text-right">
-            <a
-              href={`mailto:${BRAND.supportEmail}`}
-              className="pressable inline-flex items-center gap-2 text-[15px] font-semibold text-green break-all"
-            >
-              <Mail className="w-4 h-4 shrink-0" strokeWidth={1.75} /> {BRAND.supportEmail}
-            </a>
-            {BRAND.whatsapp && (
-              <a
-                href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hi Kharo, I have a question about")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pressable inline-flex items-center gap-2 text-[15px] font-semibold text-ink"
-              >
-                <MessageCircle className="w-4 h-4 shrink-0" strokeWidth={1.75} /> WhatsApp us
-              </a>
-            )}
-          </div>
+        <RevealItem className="mt-12">
+          <h2 className="text-h3 font-heading font-bold text-ink">{HELP.contact.heading}</h2>
+          <p className="mt-2 max-w-[52ch] text-[15px] text-ink-2 leading-relaxed">{HELP.contact.sub}</p>
+          <ContactWays className="mt-5" message="Hi Kharo, I have a question about" source="help_page" />
         </RevealItem>
       </RevealGroup>
     </main>

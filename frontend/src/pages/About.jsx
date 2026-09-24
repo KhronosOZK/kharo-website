@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
+import ContactWays from "@/components/ContactWays";
 import { useSeo } from "@/lib/seo";
-import { ABOUT, BRAND } from "@/content/site";
+import { ABOUT } from "@/content/site";
 
 const ENTER = "motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-3 motion-safe:duration-500 motion-safe:fill-mode-both";
 
@@ -108,9 +109,8 @@ export default function About() {
           <RevealItem className="mt-10 grid gap-5 sm:grid-cols-2 lg:max-w-3xl">
             {team.people.map((p) => <PersonCard key={p.name} person={p} placeholder={team.photoToFollow} />)}
           </RevealItem>
-          <RevealItem className="mt-8 text-[14px] text-ink-2">
-            WhatsApp <a href={`https://wa.me/${BRAND.whatsapp}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-ink underline underline-offset-4">+44 7392 829759</a>
-            {" "}or email <a href={`mailto:${BRAND.supportEmail}`} className="font-semibold text-ink underline underline-offset-4">{BRAND.supportEmail}</a>. A person replies within one working day.
+          <RevealItem className="mt-8 lg:max-w-3xl">
+            <ContactWays message="Hi Omed and Walid, I have a question about Kharo." source="about_page" />
           </RevealItem>
         </div>
       </RevealGroup>

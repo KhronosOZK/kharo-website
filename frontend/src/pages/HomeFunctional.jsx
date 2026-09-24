@@ -10,6 +10,7 @@ import { useMotionPrefs } from "@/lib/motion";
 import PriceRangeFilter from "@/components/PriceRangeFilter";
 import VehicleCard from "@/components/VehicleCard";
 import CityInterestForm from "@/components/CityInterestForm";
+import ContactWays from "@/components/ContactWays";
 import Faq from "@/components/Faq";
 import { AnimatedNumber } from "@/components/AnimatedNumber";
 import { HOME, WHY } from "@/content/site";
@@ -452,7 +453,7 @@ export default function HomeFunctional() {
           </div>
           <div className="lg:col-span-7">
             <CityInterestForm compact mode="request" />
-            <p className="mt-3 text-[13px] text-ink-3">A person replies within one working day.</p>
+            <ContactWays className="mt-4" callback={false} message="Hi Kharo, I am looking for a car." source="home_contact" />
           </div>
         </div>
       </section>
